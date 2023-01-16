@@ -175,8 +175,8 @@ object MockMapperUtil {
         location = mockLocationLocal(),
         totalLaunchCount = 100,
         orbitalLaunchAttemptCount = 200,
-        latitude = "100",
-        longitude = "150"
+        latitude = "100.0",
+        longitude = "150.0"
     )
 
     fun mockPad() = Pad(

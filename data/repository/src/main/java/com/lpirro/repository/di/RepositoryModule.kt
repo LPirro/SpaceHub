@@ -97,7 +97,7 @@ object RepositoryModule {
     ): PadMapper = PadMapperImpl(locationMapper, mapPositionMapper)
 
     @Provides
-    fun provideDateParser(@ApplicationContext applicationContext: Context): DateParser = DateParserImpl(applicationContext)
+    fun provideDateParser(): DateParser = DateParserImpl()
 
     @Provides
     fun provideStatusMapper(): StatusMapper = StatusMapperImpl()

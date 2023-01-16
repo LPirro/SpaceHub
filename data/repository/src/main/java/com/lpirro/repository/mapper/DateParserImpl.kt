@@ -1,6 +1,5 @@
 package com.lpirro.repository.mapper
 
-import android.content.Context
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -8,9 +7,9 @@ import java.util.Locale
 
 private const val DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssX"
 
-class DateParserImpl(applicationContext: Context) : DateParser {
+class DateParserImpl : DateParser {
 
-    override val locale: Locale = applicationContext.resources.configuration.locales.get(0)
+    private val locale: Locale = Locale.US
 
     override fun parseFullDate(dateString: String): String {
         return try {

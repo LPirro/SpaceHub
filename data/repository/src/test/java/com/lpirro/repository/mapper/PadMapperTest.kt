@@ -75,7 +75,7 @@ class PadMapperTest {
     }
 
     private fun assertMapPosition(padLocal: PadLocal, pad: Pad) {
-        assertEquals(padLocal.latitude, pad.mapPosition!!.latitude)
-        assertEquals(padLocal.longitude, pad.mapPosition!!.longitude)
+        assertEquals(padLocal.latitude, pad.mapPosition!!.latitude.toString())
+        assertEquals(padLocal.longitude, pad.mapPosition!!.longitude.toString())
     }
 }

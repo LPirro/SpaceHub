@@ -1,37 +1,18 @@
 package com.lpirro.repository.mapper
 
-import android.content.Context
-import android.content.res.Configuration
-import android.content.res.Resources
-import android.os.LocaleList
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mockito.`when`
-import org.mockito.Spy
-import org.mockito.kotlin.mock
-import java.util.Locale
 
 class DateParserTest {
 
     private lateinit var dateUnderTest: String
 
-    @Spy
     private lateinit var dateParser: DateParser
-    private var applicationContext: Context = mock()
 
     @Before
     fun setup() {
-        val resources: Resources = mock()
-        val configuration: Configuration = mock()
-        val localeList: LocaleList = mock()
-
-        `when`(applicationContext.resources).thenReturn(resources)
-        `when`(applicationContext.resources.configuration).thenReturn(configuration)
-        `when`(applicationContext.resources.configuration.locales).thenReturn(localeList)
-        `when`(applicationContext.resources.configuration.locales.get(0)).thenReturn(Locale.US)
-        dateParser = DateParserImpl(applicationContext)
-
+        dateParser = DateParserImpl()
         dateUnderTest = "2022-12-25T09:30:00Z"
     }
 
