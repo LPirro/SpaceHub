@@ -20,7 +20,6 @@
 
 package com.lpirro.repository.di
 
-import android.content.Context
 import com.lpirro.domain.repository.LaunchDetailRepository
 import com.lpirro.domain.repository.LaunchesRepository
 import com.lpirro.network.SpaceHubApiService
@@ -54,7 +53,6 @@ import com.lpirro.repository.mapper.YouTubeVideoIdParserImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 
 @Module
