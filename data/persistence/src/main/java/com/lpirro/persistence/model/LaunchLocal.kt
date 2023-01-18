@@ -41,7 +41,8 @@ data class LaunchLocal(
     @ColumnInfo(name = "live_video_url") val liveVideoUrl: String?,
     @ColumnInfo(name = "info_url") val infoUrl: String?,
     @ColumnInfo(name = "flightclub_url") val flightClubUrl: String?,
-    @ColumnInfo(name = "updates") val updates: List<UpdateLocal>?
+    @ColumnInfo(name = "updates") val updates: List<UpdateLocal>?,
+    @ColumnInfo(name = "rocket") val rocket: RocketLocal
 )
 
 enum class LaunchType {

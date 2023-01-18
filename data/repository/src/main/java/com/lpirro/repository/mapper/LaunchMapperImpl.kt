@@ -33,7 +33,8 @@ class LaunchMapperImpl(
     private val statusMapper: StatusMapper,
     private val youTubeVideoIdParser: YouTubeVideoIdParser,
     private val missionMapper: MissionMapper,
-    private val updateMapper: UpdateMapper
+    private val updateMapper: UpdateMapper,
+    private val rocketMapper: RocketMapper
 ) : LaunchMapper {
     override fun mapToDomain(launchLocal: LaunchLocal) = Launch(
         id = launchLocal.id,
@@ -51,7 +52,8 @@ class LaunchMapperImpl(
         youtubeVideoId = launchLocal.liveVideoUrl?.let { youTubeVideoIdParser.getVideoId(it) },
         infoUrl = launchLocal.infoUrl,
         flightClubUrl = launchLocal.flightClubUrl,
-        updates = launchLocal.updates?.map { updateMapper.mapToDomain(it) }
+        updates = launchLocal.updates?.map { updateMapper.mapToDomain(it) },
+        rocket = rocketMapper.mapToDomain(launchLocal.rocket)
     )
 
     override fun mapToLocal(launchRemote: LaunchRemote, launchType: LaunchType?) = LaunchLocal(
@@ -70,6 +72,7 @@ class LaunchMapperImpl(
         liveVideoUrl = launchRemote.videoUrls.firstOrNull()?.url,
         infoUrl = launchRemote.infoURLs?.firstOrNull()?.url,
         flightClubUrl = launchRemote.flightClubUrl,
-        updates = launchRemote.updates?.map { updateMapper.mapToLocal(it) }
+        updates = launchRemote.updates?.map { updateMapper.mapToLocal(it) },
+        rocket = rocketMapper.mapToLocal(launchRemote.rocket)
     )
 }

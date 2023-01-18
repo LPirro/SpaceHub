@@ -28,6 +28,7 @@ import com.lpirro.persistence.room.typeconverter.AgencyLocalTypeConverter
 import com.lpirro.persistence.room.typeconverter.MissionLocalTypeConverter
 import com.lpirro.persistence.room.typeconverter.MissionPatchesLocalTypeConverter
 import com.lpirro.persistence.room.typeconverter.PadLocalTypeConverter
+import com.lpirro.persistence.room.typeconverter.RocketLocalTypeConverter
 import com.lpirro.persistence.room.typeconverter.StatusLocalTypeConverter
 import com.lpirro.persistence.room.typeconverter.UpdateLocalTypeConverter
 import dagger.Module
@@ -49,7 +50,8 @@ class PersistenceModule {
         padLocalTypeConverter: PadLocalTypeConverter,
         statusLocalTypeConverter: StatusLocalTypeConverter,
         missionLocalTypeConverter: MissionLocalTypeConverter,
-        updateLocalTypeConverter: UpdateLocalTypeConverter
+        updateLocalTypeConverter: UpdateLocalTypeConverter,
+        rocketLocalTypeConverter: RocketLocalTypeConverter
     ): SpaceHubDatabase {
         return Room
             .databaseBuilder(application, SpaceHubDatabase::class.java, "spacehub.db")
@@ -60,6 +62,7 @@ class PersistenceModule {
             .addTypeConverter(statusLocalTypeConverter)
             .addTypeConverter(missionLocalTypeConverter)
             .addTypeConverter(updateLocalTypeConverter)
+            .addTypeConverter(rocketLocalTypeConverter)
             .build()
     }
 
@@ -96,5 +99,10 @@ class PersistenceModule {
     @Provides
     fun provideUpdateLocalTypeConverter(): UpdateLocalTypeConverter {
         return UpdateLocalTypeConverter()
+    }
+
+    @Provides
+    fun provideRocketLocalTypeConverter(): RocketLocalTypeConverter {
+        return RocketLocalTypeConverter()
     }
 }

@@ -18,24 +18,27 @@
  *
  */
 
-package com.lpirro.domain.models
+package com.lpirro.persistence.room.typeconverter
 
-data class Launch(
-    val id: String,
-    val name: String,
-    val image: String?,
-    val launchServiceProvider: Agency,
-    val missionPatches: List<MissionPatches>?,
-    val mission: Mission?,
-    val pad: Pad,
-    val net: String?,
-    val windowStart: String?,
-    val windowEnd: String?,
-    val netMillis: Long?,
-    val status: Status,
-    val youtubeVideoId: String?,
-    val infoUrl: String?,
-    val flightClubUrl: String?,
-    val updates: List<Update>?,
-    val rocket: Rocket
-)
+import androidx.room.ProvidedTypeConverter
+import androidx.room.TypeConverter
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
+import com.lpirro.persistence.model.RocketLocal
+
+@ProvidedTypeConverter
+class RocketLocalTypeConverter {
+
+    private val gson = GsonBuilder().serializeNulls().create()
+
+    @TypeConverter
+    fun statusLocalToString(rocketLocal: RocketLocal): String {
+        return gson.toJson(rocketLocal)
+    }
+
+    @TypeConverter
+    fun stringToStatusLocal(rocketLocalString: String): RocketLocal {
+        val objectType = object : TypeToken<RocketLocal>() {}.type
+        return gson.fromJson(rocketLocalString, objectType)
+    }
+}

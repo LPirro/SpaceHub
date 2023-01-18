@@ -20,22 +20,27 @@
 
 package com.lpirro.domain.models
 
-data class Launch(
-    val id: String,
+data class RocketConfiguration(
+    val id: Int,
     val name: String,
-    val image: String?,
-    val launchServiceProvider: Agency,
-    val missionPatches: List<MissionPatches>?,
-    val mission: Mission?,
-    val pad: Pad,
-    val net: String?,
-    val windowStart: String?,
-    val windowEnd: String?,
-    val netMillis: Long?,
-    val status: Status,
-    val youtubeVideoId: String?,
+    val manufacturer: Agency?,
+    val variant: String,
+    val height: Double?,
+    val diameter: Double?,
+    val gtoCapacity: Long?,
+    val leoCapacity: Long?,
+    val toThrust: Long?,
+    val apogee: Long?,
+    val reusable: Boolean,
+    val successfulLaunches: Int?,
+    val consecutiveSuccessfulLaunches: Int?,
+    val failedLaunches: Int?,
+    val pendingLaunches: Int?,
+    val launchCost: String?,
     val infoUrl: String?,
-    val flightClubUrl: String?,
-    val updates: List<Update>?,
-    val rocket: Rocket
+    val wikiUrl: String?,
+    val minStage: Int?,
+    val maxStage: Int?,
+    val description: String,
+    val imageUrl: String?,
 )

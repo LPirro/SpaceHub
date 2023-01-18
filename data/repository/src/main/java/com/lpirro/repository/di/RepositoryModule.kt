@@ -20,6 +20,7 @@
 
 package com.lpirro.repository.di
 
+import com.lpirro.domain.models.RocketConfiguration
 import com.lpirro.domain.repository.LaunchDetailRepository
 import com.lpirro.domain.repository.LaunchesRepository
 import com.lpirro.network.SpaceHubApiService
@@ -44,6 +45,10 @@ import com.lpirro.repository.mapper.OrbitMapper
 import com.lpirro.repository.mapper.OrbitMapperImpl
 import com.lpirro.repository.mapper.PadMapper
 import com.lpirro.repository.mapper.PadMapperImpl
+import com.lpirro.repository.mapper.RocketConfigurationMapper
+import com.lpirro.repository.mapper.RocketConfigurationMapperImpl
+import com.lpirro.repository.mapper.RocketMapper
+import com.lpirro.repository.mapper.RocketMapperImpl
 import com.lpirro.repository.mapper.StatusMapper
 import com.lpirro.repository.mapper.StatusMapperImpl
 import com.lpirro.repository.mapper.UpdateMapper
@@ -85,7 +90,8 @@ object RepositoryModule {
         statusMapper: StatusMapper,
         youTubeVideoIdParser: YouTubeVideoIdParser,
         missionMapper: MissionMapper,
-        updateMapper: UpdateMapper
+        updateMapper: UpdateMapper,
+        rocketMapper: RocketMapper,
     ): LaunchMapper {
         return LaunchMapperImpl(
             agencyMapper = agencyMapper,
@@ -95,7 +101,8 @@ object RepositoryModule {
             statusMapper = statusMapper,
             youTubeVideoIdParser = youTubeVideoIdParser,
             missionMapper = missionMapper,
-            updateMapper = updateMapper
+            updateMapper = updateMapper,
+            rocketMapper = rocketMapper
         )
     }
 
@@ -137,5 +144,15 @@ object RepositoryModule {
     @Provides
     fun provideUpdateMapper(dateParser: DateParser): UpdateMapper {
         return UpdateMapperImpl(dateParser)
+    }
+
+    @Provides
+    fun provideRocketMapper(rocketConfigurationMapper: RocketConfigurationMapper): RocketMapper {
+        return RocketMapperImpl(rocketConfigurationMapper)
+    }
+
+    @Provides
+    fun provideRocketConfigurationMapper(agencyMapper: AgencyMapper): RocketConfigurationMapper {
+        return RocketConfigurationMapperImpl(agencyMapper)
     }
 }

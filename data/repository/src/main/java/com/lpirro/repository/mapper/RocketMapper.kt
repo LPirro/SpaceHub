@@ -18,24 +18,13 @@
  *
  */
 
-package com.lpirro.domain.models
+package com.lpirro.repository.mapper
 
-data class Launch(
-    val id: String,
-    val name: String,
-    val image: String?,
-    val launchServiceProvider: Agency,
-    val missionPatches: List<MissionPatches>?,
-    val mission: Mission?,
-    val pad: Pad,
-    val net: String?,
-    val windowStart: String?,
-    val windowEnd: String?,
-    val netMillis: Long?,
-    val status: Status,
-    val youtubeVideoId: String?,
-    val infoUrl: String?,
-    val flightClubUrl: String?,
-    val updates: List<Update>?,
-    val rocket: Rocket
-)
+import com.lpirro.domain.models.Rocket
+import com.lpirro.network.models.RocketRemote
+import com.lpirro.persistence.model.RocketLocal
+
+interface RocketMapper {
+    fun mapToDomain(rocketLocal: RocketLocal): Rocket
+    fun mapToLocal(rocketRemote: RocketRemote): RocketLocal
+}
