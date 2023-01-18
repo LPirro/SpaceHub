@@ -55,4 +55,5 @@
     <string name="mission_details_are_not_available_for_this_launch">Mission details are not available for this launch</string>
     <string name="more_info">More Info</string>
     <string name="launch_updates">Updates</string>
+    <string name="no_launch_updates_message">Currently there are no updates for this launch</string>
 </resources>
