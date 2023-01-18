@@ -56,4 +56,19 @@
     <string name="more_info">More Info</string>
     <string name="launch_updates">Updates</string>
     <string name="no_launch_updates_message">Currently there are no updates for this launch</string>
+    <string name="rocket_image_content_description">Rocket Image</string>
+    <string name="manufacturer">Manufacturer</string>
+    <string name="variant">Variant</string>
+    <string name="height">Height</string>
+    <string name="diameter">Diameter</string>
+    <string name="leo_capacity">LEO Capacity</string>
+    <string name="gto_capacity">GTO Capacity</string>
+    <string name="thrust">Thrust</string>
+    <string name="reusable">Reusable</string>
+    <string name="stats">Stats</string>
+    <string name="successful_launches">Successful Launches</string>
+    <string name="consecutive_successful_launches">Consecutive Successful Launches</string>
+    <string name="failed_launches">Failed Launches</string>
+    <string name="cost_per_launch">Cost Per Launch</string>
+    <string name="apogee">Apogee</string>
 </resources>

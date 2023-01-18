@@ -23,14 +23,12 @@ package com.lpirro.core.ui.view
 import android.content.Context
 import android.content.res.ColorStateList
 import android.util.AttributeSet
-import android.util.TypedValue
 import android.view.LayoutInflater
-import androidx.annotation.AttrRes
-import androidx.annotation.ColorInt
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import com.lpirro.core.R
 import com.lpirro.core.databinding.ViewLaunchStatusBinding
+import com.lpirro.core.extensions.getColorFromAttr
 
 class LaunchStatusView @JvmOverloads constructor(
     context: Context,
@@ -82,15 +80,5 @@ class LaunchStatusView @JvmOverloads constructor(
 
         this.backgroundTintList = ColorStateList.valueOf(backgroundColor)
         this.setTextColor(textColor)
-    }
-
-    @ColorInt
-    fun Context.getColorFromAttr(
-        @AttrRes attrColor: Int,
-        typedValue: TypedValue = TypedValue(),
-        resolveRefs: Boolean = true
-    ): Int {
-        theme.resolveAttribute(attrColor, typedValue, resolveRefs)
-        return typedValue.data
     }
 }

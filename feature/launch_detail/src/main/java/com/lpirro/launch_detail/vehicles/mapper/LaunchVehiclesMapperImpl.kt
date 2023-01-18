@@ -20,6 +20,7 @@
 
 package com.lpirro.launch_detail.vehicles.mapper
 
+import com.lpirro.core.extensions.asDollars
 import com.lpirro.core.extensions.asKiloMeters
 import com.lpirro.core.extensions.asKiloNewton
 import com.lpirro.core.extensions.asKilograms
@@ -59,7 +60,7 @@ class LaunchVehiclesMapperImpl : LaunchVehiclesMapper {
             ?: NOT_AVAILABLE_PLACEHOLDER,
         pendingLaunches = rocket.configuration.pendingLaunches?.toString()
             ?: NOT_AVAILABLE_PLACEHOLDER,
-        launchCost = rocket.configuration.launchCost ?: NOT_AVAILABLE_PLACEHOLDER,
+        launchCost = rocket.configuration.launchCost.asDollars(),
         infoUrl = rocket.configuration.infoUrl,
         wikiUrl = rocket.configuration.wikiUrl,
         minStage = rocket.configuration.minStage?.toString() ?: NOT_AVAILABLE_PLACEHOLDER,

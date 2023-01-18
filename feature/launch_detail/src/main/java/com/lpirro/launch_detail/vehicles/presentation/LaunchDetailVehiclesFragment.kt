@@ -32,8 +32,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
 import com.lpirro.core.base.BaseFragment
+import com.lpirro.core.ui.recyclerview.decorator.VerticalSpaceItemDecoration
 import com.lpirro.launch_detail.databinding.FragmentLaunchDetailVeichlesBinding
-import com.lpirro.launch_detail.overview.presentation.LaunchOverviewItemDecorator
 import com.lpirro.launch_detail.vehicles.model.LaunchVehiclesItem
 import com.lpirro.launch_detail.vehicles.presentation.delegate.rocketDelegate
 import com.lpirro.launch_detail.vehicles.viewmodel.LaunchDetailVehiclesUiState
@@ -74,13 +74,14 @@ class LaunchDetailVehiclesFragment : BaseFragment<FragmentLaunchDetailVeichlesBi
     }
 
     private fun setupRecyclerView() {
+        val spacing = resources.getDimensionPixelSize(com.lpirro.core.R.dimen.margin_16dp)
         delegateAdapter = ListDelegationAdapter(
             rocketDelegate()
         )
 
         binding.launchVehiclesRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            addItemDecoration(LaunchOverviewItemDecorator())
+            addItemDecoration(VerticalSpaceItemDecoration(spaceSize = spacing, edgeSpacing = spacing))
         }
     }
 

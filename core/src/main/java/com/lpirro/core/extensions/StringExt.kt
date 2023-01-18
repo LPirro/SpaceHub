@@ -20,6 +20,15 @@
 
 package com.lpirro.core.extensions
 
+import java.text.NumberFormat
+import java.util.Locale
+
+fun String?.asDollars(): String {
+    if (this == null) return "N/A"
+    val number = this.toLong()
+    return NumberFormat.getCurrencyInstance(Locale("en", "US")).format(number)
+}
+
 fun Double?.asMeters(): String {
     if (this == null) return "N/A"
 

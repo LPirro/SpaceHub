@@ -31,7 +31,7 @@
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/barrier"
+            android:id="@+id/barrierRocketSpecs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="end"
@@ -71,7 +71,7 @@
             android:textColor="?attr/colorOnSurface"
             app:layout_constraintBottom_toBottomOf="@+id/name"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/barrier"
+            app:layout_constraintStart_toEndOf="@id/barrierRocketSpecs"
             app:layout_constraintTop_toTopOf="@+id/name"
             tools:text="Space Launch Complex 40" />
 
@@ -95,7 +95,7 @@
             android:textColor="?attr/colorOnSurface"
             app:layout_constraintBottom_toBottomOf="@+id/location"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/barrier"
+            app:layout_constraintStart_toEndOf="@id/barrierRocketSpecs"
             app:layout_constraintTop_toTopOf="@+id/location"
             tools:text="Cape Canaveral, FL, USA" />
 
@@ -119,7 +119,7 @@
             android:textColor="?attr/colorOnSurface"
             app:layout_constraintBottom_toBottomOf="@+id/totalLaunches"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/barrier"
+            app:layout_constraintStart_toEndOf="@id/barrierRocketSpecs"
             app:layout_constraintTop_toTopOf="@+id/totalLaunches"
             tools:text="162" />
 
