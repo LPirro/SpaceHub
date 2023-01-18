@@ -35,6 +35,7 @@ import com.lpirro.core.base.BaseFragment
 import com.lpirro.core.ui.recyclerview.decorator.VerticalSpaceItemDecoration
 import com.lpirro.launch_detail.databinding.FragmentLaunchDetailVeichlesBinding
 import com.lpirro.launch_detail.vehicles.model.LaunchVehiclesItem
+import com.lpirro.launch_detail.vehicles.presentation.delegate.launcherStageDelegate
 import com.lpirro.launch_detail.vehicles.presentation.delegate.rocketDelegate
 import com.lpirro.launch_detail.vehicles.viewmodel.LaunchDetailVehiclesUiState
 import com.lpirro.launch_detail.vehicles.viewmodel.LaunchDetailVehiclesViewModel
@@ -74,9 +75,10 @@ class LaunchDetailVehiclesFragment : BaseFragment<FragmentLaunchDetailVeichlesBi
     }
 
     private fun setupRecyclerView() {
-        val spacing = resources.getDimensionPixelSize(com.lpirro.core.R.dimen.margin_16dp)
+        val spacing = resources.getDimensionPixelSize(com.lpirro.core.R.dimen.margin_20dp)
         delegateAdapter = ListDelegationAdapter(
-            rocketDelegate()
+            rocketDelegate(),
+            launcherStageDelegate()
         )
 
         binding.launchVehiclesRecyclerView.apply {

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~
   ~ SpaceHub - Designed and Developed by LPirro (Leonardo Pirro)
   ~ Copyright (C) 2023 Leonardo Pirro
@@ -24,11 +23,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/margin_12dp"
     app:strokeWidth="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:paddingBottom="@dimen/margin_16dp">
 
         <androidx.constraintlayout.widget.Barrier
@@ -36,120 +36,96 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="end"
-            app:constraint_referenced_ids="netLabel,windowStartLabel,windowEndLabel" />
+            app:constraint_referenced_ids="serialLabel, landingTypeLabel, landingLocationLabel, landingNameLabel" />
 
         <TextView
-            android:id="@+id/launchInfoLabel"
+            android:id="@+id/launcherStageType"
             style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_16dp"
             android:layout_marginVertical="@dimen/margin_16dp"
-            android:text="@string/launch_info"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Core" />
 
-        <com.lpirro.core.ui.view.LaunchStatusView
-            android:id="@+id/launchStatusView"
-            style="@style/TextAppearance.Material3.BodySmall"
+        <TextView
+            android:id="@+id/serialLabel"
+            style="@style/TextAppearance.Material3.LabelLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/margin_16dp"
             android:layout_marginTop="@dimen/margin_16dp"
-            android:minWidth="40dp"
-            android:minHeight="20dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/launchInfoLabel" />
-
-        <TextView
-            android:id="@+id/launchStatusDescription"
-            style="@style/TextAppearance.Material3.BodyMedium"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_12dp"
-            android:layout_marginEnd="@dimen/margin_16dp"
+            android:text="@string/serial"
             android:textColor="?attr/colorOnSurfaceVariant"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/launchInfoLabel"
-            app:layout_constraintTop_toBottomOf="@id/launchStatusView"
-            tools:text="Launch status description" />
+            app:layout_constraintStart_toStartOf="@id/launcherStageType"
+            app:layout_constraintTop_toBottomOf="@id/launcherStageType" />
 
         <TextView
-            android:id="@+id/netLabel"
-            style="@style/TextAppearance.Material3.LabelLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_12dp"
-            android:text="@string/net"
-            android:textColor="?attr/colorOnSurfaceVariant"
-            app:layout_constraintStart_toStartOf="@id/launchInfoLabel"
-            app:layout_constraintTop_toBottomOf="@id/launchStatusDescription" />
-
-        <TextView
-            android:id="@+id/netValue"
+            android:id="@+id/serialValue"
             style="@style/TextAppearance.Material3.LabelLarge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:ellipsize="end"
-            android:maxLines="1"
+            android:gravity="end"
             android:textColor="?attr/colorOnSurface"
-            app:layout_constraintBottom_toBottomOf="@+id/netLabel"
+            app:layout_constraintBottom_toBottomOf="@+id/serialLabel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/barrierLauncherStage"
-            app:layout_constraintTop_toTopOf="@+id/netLabel"
-            tools:text="13 December 2022 • 22:16" />
+            app:layout_constraintTop_toTopOf="@+id/serialLabel"
+            tools:text="#1693" />
 
         <TextView
-            android:id="@+id/windowStartLabel"
+            android:id="@+id/landingTypeLabel"
             style="@style/TextAppearance.Material3.LabelLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_12dp"
-            android:text="@string/window_start"
+            android:text="@string/landing_type"
             android:textColor="?attr/colorOnSurfaceVariant"
-            app:layout_constraintStart_toStartOf="@id/launchInfoLabel"
-            app:layout_constraintTop_toBottomOf="@id/netLabel" />
+            app:layout_constraintStart_toStartOf="@id/launcherStageType"
+            app:layout_constraintTop_toBottomOf="@id/serialLabel" />
 
         <TextView
-            android:id="@+id/windowStartValue"
+            android:id="@+id/landingTypeValue"
             style="@style/TextAppearance.Material3.LabelLarge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
+            android:gravity="end"
             android:textColor="?attr/colorOnSurface"
-            app:layout_constraintBottom_toBottomOf="@+id/windowStartLabel"
+            app:layout_constraintBottom_toBottomOf="@+id/landingTypeLabel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/barrierLauncherStage"
-            app:layout_constraintTop_toTopOf="@+id/windowStartLabel"
-            tools:text="13 December 2022 • 21:00" />
+            app:layout_constraintTop_toTopOf="@+id/landingTypeLabel"
+            tools:text="Autonomous Spaceport Drone Ship" />
 
         <TextView
-            android:id="@+id/windowEndLabel"
+            android:id="@+id/landingLocationLabel"
             style="@style/TextAppearance.Material3.LabelLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_12dp"
-            android:text="@string/window_end"
+            android:text="@string/landing_location"
             android:textColor="?attr/colorOnSurfaceVariant"
-            app:layout_constraintStart_toStartOf="@id/launchInfoLabel"
-            app:layout_constraintTop_toBottomOf="@id/windowStartValue" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/launcherStageType"
+            app:layout_constraintTop_toBottomOf="@id/landingTypeLabel" />
 
         <TextView
-            android:id="@+id/windowEndValue"
+            android:id="@+id/landingLocationValue"
             style="@style/TextAppearance.Material3.LabelLarge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:layout_marginBottom="@dimen/margin_16dp"
+            android:gravity="end"
             android:textColor="?attr/colorOnSurface"
+            app:layout_constraintBottom_toBottomOf="@+id/landingLocationLabel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/barrierLauncherStage"
-            app:layout_constraintTop_toTopOf="@+id/windowEndLabel"
-            tools:text="13 December 2022 • 01:00" />
+            app:layout_constraintTop_toTopOf="@+id/landingLocationLabel"
+            tools:text="ASOG" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

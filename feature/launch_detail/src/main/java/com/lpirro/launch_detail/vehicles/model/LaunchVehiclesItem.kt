@@ -45,3 +45,10 @@ data class RocketUi(
     val maxStage: String,
     val imageUrl: String?
 ) : LaunchVehiclesItem
+
+data class LauncherStageUi(
+    val type: String,
+    val serialNumber: String,
+    val landingType: String,
+    val landingLocation: String
+) : LaunchVehiclesItem

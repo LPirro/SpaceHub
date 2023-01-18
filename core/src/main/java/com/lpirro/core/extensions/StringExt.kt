@@ -23,32 +23,37 @@ package com.lpirro.core.extensions
 import java.text.NumberFormat
 import java.util.Locale
 
-fun String?.asDollars(): String {
-    if (this == null) return "N/A"
+fun String?.prependPoundSignSymbol(): String? {
+    if (this.isNullOrEmpty()) return null
+    return "#$this"
+}
+
+fun String?.asDollars(): String? {
+    if (this.isNullOrEmpty()) return null
     val number = this.toLong()
     return NumberFormat.getCurrencyInstance(Locale("en", "US")).format(number)
 }
 
-fun Double?.asMeters(): String {
-    if (this == null) return "N/A"
+fun Double?.asMeters(): String? {
+    if (this == null) return null
 
     return "$this m"
 }
 
-fun Long?.asKiloMeters(): String {
-    if (this == null) return "N/A"
+fun Long?.asKiloMeters(): String? {
+    if (this == null) return null
 
     return "$this km"
 }
 
-fun Long?.asKilograms(): String {
-    if (this == null) return "N/A"
+fun Long?.asKilograms(): String? {
+    if (this == null) return null
 
     return "$this kg"
 }
 
-fun Long?.asKiloNewton(): String {
-    if (this == null) return "N/A"
+fun Long?.asKiloNewton(): String? {
+    if (this == null) return null
 
     return "$this kN"
 }

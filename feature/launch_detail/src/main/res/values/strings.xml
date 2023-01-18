@@ -71,4 +71,7 @@
     <string name="failed_launches">Failed Launches</string>
     <string name="cost_per_launch">Cost Per Launch</string>
     <string name="apogee">Apogee</string>
+    <string name="serial">Serial Number</string>
+    <string name="landing_type">Type</string>
+    <string name="landing_location">Landing Location</string>
 </resources>
