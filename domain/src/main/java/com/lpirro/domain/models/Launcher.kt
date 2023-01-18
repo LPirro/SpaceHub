@@ -20,8 +20,4 @@
 
 package com.lpirro.domain.models
 
-data class Rocket(
-    val id: Long,
-    val configuration: RocketConfiguration,
-    val launcherStage: List<LauncherStage>
-)
+data class Launcher(val serialNumber: String?)

@@ -18,10 +18,13 @@
  *
  */
 
-package com.lpirro.domain.models
+package com.lpirro.repository.mapper
 
-data class Rocket(
-    val id: Long,
-    val configuration: RocketConfiguration,
-    val launcherStage: List<LauncherStage>
-)
+import com.lpirro.domain.models.LandingLocation
+import com.lpirro.network.models.LandingLocationRemote
+import com.lpirro.persistence.model.LandingLocationLocal
+
+interface LandingLocationMapper {
+    fun mapToDomain(landingLocationLocal: LandingLocationLocal): LandingLocation
+    fun mapToLocal(landingLocationRemote: LandingLocationRemote): LandingLocationLocal
+}

@@ -24,15 +24,19 @@ import com.lpirro.domain.models.Rocket
 import com.lpirro.network.models.RocketRemote
 import com.lpirro.persistence.model.RocketLocal
 
-class RocketMapperImpl(private val rocketConfigurationMapper: RocketConfigurationMapper) :
-    RocketMapper {
+class RocketMapperImpl(
+    private val rocketConfigurationMapper: RocketConfigurationMapper,
+    private val launcherStageMapper: LauncherStageMapper
+) : RocketMapper {
     override fun mapToDomain(rocketLocal: RocketLocal) = Rocket(
         id = rocketLocal.id,
-        configuration = rocketConfigurationMapper.mapToDomain(rocketLocal.configuration)
+        configuration = rocketConfigurationMapper.mapToDomain(rocketLocal.configuration),
+        launcherStage = rocketLocal.launcherStage.map { launcherStageMapper.mapToDomain(it) }
     )
 
     override fun mapToLocal(rocketRemote: RocketRemote) = RocketLocal(
         id = rocketRemote.id,
-        configuration = rocketConfigurationMapper.mapToLocal(rocketRemote.configuration)
+        configuration = rocketConfigurationMapper.mapToLocal(rocketRemote.configuration),
+        launcherStage = rocketRemote.launcherStage.map { launcherStageMapper.mapToLocal(it) }
     )
 }

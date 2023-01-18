@@ -27,6 +27,5 @@ import com.lpirro.persistence.model.LaunchType
 
 interface LaunchMapper {
     fun mapToDomain(launchLocal: LaunchLocal): Launch
-
     fun mapToLocal(launchRemote: LaunchRemote, launchType: LaunchType?): LaunchLocal
 }

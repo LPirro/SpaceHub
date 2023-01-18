@@ -18,10 +18,6 @@
  *
  */
 
-package com.lpirro.domain.models
+package com.lpirro.persistence.model
 
-data class Rocket(
-    val id: Long,
-    val configuration: RocketConfiguration,
-    val launcherStage: List<LauncherStage>
-)
+data class LauncherLandingLocal(val landingLocation: LandingLocationLocal, val type: LauncherTypeLocal)

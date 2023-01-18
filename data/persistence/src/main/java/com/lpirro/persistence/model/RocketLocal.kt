@@ -22,5 +22,6 @@ package com.lpirro.persistence.model
 
 data class RocketLocal(
     val id: Long,
-    val configuration: RocketConfigurationLocal
+    val configuration: RocketConfigurationLocal,
+    val launcherStage: List<LauncherStageLocal>
 )

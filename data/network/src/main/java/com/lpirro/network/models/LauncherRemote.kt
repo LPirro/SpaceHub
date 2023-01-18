@@ -18,10 +18,8 @@
  *
  */
 
-package com.lpirro.domain.models
+package com.lpirro.network.models
 
-data class Rocket(
-    val id: Long,
-    val configuration: RocketConfiguration,
-    val launcherStage: List<LauncherStage>
-)
+import com.google.gson.annotations.SerializedName
+
+data class LauncherRemote(@SerializedName("serial_number") val serialNumber: String?)

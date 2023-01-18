@@ -24,5 +24,6 @@ import com.google.gson.annotations.SerializedName
 
 data class RocketRemote(
     @SerializedName("id") val id: Long,
-    @SerializedName("configuration") val configuration: RocketConfigurationRemote
+    @SerializedName("configuration") val configuration: RocketConfigurationRemote,
+    @SerializedName("launcher_stage") val launcherStage: List<LauncherStageRemote>
 )

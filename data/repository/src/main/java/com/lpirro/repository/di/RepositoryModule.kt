@@ -30,8 +30,18 @@ import com.lpirro.repository.mapper.AgencyMapper
 import com.lpirro.repository.mapper.AgencyMapperImpl
 import com.lpirro.repository.mapper.DateParser
 import com.lpirro.repository.mapper.DateParserImpl
+import com.lpirro.repository.mapper.LandingLocationMapper
+import com.lpirro.repository.mapper.LandingLocationMapperImpl
 import com.lpirro.repository.mapper.LaunchMapper
 import com.lpirro.repository.mapper.LaunchMapperImpl
+import com.lpirro.repository.mapper.LauncherLandingMapper
+import com.lpirro.repository.mapper.LauncherLandingMapperImpl
+import com.lpirro.repository.mapper.LauncherMapper
+import com.lpirro.repository.mapper.LauncherMapperImpl
+import com.lpirro.repository.mapper.LauncherStageMapper
+import com.lpirro.repository.mapper.LauncherStageMapperImpl
+import com.lpirro.repository.mapper.LauncherTypeMapper
+import com.lpirro.repository.mapper.LauncherTypeMapperImpl
 import com.lpirro.repository.mapper.LocationMapper
 import com.lpirro.repository.mapper.LocationMapperImpl
 import com.lpirro.repository.mapper.MapPositionMapper
@@ -146,12 +156,55 @@ object RepositoryModule {
     }
 
     @Provides
-    fun provideRocketMapper(rocketConfigurationMapper: RocketConfigurationMapper): RocketMapper {
-        return RocketMapperImpl(rocketConfigurationMapper)
+    fun provideRocketMapper(
+        rocketConfigurationMapper: RocketConfigurationMapper,
+        launcherStageMapper: LauncherStageMapper
+    ): RocketMapper {
+        return RocketMapperImpl(
+            rocketConfigurationMapper = rocketConfigurationMapper,
+            launcherStageMapper = launcherStageMapper
+        )
     }
 
     @Provides
     fun provideRocketConfigurationMapper(agencyMapper: AgencyMapper): RocketConfigurationMapper {
-        return RocketConfigurationMapperImpl(agencyMapper)
+        return RocketConfigurationMapperImpl(agencyMapper = agencyMapper)
+    }
+
+    @Provides
+    fun provideLauncherTypeMapper(): LauncherTypeMapper {
+        return LauncherTypeMapperImpl()
+    }
+
+    @Provides
+    fun provideLauncherStageMapper(
+        launcherMapper: LauncherMapper,
+        launcherLandingMapper: LauncherLandingMapper
+    ): LauncherStageMapper {
+        return LauncherStageMapperImpl(
+            launcherMapper = launcherMapper,
+            launcherLandingMapper = launcherLandingMapper
+        )
+    }
+
+    @Provides
+    fun providesLauncherMapper(): LauncherMapper {
+        return LauncherMapperImpl()
+    }
+
+    @Provides
+    fun providesLauncherLandingMapper(
+        landingLocationMapper: LandingLocationMapper,
+        launcherTypeMapper: LauncherTypeMapper
+    ): LauncherLandingMapper {
+        return LauncherLandingMapperImpl(
+            landingLocationMapper = landingLocationMapper,
+            launcherTypeMapper = launcherTypeMapper
+        )
+    }
+
+    @Provides
+    fun provideLandingLocationMapper(): LandingLocationMapper {
+        return LandingLocationMapperImpl()
     }
 }
