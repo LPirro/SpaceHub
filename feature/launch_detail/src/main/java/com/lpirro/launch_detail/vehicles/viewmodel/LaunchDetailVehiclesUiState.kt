@@ -18,21 +18,12 @@
  *
  */
 
-package com.lpirro.repository.mapper
+package com.lpirro.launch_detail.vehicles.viewmodel
 
-import com.lpirro.domain.models.Rocket
-import com.lpirro.network.models.RocketRemote
-import com.lpirro.persistence.model.RocketLocal
+import com.lpirro.launch_detail.vehicles.model.LaunchVehiclesItem
 
-class RocketMapperImpl(private val rocketConfigurationMapper: RocketConfigurationMapper) :
-    RocketMapper {
-    override fun mapToDomain(rocketLocal: RocketLocal) = Rocket(
-        id = rocketLocal.id,
-        configuration = rocketConfigurationMapper.mapToDomain(rocketLocal.configuration)
-    )
-
-    override fun mapToLocal(rocketRemote: RocketRemote) = RocketLocal(
-        id = rocketRemote.id,
-        configuration = rocketConfigurationMapper.mapToLocal(rocketRemote.configuration)
-    )
+sealed class LaunchDetailVehiclesUiState {
+    object Loading : LaunchDetailVehiclesUiState()
+    data class Success(val launchVehicles: List<LaunchVehiclesItem>) : LaunchDetailVehiclesUiState()
+    object Error : LaunchDetailVehiclesUiState()
 }

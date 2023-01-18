@@ -42,5 +42,5 @@ data class RocketConfigurationLocal(
     val minStage: Int?,
     val maxStage: Int?,
     val description: String,
-    val imageUrl: String?,
+    val imageUrl: String?
 )

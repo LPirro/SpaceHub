@@ -46,4 +46,3 @@ data class RocketConfigurationRemote(
     @SerializedName("description") val description: String,
     @SerializedName("image_url") val imageUrl: String?,
 )
-

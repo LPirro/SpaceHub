@@ -20,6 +20,30 @@
 
 package com.lpirro.core.extensions
 
+fun Double?.asMeters(): String {
+    if (this == null) return "N/A"
+
+    return "$this m"
+}
+
+fun Long?.asKiloMeters(): String {
+    if (this == null) return "N/A"
+
+    return "$this km"
+}
+
+fun Long?.asKilograms(): String {
+    if (this == null) return "N/A"
+
+    return "$this kg"
+}
+
+fun Long?.asKiloNewton(): String {
+    if (this == null) return "N/A"
+
+    return "$this kN"
+}
+
 fun String.countryCodeToEmoji(): String {
     return emoji[this] ?: ""
 }

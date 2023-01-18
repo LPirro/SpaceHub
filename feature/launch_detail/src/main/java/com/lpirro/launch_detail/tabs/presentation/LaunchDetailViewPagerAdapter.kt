@@ -25,6 +25,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.lpirro.launch_detail.mission.presentation.LaunchDetailMissionFragment
 import com.lpirro.launch_detail.overview.presentation.LaunchDetailOverviewFragment
+import com.lpirro.launch_detail.vehicles.presentation.LaunchDetailVehiclesFragment
 
 private const val NUM_TABS = 3
 
@@ -42,7 +43,7 @@ class LaunchDetailViewPagerAdapter(
         when (position) {
             0 -> return LaunchDetailOverviewFragment.newInstance(launchId)
             1 -> return LaunchDetailMissionFragment.newInstance(launchId)
-            2 -> return LaunchDetailMissionFragment.newInstance(launchId)
+            2 -> return LaunchDetailVehiclesFragment.newInstance(launchId)
         }
         return LaunchDetailOverviewFragment()
     }

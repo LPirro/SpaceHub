@@ -20,7 +20,6 @@
 
 package com.lpirro.repository.di
 
-import com.lpirro.domain.models.RocketConfiguration
 import com.lpirro.domain.repository.LaunchDetailRepository
 import com.lpirro.domain.repository.LaunchesRepository
 import com.lpirro.network.SpaceHubApiService

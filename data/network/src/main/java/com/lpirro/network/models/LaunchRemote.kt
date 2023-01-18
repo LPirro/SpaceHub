@@ -38,5 +38,5 @@ data class LaunchRemote(
     @SerializedName("infoURLs") val infoURLs: List<Urls>?,
     @SerializedName("flightclub_url") val flightClubUrl: String?,
     @SerializedName("updates") val updates: List<UpdateRemote>?,
-    @SerializedName("rocket") val rocket: RocketRemote,
+    @SerializedName("rocket") val rocket: RocketRemote
 )

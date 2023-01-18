@@ -18,21 +18,17 @@
  *
  */
 
-package com.lpirro.repository.mapper
+package com.lpirro.launch_detail.vehicles.presentation.delegate
 
-import com.lpirro.domain.models.Rocket
-import com.lpirro.network.models.RocketRemote
-import com.lpirro.persistence.model.RocketLocal
+import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
+import com.lpirro.launch_detail.databinding.ItemRocketBinding
+import com.lpirro.launch_detail.vehicles.model.LaunchVehiclesItem
+import com.lpirro.launch_detail.vehicles.model.RocketUi
 
-class RocketMapperImpl(private val rocketConfigurationMapper: RocketConfigurationMapper) :
-    RocketMapper {
-    override fun mapToDomain(rocketLocal: RocketLocal) = Rocket(
-        id = rocketLocal.id,
-        configuration = rocketConfigurationMapper.mapToDomain(rocketLocal.configuration)
-    )
-
-    override fun mapToLocal(rocketRemote: RocketRemote) = RocketLocal(
-        id = rocketRemote.id,
-        configuration = rocketConfigurationMapper.mapToLocal(rocketRemote.configuration)
-    )
-}
+fun rocketDelegate() =
+    adapterDelegateViewBinding<RocketUi, LaunchVehiclesItem, ItemRocketBinding>({ layoutInflater, root ->
+        ItemRocketBinding.inflate(layoutInflater, root, false)
+    }) {
+        bind {
+        }
+    }

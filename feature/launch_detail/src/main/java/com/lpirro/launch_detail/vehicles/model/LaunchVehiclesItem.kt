@@ -18,21 +18,30 @@
  *
  */
 
-package com.lpirro.repository.mapper
+package com.lpirro.launch_detail.vehicles.model
 
-import com.lpirro.domain.models.Rocket
-import com.lpirro.network.models.RocketRemote
-import com.lpirro.persistence.model.RocketLocal
+interface LaunchVehiclesItem
 
-class RocketMapperImpl(private val rocketConfigurationMapper: RocketConfigurationMapper) :
-    RocketMapper {
-    override fun mapToDomain(rocketLocal: RocketLocal) = Rocket(
-        id = rocketLocal.id,
-        configuration = rocketConfigurationMapper.mapToDomain(rocketLocal.configuration)
-    )
-
-    override fun mapToLocal(rocketRemote: RocketRemote) = RocketLocal(
-        id = rocketRemote.id,
-        configuration = rocketConfigurationMapper.mapToLocal(rocketRemote.configuration)
-    )
-}
+data class RocketUi(
+    val id: Long,
+    val name: String,
+    val manufacturer: String,
+    val variant: String,
+    val height: String,
+    val diameter: String,
+    val gtoCapacity: String,
+    val leoCapacity: String,
+    val toThrust: String,
+    val apogee: String,
+    val reusable: Boolean,
+    val successfulLaunches: String,
+    val consecutiveSuccessfulLaunches: String,
+    val failedLaunches: String,
+    val pendingLaunches: String,
+    val launchCost: String,
+    val infoUrl: String?,
+    val wikiUrl: String?,
+    val minStage: String,
+    val maxStage: String,
+    val imageUrl: String?
+) : LaunchVehiclesItem
