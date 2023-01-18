@@ -41,9 +41,14 @@ class VerticalSpaceItemDecoration(
         val currentPosition = parent.getChildAdapterPosition(view)
         val isFirstPosition = currentPosition == 0
         val isLastPosition = state.itemCount > 0 && currentPosition == state.itemCount - 1
+        val isOnlyOneItem = state.itemCount == 1
 
         with(outRect) {
             when {
+                isOnlyOneItem -> {
+                    top = edgeSpacing
+                    bottom = edgeSpacing
+                }
                 isFirstPosition -> {
                     top = edgeSpacing
                     bottom = spaceSize / 2
