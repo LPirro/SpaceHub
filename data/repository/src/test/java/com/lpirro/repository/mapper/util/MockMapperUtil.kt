@@ -21,6 +21,7 @@
 package com.lpirro.repository.mapper.util
 
 import com.lpirro.domain.models.Agency
+import com.lpirro.domain.models.LauncherLanding
 import com.lpirro.domain.models.Location
 import com.lpirro.domain.models.MapPosition
 import com.lpirro.domain.models.Mission
@@ -31,7 +32,12 @@ import com.lpirro.domain.models.Rocket
 import com.lpirro.domain.models.RocketConfiguration
 import com.lpirro.domain.models.Status
 import com.lpirro.network.models.AgencyRemote
+import com.lpirro.network.models.LandingLocationRemote
 import com.lpirro.network.models.LaunchRemote
+import com.lpirro.network.models.LauncherLandingRemote
+import com.lpirro.network.models.LauncherRemote
+import com.lpirro.network.models.LauncherStageRemote
+import com.lpirro.network.models.LauncherTypeRemote
 import com.lpirro.network.models.LocationRemote
 import com.lpirro.network.models.MissionPatchesRemote
 import com.lpirro.network.models.MissionRemote
@@ -44,6 +50,8 @@ import com.lpirro.network.models.Urls
 import com.lpirro.persistence.model.AgencyLocal
 import com.lpirro.persistence.model.LaunchLocal
 import com.lpirro.persistence.model.LaunchType
+import com.lpirro.persistence.model.LauncherLandingLocal
+import com.lpirro.persistence.model.LauncherStageLocal
 import com.lpirro.persistence.model.LocationLocal
 import com.lpirro.persistence.model.MissionLocal
 import com.lpirro.persistence.model.MissionPatchesLocal
@@ -365,5 +373,32 @@ object MockMapperUtil {
         maxStage = 2,
         description = "description",
         imageUrl = "imageUrl"
+    )
+
+    fun mockLauncherStageRemote() = LauncherStageRemote(
+        type = "Core",
+        launcher = LauncherRemote(serialNumber = "1234"),
+        launcherLanding = mockLauncherLandingRemote()
+    )
+
+    fun mockLauncherStageLocal() = LauncherStageLocal(
+        type = "Core",
+        serialNumber = "1234",
+        landing = mockLauncherLandingLocal()
+    )
+
+    fun mockLauncherLandingRemote() = LauncherLandingRemote(
+        type = LauncherTypeRemote("landingType"),
+        landingLocation = LandingLocationRemote("locationName")
+    )
+
+    fun mockLauncherLandingLocal() = LauncherLandingLocal(
+        type = "landingType",
+        locationName = "locationName"
+    )
+
+    fun mockLauncherLanding() = LauncherLanding(
+        type = "landingType",
+        locationName = "locationName"
     )
 }

@@ -69,6 +69,7 @@ class LaunchMapperTest {
     private val missionMapper: MissionMapper = mock()
     private val updateMapper: UpdateMapper = mock()
     private val orbitMapper: OrbitMapper = mock()
+    private val rocketMapper: RocketMapper = mock()
 
     private lateinit var launchMapper: LaunchMapper
 
@@ -82,7 +83,8 @@ class LaunchMapperTest {
             statusMapper = statusMapper,
             youTubeVideoIdParser = youTubeVideoIdParser,
             missionMapper = missionMapper,
-            updateMapper = updateMapper
+            updateMapper = updateMapper,
+            rocketMapper = rocketMapper
         )
 
         whenever(agencyMapper.mapToDomain(any())).thenReturn(MockMapperUtil.mockAgency())
@@ -102,6 +104,8 @@ class LaunchMapperTest {
         whenever(missionMapper.mapToLocal(any())).thenReturn(MockMapperUtil.mockMissionLocal())
         whenever(orbitMapper.mapToDomain(any())).thenReturn(MockMapperUtil.mockOrbit())
         whenever(orbitMapper.mapToLocal(any())).thenReturn(MockMapperUtil.mockOrbitLocal())
+        whenever(rocketMapper.mapToDomain(any())).thenReturn(MockMapperUtil.mockRocket())
+        whenever(rocketMapper.mapToLocal(any())).thenReturn(MockMapperUtil.mockRocketLocal())
     }
 
     @Test
