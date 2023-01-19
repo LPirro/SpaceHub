@@ -77,8 +77,8 @@ class LaunchVehiclesMapperImpl : LaunchVehiclesMapper {
 
     private fun getLauncherStageUi(launcherStage: LauncherStage) = LauncherStageUi(
         type = launcherStage.type,
-        serialNumber = launcherStage.launcher.serialNumber.prependPoundSignSymbol() ?: NOT_AVAILABLE_PLACEHOLDER,
-        landingType = launcherStage.launcherLanding.type.abbrev,
-        landingLocation = launcherStage.launcherLanding.landingLocation.name
+        serialNumber = launcherStage.serialNumber.prependPoundSignSymbol() ?: NOT_AVAILABLE_PLACEHOLDER,
+        landingType = launcherStage.landing.type,
+        landingLocation = launcherStage.landing.locationName
     )
 }

@@ -20,4 +20,4 @@
 
 package com.lpirro.domain.models
 
-data class LauncherLanding(val landingLocation: LandingLocation, val type: LauncherType)
+data class LauncherLanding(val type: String, val locationName: String)

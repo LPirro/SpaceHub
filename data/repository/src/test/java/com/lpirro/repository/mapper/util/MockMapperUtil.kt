@@ -27,6 +27,8 @@ import com.lpirro.domain.models.Mission
 import com.lpirro.domain.models.MissionPatches
 import com.lpirro.domain.models.Orbit
 import com.lpirro.domain.models.Pad
+import com.lpirro.domain.models.Rocket
+import com.lpirro.domain.models.RocketConfiguration
 import com.lpirro.domain.models.Status
 import com.lpirro.network.models.AgencyRemote
 import com.lpirro.network.models.LaunchRemote
@@ -35,6 +37,8 @@ import com.lpirro.network.models.MissionPatchesRemote
 import com.lpirro.network.models.MissionRemote
 import com.lpirro.network.models.OrbitRemote
 import com.lpirro.network.models.PadRemote
+import com.lpirro.network.models.RocketConfigurationRemote
+import com.lpirro.network.models.RocketRemote
 import com.lpirro.network.models.StatusRemote
 import com.lpirro.network.models.Urls
 import com.lpirro.persistence.model.AgencyLocal
@@ -45,6 +49,8 @@ import com.lpirro.persistence.model.MissionLocal
 import com.lpirro.persistence.model.MissionPatchesLocal
 import com.lpirro.persistence.model.OrbitLocal
 import com.lpirro.persistence.model.PadLocal
+import com.lpirro.persistence.model.RocketConfigurationLocal
+import com.lpirro.persistence.model.RocketLocal
 import com.lpirro.persistence.model.StatusLocal
 
 const val NET = "2022-12-25T09:30:00Z"
@@ -68,7 +74,8 @@ object MockMapperUtil {
         flightClubUrl = "flightClubUrl",
         infoURLs = mockInfoUrls(),
         mission = mockMissionRemote(),
-        updates = null
+        updates = null,
+        rocket = mockRocketRemote()
     )
 
     fun mockLaunchLocal() = LaunchLocal(
@@ -87,7 +94,8 @@ object MockMapperUtil {
         flightClubUrl = "flightClubUrl",
         infoUrl = "infoUrl",
         mission = mockMissionLocal(),
-        updates = null
+        updates = null,
+        rocket = mockRocketLocal()
     )
 
     private fun mockVideoUrls() = listOf(
@@ -265,4 +273,97 @@ object MockMapperUtil {
     fun mockOrbit() = Orbit(213, "OrbitName", "OrbitAbbrev")
 
     fun mockMapPosition() = MapPosition(100.0, 150.0)
+
+    fun mockRocketRemote() = RocketRemote(
+        id = 243,
+        configuration = mockRocketConfigurationRemote(),
+        launcherStage = emptyList()
+    )
+
+    fun mockRocketLocal() = RocketLocal(
+        id = 243,
+        configuration = mockRocketConfigurationLocal(),
+        launcherStage = emptyList()
+    )
+
+    fun mockRocket() = Rocket(
+        id = 243,
+        configuration = mockRocketConfiguration(),
+        launcherStage = emptyList()
+    )
+
+    fun mockRocketConfigurationRemote() = RocketConfigurationRemote(
+        id = 432,
+        name = "Name",
+        manufacturer = mockAgencyRemote(),
+        variant = "Variant",
+        height = 46.16,
+        diameter = 3.0,
+        gtoCapacity = 100,
+        leoCapacity = 200,
+        toThrust = 3200,
+        apogee = 40320,
+        reusable = true,
+        successfulLaunches = 129,
+        consecutiveSuccessfulLaunches = 100,
+        failedLaunches = 10,
+        pendingLaunches = 0,
+        launchCost = "10000000",
+        infoUrl = "infoUrl",
+        wikiUrl = "wikiUrl",
+        minStage = 1,
+        maxStage = 2,
+        description = "description",
+        imageUrl = "imageUrl"
+    )
+
+    fun mockRocketConfigurationLocal() = RocketConfigurationLocal(
+        id = 432,
+        name = "Name",
+        manufacturer = mockAgencyLocal(),
+        variant = "Variant",
+        height = 46.16,
+        diameter = 3.0,
+        gtoCapacity = 100,
+        leoCapacity = 200,
+        toThrust = 3200,
+        apogee = 40320,
+        reusable = true,
+        successfulLaunches = 129,
+        consecutiveSuccessfulLaunches = 100,
+        failedLaunches = 10,
+        pendingLaunches = 0,
+        launchCost = "10000000",
+        infoUrl = "infoUrl",
+        wikiUrl = "wikiUrl",
+        minStage = 1,
+        maxStage = 2,
+        description = "description",
+        imageUrl = "imageUrl"
+    )
+
+    fun mockRocketConfiguration() = RocketConfiguration(
+        id = 432,
+        name = "Name",
+        manufacturer = mockAgency(),
+        variant = "Variant",
+        height = 46.16,
+        diameter = 3.0,
+        gtoCapacity = 100,
+        leoCapacity = 200,
+        toThrust = 3200,
+        apogee = 40320,
+        reusable = true,
+        successfulLaunches = 129,
+        consecutiveSuccessfulLaunches = 100,
+        failedLaunches = 10,
+        pendingLaunches = 0,
+        launchCost = "10000000",
+        infoUrl = "infoUrl",
+        wikiUrl = "wikiUrl",
+        minStage = 1,
+        maxStage = 2,
+        description = "description",
+        imageUrl = "imageUrl"
+    )
 }

@@ -20,4 +20,4 @@
 
 package com.lpirro.persistence.model
 
-data class LauncherLandingLocal(val landingLocation: LandingLocationLocal, val type: LauncherTypeLocal)
+data class LauncherLandingLocal(val type: String, val locationName: String)

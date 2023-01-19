@@ -22,6 +22,6 @@ package com.lpirro.domain.models
 
 data class LauncherStage(
     val type: String,
-    val launcher: Launcher,
-    val launcherLanding: LauncherLanding
+    val serialNumber: String?,
+    val landing: LauncherLanding
 )

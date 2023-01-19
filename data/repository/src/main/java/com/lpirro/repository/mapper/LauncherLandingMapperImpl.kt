@@ -24,17 +24,14 @@ import com.lpirro.domain.models.LauncherLanding
 import com.lpirro.network.models.LauncherLandingRemote
 import com.lpirro.persistence.model.LauncherLandingLocal
 
-class LauncherLandingMapperImpl(
-    private val landingLocationMapper: LandingLocationMapper,
-    private val launcherTypeMapper: LauncherTypeMapper
-) : LauncherLandingMapper {
+class LauncherLandingMapperImpl : LauncherLandingMapper {
     override fun mapToDomain(launcherLandingLocal: LauncherLandingLocal) = LauncherLanding(
-        landingLocation = landingLocationMapper.mapToDomain(launcherLandingLocal.landingLocation),
-        type = launcherTypeMapper.mapToDomain(launcherLandingLocal.type)
+        type = launcherLandingLocal.type,
+        locationName = launcherLandingLocal.locationName
     )
 
     override fun mapToLocal(launcherLandingRemote: LauncherLandingRemote) = LauncherLandingLocal(
-        landingLocation = landingLocationMapper.mapToLocal(launcherLandingRemote.landingLocation),
-        type = launcherTypeMapper.mapToLocal(launcherLandingRemote.type)
+        type = launcherLandingRemote.type.abbrev,
+        locationName = launcherLandingRemote.landingLocation.name
     )
 }

@@ -24,19 +24,17 @@ import com.lpirro.domain.models.LauncherStage
 import com.lpirro.network.models.LauncherStageRemote
 import com.lpirro.persistence.model.LauncherStageLocal
 
-class LauncherStageMapperImpl(
-    private val launcherMapper: LauncherMapper,
-    private val launcherLandingMapper: LauncherLandingMapper
-) : LauncherStageMapper {
+class LauncherStageMapperImpl(private val launcherLandingMapper: LauncherLandingMapper) :
+    LauncherStageMapper {
     override fun mapToDomain(launcherStageLocal: LauncherStageLocal) = LauncherStage(
         type = launcherStageLocal.type,
-        launcher = launcherMapper.mapToDomain(launcherStageLocal.launcher),
-        launcherLanding = launcherLandingMapper.mapToDomain(launcherStageLocal.launcherLanding)
+        serialNumber = launcherStageLocal.serialNumber,
+        landing = launcherLandingMapper.mapToDomain(launcherStageLocal.landing)
     )
 
     override fun mapToLocal(launcherStageRemote: LauncherStageRemote) = LauncherStageLocal(
         type = launcherStageRemote.type,
-        launcher = launcherMapper.mapToLocal(launcherStageRemote.launcher),
-        launcherLanding = launcherLandingMapper.mapToLocal(launcherStageRemote.launcherLanding)
+        serialNumber = launcherStageRemote.launcher.serialNumber,
+        landing = launcherLandingMapper.mapToLocal(launcherStageRemote.launcherLanding)
     )
 }
