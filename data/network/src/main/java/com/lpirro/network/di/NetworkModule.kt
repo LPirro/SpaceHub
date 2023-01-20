@@ -21,7 +21,8 @@
 package com.lpirro.network.di
 
 import com.lpirro.network.BuildConfig
-import com.lpirro.network.SpaceHubApiService
+import com.lpirro.network.LaunchLibraryApiService
+import com.lpirro.network.NewsApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -37,18 +38,33 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
-    private fun getApiUrl() = buildString {
-        append(BuildConfig.API_BASE_URL).append("/").append(BuildConfig.API_VERSION).append("/")
+    private fun getLaunchLibraryBaseUrl() = buildString {
+        append(BuildConfig.LAUNCH_LIBRARY_BASE_URL).append("/")
+        append(BuildConfig.LAUNCH_LIBRARY_API_VERSION).append("/")
+    }
+
+    private fun getSpaceFlightNewsBaseUrl() = buildString {
+        append(BuildConfig.SPACEFLIGHT_NEWS_BASE_URL).append("/")
+        append(BuildConfig.SPACEFLIGHT_NEWS_API_VERSION).append("/")
     }
 
     @Singleton
     @Provides
-    fun provideRetrofit(): SpaceHubApiService = Retrofit.Builder()
-        .baseUrl(getApiUrl())
+    fun provideLaunchLibraryApiService(): LaunchLibraryApiService = Retrofit.Builder()
+        .baseUrl(getLaunchLibraryBaseUrl())
         .addConverterFactory(GsonConverterFactory.create())
         .client(provideOkHttp())
         .build()
-        .create(SpaceHubApiService::class.java)
+        .create(LaunchLibraryApiService::class.java)
+
+    @Singleton
+    @Provides
+    fun provideSpaceflightNewsApiService(): NewsApiService = Retrofit.Builder()
+        .baseUrl(getSpaceFlightNewsBaseUrl())
+        .addConverterFactory(GsonConverterFactory.create())
+        .client(provideOkHttp())
+        .build()
+        .create(NewsApiService::class.java)
 
     private fun provideLoggingInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)

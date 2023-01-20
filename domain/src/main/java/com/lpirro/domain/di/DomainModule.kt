@@ -22,6 +22,9 @@ package com.lpirro.domain.di
 
 import com.lpirro.domain.repository.LaunchDetailRepository
 import com.lpirro.domain.repository.LaunchesRepository
+import com.lpirro.domain.repository.NewsRepository
+import com.lpirro.domain.usecase.GetArticlesUseCase
+import com.lpirro.domain.usecase.GetArticlesUseCaseImpl
 import com.lpirro.domain.usecase.GetLaunchDetailOverviewUseCase
 import com.lpirro.domain.usecase.GetLaunchDetailOverviewUseCaseImpl
 import com.lpirro.domain.usecase.GetLaunchDetailUseCase
@@ -57,5 +60,10 @@ object DomainModule {
     @Provides
     fun providesGetLaunchDetailOverviewUseCase(repository: LaunchDetailRepository): GetLaunchDetailOverviewUseCase {
         return GetLaunchDetailOverviewUseCaseImpl(repository)
+    }
+
+    @Provides
+    fun provideGetArticlesUseCase(repository: NewsRepository): GetArticlesUseCase {
+        return GetArticlesUseCaseImpl(repository)
     }
 }

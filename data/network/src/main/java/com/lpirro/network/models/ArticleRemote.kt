@@ -18,21 +18,18 @@
  *
  */
 
-package com.lpirro.network
+package com.lpirro.network.models
 
-import com.lpirro.network.models.LaunchRemote
-import com.lpirro.network.models.PaginatedResultRemote
-import retrofit2.http.GET
-import retrofit2.http.Path
+import com.google.gson.annotations.SerializedName
 
-interface SpaceHubApiService {
-
-    @GET("launch/upcoming?mode=detailed&limit=20&hide_recent_previous=true")
-    suspend fun getUpcomingLaunches(): PaginatedResultRemote<List<LaunchRemote>>
-
-    @GET("launch/previous?mode=detailed&limit=20")
-    suspend fun getPastLaunches(): PaginatedResultRemote<List<LaunchRemote>>
-
-    @GET("launch/{id}")
-    suspend fun getLaunch(@Path("id") id: String): LaunchRemote
-}
+data class ArticleRemote(
+    @SerializedName("id") val id: Int,
+    @SerializedName("featured") val featured: Boolean,
+    @SerializedName("publishedAt") val publishedAt: String,
+    @SerializedName("imageUrl") val imageUrl: String,
+    @SerializedName("newsSite") val newsSite: String,
+    @SerializedName("title") val title: String,
+    @SerializedName("url") val url: String,
+    @SerializedName("launches") val launches: List<RelatedLaunchRemote>,
+    @SerializedName("updatedAt") val updatedAt: String
+)

@@ -22,12 +22,14 @@ package com.lpirro.persistence.di
 
 import android.app.Application
 import androidx.room.Room
+import com.lpirro.persistence.room.ArticleDao
 import com.lpirro.persistence.room.LaunchDao
 import com.lpirro.persistence.room.SpaceHubDatabase
 import com.lpirro.persistence.room.typeconverter.AgencyLocalTypeConverter
 import com.lpirro.persistence.room.typeconverter.MissionLocalTypeConverter
 import com.lpirro.persistence.room.typeconverter.MissionPatchesLocalTypeConverter
 import com.lpirro.persistence.room.typeconverter.PadLocalTypeConverter
+import com.lpirro.persistence.room.typeconverter.RelatedLaunchLocalTypeConverter
 import com.lpirro.persistence.room.typeconverter.RocketLocalTypeConverter
 import com.lpirro.persistence.room.typeconverter.StatusLocalTypeConverter
 import com.lpirro.persistence.room.typeconverter.UpdateLocalTypeConverter
@@ -51,7 +53,8 @@ class PersistenceModule {
         statusLocalTypeConverter: StatusLocalTypeConverter,
         missionLocalTypeConverter: MissionLocalTypeConverter,
         updateLocalTypeConverter: UpdateLocalTypeConverter,
-        rocketLocalTypeConverter: RocketLocalTypeConverter
+        rocketLocalTypeConverter: RocketLocalTypeConverter,
+        relatedLaunchLocalTypeConverter: RelatedLaunchLocalTypeConverter
     ): SpaceHubDatabase {
         return Room
             .databaseBuilder(application, SpaceHubDatabase::class.java, "spacehub.db")
@@ -63,12 +66,18 @@ class PersistenceModule {
             .addTypeConverter(missionLocalTypeConverter)
             .addTypeConverter(updateLocalTypeConverter)
             .addTypeConverter(rocketLocalTypeConverter)
+            .addTypeConverter(relatedLaunchLocalTypeConverter)
             .build()
     }
 
     @Provides
     fun providesLaunchDao(database: SpaceHubDatabase): LaunchDao {
         return database.launchDao()
+    }
+
+    @Provides
+    fun providesArticleDao(database: SpaceHubDatabase): ArticleDao {
+        return database.articleDao()
     }
 
     @Provides
@@ -104,5 +113,10 @@ class PersistenceModule {
     @Provides
     fun provideRocketLocalTypeConverter(): RocketLocalTypeConverter {
         return RocketLocalTypeConverter()
+    }
+
+    @Provides
+    fun provideRelatedLaunchLocalTypeConverter(): RelatedLaunchLocalTypeConverter {
+        return RelatedLaunchLocalTypeConverter()
     }
 }

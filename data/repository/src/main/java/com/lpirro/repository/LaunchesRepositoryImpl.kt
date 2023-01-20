@@ -21,7 +21,7 @@
 package com.lpirro.repository
 
 import com.lpirro.domain.repository.LaunchesRepository
-import com.lpirro.network.SpaceHubApiService
+import com.lpirro.network.LaunchLibraryApiService
 import com.lpirro.network.models.LaunchRemote
 import com.lpirro.network.models.PaginatedResultRemote
 import com.lpirro.persistence.model.LaunchType
@@ -36,7 +36,7 @@ import java.net.ConnectException
 import java.net.UnknownHostException
 
 class LaunchesRepositoryImpl(
-    private val spaceHubApiService: SpaceHubApiService,
+    private val spaceHubApiService: LaunchLibraryApiService,
     private val launchDao: LaunchDao,
     private val mapper: LaunchMapper
 ) : LaunchesRepository {
