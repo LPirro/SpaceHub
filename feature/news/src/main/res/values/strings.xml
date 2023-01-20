@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~
   ~ SpaceHub - Designed and Developed by LPirro (Leonardo Pirro)
   ~ Copyright (C) 2023 Leonardo Pirro
@@ -19,18 +18,6 @@
   ~
   -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/launches_graph"
-        android:title="@string/bottom_nav_launches"
-        android:icon="@drawable/selector_navigation_rocket"/>
-    <item
-        android:id="@+id/saved_launches_graph"
-        android:title="@string/bottom_nav_saved"
-        android:icon="@drawable/selector_navigation_calendar"/>
-    <item
-        android:id="@+id/news_graph"
-        android:title="@string/bottom_nav_news"
-        android:icon="@drawable/selector_navigation_calendar"/>
-
-</menu>
+<resources>
+    <string name="news">News</string>
+</resources>

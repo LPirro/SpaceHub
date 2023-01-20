@@ -36,8 +36,7 @@ class NewsRepositoryImpl(
     private val newsApiService: NewsApiService,
     private val articleDao: ArticleDao,
     private val articleMapper: ArticleMapper
-): NewsRepository {
-
+) : NewsRepository {
 
     override suspend fun getNews() = flow {
         loadArticles()

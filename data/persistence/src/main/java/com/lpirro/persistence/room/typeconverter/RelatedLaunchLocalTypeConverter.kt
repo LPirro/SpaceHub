@@ -34,7 +34,8 @@ class RelatedLaunchLocalTypeConverter {
     @TypeConverter
     fun relatedLaunchLocalTypeConverterToString(relatedLaunch: List<RelatedLaunchLocal>): String {
         val type = object : TypeToken<List<RelatedLaunchLocal>>() {}.type
-        return gson.toJson(relatedLaunch, type)    }
+        return gson.toJson(relatedLaunch, type)
+    }
 
     @TypeConverter
     fun stringToRelatedLaunchLocalTypeConverter(relatedLaunchString: String): List<RelatedLaunchLocal> {

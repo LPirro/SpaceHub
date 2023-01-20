@@ -18,13 +18,10 @@
  *
  */
 
-package com.lpirro.network
+package com.lpirro.news.viewmodel
 
-import com.lpirro.network.models.ArticleRemote
-import retrofit2.http.GET
+import kotlinx.coroutines.Job
 
-interface NewsApiService {
-
-    @GET("articles")
-    suspend fun getArticles(): List<ArticleRemote>
+interface NewsViewModelContract {
+    fun getArticles(): Job
 }

@@ -18,13 +18,13 @@
  *
  */
 
-package com.lpirro.network
+package com.lpirro.news.viewmodel
 
-import com.lpirro.network.models.ArticleRemote
-import retrofit2.http.GET
+import com.lpirro.domain.models.Article
 
-interface NewsApiService {
-
-    @GET("articles")
-    suspend fun getArticles(): List<ArticleRemote>
+sealed class NewsUiState {
+    object Loading : NewsUiState()
+    data class Refresh(val isRefreshing: Boolean) : NewsUiState()
+    data class Success(val articles: List<Article>) : NewsUiState()
+    object Error : NewsUiState()
 }

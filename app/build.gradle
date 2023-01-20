@@ -33,6 +33,7 @@ dependencies {
     implementation project(':feature:launches')
     implementation project(':feature:saved')
     implementation project(':feature:launch_detail')
+    implementation project(':feature:news')
     api project(':core')
 
     // Android X
