@@ -78,12 +78,11 @@ class UpcomingLaunchesFragment : BaseFragment<FragmentUpcomingLaunchesBinding>()
     }
 
     private fun onUiUpdate(uiState: UpcomingLaunchesUiState) {
-        resetViews()
+        binding.errorView.hide()
         when (uiState) {
             is UpcomingLaunchesUiState.Error -> binding.errorView.show()
-            is UpcomingLaunchesUiState.Loading -> binding.progressBar.show()
+            is UpcomingLaunchesUiState.Loading -> binding.swipeRefresh.isRefreshing = uiState.isLoading
             is UpcomingLaunchesUiState.Success -> launchesAdapter.submitList(uiState.launches)
-            is UpcomingLaunchesUiState.Refresh -> binding.swipeRefresh.isRefreshing = uiState.isRefreshing
         }
     }
 
@@ -107,10 +106,5 @@ class UpcomingLaunchesFragment : BaseFragment<FragmentUpcomingLaunchesBinding>()
             addItemDecoration(VerticalSpaceItemDecoration(spaceSize = spacing, edgeSpacing = spacing))
             adapter = launchesAdapter
         }
-    }
-
-    private fun resetViews() {
-        binding.progressBar.hide()
-        binding.errorView.hide()
     }
 }

@@ -35,7 +35,7 @@ class UpcomingLaunchesViewModel @Inject constructor(
 ) : ViewModel(), UpcomingLaunchesViewModelContract {
 
     private val _uiState =
-        MutableStateFlow<UpcomingLaunchesUiState>(UpcomingLaunchesUiState.Loading)
+        MutableStateFlow<UpcomingLaunchesUiState>(UpcomingLaunchesUiState.Loading(true))
     val uiState: StateFlow<UpcomingLaunchesUiState> = _uiState
 
     init {
@@ -45,17 +45,16 @@ class UpcomingLaunchesViewModel @Inject constructor(
     override fun getUpcomingLaunches() = viewModelScope.launch {
         try {
             getUpcomingLaunchesUseCase().collect { launches ->
-                _uiState.value = UpcomingLaunchesUiState.Refresh(isRefreshing = false)
+                _uiState.value = UpcomingLaunchesUiState.Loading(isLoading = false)
                 _uiState.value = UpcomingLaunchesUiState.Success(launches)
             }
         } catch (e: Exception) {
-            _uiState.value = UpcomingLaunchesUiState.Refresh(isRefreshing = false)
+            _uiState.value = UpcomingLaunchesUiState.Loading(isLoading = false)
             _uiState.value = UpcomingLaunchesUiState.Error
         }
     }
 
     override fun refresh() {
-        _uiState.value = UpcomingLaunchesUiState.Refresh(isRefreshing = true)
         getUpcomingLaunches()
     }
 }

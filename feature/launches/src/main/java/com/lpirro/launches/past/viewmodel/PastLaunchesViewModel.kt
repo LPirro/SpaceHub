@@ -35,7 +35,7 @@ class PastLaunchesViewModel @Inject constructor(
 ) : ViewModel(), PastLaunchesViewModelContract {
 
     private val _uiState =
-        MutableStateFlow<PastLaunchesUiState>(PastLaunchesUiState.Loading)
+        MutableStateFlow<PastLaunchesUiState>(PastLaunchesUiState.Loading(true))
     val uiState: StateFlow<PastLaunchesUiState> = _uiState
 
     init {
@@ -45,17 +45,16 @@ class PastLaunchesViewModel @Inject constructor(
     override fun getPastLaunches() = viewModelScope.launch {
         try {
             getPastLaunchesUseCase().collect { launches ->
-                _uiState.value = PastLaunchesUiState.Refresh(isRefreshing = false)
+                _uiState.value = PastLaunchesUiState.Loading(isLoading = false)
                 _uiState.value = PastLaunchesUiState.Success(launches)
             }
         } catch (e: Exception) {
-            _uiState.value = PastLaunchesUiState.Refresh(isRefreshing = false)
+            _uiState.value = PastLaunchesUiState.Loading(isLoading = false)
             _uiState.value = PastLaunchesUiState.Error
         }
     }
 
     override fun refresh() {
-        _uiState.value = PastLaunchesUiState.Refresh(isRefreshing = true)
         getPastLaunches()
     }
 }
