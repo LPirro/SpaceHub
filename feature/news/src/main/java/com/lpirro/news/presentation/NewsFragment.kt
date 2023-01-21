@@ -34,6 +34,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.lpirro.core.base.BaseFragment
 import com.lpirro.core.extensions.hide
 import com.lpirro.core.extensions.launchChromeCustomTab
+import com.lpirro.core.extensions.show
 import com.lpirro.core.navigation.NavigationUtil
 import com.lpirro.news.databinding.FragmentNewsBinding
 import com.lpirro.news.presentation.adapter.ArticleAdapter
@@ -56,6 +57,9 @@ class NewsFragment : BaseFragment<FragmentNewsBinding>() {
 
         setupRecyclerView()
         registerObservers()
+
+        binding.errorView.retryClickListener = viewModel::refresh
+        binding.swipeRefresh.setOnRefreshListener { viewModel.refresh() }
     }
 
     private fun registerObservers() {
@@ -67,19 +71,15 @@ class NewsFragment : BaseFragment<FragmentNewsBinding>() {
     }
 
     private fun onUiUpdate(uiState: NewsUiState) {
-        resetViews()
+        binding.errorView.hide()
         when (uiState) {
-            is NewsUiState.Error -> {}
-            is NewsUiState.Loading -> {}
-            is NewsUiState.Success -> {
-                articleAdapter.submitList(uiState.articles)
-            }
-            is NewsUiState.Refresh -> {}
+            is NewsUiState.Error -> binding.errorView.show()
+            is NewsUiState.Loading -> binding.swipeRefresh.isRefreshing = uiState.isLoading
+            is NewsUiState.Success -> articleAdapter.submitList(uiState.articles)
         }
     }
 
     private fun setupRecyclerView() {
-        val spacing = resources.getDimensionPixelSize(com.lpirro.core.R.dimen.margin_16dp)
         articleAdapter = ArticleAdapter(::articleClicked, ::relatedLaunchClicked)
         binding.articlesRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
@@ -96,10 +96,5 @@ class NewsFragment : BaseFragment<FragmentNewsBinding>() {
     // TODO: Move to View Model
     private fun relatedLaunchClicked(launchId: String) {
         findNavController().navigate(NavigationUtil.launchDetailDeeplink(launchId))
-    }
-
-    private fun resetViews() {
-        binding.progressBar.hide()
-        binding.errorView.hide()
     }
 }

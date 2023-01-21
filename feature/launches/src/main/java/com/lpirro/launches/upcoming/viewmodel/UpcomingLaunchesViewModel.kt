@@ -55,6 +55,7 @@ class UpcomingLaunchesViewModel @Inject constructor(
     }
 
     override fun refresh() {
+        _uiState.value = UpcomingLaunchesUiState.Loading(isLoading = true)
         getUpcomingLaunches()
     }
 }

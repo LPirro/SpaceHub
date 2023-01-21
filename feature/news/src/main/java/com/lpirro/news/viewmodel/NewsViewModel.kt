@@ -35,7 +35,7 @@ class NewsViewModel @Inject constructor(
 ) : ViewModel(), NewsViewModelContract {
 
     private val _uiState =
-        MutableStateFlow<NewsUiState>(NewsUiState.Loading)
+        MutableStateFlow<NewsUiState>(NewsUiState.Loading(isLoading = true))
     val uiState: StateFlow<NewsUiState> = _uiState
 
     init {
@@ -45,12 +45,17 @@ class NewsViewModel @Inject constructor(
     override fun getArticles() = viewModelScope.launch {
         try {
             getArticlesUseCase().collect { articles ->
-                _uiState.value = NewsUiState.Refresh(isRefreshing = false)
+                _uiState.value = NewsUiState.Loading(isLoading = false)
                 _uiState.value = NewsUiState.Success(articles)
             }
         } catch (e: Exception) {
-            _uiState.value = NewsUiState.Refresh(isRefreshing = false)
+            _uiState.value = NewsUiState.Loading(isLoading = false)
             _uiState.value = NewsUiState.Error
         }
+    }
+
+    override fun refresh() {
+        NewsUiState.Loading(isLoading = true)
+        getArticles()
     }
 }

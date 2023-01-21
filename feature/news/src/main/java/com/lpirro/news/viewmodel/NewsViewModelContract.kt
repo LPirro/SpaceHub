@@ -24,4 +24,5 @@ import kotlinx.coroutines.Job
 
 interface NewsViewModelContract {
     fun getArticles(): Job
+    fun refresh()
 }

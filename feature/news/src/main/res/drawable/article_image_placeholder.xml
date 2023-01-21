@@ -18,7 +18,10 @@
   ~
   -->
 
-<resources>
-    <dimen name="article_image_corners">12dp</dimen>
-    <dimen name="article_image_size">100dp</dimen>
-</resources>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <corners android:radius="@dimen/article_image_corners" />
+    <solid android:color="?attr/colorOnSurfaceInverse" />
+    <size android:height="@dimen/article_image_size" android:width="@dimen/article_image_size"/>
+</shape>

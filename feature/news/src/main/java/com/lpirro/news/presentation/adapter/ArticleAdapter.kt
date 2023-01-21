@@ -32,6 +32,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.lpirro.core.extensions.visible
 import com.lpirro.domain.models.Article
 import com.lpirro.news.R
+import com.lpirro.news.databinding.ItemFeaturedBinding
 import com.lpirro.news.databinding.ItemNewsBinding
 
 const val TYPE_ARTICLE = 0
@@ -44,8 +45,8 @@ class ArticleAdapter(
 
     override fun getItemViewType(position: Int): Int {
         return when (currentList[position].featured) {
-            true -> 1
-            else -> 0
+            true -> TYPE_FEATURED_ARTICLE
+            else -> TYPE_ARTICLE
         }
     }
 
@@ -58,8 +59,8 @@ class ArticleAdapter(
                     false
                 )
             )
-            else -> ArticleViewHolder(
-                ItemNewsBinding.inflate(
+            else -> FeaturedArticleViewHolder(
+                ItemFeaturedBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
@@ -72,32 +73,59 @@ class ArticleAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val article = getItem(position)
 
-        if (holder is ArticleViewHolder) {
+        when (holder) {
+            is ArticleViewHolder -> {
+                holder.binding.articleTitle.text = article.title
+                holder.binding.articleInfo.text = "${article.newsSite} • ${article.publishDateOffset}"
+                holder.binding.relatedLaunchButton.visible = article.launches.isNotEmpty()
+                holder.itemView.setOnClickListener {
+                    articleClick.invoke(article.url)
+                }
 
-            holder.binding.articleTitle.text = article.title
-            holder.binding.articleInfo.text = "${article.newsSite} • ${article.publishDateOffset}"
-            holder.binding.relatedLaunchButton.visible = article.launches.isNotEmpty()
+                holder.binding.relatedLaunchButton.setOnClickListener {
+                    relatedLaunchClick.invoke(article.launches.first().launchId)
+                }
 
-            holder.itemView.setOnClickListener {
-                articleClick.invoke(article.url)
+                val roundCornerSize =
+                    holder.itemView.context.resources.getDimensionPixelSize(R.dimen.article_image_corners)
+
+                val requestOptions =
+                    RequestOptions().transform(CenterCrop(), RoundedCorners(roundCornerSize))
+                Glide.with(holder.itemView.context)
+                    .load(article.imageUrl)
+                    .placeholder(R.drawable.article_image_placeholder)
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .apply(requestOptions)
+                    .into(holder.binding.articleImage)
             }
+            is FeaturedArticleViewHolder -> {
+                holder.binding.articleTitle.text = article.title
+                holder.binding.articleInfo.text = "${article.newsSite} • ${article.publishDateOffset}"
+                holder.binding.relatedLaunchButton.visible = article.launches.isNotEmpty()
 
-            holder.binding.relatedLaunchButton.setOnClickListener {
-                relatedLaunchClick.invoke(article.launches.first().launchId)
+                holder.itemView.setOnClickListener {
+                    articleClick.invoke(article.url)
+                }
+
+                holder.binding.relatedLaunchButton.setOnClickListener {
+                    relatedLaunchClick.invoke(article.launches.first().launchId)
+                }
+
+                val roundCornerSize =
+                    holder.itemView.context.resources.getDimensionPixelSize(R.dimen.article_image_corners)
+
+                val requestOptions =
+                    RequestOptions().transform(CenterCrop(), RoundedCorners(roundCornerSize))
+                Glide.with(holder.itemView.context)
+                    .load(article.imageUrl)
+                    .placeholder(R.drawable.article_image_placeholder)
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .apply(requestOptions)
+                    .into(holder.binding.articleImage)
             }
-
-            val roundCornerSize =
-                holder.itemView.context.resources.getDimensionPixelSize(R.dimen.article_image_corners)
-
-            val requestOptions =
-                RequestOptions().transform(CenterCrop(), RoundedCorners(roundCornerSize))
-            Glide.with(holder.itemView.context)
-                .load(article.imageUrl)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .apply(requestOptions)
-                .into(holder.binding.articleImage)
         }
     }
 
     inner class ArticleViewHolder(val binding: ItemNewsBinding) : ViewHolder(binding.root)
+    inner class FeaturedArticleViewHolder(val binding: ItemFeaturedBinding) : ViewHolder(binding.root)
 }

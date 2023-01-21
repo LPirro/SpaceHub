@@ -59,22 +59,12 @@ class UpcomingLaunchesFragment : BaseFragment<FragmentUpcomingLaunchesBinding>()
         registerObservers()
         setupRecyclerView()
         binding.errorView.retryClickListener = viewModel::refresh
-        binding.swipeRefresh.setOnRefreshListener {
-            viewModel.refresh()
-        }
+        binding.swipeRefresh.setOnRefreshListener { viewModel.refresh() }
     }
 
     override fun onPause() {
         super.onPause()
         binding.swipeRefresh.isRefreshing = false
-    }
-
-    private fun registerObservers() {
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch { viewModel.uiState.collect { onUiUpdate(it) } }
-            }
-        }
     }
 
     private fun onUiUpdate(uiState: UpcomingLaunchesUiState) {
@@ -105,6 +95,14 @@ class UpcomingLaunchesFragment : BaseFragment<FragmentUpcomingLaunchesBinding>()
             layoutManager = LinearLayoutManager(requireContext())
             addItemDecoration(VerticalSpaceItemDecoration(spaceSize = spacing, edgeSpacing = spacing))
             adapter = launchesAdapter
+        }
+    }
+
+    private fun registerObservers() {
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch { viewModel.uiState.collect { onUiUpdate(it) } }
+            }
         }
     }
 }

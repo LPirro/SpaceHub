@@ -23,8 +23,7 @@ package com.lpirro.news.viewmodel
 import com.lpirro.domain.models.Article
 
 sealed class NewsUiState {
-    object Loading : NewsUiState()
-    data class Refresh(val isRefreshing: Boolean) : NewsUiState()
+    data class Loading(val isLoading: Boolean) : NewsUiState()
     data class Success(val articles: List<Article>) : NewsUiState()
     object Error : NewsUiState()
 }

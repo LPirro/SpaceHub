@@ -59,9 +59,7 @@ class PastLaunchesFragment : BaseFragment<FragmentPastLaunchesBinding>() {
         registerObservers()
         setupRecyclerView()
         binding.errorView.retryClickListener = viewModel::refresh
-        binding.swipeRefresh.setOnRefreshListener {
-            viewModel.refresh()
-        }
+        binding.swipeRefresh.setOnRefreshListener { viewModel.refresh() }
     }
 
     override fun onPause() {
