@@ -28,12 +28,15 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.divider.MaterialDivider
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.lpirro.core.base.BaseFragment
 import com.lpirro.core.extensions.hide
+import com.lpirro.core.extensions.launchChromeCustomTab
+import com.lpirro.core.navigation.NavigationUtil
 import com.lpirro.core.ui.recyclerview.decorator.VerticalSpaceItemDecoration
 import com.lpirro.news.databinding.FragmentNewsBinding
 import com.lpirro.news.presentation.adapter.ArticleAdapter
@@ -80,12 +83,23 @@ class NewsFragment : BaseFragment<FragmentNewsBinding>() {
 
     private fun setupRecyclerView() {
         val spacing = resources.getDimensionPixelSize(com.lpirro.core.R.dimen.margin_16dp)
-        articleAdapter = ArticleAdapter {  }
+        articleAdapter = ArticleAdapter(::articleClicked, ::relatedLaunchClicked)
         binding.articlesRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL))
             adapter = articleAdapter
         }
+    }
+
+    // TODO: Move to View Model
+    private fun articleClicked(articleUrl: String ){
+        launchChromeCustomTab(articleUrl)
+    }
+
+
+    // TODO: Move to View Model
+    private fun relatedLaunchClicked(launchId: String){
+        findNavController().navigate(NavigationUtil.launchDetailDeeplink(launchId))
     }
 
 

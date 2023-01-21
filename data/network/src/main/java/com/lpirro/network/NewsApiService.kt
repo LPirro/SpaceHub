@@ -25,6 +25,6 @@ import retrofit2.http.GET
 
 interface NewsApiService {
 
-    @GET("articles")
+    @GET("articles?_limit=50")
     suspend fun getArticles(): List<ArticleRemote>
 }

@@ -29,6 +29,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
+import com.lpirro.core.extensions.visible
 import com.lpirro.domain.models.Article
 import com.lpirro.news.R
 import com.lpirro.news.databinding.ItemNewsBinding
@@ -38,6 +39,7 @@ const val TYPE_FEATURED_ARTICLE = 1
 
 class ArticleAdapter(
     private val articleClick: (articleUrl: String) -> Unit,
+    private val relatedLaunchClick: (launchId: String) -> Unit,
 ) : ListAdapter<Article, ViewHolder>(ArticleDiffCallback) {
 
     override fun getItemViewType(position: Int): Int {
@@ -74,6 +76,15 @@ class ArticleAdapter(
 
             holder.binding.articleTitle.text = article.title
             holder.binding.articleInfo.text = "${article.newsSite} • ${article.publishDateOffset}"
+            holder.binding.relatedLaunchButton.visible = article.launches.isNotEmpty()
+
+            holder.itemView.setOnClickListener {
+                articleClick.invoke(article.url)
+            }
+            
+            holder.binding.relatedLaunchButton.setOnClickListener {
+                relatedLaunchClick.invoke(article.launches.first().launchId)
+            }
 
             val roundCornerSize =
                 holder.itemView.context.resources.getDimensionPixelSize(R.dimen.article_image_corners)
