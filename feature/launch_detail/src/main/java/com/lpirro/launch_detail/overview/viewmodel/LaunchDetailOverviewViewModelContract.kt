@@ -24,7 +24,6 @@ import kotlinx.coroutines.Job
 
 interface LaunchDetailOverviewViewModelContract {
     fun getLaunch(id: String): Job
-    fun retry()
     fun openLaunchTrajectory(url: String)
     fun openGoogleMaps(url: String)
     fun openChromeCustomTab(url: String)

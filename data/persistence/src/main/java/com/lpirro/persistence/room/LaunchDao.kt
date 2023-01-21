@@ -34,6 +34,9 @@ interface LaunchDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(launches: List<LaunchLocal>)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(launch: LaunchLocal)
+
     @Update
     suspend fun updateLaunch(launch: LaunchLocal)
 
@@ -41,7 +44,7 @@ interface LaunchDao {
     fun getLaunchesWithType(launchType: LaunchType): List<LaunchLocal>
 
     @Query("SELECT * FROM launch_table WHERE id=:id")
-    fun getLaunch(id: String): LaunchLocal
+    fun getLaunch(id: String): LaunchLocal?
 
     @Query("DELETE FROM launch_table WHERE type=:launchType")
     fun deleteAll(launchType: LaunchType)

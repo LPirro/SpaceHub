@@ -31,13 +31,10 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.divider.MaterialDivider
-import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.lpirro.core.base.BaseFragment
 import com.lpirro.core.extensions.hide
 import com.lpirro.core.extensions.launchChromeCustomTab
 import com.lpirro.core.navigation.NavigationUtil
-import com.lpirro.core.ui.recyclerview.decorator.VerticalSpaceItemDecoration
 import com.lpirro.news.databinding.FragmentNewsBinding
 import com.lpirro.news.presentation.adapter.ArticleAdapter
 import com.lpirro.news.viewmodel.NewsUiState
@@ -92,16 +89,14 @@ class NewsFragment : BaseFragment<FragmentNewsBinding>() {
     }
 
     // TODO: Move to View Model
-    private fun articleClicked(articleUrl: String ){
+    private fun articleClicked(articleUrl: String) {
         launchChromeCustomTab(articleUrl)
     }
 
-
     // TODO: Move to View Model
-    private fun relatedLaunchClicked(launchId: String){
+    private fun relatedLaunchClicked(launchId: String) {
         findNavController().navigate(NavigationUtil.launchDetailDeeplink(launchId))
     }
-
 
     private fun resetViews() {
         binding.progressBar.hide()

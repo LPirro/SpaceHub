@@ -47,5 +47,6 @@ data class LaunchLocal(
 
 enum class LaunchType {
     PAST,
-    UPCOMING
+    UPCOMING,
+    UNKNOWN
 }

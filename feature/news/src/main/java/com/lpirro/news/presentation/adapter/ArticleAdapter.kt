@@ -81,7 +81,7 @@ class ArticleAdapter(
             holder.itemView.setOnClickListener {
                 articleClick.invoke(article.url)
             }
-            
+
             holder.binding.relatedLaunchButton.setOnClickListener {
                 relatedLaunchClick.invoke(article.launches.first().launchId)
             }

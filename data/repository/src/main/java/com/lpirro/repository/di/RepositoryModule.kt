@@ -84,10 +84,11 @@ object RepositoryModule {
 
     @Provides
     fun provideLaunchDetailRepository(
+        launchLibraryApiService: LaunchLibraryApiService,
         launchDao: LaunchDao,
         launchMapper: LaunchMapper
     ): LaunchDetailRepository {
-        return LaunchDetailRepositoryImpl(launchDao, launchMapper)
+        return LaunchDetailRepositoryImpl(launchLibraryApiService, launchDao, launchMapper)
     }
 
     @Provides

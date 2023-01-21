@@ -51,8 +51,4 @@ class LaunchDetailMissionViewModel @Inject constructor(
             Timber.d(e)
         }
     }
-
-    override fun retry() {
-        TODO("Not yet implemented")
-    }
 }

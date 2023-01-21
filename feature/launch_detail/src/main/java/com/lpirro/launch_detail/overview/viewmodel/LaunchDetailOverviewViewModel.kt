@@ -57,10 +57,6 @@ class LaunchDetailOverviewViewModel @Inject constructor(
         }
     }
 
-    override fun retry() {
-        TODO("Not yet implemented")
-    }
-
     override fun openLaunchTrajectory(url: String) {
         viewModelScope.launch {
             _events.emit(LaunchDetailOverviewEvent.OpenLaunchTrajectory(url))

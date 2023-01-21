@@ -27,8 +27,6 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
-
-
 private const val LAUNCH_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssX"
 private const val NEWS_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.000X"
 private const val FULL_DATE_OUTPUT_PATTERN = "dd MMM yyyy • HH:mm"

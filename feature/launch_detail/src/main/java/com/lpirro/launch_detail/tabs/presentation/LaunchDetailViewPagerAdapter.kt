@@ -32,8 +32,7 @@ private const val NUM_TABS = 3
 class LaunchDetailViewPagerAdapter(
     private val launchId: String,
     fragmentActivity: FragmentActivity,
-) :
-    FragmentStateAdapter(fragmentActivity) {
+) : FragmentStateAdapter(fragmentActivity) {
 
     override fun getItemCount(): Int {
         return NUM_TABS

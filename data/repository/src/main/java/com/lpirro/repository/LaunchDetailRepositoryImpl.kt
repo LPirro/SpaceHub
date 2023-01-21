@@ -21,19 +21,38 @@
 package com.lpirro.repository
 
 import com.lpirro.domain.repository.LaunchDetailRepository
+import com.lpirro.network.LaunchLibraryApiService
+import com.lpirro.persistence.model.LaunchType
 import com.lpirro.persistence.room.LaunchDao
 import com.lpirro.repository.mapper.LaunchMapper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.withContext
 
 class LaunchDetailRepositoryImpl(
+    private val launchLibraryApiService: LaunchLibraryApiService,
     private val launchDao: LaunchDao,
     private val mapper: LaunchMapper
 ) : LaunchDetailRepository {
 
     override suspend fun getLaunch(id: String) = flow {
-        val launch = launchDao.getLaunch(id)
-        emit(mapper.mapToDomain(launch))
+        val launchLocal = launchDao.getLaunch(id)
+
+        if (launchLocal != null) {
+            emit(mapper.mapToDomain(launchLocal))
+        } else {
+            refreshCache(id)
+            val newLaunchLocal = launchDao.getLaunch(id)
+            emit(mapper.mapToDomain(newLaunchLocal!!))
+        }
     }.flowOn(Dispatchers.IO)
+
+    private suspend fun refreshCache(launchId: String) {
+        return withContext(Dispatchers.IO) {
+            val launchRemote = launchLibraryApiService.getLaunch(launchId)
+            val launchLocal = mapper.mapToLocal(launchRemote, LaunchType.UNKNOWN)
+            launchDao.insert(launchLocal)
+        }
+    }
 }

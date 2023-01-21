@@ -50,7 +50,6 @@ class LaunchDetailActivity : AppCompatActivity() {
     private val viewModel: LaunchDetailViewModel by viewModels()
 
     private lateinit var adapter: LaunchDetailViewPagerAdapter
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -80,7 +79,7 @@ class LaunchDetailActivity : AppCompatActivity() {
         }
 
         registerObservers()
-        setupTabs()
+        createTabs()
         viewModel.getLaunch(args.launchId)
     }
 
@@ -93,11 +92,13 @@ class LaunchDetailActivity : AppCompatActivity() {
     }
 
     private fun onUiUpdate(uiState: LaunchDetailUiState) {
+        binding.progressBar.hide()
         when (uiState) {
             is LaunchDetailUiState.Error -> {}
-            is LaunchDetailUiState.Loading -> {}
+            is LaunchDetailUiState.Loading -> binding.progressBar.show()
             is LaunchDetailUiState.Success -> {
                 updateUi(uiState.launch)
+                initTabs()
             }
         }
     }
@@ -111,7 +112,13 @@ class LaunchDetailActivity : AppCompatActivity() {
             .into(binding.launchCover)
     }
 
-    private fun setupTabs() {
+    private fun createTabs() {
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(resources.getString(R.string.tab_launch_detail_overview)))
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(R.string.tab_launch_detail_mission))
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(R.string.tab_launch_detail_vehicles))
+    }
+
+    private fun initTabs() {
         val launchId = args.launchId
         adapter = LaunchDetailViewPagerAdapter(launchId, this)
         binding.viewPager.adapter = adapter
