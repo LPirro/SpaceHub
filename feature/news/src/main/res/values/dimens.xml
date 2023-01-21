@@ -19,6 +19,5 @@
   -->
 
 <resources>
-    <string name="news">News</string>
-    <string name="article_image_content_description">Article Image Cover</string>
+    <dimen name="article_image_corners">12dp</dimen>
 </resources>

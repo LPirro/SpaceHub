@@ -28,8 +28,15 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.divider.MaterialDivider
+import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.lpirro.core.base.BaseFragment
+import com.lpirro.core.extensions.hide
+import com.lpirro.core.ui.recyclerview.decorator.VerticalSpaceItemDecoration
 import com.lpirro.news.databinding.FragmentNewsBinding
+import com.lpirro.news.presentation.adapter.ArticleAdapter
 import com.lpirro.news.viewmodel.NewsUiState
 import com.lpirro.news.viewmodel.NewsViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,9 +49,12 @@ class NewsFragment : BaseFragment<FragmentNewsBinding>() {
         get() = FragmentNewsBinding::inflate
 
     private val viewModel: NewsViewModel by viewModels()
+    private lateinit var articleAdapter: ArticleAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setupRecyclerView()
         registerObservers()
     }
 
@@ -57,14 +67,30 @@ class NewsFragment : BaseFragment<FragmentNewsBinding>() {
     }
 
     private fun onUiUpdate(uiState: NewsUiState) {
-        // resetViews()
+        resetViews()
         when (uiState) {
             is NewsUiState.Error -> {}
             is NewsUiState.Loading -> {}
             is NewsUiState.Success -> {
-                val c = ""
+                articleAdapter.submitList(uiState.articles)
             }
             is NewsUiState.Refresh -> {}
         }
+    }
+
+    private fun setupRecyclerView() {
+        val spacing = resources.getDimensionPixelSize(com.lpirro.core.R.dimen.margin_16dp)
+        articleAdapter = ArticleAdapter {  }
+        binding.articlesRecyclerView.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL))
+            adapter = articleAdapter
+        }
+    }
+
+
+    private fun resetViews() {
+        binding.progressBar.hide()
+        binding.errorView.hide()
     }
 }

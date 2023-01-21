@@ -18,17 +18,18 @@
  *
  */
 
-package com.lpirro.domain.models
+package com.lpirro.news.presentation.adapter
 
-data class Article(
-    val id: Int,
-    val featured: Boolean,
-    val publishedAt: String,
-    val imageUrl: String,
-    val newsSite: String,
-    val title: String,
-    val url: String,
-    val launches: List<RelatedLaunch>,
-    val updatedAt: String,
-    val publishDateOffset: String?
-)
+import androidx.recyclerview.widget.DiffUtil
+import com.lpirro.domain.models.Article
+
+object ArticleDiffCallback : DiffUtil.ItemCallback<Article>() {
+
+    override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
+        return oldItem.id == newItem.id
+    }
+
+    override fun areContentsTheSame(oldItem: Article, newItem: Article): Boolean {
+        return oldItem == newItem
+    }
+}

@@ -26,11 +26,12 @@ import com.lpirro.network.models.ArticleRemote
 import com.lpirro.persistence.model.ArticleLocal
 import com.lpirro.persistence.model.RelatedLaunchLocal
 
-class ArticleMapperImpl : ArticleMapper {
+class ArticleMapperImpl(private val dateParser: DateParser) : ArticleMapper {
     override fun mapToDomain(articleLocal: ArticleLocal) = Article(
         id = articleLocal.id,
         featured = articleLocal.featured,
         publishedAt = articleLocal.publishedAt,
+        publishDateOffset = dateParser.formatToTimeAgo(articleLocal.publishedAt),
         imageUrl = articleLocal.imageUrl,
         newsSite = articleLocal.newsSite,
         title = articleLocal.title,

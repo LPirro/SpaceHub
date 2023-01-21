@@ -27,6 +27,7 @@ dependencies {
     implementation "androidx.navigation:navigation-ui:$rootProject.navigationUiKtx"
     implementation "androidx.appcompat:appcompat:$rootProject.appCompat"
     implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraintLayout"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$rootProject.swipeRefresh"
 
     // HILT
     implementation "com.google.dagger:hilt-android:$rootProject.hilt"

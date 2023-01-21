@@ -100,8 +100,8 @@ object RepositoryModule {
     }
 
     @Provides
-    fun provideArticleMapper(): ArticleMapper {
-        return ArticleMapperImpl()
+    fun provideArticleMapper(dateParser: DateParser): ArticleMapper {
+        return ArticleMapperImpl(dateParser)
     }
 
     @Provides
