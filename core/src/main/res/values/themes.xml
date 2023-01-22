@@ -72,4 +72,8 @@
         <item name="cornerSizeTopLeft">0dp</item>
     </style>
 
+    <style name="SpaceHub.Toolbar" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="fontFamily">@font/raleway_bold</item>
+    </style>
+
 </resources>

@@ -39,9 +39,11 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:layout_gravity="top"
                 android:background="?attr/colorSurface"
                 app:layout_collapseMode="pin"
+                app:logo="@drawable/spacehub_circle"
+                app:titleTextAppearance="@style/SpaceHub.Toolbar"
+                app:titleMarginBottom="20dp"
                 app:title="@string/launches"
                 tools:ignore="MissingPrefix" />
 
