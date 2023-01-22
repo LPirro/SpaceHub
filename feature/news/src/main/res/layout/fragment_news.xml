@@ -30,10 +30,13 @@
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorSurface"
         app:layout_collapseMode="pin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:logo="@drawable/spacehub_circle"
-        app:titleTextAppearance="@style/SpaceHub.Toolbar"
-        app:titleMarginBottom="20dp"
         app:title="@string/news"
+        app:titleMarginBottom="20dp"
+        app:titleTextAppearance="@style/SpaceHub.Toolbar"
         tools:ignore="MissingPrefix" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

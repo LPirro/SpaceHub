@@ -20,6 +20,7 @@
 
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
@@ -31,7 +32,7 @@
         android:layout_height="match_parent">
 
         <TextView
-            style="@style/TextAppearance.Material3.TitleMedium"
+            android:textAppearance="?attr/textAppearanceTitleMedium"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingHorizontal="@dimen/margin_16dp"
@@ -50,7 +51,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="?attr/colorOnSurface" />
+            app:tint="?attr/colorOnSurface"
+            tools:ignore="ContentDescription" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

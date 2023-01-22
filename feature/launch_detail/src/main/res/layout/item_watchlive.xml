@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~
   ~ SpaceHub - Designed and Developed by LPirro (Leonardo Pirro)
   ~ Copyright (C) 2023 Leonardo Pirro
@@ -31,12 +30,12 @@
 
         <TextView
             android:id="@+id/WatchLiveLabel"
-            style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_16dp"
             android:layout_marginVertical="@dimen/margin_16dp"
             android:text="@string/watch_live"
+            android:textAppearance="?attr/textAppearanceTitleMedium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

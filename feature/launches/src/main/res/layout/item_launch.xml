@@ -34,11 +34,11 @@
             android:id="@+id/cardImage"
             android:layout_width="103dp"
             android:layout_height="0dp"
-            app:strokeWidth="0dp"
             app:cardCornerRadius="@dimen/launch_image_corners"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:strokeWidth="0dp"
             tools:background="@android:color/black">
 
             <ImageView
@@ -54,11 +54,11 @@
 
         <TextView
             android:id="@+id/launchTitle"
-            style="@style/TextAppearance.Material3.TitleLarge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="12dp"
             android:layout_marginTop="12dp"
+            android:textAppearance="?attr/textAppearanceTitleLarge"
             android:textColor="?attr/colorOnSurface"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/cardImage"
@@ -78,7 +78,6 @@
 
         <TextView
             android:id="@+id/agencyName"
-            style="@style/TextAppearance.Material3.LabelLarge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
@@ -86,6 +85,7 @@
             android:ellipsize="end"
             android:gravity="center_vertical"
             android:maxLines="1"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
             android:textColor="?attr/colorOnSurfaceVariant"
             app:layout_constraintEnd_toEndOf="@+id/launchTitle"
             app:layout_constraintStart_toEndOf="@+id/agencyIcon"
@@ -105,12 +105,12 @@
 
         <TextView
             android:id="@+id/location"
-            style="@style/TextAppearance.Material3.LabelLarge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginTop="4dp"
             android:gravity="center_vertical"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
             android:textColor="?attr/colorOnSurfaceVariant"
             app:layout_constraintEnd_toEndOf="@+id/launchTitle"
             app:layout_constraintStart_toEndOf="@+id/agencyIcon"
@@ -130,12 +130,12 @@
 
         <TextView
             android:id="@+id/date"
-            style="@style/TextAppearance.Material3.LabelLarge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginTop="4dp"
             android:gravity="center_vertical"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
             android:textColor="?attr/colorOnSurfaceVariant"
             app:layout_constraintEnd_toEndOf="@+id/launchTitle"
             app:layout_constraintStart_toEndOf="@+id/agencyIcon"
@@ -144,10 +144,10 @@
 
         <TextView
             android:id="@+id/countdownText"
-            style="@style/TextAppearance.MaterialComponents.Caption"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
+            android:textAppearance="?attr/textAppearanceCaption"
             android:textColor="?attr/colorOnPrimaryContainer"
             app:layout_constraintBottom_toBottomOf="@id/status"
             app:layout_constraintEnd_toEndOf="@+id/launchTitle"
@@ -156,7 +156,6 @@
 
         <com.lpirro.core.ui.view.LaunchStatusView
             android:id="@+id/status"
-            style="@style/TextAppearance.Material3.BodySmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_16dp"
@@ -164,6 +163,7 @@
             android:gravity="center"
             android:minWidth="40dp"
             android:minHeight="20dp"
+            android:textAppearance="?attr/textAppearanceBodySmall"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/launchTitle"
             app:layout_constraintTop_toBottomOf="@+id/date"

@@ -49,19 +49,19 @@
             android:layout_width="match_parent"
             android:layout_height="164dp"
             android:contentDescription="@string/rocket_image_content_description"
+            android:scaleType="fitXY"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:scaleType="fitXY"
             tools:background="@android:color/black" />
 
         <TextView
             android:id="@+id/rocketName"
-            style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_16dp"
             android:layout_marginTop="@dimen/margin_16dp"
+            android:textAppearance="?attr/textAppearanceTitleMedium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/rocketImage"
@@ -69,24 +69,24 @@
 
         <TextView
             android:id="@+id/manufacturer"
-            style="@style/TextAppearance.Material3.LabelLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_12dp"
             android:text="@string/manufacturer"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
             android:textColor="?attr/colorOnSurfaceVariant"
             app:layout_constraintStart_toStartOf="@id/rocketName"
             app:layout_constraintTop_toBottomOf="@id/rocketName" />
 
         <TextView
             android:id="@+id/manufacturerValue"
-            style="@style/TextAppearance.Material3.LabelLarge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:ellipsize="end"
             android:gravity="end"
             android:maxLines="1"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
             app:layout_constraintBottom_toBottomOf="@+id/manufacturer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/barrierRocketSpecs"
@@ -95,24 +95,24 @@
 
         <TextView
             android:id="@+id/variant"
-            style="@style/TextAppearance.Material3.LabelLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_12dp"
             android:text="@string/variant"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
             android:textColor="?attr/colorOnSurfaceVariant"
             app:layout_constraintStart_toStartOf="@id/rocketName"
             app:layout_constraintTop_toBottomOf="@id/manufacturerValue" />
 
         <TextView
             android:id="@+id/variantValue"
-            style="@style/TextAppearance.Material3.LabelLarge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:ellipsize="end"
             android:gravity="end"
             android:maxLines="1"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
             app:layout_constraintBottom_toBottomOf="@+id/variant"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/barrierRocketSpecs"
@@ -121,24 +121,24 @@
 
         <TextView
             android:id="@+id/height"
-            style="@style/TextAppearance.Material3.LabelLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_12dp"
             android:text="@string/height"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
             android:textColor="?attr/colorOnSurfaceVariant"
             app:layout_constraintStart_toStartOf="@id/rocketName"
             app:layout_constraintTop_toBottomOf="@id/variant" />
 
         <TextView
             android:id="@+id/heightValue"
-            style="@style/TextAppearance.Material3.LabelLarge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:ellipsize="end"
             android:gravity="end"
             android:maxLines="1"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
             app:layout_constraintBottom_toBottomOf="@+id/height"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/barrierRocketSpecs"
@@ -147,24 +147,24 @@
 
         <TextView
             android:id="@+id/diameter"
-            style="@style/TextAppearance.Material3.LabelLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_12dp"
             android:text="@string/diameter"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
             android:textColor="?attr/colorOnSurfaceVariant"
             app:layout_constraintStart_toStartOf="@id/rocketName"
             app:layout_constraintTop_toBottomOf="@id/height" />
 
         <TextView
             android:id="@+id/diameterValue"
-            style="@style/TextAppearance.Material3.LabelLarge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:ellipsize="end"
             android:gravity="end"
             android:maxLines="1"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
             app:layout_constraintBottom_toBottomOf="@+id/diameter"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/barrierRocketSpecs"
@@ -173,24 +173,24 @@
 
         <TextView
             android:id="@+id/leoCapacity"
-            style="@style/TextAppearance.Material3.LabelLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_12dp"
             android:text="@string/leo_capacity"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
             android:textColor="?attr/colorOnSurfaceVariant"
             app:layout_constraintStart_toStartOf="@id/rocketName"
             app:layout_constraintTop_toBottomOf="@id/diameter" />
 
         <TextView
             android:id="@+id/leoCapacityValue"
-            style="@style/TextAppearance.Material3.LabelLarge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:ellipsize="end"
             android:gravity="end"
             android:maxLines="1"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
             app:layout_constraintBottom_toBottomOf="@+id/leoCapacity"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/barrierRocketSpecs"
@@ -199,24 +199,24 @@
 
         <TextView
             android:id="@+id/gtoCapacity"
-            style="@style/TextAppearance.Material3.LabelLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_12dp"
             android:text="@string/gto_capacity"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
             android:textColor="?attr/colorOnSurfaceVariant"
             app:layout_constraintStart_toStartOf="@id/rocketName"
             app:layout_constraintTop_toBottomOf="@id/leoCapacity" />
 
         <TextView
             android:id="@+id/gtoCapacityValue"
-            style="@style/TextAppearance.Material3.LabelLarge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:ellipsize="end"
             android:gravity="end"
             android:maxLines="1"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
             app:layout_constraintBottom_toBottomOf="@+id/gtoCapacity"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/barrierRocketSpecs"
@@ -225,24 +225,24 @@
 
         <TextView
             android:id="@+id/thrust"
-            style="@style/TextAppearance.Material3.LabelLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_12dp"
             android:text="@string/thrust"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
             android:textColor="?attr/colorOnSurfaceVariant"
             app:layout_constraintStart_toStartOf="@id/rocketName"
             app:layout_constraintTop_toBottomOf="@id/gtoCapacity" />
 
         <TextView
             android:id="@+id/thrustValue"
-            style="@style/TextAppearance.Material3.LabelLarge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:ellipsize="end"
             android:gravity="end"
             android:maxLines="1"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
             app:layout_constraintBottom_toBottomOf="@+id/thrust"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/barrierRocketSpecs"
@@ -251,24 +251,24 @@
 
         <TextView
             android:id="@+id/apogee"
-            style="@style/TextAppearance.Material3.LabelLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_12dp"
             android:text="@string/apogee"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
             android:textColor="?attr/colorOnSurfaceVariant"
             app:layout_constraintStart_toStartOf="@id/rocketName"
             app:layout_constraintTop_toBottomOf="@id/thrust" />
 
         <TextView
             android:id="@+id/apogeeValue"
-            style="@style/TextAppearance.Material3.LabelLarge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:ellipsize="end"
             android:gravity="end"
             android:maxLines="1"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
             app:layout_constraintBottom_toBottomOf="@+id/apogee"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/barrierRocketSpecs"
@@ -277,30 +277,26 @@
 
         <TextView
             android:id="@+id/reusable"
-            style="@style/TextAppearance.Material3.LabelLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_12dp"
             android:text="@string/reusable"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
             android:textColor="?attr/colorOnSurfaceVariant"
             app:layout_constraintStart_toStartOf="@id/rocketName"
             app:layout_constraintTop_toBottomOf="@id/apogee" />
 
         <ImageView
             android:id="@+id/reusableIcon"
-            style="@style/TextAppearance.Material3.LabelLarge"
             android:layout_width="16dp"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginHorizontal="16dp"
-            android:ellipsize="end"
-            android:maxLines="1"
             app:layout_constraintBottom_toBottomOf="@+id/reusable"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/reusable"
             tools:ignore="ContentDescription"
-            tools:src="@drawable/round_check_circle"
-            tools:text="7607 kN kg" />
+            tools:src="@drawable/round_check_circle" />
 
         <com.google.android.material.divider.MaterialDivider
             android:id="@+id/divider"
@@ -314,36 +310,36 @@
 
         <TextView
             android:id="@+id/rocketStats"
-            style="@style/TextAppearance.Material3.TitleSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_16dp"
             android:layout_marginTop="@dimen/margin_16dp"
             android:text="@string/stats"
+            android:textAppearance="?attr/textAppearanceTitleSmall"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/divider" />
 
         <TextView
             android:id="@+id/successfulLaunches"
-            style="@style/TextAppearance.Material3.LabelLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_12dp"
             android:text="@string/successful_launches"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
             android:textColor="?attr/colorOnSurfaceVariant"
             app:layout_constraintStart_toStartOf="@id/rocketName"
             app:layout_constraintTop_toBottomOf="@id/rocketStats" />
 
         <TextView
             android:id="@+id/successfulLaunchesValue"
-            style="@style/TextAppearance.Material3.LabelLarge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:ellipsize="end"
             android:gravity="end"
             android:maxLines="1"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
             app:layout_constraintBottom_toBottomOf="@+id/successfulLaunches"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/barrierRocketStats"
@@ -352,24 +348,24 @@
 
         <TextView
             android:id="@+id/consecutiveSuccessfulLaunches"
-            style="@style/TextAppearance.Material3.LabelLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_12dp"
             android:text="@string/consecutive_successful_launches"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
             android:textColor="?attr/colorOnSurfaceVariant"
             app:layout_constraintStart_toStartOf="@id/rocketName"
             app:layout_constraintTop_toBottomOf="@id/successfulLaunches" />
 
         <TextView
             android:id="@+id/consecutiveSuccessfulLaunchesValue"
-            style="@style/TextAppearance.Material3.LabelLarge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:ellipsize="end"
             android:gravity="end"
             android:maxLines="1"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
             app:layout_constraintBottom_toBottomOf="@+id/consecutiveSuccessfulLaunches"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/barrierRocketStats"
@@ -378,24 +374,24 @@
 
         <TextView
             android:id="@+id/failedLaunches"
-            style="@style/TextAppearance.Material3.LabelLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_12dp"
             android:text="@string/failed_launches"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
             android:textColor="?attr/colorOnSurfaceVariant"
             app:layout_constraintStart_toStartOf="@id/rocketName"
             app:layout_constraintTop_toBottomOf="@id/consecutiveSuccessfulLaunches" />
 
         <TextView
             android:id="@+id/failedLaunchesValue"
-            style="@style/TextAppearance.Material3.LabelLarge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:ellipsize="end"
             android:gravity="end"
             android:maxLines="1"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
             app:layout_constraintBottom_toBottomOf="@+id/failedLaunches"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/barrierRocketStats"
@@ -404,12 +400,12 @@
 
         <TextView
             android:id="@+id/costPerLaunch"
-            style="@style/TextAppearance.Material3.LabelLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_12dp"
             android:layout_marginBottom="@dimen/margin_16dp"
             android:text="@string/cost_per_launch"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
             android:textColor="?attr/colorOnSurfaceVariant"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@id/rocketName"
@@ -417,13 +413,13 @@
 
         <TextView
             android:id="@+id/costPerLaunchValue"
-            style="@style/TextAppearance.Material3.LabelLarge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:ellipsize="end"
             android:gravity="end"
             android:maxLines="1"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
             app:layout_constraintBottom_toBottomOf="@+id/costPerLaunch"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/barrierRocketStats"

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~
   ~ SpaceHub - Designed and Developed by LPirro (Leonardo Pirro)
   ~ Copyright (C) 2023 Leonardo Pirro
@@ -40,25 +39,25 @@
 
         <TextView
             android:id="@+id/launchInfoLabel"
-            style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_16dp"
             android:layout_marginVertical="@dimen/margin_16dp"
             android:text="@string/launch_info"
+            android:textAppearance="?attr/textAppearanceTitleMedium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.lpirro.core.ui.view.LaunchStatusView
             android:id="@+id/launchStatusView"
-            style="@style/TextAppearance.Material3.BodySmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_16dp"
             android:layout_marginTop="@dimen/margin_16dp"
             android:minWidth="40dp"
             android:minHeight="20dp"
+            android:textAppearance="?attr/textAppearanceBodySmall"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -66,11 +65,11 @@
 
         <TextView
             android:id="@+id/launchStatusDescription"
-            style="@style/TextAppearance.Material3.BodyMedium"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_12dp"
             android:layout_marginEnd="@dimen/margin_16dp"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
             android:textColor="?attr/colorOnSurfaceVariant"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/launchInfoLabel"
@@ -79,23 +78,23 @@
 
         <TextView
             android:id="@+id/netLabel"
-            style="@style/TextAppearance.Material3.LabelLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_12dp"
             android:text="@string/net"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
             android:textColor="?attr/colorOnSurfaceVariant"
             app:layout_constraintStart_toStartOf="@id/launchInfoLabel"
             app:layout_constraintTop_toBottomOf="@id/launchStatusDescription" />
 
         <TextView
             android:id="@+id/netValue"
-            style="@style/TextAppearance.Material3.LabelLarge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:ellipsize="end"
             android:maxLines="1"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
             android:textColor="?attr/colorOnSurface"
             app:layout_constraintBottom_toBottomOf="@+id/netLabel"
             app:layout_constraintEnd_toEndOf="parent"
@@ -105,21 +104,21 @@
 
         <TextView
             android:id="@+id/windowStartLabel"
-            style="@style/TextAppearance.Material3.LabelLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_12dp"
             android:text="@string/window_start"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
             android:textColor="?attr/colorOnSurfaceVariant"
             app:layout_constraintStart_toStartOf="@id/launchInfoLabel"
             app:layout_constraintTop_toBottomOf="@id/netLabel" />
 
         <TextView
             android:id="@+id/windowStartValue"
-            style="@style/TextAppearance.Material3.LabelLarge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
             android:textColor="?attr/colorOnSurface"
             app:layout_constraintBottom_toBottomOf="@+id/windowStartLabel"
             app:layout_constraintEnd_toEndOf="parent"
@@ -129,22 +128,22 @@
 
         <TextView
             android:id="@+id/windowEndLabel"
-            style="@style/TextAppearance.Material3.LabelLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_12dp"
             android:text="@string/window_end"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
             android:textColor="?attr/colorOnSurfaceVariant"
             app:layout_constraintStart_toStartOf="@id/launchInfoLabel"
             app:layout_constraintTop_toBottomOf="@id/windowStartValue" />
 
         <TextView
             android:id="@+id/windowEndValue"
-            style="@style/TextAppearance.Material3.LabelLarge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="@dimen/margin_16dp"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
             android:textColor="?attr/colorOnSurface"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/barrierLauncherStage"

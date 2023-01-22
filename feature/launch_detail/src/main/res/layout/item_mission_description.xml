@@ -34,7 +34,7 @@
 
         <TextView
             android:id="@+id/missionDescriptionLabel"
-            style="@style/TextAppearance.Material3.TitleMedium"
+            android:textAppearance="?attr/textAppearanceTitleMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_16dp"
@@ -43,7 +43,7 @@
 
         <TextView
             android:id="@+id/missionDescriptionValue"
-            style="@style/TextAppearance.Material3.BodyMedium"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_16dp"

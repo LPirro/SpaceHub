@@ -32,12 +32,12 @@
 
         <TextView
             android:id="@+id/updatesLabel"
-            style="@style/TextAppearance.Material3.TitleMedium"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_16dp"
             android:layout_marginTop="@dimen/margin_16dp"
             android:text="@string/launch_updates"
+            android:textAppearance="?attr/textAppearanceTitleMedium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -58,6 +58,7 @@
             android:layout_marginHorizontal="@dimen/margin_16dp"
             android:layout_marginVertical="@dimen/margin_16dp"
             android:text="@string/no_launch_updates_message"
+            android:textAppearance="?attr/textAppearanceLabelMedium"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

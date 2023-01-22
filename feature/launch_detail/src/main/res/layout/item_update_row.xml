@@ -27,7 +27,7 @@
 
     <TextView
         android:id="@+id/updateDate"
-        style="@style/TextAppearance.Material3.LabelLarge"
+        android:textAppearance="?attr/textAppearanceLabelLarge"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_16dp"
@@ -40,7 +40,7 @@
 
     <TextView
         android:id="@+id/updateComment"
-        style="@style/TextAppearance.Material3.LabelMedium"
+        android:textAppearance="?attr/textAppearanceLabelMedium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_16dp"

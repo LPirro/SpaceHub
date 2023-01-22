@@ -55,7 +55,7 @@
 
             <com.lpirro.core.ui.view.LaunchStatusView
                 android:id="@+id/status"
-                style="@style/TextAppearance.Material3.BodySmall"
+                android:textAppearance="?attr/textAppearanceBodySmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"

@@ -39,7 +39,7 @@
 
         <TextView
             android:id="@+id/agencyLabel"
-            style="@style/TextAppearance.Material3.TitleMedium"
+            android:textAppearance="?attr/textAppearanceTitleMedium"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/margin_16dp"
@@ -63,7 +63,7 @@
 
         <TextView
             android:id="@+id/agencyName"
-            style="@style/TextAppearance.Material3.LabelLarge"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_16dp"
@@ -74,7 +74,7 @@
 
         <TextView
             android:id="@+id/agencyNameValue"
-            style="@style/TextAppearance.Material3.LabelLarge"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
@@ -89,7 +89,7 @@
 
         <TextView
             android:id="@+id/agencyCountry"
-            style="@style/TextAppearance.Material3.LabelLarge"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_12dp"
@@ -100,7 +100,7 @@
 
         <TextView
             android:id="@+id/agencyCountryValue"
-            style="@style/TextAppearance.Material3.LabelLarge"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
@@ -113,7 +113,7 @@
 
         <TextView
             android:id="@+id/agencyAdministrator"
-            style="@style/TextAppearance.Material3.LabelLarge"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_12dp"
@@ -124,7 +124,7 @@
 
         <TextView
             android:id="@+id/agencyAdministratorValue"
-            style="@style/TextAppearance.Material3.LabelLarge"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
@@ -137,7 +137,7 @@
 
         <TextView
             android:id="@+id/agencyFounded"
-            style="@style/TextAppearance.Material3.LabelLarge"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_12dp"
@@ -148,7 +148,7 @@
 
         <TextView
             android:id="@+id/agencyFoundedValue"
-            style="@style/TextAppearance.Material3.LabelLarge"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
@@ -161,7 +161,7 @@
 
         <TextView
             android:id="@+id/agencyTotalLaunches"
-            style="@style/TextAppearance.Material3.LabelLarge"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_12dp"
@@ -172,7 +172,7 @@
 
         <TextView
             android:id="@+id/agencyTotalLaunchesValue"
-            style="@style/TextAppearance.Material3.LabelLarge"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
