@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~
   ~ SpaceHub - Designed and Developed by LPirro (Leonardo Pirro)
   ~ Copyright (C) 2023 Leonardo Pirro
@@ -31,17 +30,27 @@
         android:layout_height="match_parent"
         android:minHeight="@dimen/item_launch_min_height">
 
-        <ImageView
-            android:id="@+id/launchImage"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardImage"
             android:layout_width="103dp"
             android:layout_height="0dp"
-            android:clipToPadding="true"
-            android:scaleType="centerCrop"
-            android:contentDescription="@string/launch_image_content_description"
+            app:strokeWidth="0dp"
+            app:cardCornerRadius="@dimen/launch_image_corners"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:background="@android:color/black" />
+            tools:background="@android:color/black">
+
+            <ImageView
+                android:id="@+id/launchImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="true"
+                android:contentDescription="@string/launch_image_content_description"
+                android:scaleType="centerCrop"
+                tools:background="@android:color/black" />
+
+        </com.google.android.material.card.MaterialCardView>
 
         <TextView
             android:id="@+id/launchTitle"
@@ -52,7 +61,7 @@
             android:layout_marginTop="12dp"
             android:textColor="?attr/colorOnSurface"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/launchImage"
+            app:layout_constraintStart_toEndOf="@+id/cardImage"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Launch Name Title" />
 

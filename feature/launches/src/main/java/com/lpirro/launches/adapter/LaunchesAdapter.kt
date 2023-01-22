@@ -58,15 +58,11 @@ class LaunchesAdapter(
         holder.binding.status.setOnClickListener { launchStatusClick.invoke(launch.status) }
         holder.itemView.setOnClickListener { launchClick.invoke(launch.id) }
 
-        val roundCornerSize =
-            holder.itemView.context.resources.getDimensionPixelSize(R.dimen.launch_image_corners)
-
-        val requestOptions = RequestOptions().transform(CenterCrop(), RoundedCorners(roundCornerSize))
-
         Glide.with(holder.itemView.context)
             .load(launch.image)
+            .placeholder(R.drawable.launch_image_placeholder)
             .transition(DrawableTransitionOptions.withCrossFade())
-            .apply(requestOptions)
+            .transform(CenterCrop())
             .into(holder.binding.launchImage)
 
         holder.countdownTimerTextView?.cancel()
