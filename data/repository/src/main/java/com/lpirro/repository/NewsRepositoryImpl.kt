@@ -44,6 +44,11 @@ class NewsRepositoryImpl(
         emit(articles)
     }.flowOn(Dispatchers.IO)
 
+    override suspend fun filterNews(filterQuery: String) = flow {
+        val articles = newsApiService.filterArticles(filterQuery).map(articleMapper::mapToDomain)
+        emit(articles)
+    }.flowOn(Dispatchers.IO)
+
     private suspend fun loadArticles() {
         return withContext(Dispatchers.IO) {
             try {

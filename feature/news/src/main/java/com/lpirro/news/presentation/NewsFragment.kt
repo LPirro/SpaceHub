@@ -24,6 +24,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -34,8 +35,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.lpirro.core.base.BaseFragment
 import com.lpirro.core.extensions.hide
 import com.lpirro.core.extensions.launchChromeCustomTab
+import com.lpirro.core.extensions.onMenuItemActionCollapse
+import com.lpirro.core.extensions.onQueryTextChange
 import com.lpirro.core.extensions.show
 import com.lpirro.core.navigation.NavigationUtil
+import com.lpirro.news.R
 import com.lpirro.news.databinding.FragmentNewsBinding
 import com.lpirro.news.presentation.adapter.ArticleAdapter
 import com.lpirro.news.viewmodel.NewsUiState
@@ -55,19 +59,14 @@ class NewsFragment : BaseFragment<FragmentNewsBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.toolbar.inflateMenu(R.menu.news_menu)
+
         setupRecyclerView()
         registerObservers()
+        setupSearchView()
 
         binding.errorView.retryClickListener = viewModel::refresh
         binding.swipeRefresh.setOnRefreshListener { viewModel.refresh() }
-    }
-
-    private fun registerObservers() {
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch { viewModel.uiState.collect { onUiUpdate(it) } }
-            }
-        }
     }
 
     private fun onUiUpdate(uiState: NewsUiState) {
@@ -79,6 +78,27 @@ class NewsFragment : BaseFragment<FragmentNewsBinding>() {
         }
     }
 
+    // TODO: Move to View Model
+    private fun articleClicked(articleUrl: String) {
+        launchChromeCustomTab(articleUrl)
+    }
+
+    // TODO: Move to View Model
+    private fun relatedLaunchClicked(launchId: String) {
+        findNavController().navigate(NavigationUtil.launchDetailDeeplink(launchId))
+    }
+
+    private fun setupSearchView() {
+        val searchMenuItem = binding.toolbar.menu.findItem(R.id.menu_search)
+        val searchView = searchMenuItem.actionView as SearchView
+
+        searchView.onQueryTextChange { newText ->
+            if (newText.length > 3) { viewModel.filterArticles(newText) }
+        }
+
+        searchMenuItem.onMenuItemActionCollapse { viewModel.getArticles() }
+    }
+
     private fun setupRecyclerView() {
         articleAdapter = ArticleAdapter(::articleClicked, ::relatedLaunchClicked)
         binding.articlesRecyclerView.apply {
@@ -88,13 +108,11 @@ class NewsFragment : BaseFragment<FragmentNewsBinding>() {
         }
     }
 
-    // TODO: Move to View Model
-    private fun articleClicked(articleUrl: String) {
-        launchChromeCustomTab(articleUrl)
-    }
-
-    // TODO: Move to View Model
-    private fun relatedLaunchClicked(launchId: String) {
-        findNavController().navigate(NavigationUtil.launchDetailDeeplink(launchId))
+    private fun registerObservers() {
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch { viewModel.uiState.collect { onUiUpdate(it) } }
+            }
+        }
     }
 }

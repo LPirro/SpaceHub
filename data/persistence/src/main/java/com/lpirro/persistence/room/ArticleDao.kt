@@ -32,7 +32,7 @@ interface ArticleDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(news: List<ArticleLocal>)
 
-    @Query("SELECT * FROM news_table")
+    @Query("SELECT * FROM news_table ORDER BY publishedAt DESC")
     fun getAll(): List<ArticleLocal>
 
     @Query("DELETE FROM news_table")

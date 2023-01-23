@@ -26,5 +26,6 @@ import com.lpirro.persistence.model.ArticleLocal
 
 interface ArticleMapper {
     fun mapToDomain(articleLocal: ArticleLocal): Article
+    fun mapToDomain(articleRemote: ArticleRemote): Article
     fun mapToLocal(articleRemote: ArticleRemote): ArticleLocal
 }

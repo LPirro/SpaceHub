@@ -40,6 +40,19 @@ class ArticleMapperImpl(private val dateParser: DateParser) : ArticleMapper {
         updatedAt = articleLocal.updatedAt
     )
 
+    override fun mapToDomain(articleRemote: ArticleRemote) = Article(
+        id = articleRemote.id,
+        featured = articleRemote.featured,
+        publishedAt = articleRemote.publishedAt,
+        publishDateOffset = dateParser.formatToTimeAgo(articleRemote.publishedAt),
+        imageUrl = articleRemote.imageUrl,
+        newsSite = articleRemote.newsSite,
+        title = articleRemote.title,
+        url = articleRemote.url,
+        launches = articleRemote.launches.map { RelatedLaunch((it.launchId)) },
+        updatedAt = articleRemote.updatedAt
+    )
+
     override fun mapToLocal(articleRemote: ArticleRemote) = ArticleLocal(
         id = articleRemote.id,
         featured = articleRemote.featured,

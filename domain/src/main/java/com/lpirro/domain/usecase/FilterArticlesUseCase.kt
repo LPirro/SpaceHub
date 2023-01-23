@@ -18,20 +18,11 @@
  *
  */
 
-package com.lpirro.network
+package com.lpirro.domain.usecase
 
-import com.lpirro.network.models.ArticleRemote
-import retrofit2.http.GET
-import retrofit2.http.Query
+import com.lpirro.domain.models.Article
+import kotlinx.coroutines.flow.Flow
 
-interface NewsApiService {
-
-    @GET("articles")
-    suspend fun getArticles(@Query("_limit") resultLimit: String = "50"): List<ArticleRemote>
-
-    @GET("articles")
-    suspend fun filterArticles(
-        @Query("title_contains") title: String,
-        @Query("_limit") resultLimit: String = "50"
-    ): List<ArticleRemote>
+interface FilterArticlesUseCase {
+    suspend operator fun invoke(text: String): Flow<List<Article>>
 }

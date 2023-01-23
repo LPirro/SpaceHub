@@ -23,6 +23,8 @@ package com.lpirro.domain.di
 import com.lpirro.domain.repository.LaunchDetailRepository
 import com.lpirro.domain.repository.LaunchesRepository
 import com.lpirro.domain.repository.NewsRepository
+import com.lpirro.domain.usecase.FilterArticlesUseCase
+import com.lpirro.domain.usecase.FilterArticlesUseCaseImpl
 import com.lpirro.domain.usecase.GetArticlesUseCase
 import com.lpirro.domain.usecase.GetArticlesUseCaseImpl
 import com.lpirro.domain.usecase.GetLaunchDetailOverviewUseCase
@@ -65,5 +67,10 @@ object DomainModule {
     @Provides
     fun provideGetArticlesUseCase(repository: NewsRepository): GetArticlesUseCase {
         return GetArticlesUseCaseImpl(repository)
+    }
+
+    @Provides
+    fun provideFilterArticlesUseCase(repository: NewsRepository): FilterArticlesUseCase {
+        return FilterArticlesUseCaseImpl(repository)
     }
 }

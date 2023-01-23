@@ -20,7 +20,9 @@
 
 package com.lpirro.core.extensions
 
+import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.widget.SearchView
 
 fun View.show() {
     this.visibility = View.VISIBLE
@@ -36,3 +38,29 @@ var View.visible: Boolean
         true -> visibility = View.VISIBLE
         false -> visibility = View.GONE
     }
+
+inline fun SearchView.onQueryTextChange(crossinline onQueryTextChange: (String) -> Unit) {
+    setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        override fun onQueryTextSubmit(query: String): Boolean {
+            return false
+        }
+
+        override fun onQueryTextChange(query: String): Boolean {
+            onQueryTextChange.invoke(query)
+            return true
+        }
+    })
+}
+
+inline fun MenuItem.onMenuItemActionCollapse(crossinline onMenuItemActionCollapse: () -> Unit) {
+    setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+        override fun onMenuItemActionExpand(item: MenuItem): Boolean {
+            return true
+        }
+
+        override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
+            onMenuItemActionCollapse.invoke()
+            return true
+        }
+    })
+}

@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~
   ~ SpaceHub - Designed and Developed by LPirro (Leonardo Pirro)
   ~ Copyright (C) 2023 Leonardo Pirro
@@ -18,9 +19,15 @@
   ~
   -->
 
-<resources>
-    <string name="news">News</string>
-    <string name="article_image_content_description">Article Image Cover</string>
-    <string name="view_related_launch">View Related Launch</string>
-    <string name="Search">Search</string>
-</resources>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_search"
+        android:icon="@drawable/search"
+        app:iconTint="?attr/colorOnSurface"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="collapseActionView|ifRoom"
+        android:title="@string/Search" />
+
+</menu>

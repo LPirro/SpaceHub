@@ -18,20 +18,8 @@
  *
  */
 
-package com.lpirro.network
+package com.lpirro.core.exceptions
 
-import com.lpirro.network.models.ArticleRemote
-import retrofit2.http.GET
-import retrofit2.http.Query
+import java.util.concurrent.CancellationException
 
-interface NewsApiService {
-
-    @GET("articles")
-    suspend fun getArticles(@Query("_limit") resultLimit: String = "50"): List<ArticleRemote>
-
-    @GET("articles")
-    suspend fun filterArticles(
-        @Query("title_contains") title: String,
-        @Query("_limit") resultLimit: String = "50"
-    ): List<ArticleRemote>
-}
+class SearchCancellationException : CancellationException()

@@ -40,6 +40,7 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.SpaceHub"
+            android:windowSoftInputMode="adjustPan"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
