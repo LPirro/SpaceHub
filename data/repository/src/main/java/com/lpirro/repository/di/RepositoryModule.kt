@@ -23,6 +23,7 @@ package com.lpirro.repository.di
 import com.lpirro.domain.repository.LaunchDetailRepository
 import com.lpirro.domain.repository.LaunchesRepository
 import com.lpirro.domain.repository.NewsRepository
+import com.lpirro.domain.repository.SavedLaunchesRepository
 import com.lpirro.network.LaunchLibraryApiService
 import com.lpirro.network.NewsApiService
 import com.lpirro.persistence.room.ArticleDao
@@ -30,6 +31,7 @@ import com.lpirro.persistence.room.LaunchDao
 import com.lpirro.repository.LaunchDetailRepositoryImpl
 import com.lpirro.repository.LaunchesRepositoryImpl
 import com.lpirro.repository.NewsRepositoryImpl
+import com.lpirro.repository.SavedLaunchesRepositoryImpl
 import com.lpirro.repository.mapper.AgencyMapper
 import com.lpirro.repository.mapper.AgencyMapperImpl
 import com.lpirro.repository.mapper.ArticleMapper
@@ -89,6 +91,14 @@ object RepositoryModule {
         launchMapper: LaunchMapper
     ): LaunchDetailRepository {
         return LaunchDetailRepositoryImpl(launchLibraryApiService, launchDao, launchMapper)
+    }
+
+    @Provides
+    fun provideSavedLaunchesRepository(
+        launchDao: LaunchDao,
+        launchMapper: LaunchMapper
+    ): SavedLaunchesRepository {
+        return SavedLaunchesRepositoryImpl(launchDao, launchMapper)
     }
 
     @Provides

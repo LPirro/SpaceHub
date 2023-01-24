@@ -24,15 +24,62 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.lpirro.core.base.BaseFragment
+import com.lpirro.core.extensions.hide
+import com.lpirro.core.extensions.show
+import com.lpirro.core.ui.recyclerview.decorator.VerticalSpaceItemDecoration
 import com.lpirro.saved.databinding.FragmentSavedLaunchesBinding
+import com.lpirro.saved.presentation.adapter.LaunchesAdapter
+import com.lpirro.saved.viewmodel.SavedLaunchesUiState
+import com.lpirro.saved.viewmodel.SavedLaunchesViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class SavedLaunchesFragment : BaseFragment<FragmentSavedLaunchesBinding>() {
 
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentSavedLaunchesBinding
         get() = FragmentSavedLaunchesBinding::inflate
 
+    private val viewModel: SavedLaunchesViewModel by viewModels()
+    private lateinit var launchesAdapter: LaunchesAdapter
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        registerObservers()
+        setupRecyclerView()
+    }
+
+    private fun onUiUpdate(uiState: SavedLaunchesUiState) {
+        binding.errorView.hide()
+        when (uiState) {
+            is SavedLaunchesUiState.Error -> binding.errorView.show()
+            is SavedLaunchesUiState.Loading -> {}
+            is SavedLaunchesUiState.Success -> launchesAdapter.submitList(uiState.launches)
+        }
+    }
+
+    private fun setupRecyclerView() {
+        val spacing = resources.getDimensionPixelSize(com.lpirro.core.R.dimen.margin_16dp)
+        launchesAdapter = LaunchesAdapter({}, {})
+        binding.savedLaunchesRecyclerView.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            addItemDecoration(VerticalSpaceItemDecoration(spaceSize = spacing, edgeSpacing = spacing))
+            adapter = launchesAdapter
+        }
+    }
+
+    private fun registerObservers() {
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch { viewModel.uiState.collect { onUiUpdate(it) } }
+            }
+        }
     }
 }

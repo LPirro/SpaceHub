@@ -21,4 +21,5 @@
 
 <resources>
     <string name="saved_launches">Saved</string>
+    <string name="saved_launches_title">Saved Launches</string>
 </resources>
