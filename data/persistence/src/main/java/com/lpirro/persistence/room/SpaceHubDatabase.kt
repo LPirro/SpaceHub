@@ -25,6 +25,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.lpirro.persistence.model.ArticleLocal
 import com.lpirro.persistence.model.LaunchLocal
+import com.lpirro.persistence.model.SavedLaunchLocal
 import com.lpirro.persistence.room.typeconverter.AgencyLocalTypeConverter
 import com.lpirro.persistence.room.typeconverter.MissionLocalTypeConverter
 import com.lpirro.persistence.room.typeconverter.MissionPatchesLocalTypeConverter
@@ -34,7 +35,7 @@ import com.lpirro.persistence.room.typeconverter.RocketLocalTypeConverter
 import com.lpirro.persistence.room.typeconverter.StatusLocalTypeConverter
 import com.lpirro.persistence.room.typeconverter.UpdateLocalTypeConverter
 
-@Database(entities = [LaunchLocal::class, ArticleLocal::class], version = 1, exportSchema = true)
+@Database(entities = [LaunchLocal::class, ArticleLocal::class, SavedLaunchLocal::class], version = 1, exportSchema = true)
 @TypeConverters(
     value = [
         AgencyLocalTypeConverter::class,

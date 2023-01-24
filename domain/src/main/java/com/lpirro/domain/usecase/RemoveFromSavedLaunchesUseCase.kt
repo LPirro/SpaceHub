@@ -18,14 +18,8 @@
  *
  */
 
-package com.lpirro.domain.repository
+package com.lpirro.domain.usecase
 
-import com.lpirro.domain.models.Launch
-import kotlinx.coroutines.flow.Flow
-
-interface SavedLaunchesRepository {
-    suspend fun getSavedLaunches(): Flow<List<Launch>>
-    suspend fun addToSavedLaunches(launchId: String)
-    suspend fun removeFromSavedLaunches(launchId: String)
-    suspend fun isSaved(launchId: String): Flow<Boolean>
+interface RemoveFromSavedLaunchesUseCase {
+    suspend operator fun invoke(launchId: String)
 }

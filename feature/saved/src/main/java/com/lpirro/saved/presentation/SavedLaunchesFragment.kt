@@ -28,13 +28,17 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.lpirro.core.base.BaseFragment
 import com.lpirro.core.extensions.hide
 import com.lpirro.core.extensions.show
+import com.lpirro.core.navigation.NavigationUtil
+import com.lpirro.core.ui.recyclerview.adapter.LaunchesAdapter
 import com.lpirro.core.ui.recyclerview.decorator.VerticalSpaceItemDecoration
+import com.lpirro.domain.models.Status
 import com.lpirro.saved.databinding.FragmentSavedLaunchesBinding
-import com.lpirro.saved.presentation.adapter.LaunchesAdapter
 import com.lpirro.saved.viewmodel.SavedLaunchesUiState
 import com.lpirro.saved.viewmodel.SavedLaunchesViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -56,6 +60,11 @@ class SavedLaunchesFragment : BaseFragment<FragmentSavedLaunchesBinding>() {
         setupRecyclerView()
     }
 
+    override fun onStart() {
+        super.onStart()
+        viewModel.getSavedLaunches()
+    }
+
     private fun onUiUpdate(uiState: SavedLaunchesUiState) {
         binding.errorView.hide()
         when (uiState) {
@@ -67,7 +76,7 @@ class SavedLaunchesFragment : BaseFragment<FragmentSavedLaunchesBinding>() {
 
     private fun setupRecyclerView() {
         val spacing = resources.getDimensionPixelSize(com.lpirro.core.R.dimen.margin_16dp)
-        launchesAdapter = LaunchesAdapter({}, {})
+        launchesAdapter = LaunchesAdapter(::goToLaunchDetail, ::showStatusDialog)
         binding.savedLaunchesRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             addItemDecoration(VerticalSpaceItemDecoration(spaceSize = spacing, edgeSpacing = spacing))
@@ -81,5 +90,17 @@ class SavedLaunchesFragment : BaseFragment<FragmentSavedLaunchesBinding>() {
                 launch { viewModel.uiState.collect { onUiUpdate(it) } }
             }
         }
+    }
+
+    private fun goToLaunchDetail(launchId: String) {
+        findNavController().navigate(NavigationUtil.launchDetailDeeplink(launchId))
+    }
+
+    private fun showStatusDialog(status: Status) {
+        val builder = MaterialAlertDialogBuilder(requireContext())
+        builder.setTitle(status.name)
+        builder.setMessage(status.description)
+        builder.setPositiveButton(android.R.string.ok) { dialog, _ -> dialog.dismiss() }
+        builder.show()
     }
 }

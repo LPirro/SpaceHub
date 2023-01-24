@@ -31,20 +31,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.hannesdorfmann.adapterdelegates4.ListDelegationAdapter
 import com.lpirro.core.base.BaseFragment
 import com.lpirro.core.extensions.launchAddToCalendarIntent
 import com.lpirro.core.extensions.launchChromeCustomTab
 import com.lpirro.core.extensions.launchGoogleMapsIntent
 import com.lpirro.launch_detail.R
 import com.lpirro.launch_detail.databinding.FragmentLaunchDetailOverviewBinding
-import com.lpirro.launch_detail.overview.model.LaunchOverviewItem
-import com.lpirro.launch_detail.overview.presentation.delegates.agencyDelegate
-import com.lpirro.launch_detail.overview.presentation.delegates.countDownHeaderDelegate
-import com.lpirro.launch_detail.overview.presentation.delegates.launchpadDelegate
-import com.lpirro.launch_detail.overview.presentation.delegates.locationDelegate
-import com.lpirro.launch_detail.overview.presentation.delegates.trajectoryDelegate
-import com.lpirro.launch_detail.overview.presentation.delegates.watchLiveDelegate
+import com.lpirro.launch_detail.overview.presentation.delegates.LaunchOverviewAdapter
 import com.lpirro.launch_detail.overview.viewmodel.LaunchDetailOverviewEvent
 import com.lpirro.launch_detail.overview.viewmodel.LaunchDetailOverviewUiState
 import com.lpirro.launch_detail.overview.viewmodel.LaunchDetailOverviewViewModel
@@ -58,7 +51,7 @@ class LaunchDetailOverviewFragment : BaseFragment<FragmentLaunchDetailOverviewBi
         get() = FragmentLaunchDetailOverviewBinding::inflate
 
     private val viewModel: LaunchDetailOverviewViewModel by viewModels()
-    private lateinit var delegateAdapter: ListDelegationAdapter<List<LaunchOverviewItem>>
+    private lateinit var launchOverviewAdapter: LaunchOverviewAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -75,9 +68,9 @@ class LaunchDetailOverviewFragment : BaseFragment<FragmentLaunchDetailOverviewBi
             is LaunchDetailOverviewUiState.Error -> {}
             is LaunchDetailOverviewUiState.Loading -> {}
             is LaunchDetailOverviewUiState.Success -> {
-                delegateAdapter.items = uiState.launchOverview
+                launchOverviewAdapter.items = uiState.launchOverview
                 if (binding.launchOverviewRecyclerView.adapter == null) {
-                    binding.launchOverviewRecyclerView.adapter = delegateAdapter
+                    binding.launchOverviewRecyclerView.adapter = launchOverviewAdapter
                 }
             }
         }
@@ -103,19 +96,18 @@ class LaunchDetailOverviewFragment : BaseFragment<FragmentLaunchDetailOverviewBi
     }
 
     private fun setupRecyclerView() {
-        delegateAdapter = ListDelegationAdapter(
-            countDownHeaderDelegate(viewModel::addLaunchToCalendar),
-            watchLiveDelegate(viewModel::openYouTubeInFullScreen),
-            agencyDelegate(),
-            locationDelegate(),
-            trajectoryDelegate(viewModel::openLaunchTrajectory),
-            launchpadDelegate(
-                viewModel::openGoogleMaps,
-                viewModel::openChromeCustomTab,
-                viewModel::openChromeCustomTab
-            ),
+        launchOverviewAdapter = LaunchOverviewAdapter(
+            addToCalendarListener = viewModel::addLaunchToCalendar,
+            addToSavedListener = viewModel::addToSavedLaunches,
+            removeFromSavedListener = viewModel::removeFromSavedLaunches,
+            fullScreenClickListener = viewModel::openYouTubeInFullScreen,
+            launchTrajectoryListener = viewModel::openLaunchTrajectory,
+            mapsClickListener = viewModel::openGoogleMaps,
+            infoClickListener = viewModel::openChromeCustomTab,
+            wikipediaClickListener = viewModel::openChromeCustomTab
         )
 
+        binding.launchOverviewRecyclerView.itemAnimator = null
         binding.launchOverviewRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             addItemDecoration(LaunchOverviewItemDecorator())

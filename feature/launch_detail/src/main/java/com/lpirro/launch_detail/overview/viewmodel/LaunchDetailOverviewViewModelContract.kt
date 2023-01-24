@@ -29,4 +29,6 @@ interface LaunchDetailOverviewViewModelContract {
     fun openChromeCustomTab(url: String)
     fun openYouTubeInFullScreen(videoId: String)
     fun addLaunchToCalendar(launchName: String, launchDateMillis: Long)
+    fun addToSavedLaunches(launchId: String): Job
+    fun removeFromSavedLaunches(launchId: String): Job
 }

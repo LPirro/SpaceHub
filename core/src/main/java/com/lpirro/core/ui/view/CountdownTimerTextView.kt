@@ -18,7 +18,7 @@
  *
  */
 
-package com.lpirro.launches
+package com.lpirro.core.ui.view
 
 import android.os.CountDownTimer
 import android.widget.TextView

@@ -35,10 +35,10 @@ import com.lpirro.launch_detail.overview.model.WatchLiveUi
 
 class LaunchOverviewMapperImpl : LaunchOverviewMapper {
 
-    override fun mapToUi(launch: Launch): List<LaunchOverviewItem> {
+    override fun mapToUi(launch: Launch, isSaved: Boolean): List<LaunchOverviewItem> {
         val launchOverviewItems = mutableListOf<LaunchOverviewItem>()
 
-        launchOverviewItems.add(getCountdownHeaderUi(launch))
+        launchOverviewItems.add(getCountdownHeaderUi(launch, isSaved))
         launchOverviewItems.add(getLaunchpadUi(launch.pad))
         launch.youtubeVideoId?.let { launchOverviewItems.add(getWatchLiveUi(it)) }
         launchOverviewItems.add(getAgencyUi(launch.launchServiceProvider))
@@ -47,10 +47,12 @@ class LaunchOverviewMapperImpl : LaunchOverviewMapper {
         return launchOverviewItems
     }
 
-    private fun getCountdownHeaderUi(launch: Launch) = CountdownHeaderUi(
+    private fun getCountdownHeaderUi(launch: Launch, isSaved: Boolean) = CountdownHeaderUi(
+        launchId = launch.id,
         name = launch.name,
         launchDate = launch.net,
-        netMillis = launch.netMillis
+        netMillis = launch.netMillis,
+        isSaved = isSaved
     )
 
     private fun getLaunchpadUi(pad: Pad) = LaunchpadUi(

@@ -27,6 +27,7 @@
     <string name="launch_image_content_description">Launch Image</string>
     <string name="add_to_calendar">Add to calendar</string>
     <string name="save_button">Save</string>
+    <string name="save_button_remove">Remove</string>
     <string name="launchpad">Launchpad</string>
     <string name="name">Name</string>
     <string name="location">Location</string>

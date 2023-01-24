@@ -35,9 +35,9 @@ import com.lpirro.core.base.BaseFragment
 import com.lpirro.core.extensions.hide
 import com.lpirro.core.extensions.show
 import com.lpirro.core.navigation.NavigationUtil
+import com.lpirro.core.ui.recyclerview.adapter.LaunchesAdapter
 import com.lpirro.core.ui.recyclerview.decorator.VerticalSpaceItemDecoration
 import com.lpirro.domain.models.Status
-import com.lpirro.launches.adapter.LaunchesAdapter
 import com.lpirro.launches.databinding.FragmentPastLaunchesBinding
 import com.lpirro.launches.past.viewmodel.PastLaunchesUiState
 import com.lpirro.launches.past.viewmodel.PastLaunchesViewModel

@@ -32,4 +32,5 @@
     <string name="view_launch_minutes">Min</string>
     <string name="view_launch_hours">Hours</string>
     <string name="view_launch_days">Days</string>
+    <string name="launch_image_content_description">Launch Image</string>
 </resources>

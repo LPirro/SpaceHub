@@ -60,7 +60,7 @@ class LaunchesRepositoryImpl(
         return withContext(Dispatchers.IO) {
             try {
                 val result = networkCall.invoke().results.map { mapper.mapToLocal(it, type) }
-                launchDao.deleteAll(type)
+                launchDao.deleteOldLaunches(result.map { it.id }, type)
                 launchDao.insertAll(result)
             } catch (e: Exception) {
                 when (e) {

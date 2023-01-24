@@ -24,9 +24,10 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Update
+import androidx.room.Transaction
 import com.lpirro.persistence.model.LaunchLocal
 import com.lpirro.persistence.model.LaunchType
+import com.lpirro.persistence.model.SavedLaunchLocal
 
 @Dao
 interface LaunchDao {
@@ -37,15 +38,25 @@ interface LaunchDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(launch: LaunchLocal)
 
-    @Update
-    suspend fun updateLaunch(launch: LaunchLocal)
-
     @Query("SELECT * FROM launch_table WHERE type=:launchType")
     fun getLaunchesWithType(launchType: LaunchType): List<LaunchLocal>
 
     @Query("SELECT * FROM launch_table WHERE id=:id")
     fun getLaunch(id: String): LaunchLocal?
 
-    @Query("DELETE FROM launch_table WHERE type=:launchType")
-    fun deleteAll(launchType: LaunchType)
+    @Query("DELETE FROM launch_table WHERE type=:launchType AND id NOT IN(:launchIds)")
+    fun deleteOldLaunches(launchIds: List<String>, launchType: LaunchType)
+
+    @Transaction
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertSavedLaunch(savedLaunchLocal: SavedLaunchLocal)
+
+    @Query("DELETE FROM saved_launch_table WHERE saved_launch_id=:launchId")
+    fun deleteSavedLaunch(launchId: String)
+
+    @Query("SELECT * FROM saved_launch_table")
+    fun getSavedLaunches(): List<SavedLaunchLocal>
+
+    @Query("SELECT EXISTS(SELECT * FROM saved_launch_table WHERE id = :launchId)")
+    fun isSaved(launchId: String): Boolean
 }

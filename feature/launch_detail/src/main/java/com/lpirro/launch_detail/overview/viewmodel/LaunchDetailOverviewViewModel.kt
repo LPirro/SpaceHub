@@ -22,13 +22,18 @@ package com.lpirro.launch_detail.overview.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.lpirro.domain.usecase.AddToSavedLaunchesUseCase
 import com.lpirro.domain.usecase.GetLaunchDetailOverviewUseCase
+import com.lpirro.domain.usecase.IsOnSavedLaunchesUseCase
+import com.lpirro.domain.usecase.RemoveFromSavedLaunchesUseCase
 import com.lpirro.launch_detail.overview.mapper.LaunchOverviewMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -36,6 +41,9 @@ import javax.inject.Inject
 @HiltViewModel
 class LaunchDetailOverviewViewModel @Inject constructor(
     private val getLaunchDetailOverviewUseCase: GetLaunchDetailOverviewUseCase,
+    private val addToSavedLaunchesUseCase: AddToSavedLaunchesUseCase,
+    private val removeFromSavedLaunchesUseCase: RemoveFromSavedLaunchesUseCase,
+    private val isOnSavedLaunchesUseCase: IsOnSavedLaunchesUseCase,
     private val mapper: LaunchOverviewMapper
 ) : ViewModel(), LaunchDetailOverviewViewModelContract {
 
@@ -48,8 +56,10 @@ class LaunchDetailOverviewViewModel @Inject constructor(
 
     override fun getLaunch(id: String) = viewModelScope.launch {
         try {
+            val isSaved = isOnSavedLaunchesUseCase(id).single()
             getLaunchDetailOverviewUseCase(id).collect { launch ->
-                _uiState.value = LaunchDetailOverviewUiState.Success(mapper.mapToUi(launch))
+                _uiState.value =
+                    LaunchDetailOverviewUiState.Success(mapper.mapToUi(launch, isSaved))
             }
         } catch (e: java.lang.Exception) {
             _uiState.value = LaunchDetailOverviewUiState.Error
@@ -85,5 +95,17 @@ class LaunchDetailOverviewViewModel @Inject constructor(
         viewModelScope.launch {
             _events.emit(LaunchDetailOverviewEvent.AddToCalendar(launchName, launchDateMillis))
         }
+    }
+
+    override fun addToSavedLaunches(launchId: String) = viewModelScope.launch {
+        _uiState.value = LaunchDetailOverviewUiState.Loading
+        addToSavedLaunchesUseCase(launchId)
+        getLaunch(launchId)
+    }
+
+    override fun removeFromSavedLaunches(launchId: String) = viewModelScope.launch {
+        _uiState.value = LaunchDetailOverviewUiState.Loading
+        removeFromSavedLaunchesUseCase(launchId)
+        getLaunch(launchId)
     }
 }

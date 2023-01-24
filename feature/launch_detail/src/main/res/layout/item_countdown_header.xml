@@ -74,7 +74,7 @@
             android:layout_marginStart="@dimen/margin_16dp"
             android:layout_marginEnd="@dimen/margin_20dp"
             android:text="@string/save_button"
-            app:icon="@drawable/hearth"
+            app:icon="@drawable/heart"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/addToCalendarButton"

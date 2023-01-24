@@ -18,11 +18,28 @@
  *
  */
 
-package com.lpirro.launch_detail.overview.mapper
+package com.lpirro.launch_detail.overview.presentation.delegates
 
-import com.lpirro.domain.models.Launch
+import androidx.recyclerview.widget.DiffUtil
+import com.lpirro.launch_detail.overview.model.CountdownHeaderUi
 import com.lpirro.launch_detail.overview.model.LaunchOverviewItem
 
-interface LaunchOverviewMapper {
-    fun mapToUi(launch: Launch, isSaved: Boolean = false): List<LaunchOverviewItem>
+object LaunchOverviewDiffCallback : DiffUtil.ItemCallback<LaunchOverviewItem>() {
+
+    override fun areItemsTheSame(
+        oldItem: LaunchOverviewItem,
+        newItem: LaunchOverviewItem
+    ): Boolean {
+        return true
+    }
+
+    override fun areContentsTheSame(
+        oldItem: LaunchOverviewItem,
+        newItem: LaunchOverviewItem
+    ): Boolean {
+        when (newItem) {
+            is CountdownHeaderUi -> return newItem.isSavedChanged((oldItem as CountdownHeaderUi).isSaved)
+        }
+        return true
+    }
 }

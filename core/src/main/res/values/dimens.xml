@@ -30,5 +30,9 @@
     <dimen name="margin_8dp">8dp</dimen>
     <dimen name="margin_6dp">6dp</dimen>
     <dimen name="margin_4dp">4dp</dimen>
+
     <dimen name="launch_view_space">20dp</dimen>
+    <dimen name="item_launch_min_height">164dp</dimen>
+    <dimen name="item_launch_icon_size">16dp</dimen>
+    <dimen name="launch_image_corners">12dp</dimen>
 </resources>

@@ -21,12 +21,13 @@
 package com.lpirro.repository
 
 import com.lpirro.domain.repository.SavedLaunchesRepository
-import com.lpirro.persistence.model.LaunchType
+import com.lpirro.persistence.model.SavedLaunchLocal
 import com.lpirro.persistence.room.LaunchDao
 import com.lpirro.repository.mapper.LaunchMapper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.withContext
 
 class SavedLaunchesRepositoryImpl(
     private val launchDao: LaunchDao,
@@ -34,7 +35,21 @@ class SavedLaunchesRepositoryImpl(
 ) : SavedLaunchesRepository {
 
     override suspend fun getSavedLaunches() = flow {
-        val launches = launchDao.getLaunchesWithType(LaunchType.UPCOMING)
+        val launches = launchDao.getSavedLaunches().map { it.launchLocal }
         emit(launches.map(launchMapper::mapToDomain))
+    }.flowOn(Dispatchers.IO)
+
+    override suspend fun addToSavedLaunches(launchId: String) = withContext(Dispatchers.IO) {
+        val launch = launchDao.getLaunch(launchId)!!
+        launchDao.insertSavedLaunch(SavedLaunchLocal(launchId, launch))
+    }
+
+    override suspend fun removeFromSavedLaunches(launchId: String) = withContext(Dispatchers.IO) {
+        launchDao.deleteSavedLaunch(launchId)
+    }
+
+    override suspend fun isSaved(launchId: String) = flow {
+        val isSaved = launchDao.isSaved(launchId)
+        emit(isSaved)
     }.flowOn(Dispatchers.IO)
 }

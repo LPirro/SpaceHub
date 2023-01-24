@@ -38,10 +38,6 @@ class SavedLaunchesViewModel @Inject constructor(
         MutableStateFlow<SavedLaunchesUiState>(SavedLaunchesUiState.Loading(isLoading = true))
     val uiState: StateFlow<SavedLaunchesUiState> = _uiState
 
-    init {
-        getSavedLaunches()
-    }
-
     override fun getSavedLaunches() = viewModelScope.launch {
         try {
             getSavedLaunchesUseCase().collect { launches ->

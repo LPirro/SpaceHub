@@ -22,21 +22,42 @@ package com.lpirro.launch_detail.overview.presentation.delegates
 
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
 import com.lpirro.core.extensions.visible
+import com.lpirro.launch_detail.R
 import com.lpirro.launch_detail.databinding.ItemCountdownHeaderBinding
 import com.lpirro.launch_detail.overview.model.CountdownHeaderUi
 import com.lpirro.launch_detail.overview.model.LaunchOverviewItem
 
-fun countDownHeaderDelegate(addToCalendarListener: (launchName: String, launchDateMillis: Long) -> Unit) =
+fun countDownHeaderDelegate(
+    addToCalendarListener: (launchName: String, launchDateMillis: Long) -> Unit,
+    addToSavedListener: (launchId: String) -> Unit,
+    removeFromSavedListener: (launchId: String) -> Unit
+) =
     adapterDelegateViewBinding<CountdownHeaderUi, LaunchOverviewItem, ItemCountdownHeaderBinding>(
         { layoutInflater, root -> ItemCountdownHeaderBinding.inflate(layoutInflater, root, false) }
     ) {
         bind {
             binding.launchDate.text = item.launchDate
+
+            if (item.isSaved) {
+                binding.saveButton.setIconResource(R.drawable.heart_remove)
+                binding.saveButton.text =
+                    itemView.context.resources.getString(R.string.save_button_remove)
+            } else {
+                binding.saveButton.setIconResource(R.drawable.heart)
+                binding.saveButton.text = itemView.context.resources.getString(R.string.save_button)
+            }
+
             item.netMillis?.let { netMillis ->
                 binding.launchCountdownView.visible = netMillis - System.currentTimeMillis() > 0
                 binding.launchCountdownView.startCountdown(netMillis)
                 binding.addToCalendarButton.setOnClickListener {
                     addToCalendarListener.invoke(item.name, netMillis)
+                }
+                binding.saveButton.setOnClickListener {
+                    when (item.isSaved) {
+                        true -> removeFromSavedListener.invoke(item.launchId)
+                        false -> addToSavedListener.invoke(item.launchId)
+                    }
                 }
             }
         }

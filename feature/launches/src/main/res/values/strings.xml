@@ -23,5 +23,4 @@
     <string name="launches">Launches</string>
     <string name="tab_launches_upcoming">Upcoming</string>
     <string name="tab_launches_past">Past</string>
-    <string name="launch_image_content_description">Launch Image</string>
 </resources>

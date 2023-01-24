@@ -25,10 +25,16 @@ import com.google.android.gms.maps.model.LatLng
 interface LaunchOverviewItem
 
 data class CountdownHeaderUi(
+    val launchId: String,
     val name: String,
     val launchDate: String?,
-    val netMillis: Long?
-) : LaunchOverviewItem
+    val netMillis: Long?,
+    val isSaved: Boolean
+) : LaunchOverviewItem {
+    fun isSavedChanged(saved: Boolean): Boolean {
+        return saved == this.isSaved
+    }
+}
 
 data class LaunchpadUi(
     val name: String,

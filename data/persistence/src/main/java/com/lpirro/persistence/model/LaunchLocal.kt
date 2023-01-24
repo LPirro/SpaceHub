@@ -24,7 +24,6 @@ import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.Relation
 
 @Entity(tableName = "launch_table")
 data class LaunchLocal(
@@ -47,13 +46,10 @@ data class LaunchLocal(
     @ColumnInfo(name = "rocket") val rocket: RocketLocal
 )
 
-@Entity(tableName = "saved_launch")
+@Entity(tableName = "saved_launch_table")
 data class SavedLaunchLocal(
-    @Relation(
-        parentColumn = "id",
-        entityColumn = "launchId"
-    )
-    @Embedded val launch: LaunchLocal,
+    @PrimaryKey @ColumnInfo(name = "saved_launch_id") val savedLaunchId: String,
+    @Embedded val launchLocal: LaunchLocal
 )
 
 enum class LaunchType {
