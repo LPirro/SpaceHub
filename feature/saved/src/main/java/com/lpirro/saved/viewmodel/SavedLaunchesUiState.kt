@@ -26,4 +26,5 @@ sealed class SavedLaunchesUiState {
     data class Loading(val isLoading: Boolean) : SavedLaunchesUiState()
     data class Success(val launches: List<Launch>) : SavedLaunchesUiState()
     object Error : SavedLaunchesUiState()
+    object NoSavedLaunches : SavedLaunchesUiState()
 }

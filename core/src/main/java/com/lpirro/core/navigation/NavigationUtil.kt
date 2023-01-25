@@ -28,4 +28,8 @@ object NavigationUtil {
     fun launchDetailDeeplink(launchId: String) = NavDeepLinkRequest.Builder
         .fromUri("android-app://com.lpirro.spacehub/launch_detail?launchId=$launchId".toUri())
         .build()
+
+    fun launchesDeeplink() = NavDeepLinkRequest.Builder
+        .fromUri("android-app://com.lpirro.spacehub/launches".toUri())
+        .build()
 }

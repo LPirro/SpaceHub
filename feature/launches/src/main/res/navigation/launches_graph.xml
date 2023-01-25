@@ -27,6 +27,9 @@
     <fragment
         android:id="@+id/navigation_launches"
         android:name="com.lpirro.launches.LaunchesTabFragment"
-        android:label="@string/launches" />
+        android:label="@string/launches" >
+
+        <deepLink app:uri="android-app://com.lpirro.spacehub/launches"/>
+    </fragment>
 
 </navigation>

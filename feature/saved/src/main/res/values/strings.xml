@@ -22,4 +22,8 @@
 <resources>
     <string name="saved_launches">Saved</string>
     <string name="saved_launches_title">Saved Launches</string>
+    <string name="saved_launches_empty">Saved Launches Empty</string>
+    <string name="saved_launches_empty_description">Add one or more launch to your saved to get notifications and launch updates</string>
+    <string name="explore_launches_button">Explore Lauches</string>
+    <string name="saved_launches_icon_content_description">Saved Launches empty icon</string>
 </resources>

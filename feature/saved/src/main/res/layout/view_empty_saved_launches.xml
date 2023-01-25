@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~
+  ~ SpaceHub - Designed and Developed by LPirro (Leonardo Pirro)
+  ~ Copyright (C) 2023 Leonardo Pirro
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  ~
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface">
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="280dp"
+        android:layout_height="280dp"
+        android:contentDescription="@string/saved_launches_icon_content_description"
+        android:src="@drawable/saved_launches_empty"
+        app:layout_constraintBottom_toTopOf="@+id/savedLaunchesTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:tint="?attr/colorOnSurface" />
+
+    <TextView
+        android:id="@+id/savedLaunchesTitle"
+        style="@style/TextAppearance.Material3.HeadlineSmall"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_16dp"
+        android:layout_marginTop="@dimen/margin_24dp"
+        android:gravity="center"
+        android:text="@string/saved_launches_empty"
+        app:layout_constraintBottom_toTopOf="@+id/savedLaunchesDescription"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/icon" />
+
+    <TextView
+        android:id="@+id/savedLaunchesDescription"
+        style="@style/TextAppearance.Material3.BodyLarge"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_16dp"
+        android:layout_marginTop="@dimen/margin_8dp"
+        android:gravity="center"
+        android:text="@string/saved_launches_empty_description"
+        app:layout_constraintBottom_toTopOf="@+id/exploreButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/savedLaunchesTitle" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/exploreButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_32dp"
+        app:icon="@drawable/rocket_launch_outline"
+        android:text="@string/explore_launches_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/savedLaunchesDescription" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

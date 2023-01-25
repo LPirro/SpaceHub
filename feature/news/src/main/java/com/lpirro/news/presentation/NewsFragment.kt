@@ -74,7 +74,10 @@ class NewsFragment : BaseFragment<FragmentNewsBinding>() {
         when (uiState) {
             is NewsUiState.Error -> binding.errorView.show()
             is NewsUiState.Loading -> binding.swipeRefresh.isRefreshing = uiState.isLoading
-            is NewsUiState.Success -> articleAdapter.submitList(uiState.articles)
+            is NewsUiState.Success -> {
+                articleAdapter.submitList(uiState.articles)
+                binding.articlesRecyclerView.layoutManager?.scrollToPosition(0)
+            }
         }
     }
 

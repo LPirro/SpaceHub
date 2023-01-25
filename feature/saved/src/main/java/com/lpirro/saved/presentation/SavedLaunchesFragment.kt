@@ -38,6 +38,7 @@ import com.lpirro.core.navigation.NavigationUtil
 import com.lpirro.core.ui.recyclerview.adapter.LaunchesAdapter
 import com.lpirro.core.ui.recyclerview.decorator.VerticalSpaceItemDecoration
 import com.lpirro.domain.models.Status
+import com.lpirro.saved.R
 import com.lpirro.saved.databinding.FragmentSavedLaunchesBinding
 import com.lpirro.saved.viewmodel.SavedLaunchesUiState
 import com.lpirro.saved.viewmodel.SavedLaunchesViewModel
@@ -58,6 +59,9 @@ class SavedLaunchesFragment : BaseFragment<FragmentSavedLaunchesBinding>() {
 
         registerObservers()
         setupRecyclerView()
+        binding.emptyView.exploreButton.setOnClickListener {
+            findNavController().navigate(NavigationUtil.launchesDeeplink())
+        }
     }
 
     override fun onStart() {
@@ -67,10 +71,12 @@ class SavedLaunchesFragment : BaseFragment<FragmentSavedLaunchesBinding>() {
 
     private fun onUiUpdate(uiState: SavedLaunchesUiState) {
         binding.errorView.hide()
+        binding.emptyView.root.hide()
         when (uiState) {
             is SavedLaunchesUiState.Error -> binding.errorView.show()
             is SavedLaunchesUiState.Loading -> {}
             is SavedLaunchesUiState.Success -> launchesAdapter.submitList(uiState.launches)
+            SavedLaunchesUiState.NoSavedLaunches -> binding.emptyView.root.show()
         }
     }
 

@@ -41,7 +41,11 @@ class SavedLaunchesViewModel @Inject constructor(
     override fun getSavedLaunches() = viewModelScope.launch {
         try {
             getSavedLaunchesUseCase().collect { launches ->
-                _uiState.value = SavedLaunchesUiState.Success(launches)
+                if (launches.isEmpty()) {
+                    _uiState.value = SavedLaunchesUiState.NoSavedLaunches
+                } else {
+                    _uiState.value = SavedLaunchesUiState.Success(launches)
+                }
             }
         } catch (e: java.lang.Exception) {
             _uiState.value = SavedLaunchesUiState.Error
