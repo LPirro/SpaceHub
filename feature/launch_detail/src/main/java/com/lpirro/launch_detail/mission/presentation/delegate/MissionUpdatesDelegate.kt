@@ -41,7 +41,7 @@ fun missionUpdatesDelegate() =
             binding.missionUpdatesRecyclerView.layoutManager = LinearLayoutManager(itemView.context)
             binding.missionUpdatesRecyclerView.addItemDecoration(VerticalSpaceItemDecoration(edgeSpacing = edgeSpacing, spaceSize = spacing))
             updateAdapter.submitList(item.updates)
-            binding.noUpdatesLabel.visible = item.updates?.isEmpty() ?: true
-            binding.missionUpdatesRecyclerView.visible = item.updates?.isNotEmpty() ?: false
+            binding.noUpdatesLabel.visible = item.updates.isEmpty()
+            binding.missionUpdatesRecyclerView.visible = item.updates.isNotEmpty()
         }
     }

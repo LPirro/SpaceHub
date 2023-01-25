@@ -58,7 +58,7 @@ class LaunchDetailActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
 
         var maxDeltaPadding = 0
-        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, windowInsets ->
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { _, windowInsets ->
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
             maxDeltaPadding = insets.top
             binding.root.updatePadding(bottom = insets.bottom)
