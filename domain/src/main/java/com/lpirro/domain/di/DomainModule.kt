@@ -99,7 +99,7 @@ object DomainModule {
     }
 
     @Provides
-    fun provideRemoveFromLaunchesUseCase(repository: SavedLaunchesRepository): RemoveFromSavedLaunchesUseCase {
+    fun provideRemoveFromSavedLaunchesUseCase(repository: SavedLaunchesRepository): RemoveFromSavedLaunchesUseCase {
         return RemoveFromSavedLaunchesUseCaseImpl(repository)
     }
 }

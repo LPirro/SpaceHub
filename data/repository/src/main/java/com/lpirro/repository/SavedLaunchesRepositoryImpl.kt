@@ -34,17 +34,17 @@ class SavedLaunchesRepositoryImpl(
     private val launchMapper: LaunchMapper
 ) : SavedLaunchesRepository {
 
-    override suspend fun getSavedLaunches() = flow {
+    override suspend fun getLaunches() = flow {
         val launches = launchDao.getSavedLaunches().map { it.launchLocal }
         emit(launches.map(launchMapper::mapToDomain))
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun addToSavedLaunches(launchId: String) = withContext(Dispatchers.IO) {
+    override suspend fun addLaunch(launchId: String) = withContext(Dispatchers.IO) {
         val launch = launchDao.getLaunch(launchId)!!
         launchDao.insertSavedLaunch(SavedLaunchLocal(launchId, launch))
     }
 
-    override suspend fun removeFromSavedLaunches(launchId: String) = withContext(Dispatchers.IO) {
+    override suspend fun removeLaunch(launchId: String) = withContext(Dispatchers.IO) {
         launchDao.deleteSavedLaunch(launchId)
     }
 

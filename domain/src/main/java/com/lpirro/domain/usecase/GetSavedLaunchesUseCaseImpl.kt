@@ -28,6 +28,6 @@ class GetSavedLaunchesUseCaseImpl(
     private val savedLaunchesRepository: SavedLaunchesRepository
 ) : GetSavedLaunchesUseCase {
     override suspend fun invoke(): Flow<List<Launch>> {
-        return savedLaunchesRepository.getSavedLaunches()
+        return savedLaunchesRepository.getLaunches()
     }
 }

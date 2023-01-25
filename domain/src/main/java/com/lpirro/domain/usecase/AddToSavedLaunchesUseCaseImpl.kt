@@ -26,6 +26,6 @@ class AddToSavedLaunchesUseCaseImpl(
     private val repository: SavedLaunchesRepository
 ) : AddToSavedLaunchesUseCase {
     override suspend fun invoke(launchId: String) {
-        repository.addToSavedLaunches(launchId)
+        repository.addLaunch(launchId)
     }
 }

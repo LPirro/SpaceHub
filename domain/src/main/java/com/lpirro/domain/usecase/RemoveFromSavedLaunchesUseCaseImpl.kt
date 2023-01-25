@@ -26,6 +26,6 @@ class RemoveFromSavedLaunchesUseCaseImpl(
     private val repository: SavedLaunchesRepository
 ) : RemoveFromSavedLaunchesUseCase {
     override suspend fun invoke(launchId: String) {
-        repository.removeFromSavedLaunches(launchId)
+        repository.removeLaunch(launchId)
     }
 }

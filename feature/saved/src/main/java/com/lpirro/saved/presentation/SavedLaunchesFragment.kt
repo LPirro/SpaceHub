@@ -38,7 +38,6 @@ import com.lpirro.core.navigation.NavigationUtil
 import com.lpirro.core.ui.recyclerview.adapter.LaunchesAdapter
 import com.lpirro.core.ui.recyclerview.decorator.VerticalSpaceItemDecoration
 import com.lpirro.domain.models.Status
-import com.lpirro.saved.R
 import com.lpirro.saved.databinding.FragmentSavedLaunchesBinding
 import com.lpirro.saved.viewmodel.SavedLaunchesUiState
 import com.lpirro.saved.viewmodel.SavedLaunchesViewModel
@@ -76,7 +75,7 @@ class SavedLaunchesFragment : BaseFragment<FragmentSavedLaunchesBinding>() {
             is SavedLaunchesUiState.Error -> binding.errorView.show()
             is SavedLaunchesUiState.Loading -> {}
             is SavedLaunchesUiState.Success -> launchesAdapter.submitList(uiState.launches)
-            SavedLaunchesUiState.NoSavedLaunches -> binding.emptyView.root.show()
+            is SavedLaunchesUiState.NoSavedLaunches -> binding.emptyView.root.show()
         }
     }
 
