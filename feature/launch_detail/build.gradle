@@ -20,6 +20,9 @@ dependencies {
     api project(":core")
     api project(":domain")
 
+    // AndroidX
+    implementation "androidx.core:core-ktx:$rootProject.coreKtx"
+
     // Design
     implementation "com.google.android.material:material:$rootProject.material"
 
@@ -54,8 +57,6 @@ dependencies {
     // Google Maps
     implementation "com.google.android.gms:play-services-maps:$rootProject.maps"
 
+    // Other
     implementation "com.hannesdorfmann:adapterdelegates4-kotlin-dsl-viewbinding:$rootProject.adapterDelegate"
-
-    implementation "androidx.core:core-ktx:1.9.0"
-
 }

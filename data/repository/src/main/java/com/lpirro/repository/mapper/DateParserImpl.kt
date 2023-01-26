@@ -20,60 +20,78 @@
 
 package com.lpirro.repository.mapper
 
-import android.text.format.DateUtils
-import java.text.ParseException
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Date
-import java.util.Locale
+import org.joda.time.DateTime
+import org.joda.time.format.DateTimeFormat
 
-private const val LAUNCH_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssX"
-private const val NEWS_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.000X"
-private const val FULL_DATE_OUTPUT_PATTERN = "dd MMM yyyy • HH:mm"
+private const val LAUNCH_FULL_DATE_INPUT_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ"
+private const val LAUNCH_FULL_DATE_OUTPUT_FORMAT = "dd MMM yyyy • HH:mm"
+private const val NEWS_DATE_INPUT_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.000Z"
 private const val DAY_MONTH_DATE_OUTPUT_PATTERN = "dd MMM"
+
+private const val SECOND = 1
+private const val MINUTE = 60 * SECOND
+private const val HOUR = 60 * MINUTE
+private const val DAY = 24 * HOUR
+private const val MONTH = 30 * DAY
+private const val YEAR = 12 * MONTH
 
 class DateParserImpl : DateParser {
 
-    private val locale: Locale = Locale.US
-
     override fun parseFullDate(dateString: String): String {
         return try {
-            val parser = SimpleDateFormat(LAUNCH_DATE_FORMAT, locale)
-            val formatter = SimpleDateFormat(FULL_DATE_OUTPUT_PATTERN, locale)
-            parser.parse(dateString)?.let { formatter.format(it) } ?: "-"
-        } catch (exception: ParseException) {
+            val inputFormat = DateTimeFormat.forPattern(LAUNCH_FULL_DATE_INPUT_FORMAT)
+            val outputFormat = DateTimeFormat.forPattern(LAUNCH_FULL_DATE_OUTPUT_FORMAT)
+            val parser = inputFormat.parseDateTime(dateString)
+            outputFormat.print(parser)
+        } catch (exception: IllegalArgumentException) {
             "-"
         }
     }
 
     override fun parseDateDayMonth(dateString: String): String {
         return try {
-            val parser = SimpleDateFormat(LAUNCH_DATE_FORMAT, locale)
-            val formatter = SimpleDateFormat(DAY_MONTH_DATE_OUTPUT_PATTERN, locale)
-            parser.parse(dateString)?.let { formatter.format(it) } ?: "-"
-        } catch (exception: ParseException) {
+            val inputFormat = DateTimeFormat.forPattern(LAUNCH_FULL_DATE_INPUT_FORMAT)
+            val outputFormat = DateTimeFormat.forPattern(DAY_MONTH_DATE_OUTPUT_PATTERN)
+            val parser = inputFormat.parseDateTime(dateString)
+            outputFormat.print(parser)
+        } catch (exception: IllegalArgumentException) {
             "-"
         }
     }
 
     override fun parseDateInMillis(dateString: String): Long? {
-        val parser = SimpleDateFormat(LAUNCH_DATE_FORMAT, locale)
-        val date: Date? = parser.parse(dateString)
-        return date?.time
+        return try {
+            val inputFormat = DateTimeFormat.forPattern(LAUNCH_FULL_DATE_INPUT_FORMAT)
+            val parser = inputFormat.parseDateTime(dateString)
+            parser.millis
+        } catch (exception: IllegalArgumentException) {
+            null
+        }
     }
 
     override fun formatToTimeAgo(dateString: String): String? {
-        return try {
-            val inputFormat = SimpleDateFormat(NEWS_DATE_FORMAT, locale)
-            val date: Date = inputFormat.parse(dateString)!!
+        try {
+            val inputFormat = DateTimeFormat.forPattern(NEWS_DATE_INPUT_FORMAT)
+            val dateInMillis = inputFormat.parseLocalDateTime(dateString).toDateTime().millis
+            val currentDateInMillis = DateTime.now().millis
 
-            DateUtils.getRelativeTimeSpanString(
-                date.time,
-                Calendar.getInstance().timeInMillis,
-                DateUtils.MINUTE_IN_MILLIS
-            ).toString()
-        } catch (exception: Exception) {
-            null
+            val diff = (currentDateInMillis - dateInMillis) / 1000
+
+            return when {
+                diff < MINUTE -> "Just now"
+                diff < 2 * MINUTE -> "1 minute ago"
+                diff < 60 * MINUTE -> "${diff / MINUTE} minutes ago"
+                diff < 2 * HOUR -> "1 hour ago"
+                diff < 24 * HOUR -> "${diff / HOUR} hours ago"
+                diff < 2 * DAY -> "Yesterday"
+                diff < 30 * DAY -> "${diff / DAY} days ago"
+                diff < 2 * MONTH -> "1 month ago"
+                diff < 12 * MONTH -> "${diff / MONTH} months ago"
+                diff < 2 * YEAR -> "1 year ago"
+                else -> "${diff / YEAR} years ago"
+            }
+        } catch (exception: IllegalArgumentException) {
+            return null
         }
     }
 }

@@ -15,7 +15,8 @@ dependencies {
     api project(':data:repository')
     api project(':domain')
 
-    implementation 'androidx.databinding:viewbinding:7.3.1'
+    // AndroidX
+    implementation "androidx.databinding:viewbinding:$rootProject.viewBindings"
     implementation "androidx.appcompat:appcompat:$rootProject.appCompat"
 
     // Navigation
@@ -33,6 +34,6 @@ dependencies {
     // Chrome Custom Tabs
     implementation "androidx.browser:browser:$rootProject.chromeWebTab"
 
-    implementation 'com.robinhood.ticker:ticker:2.0.4'
+    implementation "com.robinhood.ticker:ticker:$rootProject.ticker"
 
 }

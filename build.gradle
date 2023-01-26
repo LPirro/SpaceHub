@@ -29,6 +29,8 @@ ext {
     recyclerView = "1.2.1"
     chromeWebTab = "1.4.0"
     swipeRefresh = "1.1.0"
+    viewBindings = "7.4.0"
+    room = "2.5.0"
 
     // Others
     hiltGradle = "2.38.1"
@@ -36,6 +38,8 @@ ext {
     glide = "4.14.2"
     adapterDelegate = "4.3.2"
     maps = "18.1.0"
+    ticker = "2.0.4"
+    jodaTime = "2.12.2"
 
     // Unit Test
     junit = "4.13.2"
@@ -59,9 +63,6 @@ ext {
 
     // Coroutines
     kotlinxCoroutinesCore = "1.5.1"
-
-    // Room
-    room = "2.4.3"
 
     // Timber
     timber = "5.0.1"

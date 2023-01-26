@@ -23,10 +23,7 @@ package com.lpirro.repository.mapper
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import java.text.SimpleDateFormat
-import java.util.Locale
-
-private const val DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssX"
+import java.util.TimeZone
 
 class DateParserTest {
 
@@ -38,14 +35,12 @@ class DateParserTest {
     fun setup() {
         dateParser = DateParserImpl()
         dateUnderTest = "2022-12-25T09:30:00Z"
+        TimeZone.setDefault(TimeZone.getTimeZone("CET"))
     }
 
     @Test
     fun `Full Date parsed correctly in dd MMM yyyy HHmm`() {
-        val parser = SimpleDateFormat(DATE_FORMAT, Locale.US)
-        val formatter = SimpleDateFormat("dd MMM yyyy • HH:mm", Locale.US)
-
-        val expectedResult = parser.parse(dateUnderTest)?.let { formatter.format(it) } ?: "-"
+        val expectedResult = "25 Dec 2022 • 10:30"
         val result = dateParser.parseFullDate(dateUnderTest)
 
         assertEquals(result, expectedResult)

@@ -19,15 +19,15 @@ dependencies {
     api project(":core")
     api project(":domain")
 
-    // Design
-    implementation "com.google.android.material:material:$rootProject.material"
-
     // AndroidX
     implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.navigationFragmentKtx"
     implementation "androidx.navigation:navigation-ui-ktx:$rootProject.navigationUiKtx"
     implementation "androidx.appcompat:appcompat:$rootProject.appCompat"
     implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraintLayout"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:$rootProject.swipeRefresh"
+
+    // Design
+    implementation "com.google.android.material:material:$rootProject.material"
 
     // HILT
     implementation "com.google.dagger:hilt-android:$rootProject.hilt"

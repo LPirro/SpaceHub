@@ -31,4 +31,8 @@ dependencies {
 
     implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofit"
 
+    // Others
+    implementation "joda-time:joda-time:$rootProject.jodaTime"
+
+
 }
