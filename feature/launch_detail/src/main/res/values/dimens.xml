@@ -24,4 +24,5 @@
     <dimen name="launch_detail_vertical_spacing">20dp</dimen>
     <dimen name="item_mission_icon_size">16dp</dimen>
     <dimen name="item_mission_header_info_vertical_spacing">6dp</dimen>
+    <dimen name="mission_patch_image">108dp</dimen>
 </resources>

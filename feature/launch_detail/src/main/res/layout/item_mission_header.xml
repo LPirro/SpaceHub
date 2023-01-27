@@ -32,8 +32,8 @@
 
         <ImageView
             android:id="@+id/missionPatchImage"
-            android:layout_width="108dp"
-            android:layout_height="108dp"
+            android:layout_width="@dimen/mission_patch_image"
+            android:layout_height="@dimen/mission_patch_image"
             android:layout_marginVertical="@dimen/margin_20dp"
             android:layout_marginStart="@dimen/margin_16dp"
             android:contentDescription="@string/mission_patch_content_description"

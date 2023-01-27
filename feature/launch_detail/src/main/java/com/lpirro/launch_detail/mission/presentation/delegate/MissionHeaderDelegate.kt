@@ -21,6 +21,8 @@
 package com.lpirro.launch_detail.mission.presentation.delegate
 
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
 import com.lpirro.core.util.glide.RemovePaddingTransformation
 import com.lpirro.launch_detail.R
@@ -39,9 +41,14 @@ fun missionHeaderDelegate() =
             binding.missionType.text = resources.getString(R.string.mission_header_type, item.missionType)
             binding.missionAgency.text = resources.getString(R.string.mission_header_agency, item.agencyName)
 
+            val factory = DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build()
+
             Glide.with(itemView.context)
                 .load(item.missionPatchUrl)
                 .transform(RemovePaddingTransformation())
+                .placeholder(R.drawable.mission_patch_placeholder)
+                .error(R.drawable.mission_patch_error)
+                .transition(DrawableTransitionOptions.withCrossFade(factory))
                 .into(binding.missionPatchImage)
         }
     }

@@ -98,7 +98,9 @@ class LaunchDetailActivity : AppCompatActivity() {
             is LaunchDetailUiState.Loading -> binding.progressBar.show()
             is LaunchDetailUiState.Success -> {
                 updateUi(uiState.launch)
-                initTabs()
+                if (binding.viewPager.adapter == null) {
+                    initTabs()
+                }
             }
         }
     }
@@ -120,6 +122,7 @@ class LaunchDetailActivity : AppCompatActivity() {
 
     private fun initTabs() {
         val launchId = args.launchId
+
         adapter = LaunchDetailViewPagerAdapter(launchId, this)
         binding.viewPager.adapter = adapter
 

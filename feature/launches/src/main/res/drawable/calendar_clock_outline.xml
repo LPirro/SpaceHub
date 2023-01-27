@@ -18,7 +18,6 @@
   ~
   -->
 
-<!-- drawable/calendar_clock_outline.xml -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:height="24dp"
     android:width="24dp"
