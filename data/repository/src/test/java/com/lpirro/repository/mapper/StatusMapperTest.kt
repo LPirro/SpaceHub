@@ -39,7 +39,6 @@ class StatusMapperTest {
         val statusLocal = MockMapperUtil.mockStatusLocal()
         val mappedStatus = statusMapper.mapToDomain(statusLocal)
 
-        assertEquals(statusLocal.id, mappedStatus.id)
         assertEquals(statusLocal.name, mappedStatus.name)
         assertEquals(statusLocal.abbrev, mappedStatus.abbrev)
         assertEquals(statusLocal.description, mappedStatus.description)

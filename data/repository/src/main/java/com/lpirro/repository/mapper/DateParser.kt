@@ -25,4 +25,5 @@ interface DateParser {
     fun parseDateDayMonth(dateString: String): String
     fun parseDateInMillis(dateString: String): Long?
     fun formatToTimeAgo(dateString: String): String?
+    fun formatToDDMMMYYYY(dateString: String): String?
 }

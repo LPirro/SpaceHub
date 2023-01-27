@@ -50,8 +50,8 @@ class LaunchesAdapter(
         holder.binding.launchTitle.text = launch.name
         holder.binding.agencyName.text = launch.launchServiceProvider.name
         holder.binding.location.text = launch.pad.location.name
-        holder.binding.date.text = launch.net
-        holder.binding.status.text = launch.status.abbrev
+        holder.binding.date.text = launch.netDisplay
+        holder.binding.status.setStatus(launch.status)
 
         holder.binding.status.setOnClickListener { launchStatusClick.invoke(launch.status) }
         holder.itemView.setOnClickListener { launchClick.invoke(launch.id) }

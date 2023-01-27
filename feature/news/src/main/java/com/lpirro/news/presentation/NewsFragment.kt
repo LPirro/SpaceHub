@@ -76,7 +76,6 @@ class NewsFragment : BaseFragment<FragmentNewsBinding>() {
             is NewsUiState.Loading -> binding.swipeRefresh.isRefreshing = uiState.isLoading
             is NewsUiState.Success -> {
                 articleAdapter.submitList(uiState.articles)
-                binding.articlesRecyclerView.layoutManager?.scrollToPosition(0)
             }
         }
     }
@@ -99,7 +98,10 @@ class NewsFragment : BaseFragment<FragmentNewsBinding>() {
             if (newText.length > 3) { viewModel.filterArticles(newText) }
         }
 
-        searchMenuItem.onMenuItemActionCollapse { viewModel.getArticles() }
+        searchMenuItem.onMenuItemActionCollapse {
+            binding.articlesRecyclerView.smoothScrollToPosition(0)
+            viewModel.getArticles()
+        }
     }
 
     private fun setupRecyclerView() {

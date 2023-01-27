@@ -28,56 +28,46 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:layout_marginBottom="@dimen/margin_16dp"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/launchDate"
+        <com.lpirro.core.ui.view.LaunchStatusView
+            android:id="@+id/status"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_12dp"
-            android:textAppearance="?attr/textAppearanceLabelMedium"
+            android:layout_height="32dp"
+            android:gravity="center_vertical"
+            android:layout_marginHorizontal="@dimen/margin_16dp"
+            android:layout_marginTop="@dimen/margin_16dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="15 Nov 2022 • 09:30" />
+            tools:text="Launch Completed  • On 15 Nov 2022" />
 
-        <com.lpirro.core.ui.view.LaunchCountdownView
-            android:id="@+id/launchCountdownView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_4dp"
-            android:gravity="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/launchDate" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/addToCalendarButton"
-            style="@style/Widget.Material3.Button.OutlinedButton"
+        <TextView
+            android:id="@+id/headerDescription"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/margin_20dp"
-            android:layout_marginStart="@dimen/margin_20dp"
-            android:text="@string/add_to_calendar"
-            app:icon="@drawable/calendar_plus"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginHorizontal="@dimen/margin_16dp"
+            android:layout_marginTop="10dp"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/launchCountdownView"
-            app:layout_constraintWidth_percent="0.5" />
+            app:layout_constraintTop_toBottomOf="@id/status"
+            tools:text="Awaiting official confirmation - current date is known with some certainty." />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/saveButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/margin_20dp"
+            android:layout_marginTop="@dimen/margin_16dp"
             android:layout_marginStart="@dimen/margin_16dp"
-            android:layout_marginEnd="@dimen/margin_20dp"
-            android:text="@string/save_button"
-            app:icon="@drawable/heart"
+            android:text="@string/save_button_remove"
+            app:icon="@drawable/heart_remove"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/addToCalendarButton"
-            app:layout_constraintTop_toBottomOf="@id/launchCountdownView" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/headerDescription" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

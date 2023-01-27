@@ -107,7 +107,7 @@ class LaunchDetailActivity : AppCompatActivity() {
 
     private fun updateUi(launch: Launch) {
         binding.collapsingToolbar.title = launch.name
-        binding.status.text = launch.status.name
+        binding.status.setStatus(launch.status, launch.status.name)
         Glide.with(this)
             .load(launch.image)
             .transition(DrawableTransitionOptions.withCrossFade())

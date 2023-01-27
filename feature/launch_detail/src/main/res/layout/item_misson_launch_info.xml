@@ -57,7 +57,6 @@
             android:layout_marginTop="@dimen/margin_16dp"
             android:minWidth="40dp"
             android:minHeight="20dp"
-            android:textAppearance="?attr/textAppearanceBodySmall"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"

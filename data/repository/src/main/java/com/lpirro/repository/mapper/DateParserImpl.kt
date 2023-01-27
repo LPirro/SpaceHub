@@ -26,7 +26,8 @@ import org.joda.time.format.DateTimeFormat
 private const val LAUNCH_FULL_DATE_INPUT_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ"
 private const val LAUNCH_FULL_DATE_OUTPUT_FORMAT = "dd MMM yyyy • HH:mm"
 private const val NEWS_DATE_INPUT_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.000Z"
-private const val DAY_MONTH_DATE_OUTPUT_PATTERN = "dd MMM"
+private const val DATE_DD_MMM_FORMAT = "dd MMM"
+private const val DATE_DD_MMM_YYYY_FORMAT = "dd MMM yyyy"
 
 private const val SECOND = 1
 private const val MINUTE = 60 * SECOND
@@ -51,7 +52,7 @@ class DateParserImpl : DateParser {
     override fun parseDateDayMonth(dateString: String): String {
         return try {
             val inputFormat = DateTimeFormat.forPattern(LAUNCH_FULL_DATE_INPUT_FORMAT)
-            val outputFormat = DateTimeFormat.forPattern(DAY_MONTH_DATE_OUTPUT_PATTERN)
+            val outputFormat = DateTimeFormat.forPattern(DATE_DD_MMM_FORMAT)
             val parser = inputFormat.parseDateTime(dateString)
             outputFormat.print(parser)
         } catch (exception: IllegalArgumentException) {
@@ -92,6 +93,17 @@ class DateParserImpl : DateParser {
             }
         } catch (exception: IllegalArgumentException) {
             return null
+        }
+    }
+
+    override fun formatToDDMMMYYYY(dateString: String): String {
+        return try {
+            val inputFormat = DateTimeFormat.forPattern(LAUNCH_FULL_DATE_INPUT_FORMAT)
+            val outputFormat = DateTimeFormat.forPattern(DATE_DD_MMM_YYYY_FORMAT)
+            val parser = inputFormat.parseDateTime(dateString)
+            outputFormat.print(parser)
+        } catch (exception: IllegalArgumentException) {
+            "-"
         }
     }
 }

@@ -243,8 +243,7 @@ object MockMapperUtil {
         description = "StatusDescription"
     )
 
-    fun mockStatus() = Status(
-        id = 1,
+    fun mockStatus() = Status.Go(
         name = "Go for launch",
         abbrev = "Go",
         description = "StatusDescription"

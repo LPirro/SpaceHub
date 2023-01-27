@@ -30,8 +30,8 @@ fun missionLaunchInfoDelegate() =
         ItemMissonLaunchInfoBinding.inflate(layoutInflater, root, false)
     }) {
         bind {
-            binding.launchStatusView.text = item.status
-            binding.launchStatusDescription.text = item.statusDescription
+            binding.launchStatusView.setStatus(item.status, item.status.name)
+            binding.launchStatusDescription.text = item.status.description
             binding.netValue.text = item.net
             binding.windowStartValue.text = item.windowStart
             binding.windowEndValue.text = item.windowEnd

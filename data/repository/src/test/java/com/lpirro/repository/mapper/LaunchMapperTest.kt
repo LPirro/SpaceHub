@@ -120,10 +120,11 @@ class LaunchMapperTest {
         assertMissionPatches(launchLocal.missionPatches!!, mappedLaunch.missionPatches!!)
         assertPadEquals(launchLocal.pad, mappedLaunch.pad)
         assertMissionEquals(launchLocal.mission!!, mappedLaunch.mission!!)
-        assertEquals(EXPECTED_NET_PARSED_DATE, mappedLaunch.net)
-        assertEquals(EXPECTED_WINDOW_START_PARSED_DATE, mappedLaunch.windowStart)
-        assertEquals(EXPECTED_WINDOW_END_PARSED_DATE, mappedLaunch.windowEnd)
+        assertEquals(EXPECTED_NET_PARSED_DATE, mappedLaunch.netDisplay)
+        assertEquals(EXPECTED_WINDOW_START_PARSED_DATE, mappedLaunch.windowStartDisplay)
+        assertEquals(EXPECTED_WINDOW_END_PARSED_DATE, mappedLaunch.windowEndDisplay)
         assertEquals(EXPECTED_NET_PARSED_DATE_MILLIS, mappedLaunch.netMillis)
+        assertEquals(launchLocal.windowEnd, mappedLaunch.windowEnd)
         assertStatusEquals(launchLocal.status, mappedLaunch.status)
         assertEquals(launchLocal.liveVideoUrl, mappedLaunch.youtubeVideoId)
         assertEquals(launchLocal.infoUrl, mappedLaunch.infoUrl)
@@ -180,7 +181,6 @@ class LaunchMapperTest {
     }
 
     private fun assertStatusEquals(statusLocal: StatusLocal, status: Status) {
-        assertEquals(statusLocal.id, status.id)
         assertEquals(statusLocal.name, status.name)
         assertEquals(statusLocal.abbrev, status.abbrev)
         assertEquals(statusLocal.description, status.description)

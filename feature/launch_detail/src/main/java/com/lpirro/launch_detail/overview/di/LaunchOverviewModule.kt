@@ -22,6 +22,7 @@ package com.lpirro.launch_detail.overview.di
 
 import com.lpirro.launch_detail.overview.mapper.LaunchOverviewMapper
 import com.lpirro.launch_detail.overview.mapper.LaunchOverviewMapperImpl
+import com.lpirro.repository.mapper.DateParser
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,7 +32,7 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 object LaunchOverviewModule {
     @Provides
-    fun provideLaunchOverviewMapper(): LaunchOverviewMapper {
-        return LaunchOverviewMapperImpl()
+    fun provideLaunchOverviewMapper(dateParser: DateParser): LaunchOverviewMapper {
+        return LaunchOverviewMapperImpl(dateParser)
     }
 }

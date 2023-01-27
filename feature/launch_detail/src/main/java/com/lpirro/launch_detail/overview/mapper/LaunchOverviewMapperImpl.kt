@@ -30,15 +30,19 @@ import com.lpirro.launch_detail.overview.model.CountdownHeaderUi
 import com.lpirro.launch_detail.overview.model.LaunchOverviewItem
 import com.lpirro.launch_detail.overview.model.LaunchpadUi
 import com.lpirro.launch_detail.overview.model.LocationUi
+import com.lpirro.launch_detail.overview.model.PastLaunchHeaderUi
 import com.lpirro.launch_detail.overview.model.TrajectoryUi
 import com.lpirro.launch_detail.overview.model.WatchLiveUi
+import com.lpirro.repository.mapper.DateParser
 
-class LaunchOverviewMapperImpl : LaunchOverviewMapper {
+class LaunchOverviewMapperImpl(
+    private val dateParser: DateParser
+) : LaunchOverviewMapper {
 
     override fun mapToUi(launch: Launch, isSaved: Boolean): List<LaunchOverviewItem> {
         val launchOverviewItems = mutableListOf<LaunchOverviewItem>()
 
-        launchOverviewItems.add(getCountdownHeaderUi(launch, isSaved))
+        launchOverviewItems.add(getHeader(launch, isSaved))
         launchOverviewItems.add(getLaunchpadUi(launch.pad))
         launch.youtubeVideoId?.let { launchOverviewItems.add(getWatchLiveUi(it)) }
         launchOverviewItems.add(getAgencyUi(launch.launchServiceProvider))
@@ -50,8 +54,15 @@ class LaunchOverviewMapperImpl : LaunchOverviewMapper {
     private fun getCountdownHeaderUi(launch: Launch, isSaved: Boolean) = CountdownHeaderUi(
         launchId = launch.id,
         name = launch.name,
-        launchDate = launch.net,
+        launchDate = launch.netDisplay,
         netMillis = launch.netMillis,
+        isSaved = isSaved
+    )
+
+    private fun getPastLaunchHeaderUi(launch: Launch, isSaved: Boolean) = PastLaunchHeaderUi(
+        launchId = launch.id,
+        status = launch.status,
+        launchDate = launch.windowEnd?.let { dateParser.formatToDDMMMYYYY(it) },
         isSaved = isSaved
     )
 
@@ -85,4 +96,11 @@ class LaunchOverviewMapperImpl : LaunchOverviewMapper {
     private fun getTrajectoryUi(flightClubUrl: String) = TrajectoryUi(
         flightClubUrl = flightClubUrl
     )
+
+    private fun getHeader(launch: Launch, isSaved: Boolean): LaunchOverviewItem {
+        return when (System.currentTimeMillis() >= launch.netMillis!!) {
+            true -> getPastLaunchHeaderUi(launch, isSaved)
+            false -> getCountdownHeaderUi(launch, isSaved)
+        }
+    }
 }

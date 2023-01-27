@@ -25,12 +25,45 @@ import com.lpirro.network.models.StatusRemote
 import com.lpirro.persistence.model.StatusLocal
 
 class StatusMapperImpl : StatusMapper {
-    override fun mapToDomain(statusLocal: StatusLocal) = Status(
-        id = statusLocal.id,
-        name = statusLocal.name,
-        abbrev = statusLocal.abbrev,
-        description = statusLocal.description
-    )
+    override fun mapToDomain(statusLocal: StatusLocal): Status {
+        return when (statusLocal.id) {
+            1 -> Status.Go(
+                name = statusLocal.name,
+                abbrev = statusLocal.abbrev,
+                description = statusLocal.description
+            )
+            2 -> Status.TBD(
+                name = statusLocal.name,
+                abbrev = statusLocal.abbrev,
+                description = statusLocal.description
+            )
+            3 -> Status.Success(
+                name = statusLocal.name,
+                abbrev = statusLocal.abbrev,
+                description = statusLocal.description
+            )
+            4 -> Status.Failure(
+                name = statusLocal.name,
+                abbrev = statusLocal.abbrev,
+                description = statusLocal.description
+            )
+            6 -> Status.InFlight(
+                name = statusLocal.name,
+                abbrev = statusLocal.abbrev,
+                description = statusLocal.description
+            )
+            8 -> Status.TBC(
+                name = statusLocal.name,
+                abbrev = statusLocal.abbrev,
+                description = statusLocal.description
+            )
+            else -> Status.Unknown(
+                name = statusLocal.name,
+                abbrev = statusLocal.abbrev,
+                description = statusLocal.description
+            )
+        }
+    }
 
     override fun mapToLocal(statusRemote: StatusRemote) = StatusLocal(
         id = statusRemote.id,

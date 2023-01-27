@@ -21,6 +21,7 @@
 package com.lpirro.launch_detail.overview.model
 
 import com.google.android.gms.maps.model.LatLng
+import com.lpirro.domain.models.Status
 
 interface LaunchOverviewItem
 
@@ -35,6 +36,13 @@ data class CountdownHeaderUi(
         return saved == this.isSaved
     }
 }
+
+data class PastLaunchHeaderUi(
+    val launchId: String,
+    val status: Status,
+    val launchDate: String?,
+    val isSaved: Boolean
+) : LaunchOverviewItem
 
 data class LaunchpadUi(
     val name: String,

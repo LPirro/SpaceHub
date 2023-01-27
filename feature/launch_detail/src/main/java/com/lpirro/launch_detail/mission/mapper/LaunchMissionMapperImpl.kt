@@ -70,11 +70,10 @@ class LaunchMissionMapperImpl : LaunchMissionMapper {
     )
 
     private fun getLaunchInfoUi(launch: Launch) = LaunchInfoUi(
-        status = launch.status.name,
-        statusDescription = launch.status.description,
-        net = launch.net ?: "N/A",
-        windowStart = launch.windowStart ?: "N/A",
-        windowEnd = launch.windowEnd ?: "N/A",
+        status = launch.status,
+        net = launch.netDisplay ?: "N/A",
+        windowStart = launch.windowStartDisplay ?: "N/A",
+        windowEnd = launch.windowEndDisplay ?: "N/A",
     )
 
     private fun getUpdatesUi(updates: List<Update>) = UpdatesUi(updates = updates)

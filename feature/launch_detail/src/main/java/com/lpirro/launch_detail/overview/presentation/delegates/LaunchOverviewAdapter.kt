@@ -34,6 +34,7 @@ class LaunchOverviewAdapter(
 ) : AsyncListDifferDelegationAdapter<LaunchOverviewItem>(LaunchOverviewDiffCallback) {
     init {
         delegatesManager
+            .addDelegate(pastLaunchHeaderDelegate(removeFromSavedListener))
             .addDelegate(
                 countDownHeaderDelegate(
                     addToCalendarListener,
