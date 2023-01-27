@@ -24,9 +24,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lpirro.domain.usecase.GetSavedLaunchesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
@@ -38,17 +41,13 @@ class SavedLaunchesViewModel @Inject constructor(
         MutableStateFlow<SavedLaunchesUiState>(SavedLaunchesUiState.Loading(isLoading = true))
     val uiState: StateFlow<SavedLaunchesUiState> = _uiState
 
-    override fun getSavedLaunches() = viewModelScope.launch {
-        try {
-            getSavedLaunchesUseCase().collect { launches ->
-                _uiState.value = if (launches.isEmpty()) {
-                    SavedLaunchesUiState.NoSavedLaunches
-                } else {
-                    SavedLaunchesUiState.Success(launches)
-                }
+    override fun getSavedLaunches(): Job {
+        return getSavedLaunchesUseCase()
+            .onEach { launches ->
+                _uiState.value = if (launches.isEmpty()) SavedLaunchesUiState.NoSavedLaunches
+                else SavedLaunchesUiState.Success(launches)
             }
-        } catch (e: java.lang.Exception) {
-            _uiState.value = SavedLaunchesUiState.Error
-        }
+            .catch { _uiState.value = SavedLaunchesUiState.Error }
+            .launchIn(viewModelScope)
     }
 }

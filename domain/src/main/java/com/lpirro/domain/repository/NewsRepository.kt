@@ -24,6 +24,6 @@ import com.lpirro.domain.models.Article
 import kotlinx.coroutines.flow.Flow
 
 interface NewsRepository {
-    suspend fun getNews(): Flow<List<Article>>
+    fun getNews(): Flow<List<Article>>
     suspend fun filterNews(filterQuery: String): Flow<List<Article>>
 }

@@ -36,7 +36,7 @@ class LaunchDetailRepositoryImpl(
     private val mapper: LaunchMapper
 ) : LaunchDetailRepository {
 
-    override suspend fun getLaunch(id: String) = flow {
+    override fun getLaunch(id: String) = flow {
         val launchLocal = launchDao.getLaunch(id)
 
         if (launchLocal != null) {

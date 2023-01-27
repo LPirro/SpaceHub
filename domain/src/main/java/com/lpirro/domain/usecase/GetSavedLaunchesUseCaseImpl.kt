@@ -27,7 +27,7 @@ import kotlinx.coroutines.flow.Flow
 class GetSavedLaunchesUseCaseImpl(
     private val savedLaunchesRepository: SavedLaunchesRepository
 ) : GetSavedLaunchesUseCase {
-    override suspend fun invoke(): Flow<List<Launch>> {
+    override fun invoke(): Flow<List<Launch>> {
         return savedLaunchesRepository.getLaunches()
     }
 }

@@ -27,7 +27,7 @@ import kotlinx.coroutines.flow.Flow
 class GetPastLaunchesUseCaseImpl(
     private val repository: LaunchesRepository
 ) : GetPastLaunchesUseCase {
-    override suspend fun invoke(): Flow<List<Launch>> {
+    override fun invoke(): Flow<List<Launch>> {
         return repository.getPastLaunches()
     }
 }

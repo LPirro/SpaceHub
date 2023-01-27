@@ -25,7 +25,7 @@ import com.lpirro.domain.repository.NewsRepository
 import kotlinx.coroutines.flow.Flow
 
 class GetArticlesUseCaseImpl(private val newsRepository: NewsRepository) : GetArticlesUseCase {
-    override suspend fun invoke(): Flow<List<Article>> {
+    override fun invoke(): Flow<List<Article>> {
         return newsRepository.getNews()
     }
 }

@@ -27,7 +27,7 @@ import kotlinx.coroutines.flow.Flow
 class GetUpcomingLaunchesUseCaseImpl(
     private val repository: LaunchesRepository
 ) : GetUpcomingLaunchesUseCase {
-    override suspend fun invoke(): Flow<List<Launch>> {
+    override fun invoke(): Flow<List<Launch>> {
         return repository.getUpcomingLaunches()
     }
 }

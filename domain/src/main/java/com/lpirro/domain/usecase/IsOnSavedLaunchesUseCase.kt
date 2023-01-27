@@ -23,5 +23,5 @@ package com.lpirro.domain.usecase
 import kotlinx.coroutines.flow.Flow
 
 interface IsOnSavedLaunchesUseCase {
-    suspend operator fun invoke(launchId: String): Flow<Boolean>
+    operator fun invoke(launchId: String): Flow<Boolean>
 }

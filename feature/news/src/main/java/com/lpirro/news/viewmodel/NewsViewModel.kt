@@ -30,8 +30,10 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -50,17 +52,17 @@ class NewsViewModel @Inject constructor(
         getArticles()
     }
 
-    override fun getArticles() = viewModelScope.launch {
-        try {
-            getArticlesUseCase().collect { articles ->
+    override fun getArticles(): Job {
+        return getArticlesUseCase()
+            .onEach { articles ->
                 _uiState.value = NewsUiState.Loading(isLoading = false)
                 _uiState.value = NewsUiState.Success(articles)
             }
-        } catch (e: Exception) {
-            Timber.d(e)
-            _uiState.value = NewsUiState.Loading(isLoading = false)
-            _uiState.value = NewsUiState.Error
-        }
+            .catch {
+                _uiState.value = NewsUiState.Loading(isLoading = false)
+                _uiState.value = NewsUiState.Error
+            }
+            .launchIn(viewModelScope)
     }
 
     override fun filterArticles(queryFilter: String): Job? {
@@ -74,7 +76,6 @@ class NewsViewModel @Inject constructor(
                     _uiState.value = NewsUiState.Success(articles)
                 }
             } catch (e: Exception) {
-                Timber.d(e)
                 _uiState.value = NewsUiState.Loading(isLoading = false)
                 if (e !is SearchCancellationException) _uiState.value = NewsUiState.Error
             }

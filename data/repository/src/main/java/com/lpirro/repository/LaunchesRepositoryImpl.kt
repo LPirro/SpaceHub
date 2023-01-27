@@ -41,14 +41,14 @@ class LaunchesRepositoryImpl(
     private val mapper: LaunchMapper
 ) : LaunchesRepository {
 
-    override suspend fun getUpcomingLaunches() = flow {
-        refreshCache({ spaceHubApiService.getUpcomingLaunches() }, LaunchType.UPCOMING)
+    override fun getUpcomingLaunches() = flow {
+        refreshCache(spaceHubApiService::getUpcomingLaunches, LaunchType.UPCOMING)
         val launches = launchDao.getLaunchesWithType(LaunchType.UPCOMING).map(mapper::mapToDomain)
         emit(launches)
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun getPastLaunches() = flow {
-        refreshCache({ spaceHubApiService.getPastLaunches() }, LaunchType.PAST)
+    override fun getPastLaunches() = flow {
+        refreshCache(spaceHubApiService::getPastLaunches, LaunchType.PAST)
         val launches = launchDao.getLaunchesWithType(LaunchType.PAST).map(mapper::mapToDomain)
         emit(launches)
     }.flowOn(Dispatchers.IO)

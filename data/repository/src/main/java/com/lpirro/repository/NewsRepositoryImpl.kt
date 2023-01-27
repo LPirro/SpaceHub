@@ -38,7 +38,7 @@ class NewsRepositoryImpl(
     private val articleMapper: ArticleMapper
 ) : NewsRepository {
 
-    override suspend fun getNews() = flow {
+    override fun getNews() = flow {
         loadArticles()
         val articles = articleDao.getAll().map(articleMapper::mapToDomain)
         emit(articles)

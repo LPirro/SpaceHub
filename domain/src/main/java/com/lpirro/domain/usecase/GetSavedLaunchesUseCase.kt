@@ -24,5 +24,5 @@ import com.lpirro.domain.models.Launch
 import kotlinx.coroutines.flow.Flow
 
 interface GetSavedLaunchesUseCase {
-    suspend operator fun invoke(): Flow<List<Launch>>
+    operator fun invoke(): Flow<List<Launch>>
 }

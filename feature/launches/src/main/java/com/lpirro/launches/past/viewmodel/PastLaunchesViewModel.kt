@@ -24,9 +24,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lpirro.domain.usecase.GetPastLaunchesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
@@ -42,16 +45,17 @@ class PastLaunchesViewModel @Inject constructor(
         getPastLaunches()
     }
 
-    override fun getPastLaunches() = viewModelScope.launch {
-        try {
-            getPastLaunchesUseCase().collect { launches ->
+    override fun getPastLaunches(): Job {
+        return getPastLaunchesUseCase()
+            .onEach {
                 _uiState.value = PastLaunchesUiState.Loading(isLoading = false)
-                _uiState.value = PastLaunchesUiState.Success(launches)
+                _uiState.value = PastLaunchesUiState.Success(it)
             }
-        } catch (e: Exception) {
-            _uiState.value = PastLaunchesUiState.Loading(isLoading = false)
-            _uiState.value = PastLaunchesUiState.Error
-        }
+            .catch {
+                _uiState.value = PastLaunchesUiState.Loading(isLoading = false)
+                _uiState.value = PastLaunchesUiState.Error
+            }
+            .launchIn(viewModelScope)
     }
 
     override fun refresh() {

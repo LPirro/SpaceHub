@@ -24,9 +24,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lpirro.domain.usecase.GetUpcomingLaunchesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
@@ -42,16 +45,15 @@ class UpcomingLaunchesViewModel @Inject constructor(
         getUpcomingLaunches()
     }
 
-    override fun getUpcomingLaunches() = viewModelScope.launch {
-        try {
-            getUpcomingLaunchesUseCase().collect { launches ->
+    override fun getUpcomingLaunches(): Job {
+        return getUpcomingLaunchesUseCase()
+            .onEach { launches ->
                 _uiState.value = UpcomingLaunchesUiState.Loading(isLoading = false)
                 _uiState.value = UpcomingLaunchesUiState.Success(launches)
-            }
-        } catch (e: Exception) {
-            _uiState.value = UpcomingLaunchesUiState.Loading(isLoading = false)
-            _uiState.value = UpcomingLaunchesUiState.Error
-        }
+            }.catch {
+                _uiState.value = UpcomingLaunchesUiState.Loading(isLoading = false)
+                _uiState.value = UpcomingLaunchesUiState.Error
+            }.launchIn(viewModelScope)
     }
 
     override fun refresh() {

@@ -26,7 +26,7 @@ import kotlinx.coroutines.flow.Flow
 class IsOnSavedLaunchesUseCaseImpl(
     private val savedLaunchesRepository: SavedLaunchesRepository
 ) : IsOnSavedLaunchesUseCase {
-    override suspend fun invoke(launchId: String): Flow<Boolean> {
+    override fun invoke(launchId: String): Flow<Boolean> {
         return savedLaunchesRepository.isSaved(launchId)
     }
 }

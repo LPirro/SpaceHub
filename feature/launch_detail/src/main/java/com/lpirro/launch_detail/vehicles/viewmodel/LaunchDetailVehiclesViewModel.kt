@@ -25,10 +25,12 @@ import androidx.lifecycle.viewModelScope
 import com.lpirro.domain.usecase.GetLaunchDetailOverviewUseCase
 import com.lpirro.launch_detail.vehicles.mapper.LaunchVehiclesMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
-import timber.log.Timber
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
@@ -41,14 +43,10 @@ class LaunchDetailVehiclesViewModel @Inject constructor(
         MutableStateFlow<LaunchDetailVehiclesUiState>(LaunchDetailVehiclesUiState.Loading)
     val uiState: StateFlow<LaunchDetailVehiclesUiState> = _uiState
 
-    override fun getLaunch(id: String) = viewModelScope.launch {
-        try {
-            getLaunchDetailOverviewUseCase(id).collect { launch ->
-                _uiState.value = LaunchDetailVehiclesUiState.Success(mapper.mapToUi(launch.rocket))
-            }
-        } catch (e: java.lang.Exception) {
-            _uiState.value = LaunchDetailVehiclesUiState.Error
-            Timber.d(e)
-        }
+    override fun getLaunch(id: String): Job {
+        return getLaunchDetailOverviewUseCase(id)
+            .onEach { _uiState.value = LaunchDetailVehiclesUiState.Success(mapper.mapToUi(it.rocket)) }
+            .catch { _uiState.value = LaunchDetailVehiclesUiState.Error }
+            .launchIn(viewModelScope)
     }
 }

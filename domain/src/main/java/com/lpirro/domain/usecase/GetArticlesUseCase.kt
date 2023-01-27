@@ -24,5 +24,5 @@ import com.lpirro.domain.models.Article
 import kotlinx.coroutines.flow.Flow
 
 interface GetArticlesUseCase {
-    suspend operator fun invoke(): Flow<List<Article>>
+    operator fun invoke(): Flow<List<Article>>
 }

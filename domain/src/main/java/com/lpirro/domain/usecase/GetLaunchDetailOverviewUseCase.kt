@@ -24,5 +24,5 @@ import com.lpirro.domain.models.Launch
 import kotlinx.coroutines.flow.Flow
 
 interface GetLaunchDetailOverviewUseCase {
-    suspend operator fun invoke(id: String): Flow<Launch>
+    operator fun invoke(id: String): Flow<Launch>
 }

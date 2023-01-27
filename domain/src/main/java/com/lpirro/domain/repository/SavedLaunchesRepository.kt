@@ -24,8 +24,8 @@ import com.lpirro.domain.models.Launch
 import kotlinx.coroutines.flow.Flow
 
 interface SavedLaunchesRepository {
-    suspend fun getLaunches(): Flow<List<Launch>>
+    fun getLaunches(): Flow<List<Launch>>
     suspend fun addLaunch(launchId: String)
     suspend fun removeLaunch(launchId: String)
-    suspend fun isSaved(launchId: String): Flow<Boolean>
+    fun isSaved(launchId: String): Flow<Boolean>
 }
