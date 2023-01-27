@@ -47,6 +47,14 @@ class DateParserTest {
     }
 
     @Test
+    fun `Full Date parsed correctly in dd MMM yyyy`() {
+        val expectedResult = "25 Dec 2022"
+        val result = dateParser.formatToDDMMMYYYY(dateUnderTest)
+
+        assertEquals(result, expectedResult)
+    }
+
+    @Test
     fun `Date Day Month parsed correctly in dd MMM`() {
         val expectedResult = "25 Dec"
         val result = dateParser.parseDateDayMonth(dateUnderTest)
