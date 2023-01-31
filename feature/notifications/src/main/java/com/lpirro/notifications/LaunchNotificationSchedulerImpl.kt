@@ -47,7 +47,7 @@ class LaunchNotificationSchedulerImpl(private val application: Application) : La
             PendingIntent.FLAG_IMMUTABLE
         )
 
-        val timeTarget = DateTime(timeMillis).minusMinutes(0).millis
+        val timeTarget = DateTime(timeMillis).minusMinutes(10).millis
         val clockInfo = AlarmManager.AlarmClockInfo(timeTarget, pendingIntent)
         alarmManager.setAlarmClock(clockInfo, pendingIntent)
     }
