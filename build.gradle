@@ -96,14 +96,6 @@ subprojects {
                 kotlinOptions {
                     jvmTarget = '1.8'
                 }
-
-                sourceSets {
-                    main {
-                        java {
-                            srcDirs += 'build/generated/source/navigation-args'
-                        }
-                    }
-                }
             }
         }
     }
