@@ -18,27 +18,9 @@
  *
  */
 
-package com.lpirro.core.navigation
+package com.lpirro.notifications
 
-import android.net.Uri
-import androidx.core.net.toUri
-import androidx.navigation.NavDeepLinkRequest
-
-object NavigationUtil {
-
-    fun getLaunchDetailUri(launchId: String): Uri {
-        return "android-app://com.lpirro.spacehub/launch_detail?launchId=$launchId".toUri()
-    }
-
-    private fun getLaunchesUri(): Uri {
-        return "android-app://com.lpirro.spacehub/launches".toUri()
-    }
-
-    fun launchDetailDeeplink(launchId: String) = NavDeepLinkRequest.Builder
-        .fromUri(getLaunchDetailUri(launchId))
-        .build()
-
-    fun launchesDeeplink() = NavDeepLinkRequest.Builder
-        .fromUri(getLaunchesUri())
-        .build()
+interface LaunchNotificationScheduler {
+    fun createNotificationAlarm(timeMillis: Long, launchId: String, notificationTitle: String)
+    fun removeNotificationAlarm(launchId: String)
 }

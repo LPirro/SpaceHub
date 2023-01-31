@@ -20,42 +20,75 @@
 
 package com.lpirro.spacehub
 
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.WindowCompat
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
+import com.lpirro.core.extensions.hide
+import com.lpirro.core.extensions.show
 import com.lpirro.spacehub.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedListener {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        WindowCompat.setDecorFitsSystemWindows(window, false)
-        super.onCreate(savedInstanceState)
+    private val notificationPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (!isGranted) { } else { }
+        }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val navController = findNavController(R.id.navHost)
+        navController.addOnDestinationChangedListener(this)
 
         setupBottomNavigation(navController)
-    }
 
-    private fun setupBottomNavigation(navController: NavController) {
-        binding.bottomNavigation.setupWithNavController(navController)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            notificationPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.navHost)
         return navController.navigateUp(appBarConfiguration) ||
             super.onSupportNavigateUp()
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        findNavController(R.id.navHost).handleDeepLink(intent)
+    }
+
+    override fun onDestinationChanged(
+        controller: NavController,
+        destination: NavDestination,
+        arguments: Bundle?
+    ) {
+        when (destination.id) {
+            com.lpirro.launch_detail.R.id.navigation_launch_detail -> {
+                binding.bottomNavigation.hide()
+            }
+            else -> {
+                binding.bottomNavigation.show()
+            }
+        }
+    }
+
+    private fun setupBottomNavigation(navController: NavController) {
+        binding.bottomNavigation.setupWithNavController(navController)
     }
 }

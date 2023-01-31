@@ -3,7 +3,6 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'com.google.dagger.hilt.android'
     id 'androidx.navigation.safeargs'
-    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
     id 'kotlin-kapt'
 }
 
@@ -19,6 +18,7 @@ dependencies {
 
     api project(":core")
     api project(":domain")
+    implementation project(":feature:notifications")
 
     // AndroidX
     implementation "androidx.core:core-ktx:$rootProject.coreKtx"

@@ -51,7 +51,7 @@
 
         <ImageView
             android:id="@+id/agencyLogo"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="20dp"
             android:layout_marginStart="@dimen/margin_16dp"
             android:layout_marginTop="@dimen/margin_16dp"

@@ -21,7 +21,8 @@
 package com.lpirro.launch_detail.tabs.presentation
 
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.lpirro.launch_detail.mission.presentation.LaunchDetailMissionFragment
 import com.lpirro.launch_detail.overview.presentation.LaunchDetailOverviewFragment
@@ -31,8 +32,9 @@ private const val NUM_TABS = 3
 
 class LaunchDetailViewPagerAdapter(
     private val launchId: String,
-    fragmentActivity: FragmentActivity,
-) : FragmentStateAdapter(fragmentActivity) {
+    fragmentManager: FragmentManager,
+    lifecycle: Lifecycle
+) : FragmentStateAdapter(fragmentManager, lifecycle) {
 
     override fun getItemCount(): Int {
         return NUM_TABS

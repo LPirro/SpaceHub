@@ -8,14 +8,6 @@ plugins {
 android {
     namespace 'com.lpirro.spacehub'
 
-    Properties properties = new Properties()
-    properties.load(project.rootProject.file('local.properties').newDataInputStream())
-    def MAPS_API_KEY = properties.getProperty('MAPS_API_KEY')
-
-    defaultConfig {
-        manifestPlaceholders.MAPS_API_KEY = MAPS_API_KEY
-    }
-
     buildTypes {
         release {
             minifyEnabled false

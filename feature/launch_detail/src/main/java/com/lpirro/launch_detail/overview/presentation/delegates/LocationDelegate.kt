@@ -20,9 +20,11 @@
 
 package com.lpirro.launch_detail.overview.presentation.delegates
 
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.model.MarkerOptions
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
+import com.lpirro.core.BuildConfig
 import com.lpirro.launch_detail.databinding.ItemLocationBinding
 import com.lpirro.launch_detail.overview.model.LaunchOverviewItem
 import com.lpirro.launch_detail.overview.model.LocationUi
@@ -33,12 +35,16 @@ fun locationDelegate() =
     ) {
         bind {
             binding.mapsCardValue.text = item.name
-            binding.googleMap.onCreate(null)
-            binding.googleMap.onResume()
-            binding.googleMap.getMapAsync { map ->
-                map.addMarker(MarkerOptions().position(item.latLng))
-                map.moveCamera(CameraUpdateFactory.newLatLng(item.latLng))
-                map.uiSettings.isMapToolbarEnabled = false
-            }
+            val latitude = item.latLng.latitude
+            val longitude = item.latLng.longitude
+            val zoom = 13
+            val apiKey = BuildConfig.MAPS_API_KEY
+            val mapUrl = "https://maps.googleapis.com/maps/api/staticmap?scale=2&center=$latitude,$longitude&zoom=$zoom&size=800x800&key=$apiKey"
+
+            Glide.with(itemView.context)
+                .load(mapUrl)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .transform(CenterCrop())
+                .into(binding.googleMap)
         }
     }

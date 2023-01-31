@@ -30,16 +30,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.gms.maps.MapView
+        <ImageView
             android:id="@+id/googleMap"
             android:layout_width="match_parent"
             android:layout_height="230dp"
-            app:liteMode="true"
-            app:cameraZoom="13"
             app:layout_constraintBottom_toTopOf="@id/mapsCardValue"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/mapsCardValue"

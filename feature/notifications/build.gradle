@@ -1,0 +1,25 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'com.google.dagger.hilt.android'
+    id 'kotlin-kapt'
+}
+
+android {
+    namespace 'com.lpirro.notifications'
+}
+
+dependencies {
+
+    implementation project(":domain")
+    api project(':core')
+
+    // HILT
+    implementation "com.google.dagger:hilt-android:$rootProject.hilt"
+    kapt "com.google.dagger:hilt-compiler:$rootProject.hilt"
+
+    implementation 'androidx.navigation:navigation-runtime-ktx:2.5.3'
+
+    implementation "joda-time:joda-time:$rootProject.jodaTime"
+
+}

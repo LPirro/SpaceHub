@@ -18,27 +18,22 @@
  *
  */
 
-package com.lpirro.core.navigation
+package com.lpirro.notifications.di
 
-import android.net.Uri
-import androidx.core.net.toUri
-import androidx.navigation.NavDeepLinkRequest
+import android.app.Application
+import com.lpirro.notifications.LaunchNotificationScheduler
+import com.lpirro.notifications.LaunchNotificationSchedulerImpl
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 
-object NavigationUtil {
+@Module
+@InstallIn(SingletonComponent::class)
+object NotificationModule {
 
-    fun getLaunchDetailUri(launchId: String): Uri {
-        return "android-app://com.lpirro.spacehub/launch_detail?launchId=$launchId".toUri()
+    @Provides
+    fun provideLaunchNotificationScheduler(application: Application): LaunchNotificationScheduler {
+        return LaunchNotificationSchedulerImpl(application)
     }
-
-    private fun getLaunchesUri(): Uri {
-        return "android-app://com.lpirro.spacehub/launches".toUri()
-    }
-
-    fun launchDetailDeeplink(launchId: String) = NavDeepLinkRequest.Builder
-        .fromUri(getLaunchDetailUri(launchId))
-        .build()
-
-    fun launchesDeeplink() = NavDeepLinkRequest.Builder
-        .fromUri(getLaunchesUri())
-        .build()
 }

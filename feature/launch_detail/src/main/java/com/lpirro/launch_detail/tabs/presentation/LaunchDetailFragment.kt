@@ -21,62 +21,46 @@
 package com.lpirro.launch_detail.tabs.presentation
 
 import android.os.Bundle
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updatePadding
+import android.transition.TransitionInflater
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.navArgs
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.android.material.tabs.TabLayoutMediator
+import com.lpirro.core.base.BaseFragment
 import com.lpirro.domain.models.Launch
 import com.lpirro.launch_detail.R
-import com.lpirro.launch_detail.databinding.ActivityLaunchDetailBinding
+import com.lpirro.launch_detail.databinding.FragmentLaunchDetailBinding
 import com.lpirro.launch_detail.tabs.viewmodel.LaunchDetailUiState
 import com.lpirro.launch_detail.tabs.viewmodel.LaunchDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class LaunchDetailActivity : AppCompatActivity() {
+class LaunchDetailFragment : BaseFragment<FragmentLaunchDetailBinding>() {
 
-    private lateinit var binding: ActivityLaunchDetailBinding
-    private val args: LaunchDetailActivityArgs by navArgs()
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentLaunchDetailBinding
+        get() = FragmentLaunchDetailBinding::inflate
+
+    private val args: LaunchDetailFragmentArgs by navArgs()
     private val viewModel: LaunchDetailViewModel by viewModels()
 
     private lateinit var adapter: LaunchDetailViewPagerAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        WindowCompat.setDecorFitsSystemWindows(window, false)
-        binding = ActivityLaunchDetailBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        setSupportActionBar(binding.toolbar)
+        val inflater = TransitionInflater.from(requireContext())
+        enterTransition = inflater.inflateTransition(com.lpirro.core.R.transition.slide_right)
+    }
 
-        var maxDeltaPadding = 0
-        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { _, windowInsets ->
-            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-            maxDeltaPadding = insets.top
-            binding.root.updatePadding(bottom = insets.bottom)
-            WindowInsetsCompat.CONSUMED
-        }
-
-        val appBarTotalScrollRange: Float by lazy {
-            binding.appBar.totalScrollRange.toFloat()
-        }
-
-        binding.appBar.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
-            val percentOfScrollRange = (-verticalOffset / appBarTotalScrollRange)
-            val deltaPadding = maxDeltaPadding * percentOfScrollRange
-            val newTopPadding = deltaPadding.toInt()
-            if (newTopPadding != appBarLayout.paddingTop) {
-                appBarLayout.updatePadding(top = newTopPadding)
-            }
-        }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         registerObservers()
         createTabs()
@@ -123,7 +107,7 @@ class LaunchDetailActivity : AppCompatActivity() {
     private fun initTabs() {
         val launchId = args.launchId
 
-        adapter = LaunchDetailViewPagerAdapter(launchId, this)
+        adapter = LaunchDetailViewPagerAdapter(launchId, childFragmentManager, lifecycle)
         binding.viewPager.adapter = adapter
 
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->

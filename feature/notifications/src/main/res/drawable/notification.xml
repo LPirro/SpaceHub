@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  ~
+<!--
   ~ SpaceHub - Designed and Developed by LPirro (Leonardo Pirro)
   ~ Copyright (C) 2023 Leonardo Pirro
   ~
@@ -15,14 +14,10 @@
   ~
   ~ You should have received a copy of the GNU General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  ~
   -->
 
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <application>
-        <activity
-            android:name=".overview.presentation.YouTubeActivity"
-            android:exported="false"
-            android:screenOrientation="landscape" />
-    </application>
-</manifest>
+<vector android:height="24dp" android:viewportHeight="156.37"
+    android:viewportWidth="156.37" android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="#2c3eff" android:pathData="M91.42,94.26c15.91,67.11 -46.68,13.93 -90.3,-29.11C0,71.61 -0.31,78.31 0.32,85.14c3.9,42.4 41.91,73.67 84.9,69.84 27.41,-2.46 50.23,-18.56 62.17,-40.91h0.01s-56.44,-21.68 -56.44,-21.68c0.16,0.63 0.31,1.27 0.45,1.88Z"/>
+    <path android:fillColor="#2c3eff" android:pathData="M156.05,71.24C152.15,28.83 114.14,-2.44 71.13,1.39 43.7,3.85 20.85,20.01 8.93,42.4h0s56.33,21.64 56.33,21.64c-0.16,-0.63 -0.31,-1.27 -0.45,-1.88 -15.93,-67.17 46.78,-13.84 90.42,29.23 1.14,-6.5 1.45,-13.27 0.82,-20.15Z"/>
+</vector>

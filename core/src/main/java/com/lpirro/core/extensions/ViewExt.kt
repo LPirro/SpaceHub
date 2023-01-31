@@ -22,6 +22,7 @@ package com.lpirro.core.extensions
 
 import android.view.MenuItem
 import android.view.View
+import android.view.animation.TranslateAnimation
 import androidx.appcompat.widget.SearchView
 
 fun View.show() {
@@ -63,4 +64,20 @@ inline fun MenuItem.onMenuItemActionCollapse(crossinline onMenuItemActionCollaps
             return true
         }
     })
+}
+
+fun View.slideUp(duration: Int = 500) {
+    visibility = View.VISIBLE
+    val animate = TranslateAnimation(0f, 0f, this.height.toFloat(), 0f)
+    animate.duration = duration.toLong()
+    animate.fillAfter = true
+    this.startAnimation(animate)
+}
+
+fun View.slideDown(duration: Int = 500) {
+    visibility = View.VISIBLE
+    val animate = TranslateAnimation(0f, 0f, 0f, this.height.toFloat())
+    animate.duration = duration.toLong()
+    animate.fillAfter = true
+    this.startAnimation(animate)
 }

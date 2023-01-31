@@ -24,9 +24,9 @@
     android:id="@+id/launch_detail_graph"
     app:startDestination="@id/navigation_launch_detail">
 
-    <activity
+    <fragment
         android:id="@+id/navigation_launch_detail"
-        android:name="com.lpirro.launch_detail.tabs.presentation.LaunchDetailActivity"
+        android:name="com.lpirro.launch_detail.tabs.presentation.LaunchDetailFragment"
         android:label="@string/launch_detail">
 
         <argument
@@ -35,7 +35,7 @@
 
         <deepLink app:uri="android-app://com.lpirro.spacehub/launch_detail?launchId={launchId}" />
 
-    </activity>
+    </fragment>
 
     <activity
         android:id="@+id/navigation_youtube_full_screen"
