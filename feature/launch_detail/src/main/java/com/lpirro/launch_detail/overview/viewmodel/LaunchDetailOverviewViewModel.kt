@@ -96,8 +96,13 @@ class LaunchDetailOverviewViewModel @Inject constructor(
 
     override fun addLaunchToCalendar(launchName: String, launchDateMillis: Long) {
         viewModelScope.launch {
-            _events.emit(LaunchDetailOverviewEvent.AddToCalendar(launchName, launchDateMillis))
+          //  _events.emit(LaunchDetailOverviewEvent.AddToCalendar(launchName, launchDateMillis))
         }
+        notificationScheduler.updateNotificationAlarm(
+            timeMillis = launch.netMillis!!,
+            launchId = launch.id,
+            notificationTitle = launch.name
+        )
     }
 
     override fun addToSavedLaunches(launchId: String) = viewModelScope.launch {

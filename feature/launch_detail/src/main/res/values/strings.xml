@@ -75,6 +75,7 @@
     <string name="landing_location">Landing Location</string>
     <string name="past_launch_status">%1$s • On %2$s</string>
     <string name="launch_completed">Launch Completed</string>
+    <string name="launch_in_flight">Launch In Flight</string>
     <string name="launch_failed">Launch Failed</string>
 
 </resources>

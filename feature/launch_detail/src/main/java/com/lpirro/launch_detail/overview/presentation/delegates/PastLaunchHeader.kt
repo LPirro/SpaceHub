@@ -38,6 +38,7 @@ fun pastLaunchHeaderDelegate(
 
             val launchStatus = when (item.status) {
                 is Status.Success -> resources.getString(R.string.launch_completed)
+                is Status.InFlight -> resources.getString(R.string.launch_in_flight)
                 else -> resources.getString(R.string.launch_failed)
             }
 
