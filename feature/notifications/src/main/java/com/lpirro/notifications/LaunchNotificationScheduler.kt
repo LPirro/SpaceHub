@@ -20,6 +20,5 @@ package com.lpirro.notifications
 
 interface LaunchNotificationScheduler {
     fun createNotificationAlarm(timeMillis: Long, launchId: String, notificationTitle: String)
-    fun updateNotificationAlarm(timeMillis: Long, launchId: String, notificationTitle: String)
     fun removeNotificationAlarm(launchId: String)
 }

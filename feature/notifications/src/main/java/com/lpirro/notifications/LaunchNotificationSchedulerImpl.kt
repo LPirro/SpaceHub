@@ -52,31 +52,6 @@ class LaunchNotificationSchedulerImpl(private val application: Application) : La
         alarmManager.setAlarmClock(clockInfo, pendingIntent)
     }
 
-    override fun updateNotificationAlarm(
-        timeMillis: Long,
-        launchId: String,
-        notificationTitle: String
-    ) {
-        val requestCode = launchId.hashCode()
-
-        val alarmManager = application.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val intent = Intent(application, NotificationAlarmReceiver::class.java)
-        intent.putExtra(NotificationAlarmReceiver.LAUNCH_ID_KEY, launchId)
-        intent.putExtra(NotificationAlarmReceiver.NOTIFICATION_TITLE_KEY, "Title New")
-        intent.putExtra(NotificationAlarmReceiver.NOTIFICATION_MESSAGE_KEY, "Is Launching in 10 minutes") // TODO remove hardcoded string
-
-        val pendingIntent = PendingIntent.getBroadcast(
-            application,
-            requestCode,
-            intent,
-            PendingIntent.FLAG_IMMUTABLE
-        )
-
-        val timeTarget = DateTime(timeMillis).plusMinutes(2).millis
-        val clockInfo = AlarmManager.AlarmClockInfo(timeTarget, pendingIntent)
-        alarmManager.setAlarmClock(clockInfo, pendingIntent)
-    }
-
     override fun removeNotificationAlarm(launchId: String) {
         val requestCode = launchId.hashCode()
 
