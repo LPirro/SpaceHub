@@ -2,7 +2,7 @@ plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
     id 'com.google.dagger.hilt.android'
-    id 'androidx.navigation.safeargs'
+    id 'androidx.navigation.safeargs.kotlin'
     id 'kotlin-kapt'
 }
 
@@ -28,7 +28,7 @@ dependencies {
 
     // AndroidX 
     implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.navigationFragmentKtx"
-    implementation "androidx.navigation:navigation-ui:$rootProject.navigationUiKtx"
+    implementation "androidx.navigation:navigation-ui-ktx:$rootProject.navigationUiKtx"
     implementation "androidx.appcompat:appcompat:$rootProject.appCompat"
     implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraintLayout"
 

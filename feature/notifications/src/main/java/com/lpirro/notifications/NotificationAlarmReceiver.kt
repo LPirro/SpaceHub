@@ -22,16 +22,16 @@ import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.PendingIntent
-import android.app.TaskStackBuilder
 import android.content.BroadcastReceiver
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
-import com.lpirro.core.navigation.NavigationUtil
+import androidx.core.os.bundleOf
+import androidx.navigation.NavDeepLinkBuilder
 
 class NotificationAlarmReceiver : BroadcastReceiver() {
 
@@ -44,14 +44,13 @@ class NotificationAlarmReceiver : BroadcastReceiver() {
         val notificationTitle = intent?.getStringExtra(NOTIFICATION_TITLE_KEY)
         val notificationMessage = intent?.getStringExtra(NOTIFICATION_MESSAGE_KEY)
 
-        val taskBuilder = TaskStackBuilder.create(context).run {
-            addNextIntentWithParentStack(
-                Intent(Intent.ACTION_VIEW).apply {
-                    data = launchId?.let { NavigationUtil.getLaunchDetailUri(it) }
-                }
-            )
-            getPendingIntent(0, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
-        }
+        val componentName = ComponentName(context, "com.lpirro.spacehub.MainActivity")
+        val pendingIntent = NavDeepLinkBuilder(context)
+            .setGraph(com.lpirro.core.R.navigation.main_graph)
+            .setDestination(com.lpirro.core.R.id.launch_detail_graph)
+            .setArguments(bundleOf("launchId" to launchId))
+            .setComponentName(componentName)
+            .createPendingIntent()
 
         val notification = NotificationCompat.Builder(context, LAUNCH_UPDATES_CHANNEL_ID)
             .setSmallIcon(R.drawable.notification)
@@ -59,7 +58,7 @@ class NotificationAlarmReceiver : BroadcastReceiver() {
             .setColor(ContextCompat.getColor(context, com.lpirro.core.R.color.seed))
             .setContentText(notificationMessage)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setContentIntent(taskBuilder)
+            .setContentIntent(pendingIntent)
             .build()
 
         notification.flags = Notification.FLAG_AUTO_CANCEL

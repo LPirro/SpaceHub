@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
-    id 'androidx.navigation.safeargs'
+    id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {
@@ -21,7 +21,7 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$rootProject.appCompat"
 
     // Navigation
-    implementation "androidx.navigation:navigation-ui:$rootProject.navigationUiKtx"
+    implementation "androidx.navigation:navigation-ui-ktx:$rootProject.navigationUiKtx"
 
     // Design
     implementation "com.google.android.material:material:$rootProject.material"

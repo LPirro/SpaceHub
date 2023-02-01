@@ -59,7 +59,6 @@ class LaunchDetailFragment : BaseFragment<FragmentLaunchDetailBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         registerObservers()
         createTabs()
         viewModel.getLaunch(args.launchId)
