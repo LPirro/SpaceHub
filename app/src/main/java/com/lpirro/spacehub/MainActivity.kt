@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         arguments: Bundle?
     ) {
         when (destination.id) {
-            com.lpirro.launch_detail.R.id.navigation_launch_detail -> {
+            com.lpirro.core.R.id.navigation_launch_detail -> {
                 binding.bottomNavigation.hide()
             }
             else -> {

@@ -29,11 +29,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.lpirro.core.R
 import com.lpirro.core.base.BaseFragment
 import com.lpirro.core.extensions.launchAddToCalendarIntent
 import com.lpirro.core.extensions.launchChromeCustomTab
 import com.lpirro.core.extensions.launchGoogleMapsIntent
-import com.lpirro.launch_detail.R
 import com.lpirro.launch_detail.databinding.FragmentLaunchDetailOverviewBinding
 import com.lpirro.launch_detail.overview.presentation.delegates.LaunchOverviewAdapter
 import com.lpirro.launch_detail.overview.viewmodel.LaunchDetailOverviewEvent
