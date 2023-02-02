@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ SpaceHub - Designed and Developed by LPirro (Leonardo Pirro)
   ~ Copyright (C) 2023 Leonardo Pirro
   ~
@@ -18,11 +17,38 @@
   -->
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:id="@+id/groupMain"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/events_graph"
+            android:icon="@drawable/calendar_today"
+            android:title="@string/drawer_events" />
+        <item
+            android:id="@+id/agencies_graph"
+            android:icon="@drawable/domain"
+            android:title="@string/drawer_agencies" />
+        <item
+            android:id="@+id/vehicles_graph"
+            android:icon="@drawable/rocket_outline"
+            android:title="@string/drawer_vehicles" />
 
-    <group android:checkableBehavior="single">
         <item
             android:id="@+id/astronauts_graph"
-            android:title="@string/drawer_astronauts"
-            android:icon="@drawable/selector_navigation_rocket"/>
+            android:icon="@drawable/astronaut"
+            android:title="@string/drawer_astronauts" />
+
+        <item
+            android:id="@+id/space_station_graph"
+            android:icon="@drawable/space_station"
+            android:title="@string/drawer_space_stations" />
+    </group>
+    <group
+        android:id="@+id/groupOther"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/settings_navigation"
+            android:icon="@drawable/settings"
+            android:title="@string/drawer_settings" />
     </group>
 </menu>

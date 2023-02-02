@@ -22,4 +22,9 @@
     <string name="bottom_nav_news">News</string>
     <string name="bottom_nav_saved">Saved</string>
     <string name="drawer_astronauts">Astronauts</string>
+    <string name="drawer_events">Events</string>
+    <string name="drawer_vehicles">Vehicles</string>
+    <string name="drawer_space_stations">Space Stations</string>
+    <string name="drawer_settings">Settings</string>
+    <string name="drawer_agencies">Agencies</string>
 </resources>

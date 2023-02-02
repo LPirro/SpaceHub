@@ -1,0 +1,29 @@
+<!--
+  ~ SpaceHub - Designed and Developed by LPirro (Leonardo Pirro)
+  ~ Copyright (C) 2023 Leonardo Pirro
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+  <path
+      android:fillColor="#FF000000"
+      android:pathData="M22,10.93c0,-1.89 -0.67,-3.74 -1.92,-5.27 -1.25,-1.53 -3.01,-2.66 -5.03,-3.24 -2.02,-0.58 -4.19,-0.57 -6.21,0.03 -2.01,0.6 -3.76,1.75 -4.99,3.29 -1.23,1.54 -1.88,3.39 -1.85,5.29 0.03,1.89 0.73,3.73 2,5.24v1.08c0,1.23 0.55,2.41 1.52,3.28 0.97,0.87 2.3,1.36 3.68,1.36h5.6c1.38,0 2.7,-0.49 3.68,-1.36 0.97,-0.87 1.52,-2.05 1.52,-3.28v-1.08c1.3,-1.54 2,-3.42 2,-5.35h0ZM12.8,2.75v3.2c-0.26,-0.01 -0.53,-0.02 -0.8,-0.02s-0.54,0 -0.8,0.02L11.2,2.75c0.26,-0.02 0.53,-0.03 0.8,-0.03s0.54,0.01 0.8,0.03ZM12,7.02c4.24,0 7.2,1.61 7.2,4.45s-3.08,4.85 -7.2,4.85 -7.2,-1.9 -7.2,-4.85 2.96,-4.45 7.2,-4.45ZM10.4,2.85v3.18c-3.84,0.46 -6.4,2.56 -6.4,5.44 0,3.29 3.42,5.65 8,5.65s8,-2.36 8,-5.65c0,-2.87 -2.56,-4.98 -6.4,-5.44L13.6,2.85c2.27,0.36 4.3,1.46 5.7,3.09s2.07,3.67 1.86,5.71c-0.2,2.05 -1.25,3.95 -2.95,5.34 -1.7,1.39 -3.91,2.16 -6.21,2.16s-4.52,-0.77 -6.21,-2.16c-1.7,-1.39 -2.75,-3.29 -2.95,-5.34 -0.2,-2.05 0.46,-4.08 1.86,-5.71 1.4,-1.63 3.43,-2.73 5.7,-3.09h0ZM19.2,17.36c0,1.04 -0.47,2.04 -1.29,2.78s-1.94,1.15 -3.11,1.15h-5.6c-1.17,0 -2.28,-0.42 -3.11,-1.15s-1.29,-1.73 -1.29,-2.78v-0.24c1.24,1.16 2.82,2 4.55,2.42 1.73,0.43 3.56,0.43 5.3,0 1.73,-0.43 3.31,-1.26 4.55,-2.42v0.24Z"
+      android:strokeWidth=".9"
+      android:strokeColor="#FF000000"/>
+</vector>
