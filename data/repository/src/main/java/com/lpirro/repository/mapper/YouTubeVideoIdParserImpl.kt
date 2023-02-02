@@ -31,6 +31,6 @@ class YouTubeVideoIdParserImpl : YouTubeVideoIdParser {
         if (matcher.find()) {
             return matcher.group(1)
         }
-        return null // TODO: Add analytics if the mapper fails to map youtube video
+        return null // TODO: Track if the parser fails (SH-58)
     }
 }

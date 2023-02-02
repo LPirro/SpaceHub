@@ -94,12 +94,12 @@ class NewsFragment : BaseFragment<FragmentNewsBinding>(), DefaultLifecycleObserv
         }
     }
 
-    // TODO: Move to View Model
+    // TODO: Move to View Model as part of SH-59
     private fun articleClicked(articleUrl: String) {
         launchChromeCustomTab(articleUrl)
     }
 
-    // TODO: Move to View Model
+    // TODO: Move to View Model as part of SH-59
     private fun relatedLaunchClicked(launchId: String) {
         findNavController().navigate(NavigationUtil.launchDetailDeeplink(launchId))
     }

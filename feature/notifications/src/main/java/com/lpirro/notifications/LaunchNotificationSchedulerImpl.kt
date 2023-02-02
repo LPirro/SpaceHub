@@ -38,7 +38,7 @@ class LaunchNotificationSchedulerImpl(private val application: Application) : La
         val intent = Intent(application, NotificationAlarmReceiver::class.java)
         intent.putExtra(NotificationAlarmReceiver.LAUNCH_ID_KEY, launchId)
         intent.putExtra(NotificationAlarmReceiver.NOTIFICATION_TITLE_KEY, notificationTitle)
-        intent.putExtra(NotificationAlarmReceiver.NOTIFICATION_MESSAGE_KEY, "Is Launching in 10 minutes") // TODO remove hardcoded string
+        intent.putExtra(NotificationAlarmReceiver.NOTIFICATION_MESSAGE_KEY, "Is Launching in 10 minutes") // TODO Remove hardcoded string as part of SH-57
 
         val pendingIntent = PendingIntent.getBroadcast(
             application,

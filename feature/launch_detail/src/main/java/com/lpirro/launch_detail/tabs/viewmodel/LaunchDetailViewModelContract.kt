@@ -22,5 +22,4 @@ import kotlinx.coroutines.Job
 
 interface LaunchDetailViewModelContract {
     fun getLaunch(id: String): Job
-    fun retry()
 }

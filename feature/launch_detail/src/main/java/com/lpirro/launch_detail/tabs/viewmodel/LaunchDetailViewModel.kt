@@ -45,8 +45,4 @@ class LaunchDetailViewModel @Inject constructor(
             .catch { _uiState.value = LaunchDetailUiState.Error }
             .launchIn(viewModelScope)
     }
-
-    override fun retry() {
-        TODO("Not yet implemented")
-    }
 }
