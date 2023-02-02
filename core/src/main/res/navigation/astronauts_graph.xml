@@ -24,6 +24,5 @@
     <fragment
         android:id="@+id/navigation_astronauts"
         android:name="com.lpirro.astronauts.AstronautsFragment"
-        android:label="@string/astronauts">
-    </fragment>
+        android:label="@string/astronauts"/>
 </navigation>
