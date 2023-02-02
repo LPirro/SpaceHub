@@ -18,6 +18,7 @@
 
 package com.lpirro.launches
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -25,6 +26,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import com.google.android.material.tabs.TabLayoutMediator
 import com.lpirro.core.base.BaseFragment
+import com.lpirro.core.ui.NavDrawerInteraction
 import com.lpirro.launches.databinding.FragmentLaunchesBinding
 
 class LaunchesTabFragment : BaseFragment<FragmentLaunchesBinding>() {
@@ -32,9 +34,20 @@ class LaunchesTabFragment : BaseFragment<FragmentLaunchesBinding>() {
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentLaunchesBinding
         get() = FragmentLaunchesBinding::inflate
 
+    private lateinit var navDrawerInteraction: NavDrawerInteraction
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        navDrawerInteraction = context as NavDrawerInteraction
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        val navigationIcon = ContextCompat.getDrawable(requireContext(), com.lpirro.core.R.drawable.menu)
+        binding.toolbar.navigationIcon = navigationIcon
+        binding.toolbar.setNavigationOnClickListener {
+            navDrawerInteraction.openDrawer()
+        }
         setupTabs()
     }
 

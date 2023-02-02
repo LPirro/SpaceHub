@@ -40,9 +40,9 @@
                 android:background="?attr/colorSurface"
                 app:layout_collapseMode="pin"
                 app:logo="@drawable/spacehub_circle"
-                app:titleTextAppearance="@style/SpaceHub.Toolbar"
-                app:titleMarginBottom="20dp"
                 app:title="@string/launches"
+                app:titleMarginBottom="20dp"
+                app:titleTextAppearance="@style/SpaceHub.Toolbar"
                 tools:ignore="MissingPrefix" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>

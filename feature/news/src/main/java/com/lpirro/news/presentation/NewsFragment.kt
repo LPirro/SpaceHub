@@ -18,12 +18,15 @@
 
 package com.lpirro.news.presentation
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -37,6 +40,7 @@ import com.lpirro.core.extensions.onMenuItemActionCollapse
 import com.lpirro.core.extensions.onQueryTextChange
 import com.lpirro.core.extensions.show
 import com.lpirro.core.navigation.NavigationUtil
+import com.lpirro.core.ui.NavDrawerInteraction
 import com.lpirro.news.R
 import com.lpirro.news.databinding.FragmentNewsBinding
 import com.lpirro.news.presentation.adapter.ArticleAdapter
@@ -46,7 +50,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class NewsFragment : BaseFragment<FragmentNewsBinding>() {
+class NewsFragment : BaseFragment<FragmentNewsBinding>(), DefaultLifecycleObserver {
 
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentNewsBinding
         get() = FragmentNewsBinding::inflate
@@ -54,10 +58,22 @@ class NewsFragment : BaseFragment<FragmentNewsBinding>() {
     private val viewModel: NewsViewModel by viewModels()
     private lateinit var articleAdapter: ArticleAdapter
 
+    private lateinit var navDrawerInteraction: NavDrawerInteraction
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        navDrawerInteraction = context as NavDrawerInteraction
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.toolbar.inflateMenu(R.menu.news_menu)
+        val navigationIcon = ContextCompat.getDrawable(requireContext(), com.lpirro.core.R.drawable.menu)
+        binding.toolbar.navigationIcon = navigationIcon
+        binding.toolbar.setNavigationOnClickListener {
+            navDrawerInteraction.openDrawer()
+        }
 
         setupRecyclerView()
         registerObservers()

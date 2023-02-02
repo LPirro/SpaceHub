@@ -31,15 +31,18 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
 import com.lpirro.core.extensions.hide
 import com.lpirro.core.extensions.show
+import com.lpirro.core.ui.NavDrawerInteraction
 import com.lpirro.spacehub.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedListener {
+class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedListener, NavDrawerInteraction {
 
-    private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var navController: NavController
 
+    // TODO Will Be Removed as part of SH-55
     private val notificationPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (!isGranted) { } else { }
@@ -50,18 +53,26 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val navController = findNavController(R.id.navHost)
+        val drawer = binding.drawerLayout
+        navController = findNavController(R.id.navHost)
+        appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.launches_graph,
+                R.id.news_graph,
+                R.id.saved_launches_graph,
+            ),
+            drawer
+        )
         navController.addOnDestinationChangedListener(this)
+        setupNavigation()
 
-        setupBottomNavigation(navController)
-
+        // TODO Will Be Removed as part of SH-55
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             notificationPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
         }
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.navHost)
         return navController.navigateUp(appBarConfiguration) ||
             super.onSupportNavigateUp()
     }
@@ -77,7 +88,8 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         arguments: Bundle?
     ) {
         when (destination.id) {
-            com.lpirro.core.R.id.navigation_launch_detail -> {
+            com.lpirro.core.R.id.navigation_launch_detail,
+            com.lpirro.core.R.id.navigation_astronauts -> {
                 binding.bottomNavigation.hide()
             }
             else -> {
@@ -86,7 +98,16 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         }
     }
 
-    private fun setupBottomNavigation(navController: NavController) {
+    override fun openDrawer() {
+        binding.drawerLayout.open()
+    }
+
+    override fun closeDrawer() {
+        binding.drawerLayout.close()
+    }
+
+    private fun setupNavigation() {
         binding.bottomNavigation.setupWithNavController(navController)
+        binding.navView.setupWithNavController(navController)
     }
 }

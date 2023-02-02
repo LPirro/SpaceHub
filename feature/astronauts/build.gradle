@@ -1,0 +1,23 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    namespace 'com.lpirro.astronauts'
+
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+    api project(":core")
+    api project(":domain")
+
+    // AndroidX
+    implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.navigationFragmentKtx"
+    implementation "androidx.navigation:navigation-ui:$rootProject.navigationUiKtx"
+    implementation "androidx.appcompat:appcompat:$rootProject.appCompat"
+    implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraintLayout"
+}

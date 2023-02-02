@@ -17,14 +17,12 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/nav_graph"
-    app:startDestination="@id/launches_graph">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <include app:graph="@navigation/launches_graph" />
-    <include app:graph="@navigation/launch_detail_graph" />
-    <include app:graph="@navigation/saved_launches_graph" />
-    <include app:graph="@navigation/news_graph" />
-    <include app:graph="@navigation/astronauts_graph" />
-</navigation>
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/astronauts_graph"
+            android:title="@string/drawer_astronauts"
+            android:icon="@drawable/selector_navigation_rocket"/>
+    </group>
+</menu>

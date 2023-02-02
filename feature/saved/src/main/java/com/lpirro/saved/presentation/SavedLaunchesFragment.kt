@@ -18,10 +18,12 @@
 
 package com.lpirro.saved.presentation
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -33,6 +35,7 @@ import com.lpirro.core.base.BaseFragment
 import com.lpirro.core.extensions.hide
 import com.lpirro.core.extensions.show
 import com.lpirro.core.navigation.NavigationUtil
+import com.lpirro.core.ui.NavDrawerInteraction
 import com.lpirro.core.ui.recyclerview.adapter.LaunchesAdapter
 import com.lpirro.core.ui.recyclerview.decorator.VerticalSpaceItemDecoration
 import com.lpirro.domain.models.Status
@@ -51,8 +54,22 @@ class SavedLaunchesFragment : BaseFragment<FragmentSavedLaunchesBinding>() {
     private val viewModel: SavedLaunchesViewModel by viewModels()
     private lateinit var launchesAdapter: LaunchesAdapter
 
+    private lateinit var navDrawerInteraction: NavDrawerInteraction
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        navDrawerInteraction = context as NavDrawerInteraction
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val navigationIcon =
+            ContextCompat.getDrawable(requireContext(), com.lpirro.core.R.drawable.menu)
+        binding.toolbar.navigationIcon = navigationIcon
+        binding.toolbar.setNavigationOnClickListener {
+            navDrawerInteraction.openDrawer()
+        }
 
         registerObservers()
         setupRecyclerView()
@@ -82,7 +99,12 @@ class SavedLaunchesFragment : BaseFragment<FragmentSavedLaunchesBinding>() {
         launchesAdapter = LaunchesAdapter(::goToLaunchDetail, ::showStatusDialog)
         binding.savedLaunchesRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            addItemDecoration(VerticalSpaceItemDecoration(spaceSize = spacing, edgeSpacing = spacing))
+            addItemDecoration(
+                VerticalSpaceItemDecoration(
+                    spaceSize = spacing,
+                    edgeSpacing = spacing
+                )
+            )
             adapter = launchesAdapter
         }
     }

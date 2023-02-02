@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ SpaceHub - Designed and Developed by LPirro (Leonardo Pirro)
   ~ Copyright (C) 2023 Leonardo Pirro
   ~
@@ -17,14 +16,6 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/nav_graph"
-    app:startDestination="@id/launches_graph">
-
-    <include app:graph="@navigation/launches_graph" />
-    <include app:graph="@navigation/launch_detail_graph" />
-    <include app:graph="@navigation/saved_launches_graph" />
-    <include app:graph="@navigation/news_graph" />
-    <include app:graph="@navigation/astronauts_graph" />
-</navigation>
+<resources>
+    <string name="astronauts">Astronauts</string>
+</resources>
