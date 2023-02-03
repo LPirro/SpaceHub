@@ -27,12 +27,12 @@ class LauncherStageMapperImpl(private val launcherLandingMapper: LauncherLanding
     override fun mapToDomain(launcherStageLocal: LauncherStageLocal) = LauncherStage(
         type = launcherStageLocal.type,
         serialNumber = launcherStageLocal.serialNumber,
-        landing = launcherLandingMapper.mapToDomain(launcherStageLocal.landing)
+        landing = launcherStageLocal.landing?.let { launcherLandingMapper.mapToDomain(it) }
     )
 
     override fun mapToLocal(launcherStageRemote: LauncherStageRemote) = LauncherStageLocal(
         type = launcherStageRemote.type,
         serialNumber = launcherStageRemote.launcher.serialNumber,
-        landing = launcherLandingMapper.mapToLocal(launcherStageRemote.launcherLanding)
+        landing = launcherStageRemote.launcherLanding?.let { launcherLandingMapper.mapToLocal(it) }
     )
 }

@@ -23,5 +23,5 @@ import com.google.gson.annotations.SerializedName
 data class LauncherStageRemote(
     @SerializedName("type") val type: String,
     @SerializedName("launcher") val launcher: LauncherRemote,
-    @SerializedName("landing") val launcherLanding: LauncherLandingRemote
+    @SerializedName("landing") val launcherLanding: LauncherLandingRemote?
 )

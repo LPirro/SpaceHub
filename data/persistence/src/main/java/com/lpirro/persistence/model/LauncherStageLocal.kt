@@ -21,5 +21,5 @@ package com.lpirro.persistence.model
 data class LauncherStageLocal(
     val type: String,
     val serialNumber: String?,
-    val landing: LauncherLandingLocal
+    val landing: LauncherLandingLocal?
 )
