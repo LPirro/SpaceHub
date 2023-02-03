@@ -49,7 +49,7 @@ class LauncherStageMapperTest {
 
         assertEquals(launcherStage.type, mappedLauncherStage.type)
         assertEquals(launcherStage.serialNumber, mappedLauncherStage.serialNumber)
-        assertLauncherLanding(launcherStage.landing, mappedLauncherStage.landing)
+        assertLauncherLanding(launcherStage.landing!!, mappedLauncherStage.landing!!)
     }
 
     @Test
@@ -59,7 +59,7 @@ class LauncherStageMapperTest {
 
         assertEquals(launcherStage.type, mappedLauncherStage.type)
         assertEquals(launcherStage.launcher.serialNumber, mappedLauncherStage.serialNumber)
-        assertLauncherLanding(launcherStage.launcherLanding, mappedLauncherStage.landing)
+        assertLauncherLanding(launcherStage.launcherLanding!!, mappedLauncherStage.landing!!)
     }
 
     private fun assertLauncherLanding(
