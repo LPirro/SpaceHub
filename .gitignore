@@ -7,6 +7,7 @@ local.properties
 
 # Log/OS Files
 *.log
+.DS_Store
 
 # Android Studio generated files and folders
 captures/
@@ -17,7 +18,8 @@ output.json
 
 # IntelliJ
 *.iml
-.idea/
+.idea/*
+!.idea/icon.svg
 
 # Keystore files
 *.jks
