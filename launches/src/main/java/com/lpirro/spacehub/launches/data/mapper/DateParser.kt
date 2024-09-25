@@ -1,23 +1,20 @@
 /*
+ * SpaceHub - Designed and Developed by LPirro (Leonardo Pirro)
+ * Copyright (C) 2023 Leonardo Pirro
  *
- *  * SpaceHub - Designed and Developed by LPirro (Leonardo Pirro)
- *  * Copyright (C) 2023 Leonardo Pirro
- *  *
- *  * This program is free software: you can redistribute it and/or modify
- *  * it under the terms of the GNU General Public License as published by
- *  * the Free Software Foundation, either version 3 of the License, or
- *  * (at your option) any later version.
- *  *
- *  * This program is distributed in the hope that it will be useful,
- *  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  * GNU General Public License for more details.
- *  *
- *  * You should have received a copy of the GNU General Public License
- *  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.lpirro.spacehub.launches.data.mapper
 
 import org.joda.time.DateTime
@@ -38,44 +35,41 @@ private const val YEAR = 12 * MONTH
 
 interface DateParser {
     fun parseFullDate(dateString: String): String
+
     fun parseDateDayMonth(dateString: String): String
+
     fun parseDateInMillis(dateString: String): Long?
+
     fun formatToTimeAgo(dateString: String): String?
+
     fun formatToDDMMMYYYY(dateString: String): String?
 }
 
 class DateParserImpl : DateParser {
-
-    override fun parseFullDate(dateString: String): String {
-        return try {
-            val inputFormat = DateTimeFormat.forPattern(LAUNCH_FULL_DATE_INPUT_FORMAT)
-            val outputFormat = DateTimeFormat.forPattern(LAUNCH_FULL_DATE_OUTPUT_FORMAT)
-            val parser = inputFormat.parseDateTime(dateString)
-            outputFormat.print(parser)
-        } catch (exception: IllegalArgumentException) {
-            "-"
-        }
+    override fun parseFullDate(dateString: String): String = try {
+        val inputFormat = DateTimeFormat.forPattern(LAUNCH_FULL_DATE_INPUT_FORMAT)
+        val outputFormat = DateTimeFormat.forPattern(LAUNCH_FULL_DATE_OUTPUT_FORMAT)
+        val parser = inputFormat.parseDateTime(dateString)
+        outputFormat.print(parser)
+    } catch (exception: IllegalArgumentException) {
+        "-"
     }
 
-    override fun parseDateDayMonth(dateString: String): String {
-        return try {
-            val inputFormat = DateTimeFormat.forPattern(LAUNCH_FULL_DATE_INPUT_FORMAT)
-            val outputFormat = DateTimeFormat.forPattern(DATE_DD_MMM_FORMAT)
-            val parser = inputFormat.parseDateTime(dateString)
-            outputFormat.print(parser)
-        } catch (exception: IllegalArgumentException) {
-            "-"
-        }
+    override fun parseDateDayMonth(dateString: String): String = try {
+        val inputFormat = DateTimeFormat.forPattern(LAUNCH_FULL_DATE_INPUT_FORMAT)
+        val outputFormat = DateTimeFormat.forPattern(DATE_DD_MMM_FORMAT)
+        val parser = inputFormat.parseDateTime(dateString)
+        outputFormat.print(parser)
+    } catch (exception: IllegalArgumentException) {
+        "-"
     }
 
-    override fun parseDateInMillis(dateString: String): Long? {
-        return try {
-            val inputFormat = DateTimeFormat.forPattern(LAUNCH_FULL_DATE_INPUT_FORMAT)
-            val parser = inputFormat.parseDateTime(dateString)
-            parser.millis
-        } catch (exception: IllegalArgumentException) {
-            null
-        }
+    override fun parseDateInMillis(dateString: String): Long? = try {
+        val inputFormat = DateTimeFormat.forPattern(LAUNCH_FULL_DATE_INPUT_FORMAT)
+        val parser = inputFormat.parseDateTime(dateString)
+        parser.millis
+    } catch (exception: IllegalArgumentException) {
+        null
     }
 
     override fun formatToTimeAgo(dateString: String): String? {
@@ -104,14 +98,12 @@ class DateParserImpl : DateParser {
         }
     }
 
-    override fun formatToDDMMMYYYY(dateString: String): String {
-        return try {
-            val inputFormat = DateTimeFormat.forPattern(LAUNCH_FULL_DATE_INPUT_FORMAT)
-            val outputFormat = DateTimeFormat.forPattern(DATE_DD_MMM_YYYY_FORMAT)
-            val parser = inputFormat.parseDateTime(dateString)
-            outputFormat.print(parser)
-        } catch (exception: IllegalArgumentException) {
-            "-"
-        }
+    override fun formatToDDMMMYYYY(dateString: String): String = try {
+        val inputFormat = DateTimeFormat.forPattern(LAUNCH_FULL_DATE_INPUT_FORMAT)
+        val outputFormat = DateTimeFormat.forPattern(DATE_DD_MMM_YYYY_FORMAT)
+        val parser = inputFormat.parseDateTime(dateString)
+        outputFormat.print(parser)
+    } catch (exception: IllegalArgumentException) {
+        "-"
     }
 }

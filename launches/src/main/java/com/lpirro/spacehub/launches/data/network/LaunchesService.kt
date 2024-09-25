@@ -15,7 +15,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.lpirro.spacehub.launches.data.network
 
 import com.lpirro.spacehub.launches.data.network.model.LaunchRemote
@@ -24,7 +23,6 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface LaunchesService {
-
     // TODO: Use @Query instead of hardcoding params
     @GET("launch/upcoming?mode=detailed&limit=20&hide_recent_previous=true")
     suspend fun getUpcomingLaunches(): PaginatedResultRemote<List<LaunchRemote>>
@@ -34,5 +32,7 @@ interface LaunchesService {
     suspend fun getPastLaunches(): PaginatedResultRemote<List<LaunchRemote>>
 
     @GET("launch/{id}")
-    suspend fun getLaunch(@Path("id") id: String): LaunchRemote
+    suspend fun getLaunch(
+        @Path("id") id: String,
+    ): LaunchRemote
 }

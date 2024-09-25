@@ -1,3 +1,20 @@
+/*
+ * SpaceHub - Designed and Developed by LPirro (Leonardo Pirro)
+ * Copyright (C) 2023 Leonardo Pirro
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.lpirro.spacehub.launches.presentation
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
@@ -9,14 +26,21 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.*
-import org.junit.*
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
+import org.junit.After
+import org.junit.Assert
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
 import org.junit.rules.TestRule
-import org.mockito.kotlin.*
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.whenever
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class LaunchesViewModelTest {
-
     @get:Rule
     val instantTaskExecutorRule: TestRule = InstantTaskExecutorRule()
 
@@ -37,134 +61,147 @@ class LaunchesViewModelTest {
     }
 
     @Test
-    fun `getUpcomingLaunches emits Success when use case returns data`() = runTest {
-        val launches = listOf(
-            MockedLaunches.fakeLaunch
-        )
-        whenever(getUpcomingLaunchesUseCase()).thenReturn(flowOf(launches))
+    fun `getUpcomingLaunches emits Success when use case returns data`() =
+        runTest {
+            val launches =
+                listOf(
+                    MockedLaunches.fakeLaunch,
+                )
+            whenever(getUpcomingLaunchesUseCase()).thenReturn(flowOf(launches))
 
-        launchesViewModel = LaunchesViewModel(
-            getUpcomingLaunchesUseCase,
-            getPastLaunchesUseCase
-        )
+            launchesViewModel =
+                LaunchesViewModel(
+                    getUpcomingLaunchesUseCase,
+                    getPastLaunchesUseCase,
+                )
 
-        launchesViewModel.uiStateUpcomingLaunches.test {
-            Assert.assertEquals(
-                LaunchesUiState.Loading(true),
-                awaitItem()
-            )
+            launchesViewModel.uiStateUpcomingLaunches.test {
+                Assert.assertEquals(
+                    LaunchesUiState.Loading(true),
+                    awaitItem(),
+                )
 
-            Assert.assertEquals(
-                LaunchesUiState.Success(launches),
-                awaitItem()
-            )
+                Assert.assertEquals(
+                    LaunchesUiState.Success(launches),
+                    awaitItem(),
+                )
 
-            cancelAndIgnoreRemainingEvents()
+                cancelAndIgnoreRemainingEvents()
+            }
         }
-    }
 
     @Test
-    fun `getUpcomingLaunches emits Error when use case throws exception`() = runTest {
-        whenever(getUpcomingLaunchesUseCase()).thenReturn(
-            flow { throw Exception("Network Error") }
-        )
-
-        launchesViewModel = LaunchesViewModel(
-            getUpcomingLaunchesUseCase,
-            getPastLaunchesUseCase
-        )
-
-        launchesViewModel.uiStateUpcomingLaunches.test {
-            Assert.assertEquals(
-                LaunchesUiState.Loading(true),
-                awaitItem()
+    fun `getUpcomingLaunches emits Error when use case throws exception`() =
+        runTest {
+            whenever(getUpcomingLaunchesUseCase()).thenReturn(
+                flow { throw Exception("Network Error") },
             )
 
-            Assert.assertEquals(
-                LaunchesUiState.Error,
-                awaitItem()
-            )
+            launchesViewModel =
+                LaunchesViewModel(
+                    getUpcomingLaunchesUseCase,
+                    getPastLaunchesUseCase,
+                )
 
-            cancelAndIgnoreRemainingEvents()
+            launchesViewModel.uiStateUpcomingLaunches.test {
+                Assert.assertEquals(
+                    LaunchesUiState.Loading(true),
+                    awaitItem(),
+                )
+
+                Assert.assertEquals(
+                    LaunchesUiState.Error,
+                    awaitItem(),
+                )
+
+                cancelAndIgnoreRemainingEvents()
+            }
         }
-    }
 
     @Test
-    fun `getPastLaunches emits Success when use case returns data`() = runTest {
-        val launches = listOf(
-            MockedLaunches.fakeLaunch
-        )
-        whenever(getPastLaunchesUseCase()).thenReturn(flowOf(launches))
+    fun `getPastLaunches emits Success when use case returns data`() =
+        runTest {
+            val launches =
+                listOf(
+                    MockedLaunches.fakeLaunch,
+                )
+            whenever(getPastLaunchesUseCase()).thenReturn(flowOf(launches))
 
-        launchesViewModel = LaunchesViewModel(
-            getUpcomingLaunchesUseCase,
-            getPastLaunchesUseCase
-        )
+            launchesViewModel =
+                LaunchesViewModel(
+                    getUpcomingLaunchesUseCase,
+                    getPastLaunchesUseCase,
+                )
 
-        launchesViewModel.uiStatePastLaunches.test {
-            Assert.assertEquals(
-                LaunchesUiState.Loading(true),
-                awaitItem()
-            )
+            launchesViewModel.uiStatePastLaunches.test {
+                Assert.assertEquals(
+                    LaunchesUiState.Loading(true),
+                    awaitItem(),
+                )
 
-            Assert.assertEquals(
-                LaunchesUiState.Success(launches),
-                awaitItem()
-            )
+                Assert.assertEquals(
+                    LaunchesUiState.Success(launches),
+                    awaitItem(),
+                )
 
-            cancelAndIgnoreRemainingEvents()
+                cancelAndIgnoreRemainingEvents()
+            }
         }
-    }
 
     @Test
-    fun `getPastLaunches emits Error when use case throws exception`() = runTest {
-        whenever(getPastLaunchesUseCase()).thenReturn(
-            flow { throw Exception("Network Error") }
-        )
-
-        launchesViewModel = LaunchesViewModel(
-            getUpcomingLaunchesUseCase,
-            getPastLaunchesUseCase
-        )
-
-        launchesViewModel.uiStatePastLaunches.test {
-            Assert.assertEquals(
-                LaunchesUiState.Loading(true),
-                awaitItem()
+    fun `getPastLaunches emits Error when use case throws exception`() =
+        runTest {
+            whenever(getPastLaunchesUseCase()).thenReturn(
+                flow { throw Exception("Network Error") },
             )
 
-            Assert.assertEquals(
-                LaunchesUiState.Error,
-                awaitItem()
-            )
+            launchesViewModel =
+                LaunchesViewModel(
+                    getUpcomingLaunchesUseCase,
+                    getPastLaunchesUseCase,
+                )
 
-            cancelAndIgnoreRemainingEvents()
+            launchesViewModel.uiStatePastLaunches.test {
+                Assert.assertEquals(
+                    LaunchesUiState.Loading(true),
+                    awaitItem(),
+                )
+
+                Assert.assertEquals(
+                    LaunchesUiState.Error,
+                    awaitItem(),
+                )
+
+                cancelAndIgnoreRemainingEvents()
+            }
         }
-    }
 
     @Test
-    fun `isRefreshLoading is true during refresh and false after completion`() = runTest {
-        val launches = listOf(
-            MockedLaunches.fakeLaunch
-        )
-        whenever(getUpcomingLaunchesUseCase()).thenReturn(flowOf(launches))
+    fun `isRefreshLoading is true during refresh and false after completion`() =
+        runTest {
+            val launches =
+                listOf(
+                    MockedLaunches.fakeLaunch,
+                )
+            whenever(getUpcomingLaunchesUseCase()).thenReturn(flowOf(launches))
 
-        launchesViewModel = LaunchesViewModel(
-            getUpcomingLaunchesUseCase,
-            getPastLaunchesUseCase
-        )
+            launchesViewModel =
+                LaunchesViewModel(
+                    getUpcomingLaunchesUseCase,
+                    getPastLaunchesUseCase,
+                )
 
-        launchesViewModel.isRefreshLoading.test {
-            Assert.assertFalse(awaitItem())
+            launchesViewModel.isRefreshLoading.test {
+                Assert.assertFalse(awaitItem())
 
-            launchesViewModel.getUpcomingLaunches(isRefresh = true)
-            testDispatcher.scheduler.advanceUntilIdle()
+                launchesViewModel.getUpcomingLaunches(isRefresh = true)
+                testDispatcher.scheduler.advanceUntilIdle()
 
-            Assert.assertTrue(awaitItem())
+                Assert.assertTrue(awaitItem())
 
-            Assert.assertFalse(awaitItem())
+                Assert.assertFalse(awaitItem())
 
-            cancelAndIgnoreRemainingEvents()
+                cancelAndIgnoreRemainingEvents()
+            }
         }
-    }
 }

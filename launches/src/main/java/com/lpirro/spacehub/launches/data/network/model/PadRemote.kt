@@ -15,7 +15,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.lpirro.spacehub.launches.data.network.model
 
 import com.google.gson.annotations.SerializedName
@@ -32,5 +31,5 @@ data class PadRemote(
     @SerializedName("total_launch_count") val totalLaunchCount: Int?,
     @SerializedName("orbital_launch_attempt_count") val orbitalLaunchAttemptCount: Int?,
     @SerializedName("latitude") val latitude: String?,
-    @SerializedName("longitude") val longitude: String?
+    @SerializedName("longitude") val longitude: String?,
 )

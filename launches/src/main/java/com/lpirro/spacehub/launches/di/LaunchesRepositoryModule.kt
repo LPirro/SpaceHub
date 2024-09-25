@@ -1,23 +1,20 @@
 /*
+ * SpaceHub - Designed and Developed by LPirro (Leonardo Pirro)
+ * Copyright (C) 2023 Leonardo Pirro
  *
- *  * SpaceHub - Designed and Developed by LPirro (Leonardo Pirro)
- *  * Copyright (C) 2023 Leonardo Pirro
- *  *
- *  * This program is free software: you can redistribute it and/or modify
- *  * it under the terms of the GNU General Public License as published by
- *  * the Free Software Foundation, either version 3 of the License, or
- *  * (at your option) any later version.
- *  *
- *  * This program is distributed in the hope that it will be useful,
- *  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  * GNU General Public License for more details.
- *  *
- *  * You should have received a copy of the GNU General Public License
- *  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.lpirro.spacehub.launches.di
 
 import com.lpirro.spacehub.launches.data.mapper.AgencyMapper
@@ -61,14 +58,11 @@ import dagger.hilt.components.SingletonComponent
 @Module
 @InstallIn(SingletonComponent::class)
 object LaunchesRepositoryModule {
-
     @Provides
     fun provideLaunchesRepository(
         launchesService: LaunchesService,
-        launchMapper: LaunchMapper
-    ): LaunchesRepository {
-        return LaunchesRepositoryImpl(launchesService, launchMapper)
-    }
+        launchMapper: LaunchMapper,
+    ): LaunchesRepository = LaunchesRepositoryImpl(launchesService, launchMapper)
 
     @Provides
     fun provideLaunchMapper(
@@ -80,18 +74,16 @@ object LaunchesRepositoryModule {
         missionMapper: MissionMapper,
         updateMapper: UpdateMapper,
         rocketMapper: RocketMapper,
-    ): LaunchMapper {
-        return LaunchMapperImpl(
-            agencyMapper = agencyMapper,
-            missionPatchMapper = missionPatchMapper,
-            padMapper = padMapper,
-            dateParser = dateParser,
-            statusMapper = statusMapper,
-            missionMapper = missionMapper,
-            updateMapper = updateMapper,
-            rocketMapper = rocketMapper
-        )
-    }
+    ): LaunchMapper = LaunchMapperImpl(
+        agencyMapper = agencyMapper,
+        missionPatchMapper = missionPatchMapper,
+        padMapper = padMapper,
+        dateParser = dateParser,
+        statusMapper = statusMapper,
+        missionMapper = missionMapper,
+        updateMapper = updateMapper,
+        rocketMapper = rocketMapper,
+    )
 
     @Provides
     fun provideAgencyMapper(): AgencyMapper = AgencyMapperImpl()
@@ -105,7 +97,7 @@ object LaunchesRepositoryModule {
     @Provides
     fun providePadMapper(
         locationMapper: LocationMapper,
-        mapPositionMapper: MapPositionMapper
+        mapPositionMapper: MapPositionMapper,
     ): PadMapper = PadMapperImpl(locationMapper, mapPositionMapper)
 
     @Provides
@@ -121,38 +113,26 @@ object LaunchesRepositoryModule {
     fun provideOrbitMapper(): OrbitMapper = OrbitMapperImpl()
 
     @Provides
-    fun provideMissionMapper(orbitMapper: OrbitMapper): MissionMapper {
-        return MissionMapperImpl(orbitMapper)
-    }
+    fun provideMissionMapper(orbitMapper: OrbitMapper): MissionMapper = MissionMapperImpl(orbitMapper)
 
     @Provides
-    fun provideUpdateMapper(dateParser: DateParser): UpdateMapper {
-        return UpdateMapperImpl(dateParser)
-    }
+    fun provideUpdateMapper(dateParser: DateParser): UpdateMapper = UpdateMapperImpl(dateParser)
 
     @Provides
     fun provideRocketMapper(
         rocketConfigurationMapper: RocketConfigurationMapper,
-        launcherStageMapper: LauncherStageMapper
-    ): RocketMapper {
-        return RocketMapperImpl(
-            rocketConfigurationMapper = rocketConfigurationMapper,
-            launcherStageMapper = launcherStageMapper
-        )
-    }
+        launcherStageMapper: LauncherStageMapper,
+    ): RocketMapper = RocketMapperImpl(
+        rocketConfigurationMapper = rocketConfigurationMapper,
+        launcherStageMapper = launcherStageMapper,
+    )
 
     @Provides
-    fun provideRocketConfigurationMapper(agencyMapper: AgencyMapper): RocketConfigurationMapper {
-        return RocketConfigurationMapperImpl(agencyMapper = agencyMapper)
-    }
+    fun provideRocketConfigurationMapper(agencyMapper: AgencyMapper): RocketConfigurationMapper = RocketConfigurationMapperImpl(agencyMapper = agencyMapper)
 
     @Provides
-    fun provideLauncherStageMapper(launcherLandingMapper: LauncherLandingMapper): LauncherStageMapper {
-        return LauncherStageMapperImpl(launcherLandingMapper = launcherLandingMapper)
-    }
+    fun provideLauncherStageMapper(launcherLandingMapper: LauncherLandingMapper): LauncherStageMapper = LauncherStageMapperImpl(launcherLandingMapper = launcherLandingMapper)
 
     @Provides
-    fun providesLauncherLandingMapper(): LauncherLandingMapper {
-        return LauncherLandingMapperImpl()
-    }
+    fun providesLauncherLandingMapper(): LauncherLandingMapper = LauncherLandingMapperImpl()
 }

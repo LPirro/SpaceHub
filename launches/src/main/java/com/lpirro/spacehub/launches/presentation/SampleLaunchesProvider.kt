@@ -15,8 +15,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.lpirro.spacehub.launches.util
+package com.lpirro.spacehub.launches.presentation
 
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.lpirro.spacehub.core.model.Status
 import com.lpirro.spacehub.launches.domain.model.Agency
 import com.lpirro.spacehub.launches.domain.model.Launch
@@ -30,8 +31,11 @@ import com.lpirro.spacehub.launches.domain.model.Pad
 import com.lpirro.spacehub.launches.domain.model.Rocket
 import com.lpirro.spacehub.launches.domain.model.RocketConfiguration
 
-object MockedLaunches {
-    val fakeLaunch =
+class SampleLaunchesProvider : PreviewParameterProvider<List<Launch>> {
+    override val values: Sequence<List<Launch>>
+        get() = sequenceOf(listOf(fakeLaunch, fakeLaunch, fakeLaunch))
+
+    private val fakeLaunch =
         Launch(
             id = "launch-001",
             name = "Falcon 9 - Starlink 30",
