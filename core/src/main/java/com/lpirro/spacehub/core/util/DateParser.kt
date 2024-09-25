@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.lpirro.spacehub.launches.data.mapper
+package com.lpirro.spacehub.core.util
 
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat

@@ -17,10 +17,9 @@
  */
 package com.lpirro.spacehub.launches.di
 
+import com.lpirro.spacehub.core.util.DateParser
 import com.lpirro.spacehub.launches.data.mapper.AgencyMapper
 import com.lpirro.spacehub.launches.data.mapper.AgencyMapperImpl
-import com.lpirro.spacehub.launches.data.mapper.DateParser
-import com.lpirro.spacehub.launches.data.mapper.DateParserImpl
 import com.lpirro.spacehub.launches.data.mapper.LaunchMapper
 import com.lpirro.spacehub.launches.data.mapper.LaunchMapperImpl
 import com.lpirro.spacehub.launches.data.mapper.LauncherLandingMapper
@@ -57,7 +56,7 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-object LaunchesRepositoryModule {
+object LaunchesDataModule {
     @Provides
     fun provideLaunchesRepository(
         launchesService: LaunchesService,
@@ -99,9 +98,6 @@ object LaunchesRepositoryModule {
         locationMapper: LocationMapper,
         mapPositionMapper: MapPositionMapper,
     ): PadMapper = PadMapperImpl(locationMapper, mapPositionMapper)
-
-    @Provides
-    fun provideDateParser(): DateParser = DateParserImpl()
 
     @Provides
     fun provideStatusMapper(): StatusMapper = StatusMapperImpl()

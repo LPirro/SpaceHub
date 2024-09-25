@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.jetbrains.kotlin.serialization)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hiltAndroid)
 }
 
 android {
@@ -10,8 +12,6 @@ android {
 
     defaultConfig {
         minSdk = 24
-        minSdk = 24
-        targetSdk = 34
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
@@ -33,14 +33,14 @@ android {
             buildConfigField("String", "LAUNCH_LIBRARY_BASE_URL", "\"https://ll.thespacedevs.com\"")
             buildConfigField("String", "LAUNCH_LIBRARY_API_VERSION", "\"2.2.0\"")
             buildConfigField("String", "SPACEFLIGHT_NEWS_BASE_URL", "\"https://api.spaceflightnewsapi.net\"")
-            buildConfigField("String", "SPACEFLIGHT_NEWS_API_VERSION", "\"v3\"")
+            buildConfigField("String", "SPACEFLIGHT_NEWS_API_VERSION", "\"v4\"")
         }
         debug {
             isMinifyEnabled = false
             buildConfigField("String", "LAUNCH_LIBRARY_BASE_URL", "\"https://lldev.thespacedevs.com\"")
             buildConfigField("String", "LAUNCH_LIBRARY_API_VERSION", "\"2.2.0\"")
             buildConfigField("String", "SPACEFLIGHT_NEWS_BASE_URL", "\"https://api.spaceflightnewsapi.net\"")
-            buildConfigField("String", "SPACEFLIGHT_NEWS_API_VERSION", "\"v3\"")
+            buildConfigField("String", "SPACEFLIGHT_NEWS_API_VERSION", "\"v4\"")
         }
     }
     compileOptions {
@@ -73,4 +73,10 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(libs.joda.time)
+
+    // Hilt
+    implementation(libs.hilt.navigation.compose)
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
 }

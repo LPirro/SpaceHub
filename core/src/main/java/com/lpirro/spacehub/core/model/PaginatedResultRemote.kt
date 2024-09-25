@@ -15,6 +15,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.lpirro.spacehub.launches.data.network.model
+package com.lpirro.spacehub.core.model
 
 data class PaginatedResultRemote<T>(val next: String?, val previous: String?, val results: T)

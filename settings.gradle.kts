@@ -23,3 +23,4 @@ rootProject.name = "Spacehub"
 include(":app")
 include(":launches")
 include(":core")
+include(":news")

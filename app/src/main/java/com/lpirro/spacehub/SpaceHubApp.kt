@@ -33,8 +33,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.lpirro.spacehub.core.composables.SpaceHubNavBar
 import com.lpirro.spacehub.core.navigation.Launches
+import com.lpirro.spacehub.core.navigation.News
 import com.lpirro.spacehub.core.ui.theme.SpacehubTheme
 import com.lpirro.spacehub.launches.presentation.LaunchesScreen
+import com.lpirro.spacehub.news.presentation.NewsScreen
 
 @Composable
 fun SpaceHubApp() {
@@ -56,12 +58,24 @@ fun SpaceHubApp() {
                                 launchSingleTop = true
                                 restoreState = true
                             }
+
+                        1 ->
+                            navController.navigate(News) {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
                     }
                 },
             )
         },
     ) { innerPadding ->
-        SpaceHubNavHost(modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding()), navController = navController)
+        SpaceHubNavHost(
+            modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding()),
+            navController = navController,
+        )
     }
 }
 
@@ -81,6 +95,9 @@ fun SpaceHubNavHost(
                     // TODO: Implement navigation to the detail screen
                 },
             )
+        }
+        composable<News> {
+            NewsScreen()
         }
     }
 }

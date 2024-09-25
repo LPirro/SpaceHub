@@ -17,8 +17,8 @@
  */
 package com.lpirro.spacehub.launches.data.network
 
+import com.lpirro.spacehub.core.model.PaginatedResultRemote
 import com.lpirro.spacehub.launches.data.network.model.LaunchRemote
-import com.lpirro.spacehub.launches.data.network.model.PaginatedResultRemote
 import retrofit2.http.GET
 import retrofit2.http.Path
 
