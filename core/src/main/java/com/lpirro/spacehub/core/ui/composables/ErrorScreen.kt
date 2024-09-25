@@ -1,23 +1,20 @@
 /*
+ * SpaceHub - Designed and Developed by LPirro (Leonardo Pirro)
+ * Copyright (C) 2023 Leonardo Pirro
  *
- *  * SpaceHub - Designed and Developed by LPirro (Leonardo Pirro)
- *  * Copyright (C) 2023 Leonardo Pirro
- *  *
- *  * This program is free software: you can redistribute it and/or modify
- *  * it under the terms of the GNU General Public License as published by
- *  * the Free Software Foundation, either version 3 of the License, or
- *  * (at your option) any later version.
- *  *
- *  * This program is distributed in the hope that it will be useful,
- *  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  * GNU General Public License for more details.
- *  *
- *  * You should have received a copy of the GNU General Public License
- *  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.lpirro.spacehub.core.ui.composables
 
 import android.content.res.Configuration
@@ -52,19 +49,19 @@ fun ErrorScreen(
         Column(
             modifier = modifier.padding(horizontal = 16.dp),
             verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Icon(
                 painter = painterResource(R.drawable.astronaut_fall),
                 contentDescription = stringResource(R.string.cd_error_screen_image),
-                modifier = Modifier.size(height = 160.dp, width = 184.dp)
+                modifier = Modifier.size(height = 160.dp, width = 184.dp),
             )
 
             Spacer(Modifier.padding(top = 32.dp))
 
             Text(
                 text = stringResource(R.string.error_screen_title),
-                style = MaterialTheme.typography.headlineSmall
+                style = MaterialTheme.typography.headlineSmall,
             )
 
             Spacer(Modifier.padding(top = 10.dp))
@@ -72,13 +69,13 @@ fun ErrorScreen(
             Text(
                 textAlign = TextAlign.Center,
                 text = stringResource(R.string.error_screen_description),
-                style = MaterialTheme.typography.bodyLarge
+                style = MaterialTheme.typography.bodyLarge,
             )
 
             Spacer(Modifier.padding(top = 46.dp))
 
             Button(
-                onClick = onTryAgainClicked
+                onClick = onTryAgainClicked,
             ) {
                 Text(text = stringResource(R.string.error_screen_try_again))
             }
@@ -87,7 +84,7 @@ fun ErrorScreen(
 }
 
 @Preview
-@Preview (uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun ErrorScreenComposable() {
     SpacehubTheme {

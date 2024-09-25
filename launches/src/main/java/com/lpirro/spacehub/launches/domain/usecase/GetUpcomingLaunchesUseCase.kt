@@ -15,7 +15,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.lpirro.spacehub.launches.domain.usecase
 
 import com.lpirro.spacehub.launches.domain.model.Launch
@@ -27,7 +26,7 @@ interface GetUpcomingLaunchesUseCase {
 }
 
 class GetUpcomingLaunchesUseCaseImpl(
-    private val repository: LaunchesRepository
+    private val repository: LaunchesRepository,
 ) : GetUpcomingLaunchesUseCase {
     override fun invoke(): Flow<List<Launch>> {
         return repository.getUpcomingLaunches()

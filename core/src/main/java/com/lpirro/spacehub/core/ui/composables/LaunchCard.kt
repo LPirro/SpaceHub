@@ -1,29 +1,22 @@
 /*
+ * SpaceHub - Designed and Developed by LPirro (Leonardo Pirro)
+ * Copyright (C) 2023 Leonardo Pirro
  *
- *  * SpaceHub - Designed and Developed by LPirro (Leonardo Pirro)
- *  * Copyright (C) 2023 Leonardo Pirro
- *  *
- *  * This program is free software: you can redistribute it and/or modify
- *  * it under the terms of the GNU General Public License as published by
- *  * the Free Software Foundation, either version 3 of the License, or
- *  * (at your option) any later version.
- *  *
- *  * This program is distributed in the hope that it will be useful,
- *  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  * GNU General Public License for more details.
- *  *
- *  * You should have received a copy of the GNU General Public License
- *  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.lpirro.spacehub.core.ui.composables
 
-import android.graphics.ColorFilter
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
-import android.graphics.drawable.Drawable
 import android.os.CountDownTimer
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.compose.foundation.clickable
@@ -49,12 +42,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -62,8 +53,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.DrawableCompat
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.lpirro.spacehub.core.R
@@ -84,109 +73,116 @@ fun LaunchCard(
     onClick: () -> Unit,
 ) {
     OutlinedCard(
-        modifier = modifier
-            .fillMaxWidth()
-            .clickable { onClick.invoke() }
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .clickable { onClick.invoke() },
     ) {
-
         ConstraintLayout(Modifier.fillMaxWidth()) {
-
             val (image, launchTitle, infoAgency, infoLocation, infoDate, launchStatus, launchCountdown) = createRefs()
 
-            val placeholderDrawable = AppCompatResources.getDrawable(
-                LocalContext.current,
-                R.drawable.launch_image_placeholder
-            )
+            val placeholderDrawable =
+                AppCompatResources.getDrawable(
+                    LocalContext.current,
+                    R.drawable.launch_image_placeholder,
+                )
             placeholderDrawable?.setTint(MaterialTheme.colorScheme.inverseOnSurface.toArgb())
 
             AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(launchImageUrl)
-                    .crossfade(true)
-                    .error(placeholderDrawable)
-                    .placeholder(placeholderDrawable)
-                    .build(),
-                modifier = Modifier
-                    .constrainAs(image) {
-                        top.linkTo(parent.top)
-                        bottom.linkTo(parent.bottom)
-                        start.linkTo(parent.start)
-                        height = Dimension.fillToConstraints
-                        width = Dimension.value(100.dp)
-                    }
-                    .clip(RoundedCornerShape(12.dp)),
+                model =
+                    ImageRequest.Builder(LocalContext.current)
+                        .data(launchImageUrl)
+                        .crossfade(true)
+                        .error(placeholderDrawable)
+                        .placeholder(placeholderDrawable)
+                        .build(),
+                modifier =
+                    Modifier
+                        .constrainAs(image) {
+                            top.linkTo(parent.top)
+                            bottom.linkTo(parent.bottom)
+                            start.linkTo(parent.start)
+                            height = Dimension.fillToConstraints
+                            width = Dimension.value(100.dp)
+                        }
+                        .clip(RoundedCornerShape(12.dp)),
                 contentScale = ContentScale.Crop,
-                contentDescription = null
+                contentDescription = null,
             )
 
             Text(
                 maxLines = 2,
                 text = title,
                 style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier
-                    .constrainAs(launchTitle) {
-                        end.linkTo(parent.end, margin = 12.dp)
-                        start.linkTo(image.end, margin = 12.dp)
-                        top.linkTo(parent.top, margin = 12.dp)
-                        width = Dimension.fillToConstraints
-                        height = Dimension.wrapContent
-                    }
+                modifier =
+                    Modifier
+                        .constrainAs(launchTitle) {
+                            end.linkTo(parent.end, margin = 12.dp)
+                            start.linkTo(image.end, margin = 12.dp)
+                            top.linkTo(parent.top, margin = 12.dp)
+                            width = Dimension.fillToConstraints
+                            height = Dimension.wrapContent
+                        },
             )
             LaunchInfoItem(
                 text = agency,
                 icon = ImageVector.vectorResource(id = R.drawable.domain),
-                modifier = Modifier.constrainAs(infoAgency) {
-                    start.linkTo(launchTitle.start)
-                    end.linkTo(launchTitle.end)
-                    top.linkTo(launchTitle.bottom, margin = 12.dp)
-                    width = Dimension.fillToConstraints
-                    height = Dimension.wrapContent
-                }
+                modifier =
+                    Modifier.constrainAs(infoAgency) {
+                        start.linkTo(launchTitle.start)
+                        end.linkTo(launchTitle.end)
+                        top.linkTo(launchTitle.bottom, margin = 12.dp)
+                        width = Dimension.fillToConstraints
+                        height = Dimension.wrapContent
+                    },
             )
             LaunchInfoItem(
-                modifier = Modifier
-                    .constrainAs(infoLocation) {
-                        top.linkTo(infoAgency.bottom, margin = 4.dp)
+                modifier =
+                    Modifier
+                        .constrainAs(infoLocation) {
+                            top.linkTo(infoAgency.bottom, margin = 4.dp)
+                            start.linkTo(launchTitle.start)
+                            end.linkTo(launchTitle.end)
+                            width = Dimension.fillToConstraints
+                            height = Dimension.wrapContent
+                        },
+                text = location,
+                icon = Icons.Outlined.LocationOn,
+            )
+            LaunchInfoItem(
+                modifier =
+                    Modifier.constrainAs(infoDate) {
+                        top.linkTo(infoLocation.bottom, margin = 4.dp)
                         start.linkTo(launchTitle.start)
                         end.linkTo(launchTitle.end)
                         width = Dimension.fillToConstraints
                         height = Dimension.wrapContent
                     },
-                text = location,
-                icon = Icons.Outlined.LocationOn
-            )
-            LaunchInfoItem(
-                modifier = Modifier.constrainAs(infoDate) {
-                    top.linkTo(infoLocation.bottom, margin = 4.dp)
-                    start.linkTo(launchTitle.start)
-                    end.linkTo(launchTitle.end)
-                    width = Dimension.fillToConstraints
-                    height = Dimension.wrapContent
-                },
                 text = dateTime,
-                icon = ImageVector.vectorResource(id = R.drawable.calendar_blank_outline)
+                icon = ImageVector.vectorResource(id = R.drawable.calendar_blank_outline),
             )
 
             LaunchStatus(
-                modifier = Modifier.constrainAs(launchStatus) {
-                    start.linkTo(launchTitle.start)
-                    top.linkTo(infoDate.bottom, margin = 16.dp)
-                    bottom.linkTo(parent.bottom, margin = 12.dp)
-                    height = Dimension.wrapContent
-                    width = Dimension.wrapContent
-                },
+                modifier =
+                    Modifier.constrainAs(launchStatus) {
+                        start.linkTo(launchTitle.start)
+                        top.linkTo(infoDate.bottom, margin = 16.dp)
+                        bottom.linkTo(parent.bottom, margin = 12.dp)
+                        height = Dimension.wrapContent
+                        width = Dimension.wrapContent
+                    },
                 status = status,
             )
 
             LaunchCountdown(
-                modifier = Modifier.constrainAs(launchCountdown) {
-                    end.linkTo(launchTitle.end)
-                    top.linkTo(launchStatus.top)
-                    bottom.linkTo(launchStatus.bottom)
-                    height = Dimension.wrapContent
-
-                },
-                targetMillis = netMillis
+                modifier =
+                    Modifier.constrainAs(launchCountdown) {
+                        end.linkTo(launchTitle.end)
+                        top.linkTo(launchStatus.top)
+                        bottom.linkTo(launchStatus.bottom)
+                        height = Dimension.wrapContent
+                    },
+                targetMillis = netMillis,
             )
         }
     }
@@ -196,7 +192,7 @@ fun LaunchCard(
 private fun LaunchInfoItem(
     modifier: Modifier = Modifier,
     text: String,
-    icon: ImageVector
+    icon: ImageVector,
 ) {
     val componentsColor = MaterialTheme.colorScheme.onSurfaceVariant
 
@@ -205,7 +201,7 @@ private fun LaunchInfoItem(
             modifier = Modifier.size(16.dp),
             imageVector = icon,
             contentDescription = null,
-            tint = componentsColor
+            tint = componentsColor,
         )
         Spacer(modifier = Modifier.padding(start = 4.dp))
         Text(text = text, style = MaterialTheme.typography.labelLarge, color = componentsColor)
@@ -213,8 +209,10 @@ private fun LaunchInfoItem(
 }
 
 @Composable
-fun LaunchCountdown(modifier: Modifier, targetMillis: Long) {
-
+fun LaunchCountdown(
+    modifier: Modifier,
+    targetMillis: Long,
+) {
     // States to hold time values
     var countdownText by remember { mutableStateOf("") }
     var days by remember { mutableLongStateOf(0L) }
@@ -225,7 +223,6 @@ fun LaunchCountdown(modifier: Modifier, targetMillis: Long) {
     var isInThePast by remember { mutableStateOf(false) }
 
     LaunchedEffect(targetMillis) {
-
         // Get the time difference
         val currentMillis = System.currentTimeMillis()
         val remainingMillis = targetMillis - currentMillis
@@ -281,7 +278,7 @@ fun LaunchCountdown(modifier: Modifier, targetMillis: Long) {
         modifier = modifier,
         text = countdownText,
         style = MaterialTheme.typography.labelSmall,
-        color = MaterialTheme.colorScheme.primary
+        color = MaterialTheme.colorScheme.primary,
     )
 }
 
@@ -297,7 +294,7 @@ private fun LaunchCardPreview() {
             netMillis = System.currentTimeMillis() + 100000L,
             status = Status.Go(name = "Go", abbrev = "GO", description = "description"),
             launchImageUrl = "",
-            onClick = {}
+            onClick = {},
         )
     }
 }
@@ -314,7 +311,7 @@ private fun LaunchCardLongTitlePreview() {
             netMillis = System.currentTimeMillis() + 100000L,
             status = Status.Go(name = "Go", abbrev = "GO", description = "description"),
             launchImageUrl = "",
-            onClick = {}
+            onClick = {},
         )
     }
 }

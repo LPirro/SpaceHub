@@ -15,7 +15,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.lpirro.spacehub.launches.data.network.model
 
 import com.google.gson.annotations.SerializedName
@@ -23,5 +22,5 @@ import com.google.gson.annotations.SerializedName
 data class MissionPatchesRemote(
     @SerializedName("id") val id: Int,
     @SerializedName("name") val name: String,
-    @SerializedName("image_url") val imageUrl: String
+    @SerializedName("image_url") val imageUrl: String,
 )

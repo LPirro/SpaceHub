@@ -15,7 +15,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.lpirro.spacehub.launches.domain.model
 
 import com.lpirro.spacehub.core.model.Status
@@ -38,5 +37,5 @@ data class Launch(
     val infoUrl: String?,
     val flightClubUrl: String?,
     val updates: List<Update>?,
-    val rocket: Rocket
+    val rocket: Rocket,
 )

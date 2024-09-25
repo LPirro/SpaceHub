@@ -15,11 +15,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.lpirro.spacehub.launches.domain.model
 
 data class MissionPatches(
     val id: Int,
     val name: String,
-    val imageUrl: String
+    val imageUrl: String,
 )

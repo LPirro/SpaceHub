@@ -28,19 +28,19 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
-            buildConfigField( "String", "LAUNCH_LIBRARY_BASE_URL", "\"https://ll.thespacedevs.com\"")
-            buildConfigField( "String", "LAUNCH_LIBRARY_API_VERSION", "\"2.2.0\"")
-            buildConfigField( "String", "SPACEFLIGHT_NEWS_BASE_URL", "\"https://api.spaceflightnewsapi.net\"")
-            buildConfigField( "String", "SPACEFLIGHT_NEWS_API_VERSION", "\"v3\"")
+            buildConfigField("String", "LAUNCH_LIBRARY_BASE_URL", "\"https://ll.thespacedevs.com\"")
+            buildConfigField("String", "LAUNCH_LIBRARY_API_VERSION", "\"2.2.0\"")
+            buildConfigField("String", "SPACEFLIGHT_NEWS_BASE_URL", "\"https://api.spaceflightnewsapi.net\"")
+            buildConfigField("String", "SPACEFLIGHT_NEWS_API_VERSION", "\"v3\"")
         }
         debug {
             isMinifyEnabled = false
-            buildConfigField( "String", "LAUNCH_LIBRARY_BASE_URL", "\"https://lldev.thespacedevs.com\"")
-            buildConfigField( "String", "LAUNCH_LIBRARY_API_VERSION", "\"2.2.0\"")
-            buildConfigField( "String", "SPACEFLIGHT_NEWS_BASE_URL", "\"https://api.spaceflightnewsapi.net\"")
-            buildConfigField( "String", "SPACEFLIGHT_NEWS_API_VERSION", "\"v3\"")
+            buildConfigField("String", "LAUNCH_LIBRARY_BASE_URL", "\"https://lldev.thespacedevs.com\"")
+            buildConfigField("String", "LAUNCH_LIBRARY_API_VERSION", "\"2.2.0\"")
+            buildConfigField("String", "SPACEFLIGHT_NEWS_BASE_URL", "\"https://api.spaceflightnewsapi.net\"")
+            buildConfigField("String", "SPACEFLIGHT_NEWS_API_VERSION", "\"v3\"")
         }
     }
     compileOptions {
@@ -66,7 +66,6 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.androidx.appcompat.resources)
 
-
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -74,5 +73,4 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-
 }

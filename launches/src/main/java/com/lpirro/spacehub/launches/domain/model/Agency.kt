@@ -15,7 +15,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.lpirro.spacehub.launches.domain.model
 
 data class Agency(
@@ -26,5 +25,5 @@ data class Agency(
     val administrator: String?,
     val foundingYear: String?,
     val totalLaunchCount: String?,
-    val logoUrl: String?
+    val logoUrl: String?,
 )

@@ -15,7 +15,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.lpirro.spacehub.launches.data.network.model
 
 import com.google.gson.annotations.SerializedName
@@ -26,5 +25,5 @@ data class UpdateRemote(
     @SerializedName("comment") val comment: String?,
     @SerializedName("created_on") val createdOn: String?,
     @SerializedName("created_by") val createdBy: String?,
-    @SerializedName("info_url") val infoUrl: String?
+    @SerializedName("info_url") val infoUrl: String?,
 )

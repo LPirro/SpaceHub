@@ -15,7 +15,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package com.lpirro.spacehub.launches.domain.model
 
 data class Mission(
@@ -23,5 +22,5 @@ data class Mission(
     val name: String,
     val description: String,
     val type: String,
-    val orbit: Orbit?
+    val orbit: Orbit?,
 )
