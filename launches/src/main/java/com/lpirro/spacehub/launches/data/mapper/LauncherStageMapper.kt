@@ -24,8 +24,7 @@ interface LauncherStageMapper {
     fun mapToDomain(launcherStageRemote: LauncherStageRemote): LauncherStage
 }
 
-class LauncherStageMapperImpl(private val launcherLandingMapper: LauncherLandingMapper) :
-    LauncherStageMapper {
+class LauncherStageMapperImpl(private val launcherLandingMapper: LauncherLandingMapper) : LauncherStageMapper {
     override fun mapToDomain(launcherStageRemote: LauncherStageRemote) =
         LauncherStage(
             type = launcherStageRemote.type,

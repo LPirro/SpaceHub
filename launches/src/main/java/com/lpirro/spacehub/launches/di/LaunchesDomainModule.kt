@@ -31,12 +31,8 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 object LaunchesDomainModule {
     @Provides
-    fun provideGetUpcomingLaunchesUseCase(repository: LaunchesRepository): GetUpcomingLaunchesUseCase {
-        return GetUpcomingLaunchesUseCaseImpl(repository)
-    }
+    fun provideGetUpcomingLaunchesUseCase(repository: LaunchesRepository): GetUpcomingLaunchesUseCase = GetUpcomingLaunchesUseCaseImpl(repository)
 
     @Provides
-    fun provideGetPastLaunchesUseCase(repository: LaunchesRepository): GetPastLaunchesUseCase {
-        return GetPastLaunchesUseCaseImpl(repository)
-    }
+    fun provideGetPastLaunchesUseCase(repository: LaunchesRepository): GetPastLaunchesUseCase = GetPastLaunchesUseCaseImpl(repository)
 }

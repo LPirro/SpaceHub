@@ -66,10 +66,10 @@ fun LaunchStatus(
 
     Box(
         modifier =
-            modifier
-                .defaultMinSize(minWidth = 30.dp)
-                .clip(RoundedCornerShape(4.dp))
-                .background(backgroundColor),
+        modifier
+            .defaultMinSize(minWidth = 30.dp)
+            .clip(RoundedCornerShape(4.dp))
+            .background(backgroundColor),
         contentAlignment = Alignment.Center,
     ) {
         Text(
@@ -88,11 +88,11 @@ private fun LaunchStatusFailurePreview() {
     SpacehubTheme {
         LaunchStatus(
             status =
-                Status.Failure(
-                    name = "Failure",
-                    abbrev = "Failure",
-                    description = "description",
-                ),
+            Status.Failure(
+                name = "Failure",
+                abbrev = "Failure",
+                description = "description",
+            ),
         )
     }
 }
@@ -115,11 +115,11 @@ private fun LaunchStatusSuccessPreview() {
     SpacehubTheme {
         LaunchStatus(
             status =
-                Status.Success(
-                    name = "Success",
-                    abbrev = "Success",
-                    description = "description",
-                ),
+            Status.Success(
+                name = "Success",
+                abbrev = "Success",
+                description = "description",
+            ),
         )
     }
 }
@@ -131,11 +131,11 @@ private fun LaunchStatusInFlightPreview() {
     SpacehubTheme {
         LaunchStatus(
             status =
-                Status.InFlight(
-                    name = "In Flight",
-                    abbrev = "In Flight",
-                    description = "description",
-                ),
+            Status.InFlight(
+                name = "In Flight",
+                abbrev = "In Flight",
+                description = "description",
+            ),
         )
     }
 }

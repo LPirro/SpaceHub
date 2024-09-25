@@ -110,27 +110,27 @@ fun LaunchesScreen(
                             Text(
                                 text = tabItem.title,
                                 color =
-                                    if (index == selectedTabIndex) {
-                                        MaterialTheme.colorScheme.primary
-                                    } else {
-                                        MaterialTheme.colorScheme.onSurfaceVariant
-                                    },
+                                if (index == selectedTabIndex) {
+                                    MaterialTheme.colorScheme.primary
+                                } else {
+                                    MaterialTheme.colorScheme.onSurfaceVariant
+                                },
                             )
                         },
                         icon = {
                             Icon(
                                 imageVector =
-                                    if (index == selectedTabIndex) {
-                                        tabItem.selectedIcon
-                                    } else {
-                                        tabItem.unselectedIcon
-                                    },
+                                if (index == selectedTabIndex) {
+                                    tabItem.selectedIcon
+                                } else {
+                                    tabItem.unselectedIcon
+                                },
                                 tint =
-                                    if (index == selectedTabIndex) {
-                                        MaterialTheme.colorScheme.primary
-                                    } else {
-                                        MaterialTheme.colorScheme.onSurfaceVariant
-                                    },
+                                if (index == selectedTabIndex) {
+                                    MaterialTheme.colorScheme.primary
+                                } else {
+                                    MaterialTheme.colorScheme.onSurfaceVariant
+                                },
                                 contentDescription = tabItem.title,
                             )
                         },
@@ -140,9 +140,9 @@ fun LaunchesScreen(
             HorizontalPager(
                 state = pagerState,
                 modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .weight(1f),
+                Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
             ) { index ->
                 when (index) {
                     0 ->

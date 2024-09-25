@@ -28,7 +28,5 @@ interface GetUpcomingLaunchesUseCase {
 class GetUpcomingLaunchesUseCaseImpl(
     private val repository: LaunchesRepository,
 ) : GetUpcomingLaunchesUseCase {
-    override fun invoke(): Flow<List<Launch>> {
-        return repository.getUpcomingLaunches()
-    }
+    override fun invoke(): Flow<List<Launch>> = repository.getUpcomingLaunches()
 }

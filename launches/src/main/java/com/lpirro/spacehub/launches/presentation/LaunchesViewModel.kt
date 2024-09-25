@@ -35,60 +35,60 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LaunchesViewModel
-    @Inject
-    constructor(
-        private val getUpcomingLaunchesUseCase: GetUpcomingLaunchesUseCase,
-        private val getPastLaunchesUseCase: GetPastLaunchesUseCase,
-    ) : ViewModel() {
-        private val _uiStateUpcomingLaunches =
-            MutableStateFlow<LaunchesUiState>(LaunchesUiState.Loading(true))
-        val uiStateUpcomingLaunches =
-            _uiStateUpcomingLaunches
-                .onStart { getUpcomingLaunches() }
-                .stateIn(
-                    scope = viewModelScope,
-                    started = SharingStarted.WhileSubscribed(5000L),
-                    initialValue = LaunchesUiState.Loading(true),
-                )
+@Inject
+constructor(
+    private val getUpcomingLaunchesUseCase: GetUpcomingLaunchesUseCase,
+    private val getPastLaunchesUseCase: GetPastLaunchesUseCase,
+) : ViewModel() {
+    private val _uiStateUpcomingLaunches =
+        MutableStateFlow<LaunchesUiState>(LaunchesUiState.Loading(true))
+    val uiStateUpcomingLaunches =
+        _uiStateUpcomingLaunches
+            .onStart { getUpcomingLaunches() }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5000L),
+                initialValue = LaunchesUiState.Loading(true),
+            )
 
-        private val _uiStatePastLaunches =
-            MutableStateFlow<LaunchesUiState>(LaunchesUiState.Loading(true))
-        val uiStatePastLaunches =
-            _uiStatePastLaunches
-                .onStart { getPastLaunches() }
-                .stateIn(
-                    scope = viewModelScope,
-                    started = SharingStarted.WhileSubscribed(5000L),
-                    initialValue = LaunchesUiState.Loading(true),
-                )
+    private val _uiStatePastLaunches =
+        MutableStateFlow<LaunchesUiState>(LaunchesUiState.Loading(true))
+    val uiStatePastLaunches =
+        _uiStatePastLaunches
+            .onStart { getPastLaunches() }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5000L),
+                initialValue = LaunchesUiState.Loading(true),
+            )
 
-        private val _isRefreshLoading = MutableStateFlow(false)
-        val isRefreshLoading = _isRefreshLoading.asStateFlow()
+    private val _isRefreshLoading = MutableStateFlow(false)
+    val isRefreshLoading = _isRefreshLoading.asStateFlow()
 
-        fun getUpcomingLaunches(isRefresh: Boolean = false) =
-            viewModelScope.launch {
-                _isRefreshLoading.value = isRefresh
-                getUpcomingLaunchesUseCase()
-                    .onStart {
-                        if (!isRefresh) _uiStateUpcomingLaunches.value = LaunchesUiState.Loading(true)
-                    }
-                    .catch { _uiStateUpcomingLaunches.value = LaunchesUiState.Error }
-                    .onCompletion { _isRefreshLoading.value = false }
-                    .collect { _uiStateUpcomingLaunches.value = LaunchesUiState.Success(it) }
-            }
+    fun getUpcomingLaunches(isRefresh: Boolean = false) =
+        viewModelScope.launch {
+            _isRefreshLoading.value = isRefresh
+            getUpcomingLaunchesUseCase()
+                .onStart {
+                    if (!isRefresh) _uiStateUpcomingLaunches.value = LaunchesUiState.Loading(true)
+                }
+                .catch { _uiStateUpcomingLaunches.value = LaunchesUiState.Error }
+                .onCompletion { _isRefreshLoading.value = false }
+                .collect { _uiStateUpcomingLaunches.value = LaunchesUiState.Success(it) }
+        }
 
-        fun getPastLaunches(isRefresh: Boolean = false) =
-            viewModelScope.launch {
-                _isRefreshLoading.value = isRefresh
-                getPastLaunchesUseCase()
-                    .onStart {
-                        if (!isRefresh) _uiStatePastLaunches.value = LaunchesUiState.Loading(false)
-                    }
-                    .catch { _uiStatePastLaunches.value = LaunchesUiState.Error }
-                    .onCompletion { _isRefreshLoading.value = false }
-                    .collect { _uiStatePastLaunches.value = LaunchesUiState.Success(it) }
-            }
-    }
+    fun getPastLaunches(isRefresh: Boolean = false) =
+        viewModelScope.launch {
+            _isRefreshLoading.value = isRefresh
+            getPastLaunchesUseCase()
+                .onStart {
+                    if (!isRefresh) _uiStatePastLaunches.value = LaunchesUiState.Loading(false)
+                }
+                .catch { _uiStatePastLaunches.value = LaunchesUiState.Error }
+                .onCompletion { _isRefreshLoading.value = false }
+                .collect { _uiStatePastLaunches.value = LaunchesUiState.Success(it) }
+        }
+}
 
 sealed class LaunchesUiState {
     data class Loading(val isLoading: Boolean) : LaunchesUiState()

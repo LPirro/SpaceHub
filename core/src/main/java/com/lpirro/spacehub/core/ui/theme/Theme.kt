@@ -158,6 +158,7 @@ fun SpacehubTheme(
             }
 
             darkTheme -> darkScheme
+
             else -> lightScheme
         }
 

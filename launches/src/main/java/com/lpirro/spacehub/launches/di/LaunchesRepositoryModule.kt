@@ -62,9 +62,7 @@ object LaunchesRepositoryModule {
     fun provideLaunchesRepository(
         launchesService: LaunchesService,
         launchMapper: LaunchMapper,
-    ): LaunchesRepository {
-        return LaunchesRepositoryImpl(launchesService, launchMapper)
-    }
+    ): LaunchesRepository = LaunchesRepositoryImpl(launchesService, launchMapper)
 
     @Provides
     fun provideLaunchMapper(
@@ -76,18 +74,16 @@ object LaunchesRepositoryModule {
         missionMapper: MissionMapper,
         updateMapper: UpdateMapper,
         rocketMapper: RocketMapper,
-    ): LaunchMapper {
-        return LaunchMapperImpl(
-            agencyMapper = agencyMapper,
-            missionPatchMapper = missionPatchMapper,
-            padMapper = padMapper,
-            dateParser = dateParser,
-            statusMapper = statusMapper,
-            missionMapper = missionMapper,
-            updateMapper = updateMapper,
-            rocketMapper = rocketMapper,
-        )
-    }
+    ): LaunchMapper = LaunchMapperImpl(
+        agencyMapper = agencyMapper,
+        missionPatchMapper = missionPatchMapper,
+        padMapper = padMapper,
+        dateParser = dateParser,
+        statusMapper = statusMapper,
+        missionMapper = missionMapper,
+        updateMapper = updateMapper,
+        rocketMapper = rocketMapper,
+    )
 
     @Provides
     fun provideAgencyMapper(): AgencyMapper = AgencyMapperImpl()
@@ -117,38 +113,26 @@ object LaunchesRepositoryModule {
     fun provideOrbitMapper(): OrbitMapper = OrbitMapperImpl()
 
     @Provides
-    fun provideMissionMapper(orbitMapper: OrbitMapper): MissionMapper {
-        return MissionMapperImpl(orbitMapper)
-    }
+    fun provideMissionMapper(orbitMapper: OrbitMapper): MissionMapper = MissionMapperImpl(orbitMapper)
 
     @Provides
-    fun provideUpdateMapper(dateParser: DateParser): UpdateMapper {
-        return UpdateMapperImpl(dateParser)
-    }
+    fun provideUpdateMapper(dateParser: DateParser): UpdateMapper = UpdateMapperImpl(dateParser)
 
     @Provides
     fun provideRocketMapper(
         rocketConfigurationMapper: RocketConfigurationMapper,
         launcherStageMapper: LauncherStageMapper,
-    ): RocketMapper {
-        return RocketMapperImpl(
-            rocketConfigurationMapper = rocketConfigurationMapper,
-            launcherStageMapper = launcherStageMapper,
-        )
-    }
+    ): RocketMapper = RocketMapperImpl(
+        rocketConfigurationMapper = rocketConfigurationMapper,
+        launcherStageMapper = launcherStageMapper,
+    )
 
     @Provides
-    fun provideRocketConfigurationMapper(agencyMapper: AgencyMapper): RocketConfigurationMapper {
-        return RocketConfigurationMapperImpl(agencyMapper = agencyMapper)
-    }
+    fun provideRocketConfigurationMapper(agencyMapper: AgencyMapper): RocketConfigurationMapper = RocketConfigurationMapperImpl(agencyMapper = agencyMapper)
 
     @Provides
-    fun provideLauncherStageMapper(launcherLandingMapper: LauncherLandingMapper): LauncherStageMapper {
-        return LauncherStageMapperImpl(launcherLandingMapper = launcherLandingMapper)
-    }
+    fun provideLauncherStageMapper(launcherLandingMapper: LauncherLandingMapper): LauncherStageMapper = LauncherStageMapperImpl(launcherLandingMapper = launcherLandingMapper)
 
     @Provides
-    fun providesLauncherLandingMapper(): LauncherLandingMapper {
-        return LauncherLandingMapperImpl()
-    }
+    fun providesLauncherLandingMapper(): LauncherLandingMapper = LauncherLandingMapperImpl()
 }

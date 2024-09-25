@@ -25,56 +25,54 @@ interface StatusMapper {
 }
 
 class StatusMapperImpl : StatusMapper {
-    override fun mapToDomain(statusRemote: StatusRemote): Status {
-        return when (statusRemote.id) {
-            1 ->
-                Status.Go(
-                    name = statusRemote.name,
-                    abbrev = statusRemote.abbrev,
-                    description = statusRemote.description,
-                )
+    override fun mapToDomain(statusRemote: StatusRemote): Status = when (statusRemote.id) {
+        1 ->
+            Status.Go(
+                name = statusRemote.name,
+                abbrev = statusRemote.abbrev,
+                description = statusRemote.description,
+            )
 
-            2 ->
-                Status.TBD(
-                    name = statusRemote.name,
-                    abbrev = statusRemote.abbrev,
-                    description = statusRemote.description,
-                )
+        2 ->
+            Status.TBD(
+                name = statusRemote.name,
+                abbrev = statusRemote.abbrev,
+                description = statusRemote.description,
+            )
 
-            3 ->
-                Status.Success(
-                    name = statusRemote.name,
-                    abbrev = statusRemote.abbrev,
-                    description = statusRemote.description,
-                )
+        3 ->
+            Status.Success(
+                name = statusRemote.name,
+                abbrev = statusRemote.abbrev,
+                description = statusRemote.description,
+            )
 
-            4 ->
-                Status.Failure(
-                    name = statusRemote.name,
-                    abbrev = statusRemote.abbrev,
-                    description = statusRemote.description,
-                )
+        4 ->
+            Status.Failure(
+                name = statusRemote.name,
+                abbrev = statusRemote.abbrev,
+                description = statusRemote.description,
+            )
 
-            6 ->
-                Status.InFlight(
-                    name = statusRemote.name,
-                    abbrev = statusRemote.abbrev,
-                    description = statusRemote.description,
-                )
+        6 ->
+            Status.InFlight(
+                name = statusRemote.name,
+                abbrev = statusRemote.abbrev,
+                description = statusRemote.description,
+            )
 
-            8 ->
-                Status.TBC(
-                    name = statusRemote.name,
-                    abbrev = statusRemote.abbrev,
-                    description = statusRemote.description,
-                )
+        8 ->
+            Status.TBC(
+                name = statusRemote.name,
+                abbrev = statusRemote.abbrev,
+                description = statusRemote.description,
+            )
 
-            else ->
-                Status.Unknown(
-                    name = statusRemote.name,
-                    abbrev = statusRemote.abbrev,
-                    description = statusRemote.description,
-                )
-        }
+        else ->
+            Status.Unknown(
+                name = statusRemote.name,
+                abbrev = statusRemote.abbrev,
+                description = statusRemote.description,
+            )
     }
 }

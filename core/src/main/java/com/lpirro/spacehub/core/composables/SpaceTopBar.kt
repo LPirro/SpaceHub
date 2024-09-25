@@ -49,11 +49,11 @@ fun SpaceTopBar(text: String) {
             Text(
                 text = text,
                 style =
-                    TextStyle(
-                        fontSize = 22.sp,
-                        fontFamily = ralewayFontFamily,
-                        fontWeight = FontWeight.Bold,
-                    ),
+                TextStyle(
+                    fontSize = 22.sp,
+                    fontFamily = ralewayFontFamily,
+                    fontWeight = FontWeight.Bold,
+                ),
             )
         },
     )

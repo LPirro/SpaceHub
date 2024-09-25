@@ -49,9 +49,7 @@ object LaunchesNetworkModule {
             .build()
             .create(LaunchesService::class.java)
 
-    private fun provideLoggingInterceptor(): HttpLoggingInterceptor {
-        return HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-    }
+    private fun provideLoggingInterceptor(): HttpLoggingInterceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
 
     private fun provideOkHttp(): OkHttpClient {
         val okHttpClient =

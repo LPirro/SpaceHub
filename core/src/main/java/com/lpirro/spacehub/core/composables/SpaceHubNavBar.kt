@@ -74,18 +74,18 @@ fun SpaceHubNavBar(
                 icon = {
                     Icon(
                         painter =
-                            if (index == selectedItemIndex) {
-                                painterResource(id = item.selectedIcon)
-                            } else {
-                                painterResource(id = item.unselectedIcon)
-                            },
+                        if (index == selectedItemIndex) {
+                            painterResource(id = item.selectedIcon)
+                        } else {
+                            painterResource(id = item.unselectedIcon)
+                        },
                         contentDescription = item.title,
                         tint =
-                            if (selectedItemIndex == index) {
-                                MaterialTheme.colorScheme.onSecondaryContainer
-                            } else {
-                                MaterialTheme.colorScheme.onSurface
-                            },
+                        if (selectedItemIndex == index) {
+                            MaterialTheme.colorScheme.onSecondaryContainer
+                        } else {
+                            MaterialTheme.colorScheme.onSurface
+                        },
                     )
                 },
             )

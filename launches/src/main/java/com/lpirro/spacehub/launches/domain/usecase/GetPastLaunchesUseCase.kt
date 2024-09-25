@@ -28,7 +28,5 @@ interface GetPastLaunchesUseCase {
 class GetPastLaunchesUseCaseImpl(
     private val repository: LaunchesRepository,
 ) : GetPastLaunchesUseCase {
-    override fun invoke(): Flow<List<Launch>> {
-        return repository.getPastLaunches()
-    }
+    override fun invoke(): Flow<List<Launch>> = repository.getPastLaunches()
 }

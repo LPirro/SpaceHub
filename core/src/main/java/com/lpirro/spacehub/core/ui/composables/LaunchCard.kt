@@ -74,9 +74,9 @@ fun LaunchCard(
 ) {
     OutlinedCard(
         modifier =
-            modifier
-                .fillMaxWidth()
-                .clickable { onClick.invoke() },
+        modifier
+            .fillMaxWidth()
+            .clickable { onClick.invoke() },
     ) {
         ConstraintLayout(Modifier.fillMaxWidth()) {
             val (image, launchTitle, infoAgency, infoLocation, infoDate, launchStatus, launchCountdown) = createRefs()
@@ -90,22 +90,22 @@ fun LaunchCard(
 
             AsyncImage(
                 model =
-                    ImageRequest.Builder(LocalContext.current)
-                        .data(launchImageUrl)
-                        .crossfade(true)
-                        .error(placeholderDrawable)
-                        .placeholder(placeholderDrawable)
-                        .build(),
+                ImageRequest.Builder(LocalContext.current)
+                    .data(launchImageUrl)
+                    .crossfade(true)
+                    .error(placeholderDrawable)
+                    .placeholder(placeholderDrawable)
+                    .build(),
                 modifier =
-                    Modifier
-                        .constrainAs(image) {
-                            top.linkTo(parent.top)
-                            bottom.linkTo(parent.bottom)
-                            start.linkTo(parent.start)
-                            height = Dimension.fillToConstraints
-                            width = Dimension.value(100.dp)
-                        }
-                        .clip(RoundedCornerShape(12.dp)),
+                Modifier
+                    .constrainAs(image) {
+                        top.linkTo(parent.top)
+                        bottom.linkTo(parent.bottom)
+                        start.linkTo(parent.start)
+                        height = Dimension.fillToConstraints
+                        width = Dimension.value(100.dp)
+                    }
+                    .clip(RoundedCornerShape(12.dp)),
                 contentScale = ContentScale.Crop,
                 contentDescription = null,
             )
@@ -115,73 +115,73 @@ fun LaunchCard(
                 text = title,
                 style = MaterialTheme.typography.titleLarge,
                 modifier =
-                    Modifier
-                        .constrainAs(launchTitle) {
-                            end.linkTo(parent.end, margin = 12.dp)
-                            start.linkTo(image.end, margin = 12.dp)
-                            top.linkTo(parent.top, margin = 12.dp)
-                            width = Dimension.fillToConstraints
-                            height = Dimension.wrapContent
-                        },
+                Modifier
+                    .constrainAs(launchTitle) {
+                        end.linkTo(parent.end, margin = 12.dp)
+                        start.linkTo(image.end, margin = 12.dp)
+                        top.linkTo(parent.top, margin = 12.dp)
+                        width = Dimension.fillToConstraints
+                        height = Dimension.wrapContent
+                    },
             )
             LaunchInfoItem(
                 text = agency,
                 icon = ImageVector.vectorResource(id = R.drawable.domain),
                 modifier =
-                    Modifier.constrainAs(infoAgency) {
-                        start.linkTo(launchTitle.start)
-                        end.linkTo(launchTitle.end)
-                        top.linkTo(launchTitle.bottom, margin = 12.dp)
-                        width = Dimension.fillToConstraints
-                        height = Dimension.wrapContent
-                    },
+                Modifier.constrainAs(infoAgency) {
+                    start.linkTo(launchTitle.start)
+                    end.linkTo(launchTitle.end)
+                    top.linkTo(launchTitle.bottom, margin = 12.dp)
+                    width = Dimension.fillToConstraints
+                    height = Dimension.wrapContent
+                },
             )
             LaunchInfoItem(
                 modifier =
-                    Modifier
-                        .constrainAs(infoLocation) {
-                            top.linkTo(infoAgency.bottom, margin = 4.dp)
-                            start.linkTo(launchTitle.start)
-                            end.linkTo(launchTitle.end)
-                            width = Dimension.fillToConstraints
-                            height = Dimension.wrapContent
-                        },
+                Modifier
+                    .constrainAs(infoLocation) {
+                        top.linkTo(infoAgency.bottom, margin = 4.dp)
+                        start.linkTo(launchTitle.start)
+                        end.linkTo(launchTitle.end)
+                        width = Dimension.fillToConstraints
+                        height = Dimension.wrapContent
+                    },
                 text = location,
                 icon = Icons.Outlined.LocationOn,
             )
             LaunchInfoItem(
                 modifier =
-                    Modifier.constrainAs(infoDate) {
-                        top.linkTo(infoLocation.bottom, margin = 4.dp)
-                        start.linkTo(launchTitle.start)
-                        end.linkTo(launchTitle.end)
-                        width = Dimension.fillToConstraints
-                        height = Dimension.wrapContent
-                    },
+                Modifier.constrainAs(infoDate) {
+                    top.linkTo(infoLocation.bottom, margin = 4.dp)
+                    start.linkTo(launchTitle.start)
+                    end.linkTo(launchTitle.end)
+                    width = Dimension.fillToConstraints
+                    height = Dimension.wrapContent
+                },
                 text = dateTime,
                 icon = ImageVector.vectorResource(id = R.drawable.calendar_blank_outline),
             )
 
             LaunchStatus(
                 modifier =
-                    Modifier.constrainAs(launchStatus) {
-                        start.linkTo(launchTitle.start)
-                        top.linkTo(infoDate.bottom, margin = 16.dp)
-                        bottom.linkTo(parent.bottom, margin = 12.dp)
-                        height = Dimension.wrapContent
-                        width = Dimension.wrapContent
-                    },
+                Modifier.constrainAs(launchStatus) {
+                    start.linkTo(launchTitle.start)
+                    top.linkTo(infoDate.bottom, margin = 16.dp)
+                    bottom.linkTo(parent.bottom, margin = 12.dp)
+                    height = Dimension.wrapContent
+                    width = Dimension.wrapContent
+                },
                 status = status,
             )
 
             LaunchCountdown(
                 modifier =
-                    Modifier.constrainAs(launchCountdown) {
-                        end.linkTo(launchTitle.end)
-                        top.linkTo(launchStatus.top)
-                        bottom.linkTo(launchStatus.bottom)
-                        height = Dimension.wrapContent
-                    },
+                Modifier.constrainAs(launchCountdown) {
+                    end.linkTo(launchTitle.end)
+                    top.linkTo(launchStatus.top)
+                    bottom.linkTo(launchStatus.bottom)
+                    height = Dimension.wrapContent
+                },
                 targetMillis = netMillis,
             )
         }
