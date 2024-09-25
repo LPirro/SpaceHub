@@ -21,4 +21,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "Spacehub"
 include(":app")
- 
+include(":launches")
+include(":core")

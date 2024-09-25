@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ /*
+  ~  * SpaceHub - Designed and Developed by LPirro (Leonardo Pirro)
+  ~  * Copyright (C) 2023 Leonardo Pirro
+  ~  *
+  ~  * This program is free software: you can redistribute it and/or modify
+  ~  * it under the terms of the GNU General Public License as published by
+  ~  * the Free Software Foundation, either version 3 of the License, or
+  ~  * (at your option) any later version.
+  ~  *
+  ~  * This program is distributed in the hope that it will be useful,
+  ~  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~  * GNU General Public License for more details.
+  ~  *
+  ~  * You should have received a copy of the GNU General Public License
+  ~  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  ~  */
+  -->
+
+<resources>
+    <string name="nav_bar_launches">Launches</string>
+    <string name="nav_bar_news">News</string>
+    <string name="nav_bar_saved_launches">Saved</string>
+    <string name="cd_error_screen_image">error screen image</string>
+    <string name="error_screen_title">Huston we have a problem!</string>
+    <string name="error_screen_description">Something went wrong, please check your network and try again</string>
+    <string name="error_screen_try_again">Try Again</string>
+
+    <!-- Plurals for days -->
+    <plurals name="countdown_days">
+        <item quantity="one">%d Day</item>
+        <item quantity="other">%d Days</item>
+    </plurals>
+
+    <!-- Plurals for hours -->
+    <plurals name="countdown_hours">
+        <item quantity="one">%d Hour</item>
+        <item quantity="other">%d Hours</item>
+    </plurals>
+
+    <!-- Plurals for minutes -->
+    <plurals name="countdown_minutes">
+        <item quantity="one">%d Min</item>
+        <item quantity="other">%d Mins</item>
+    </plurals>
+
+    <!-- Plurals for seconds -->
+    <plurals name="countdown_seconds">
+        <item quantity="one">%d Second</item>
+        <item quantity="other">%d Seconds</item>
+    </plurals>
+
+    <!-- String for the final countdown message -->
+    <string name="countdown_full_today">In %1$s %2$s %3$s</string>
+    <string name="countdown_full_days">In %1$s %2$s %3$s</string>
+</resources>
