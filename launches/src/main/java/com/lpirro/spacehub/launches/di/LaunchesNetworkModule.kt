@@ -41,17 +41,21 @@ object LaunchesNetworkModule {
 
     @Singleton
     @Provides
-    fun provideLaunchesService(): LaunchesService =
+    fun provideLaunchesService(okHttpClient: OkHttpClient): LaunchesService =
         Retrofit.Builder()
             .baseUrl(getLaunchLibraryBaseUrl())
             .addConverterFactory(GsonConverterFactory.create())
-            .client(provideOkHttp())
+            .client(okHttpClient)
             .build()
             .create(LaunchesService::class.java)
 
-    private fun provideLoggingInterceptor(): HttpLoggingInterceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+    @Provides
+    fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor =
+        HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
 
-    private fun provideOkHttp(): OkHttpClient {
+
+    @Provides
+    fun provideOkHttp(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
         val okHttpClient =
             OkHttpClient.Builder()
                 .callTimeout(30, TimeUnit.SECONDS)
@@ -59,7 +63,7 @@ object LaunchesNetworkModule {
                 .writeTimeout(30, TimeUnit.SECONDS)
 
         if (BuildConfig.DEBUG) {
-            okHttpClient.addInterceptor(provideLoggingInterceptor())
+            okHttpClient.addInterceptor(loggingInterceptor)
         }
 
         return okHttpClient.build()
