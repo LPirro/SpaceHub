@@ -53,7 +53,6 @@ object LaunchesNetworkModule {
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor =
         HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
 
-
     @Provides
     fun provideOkHttp(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
         val okHttpClient =

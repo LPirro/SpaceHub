@@ -25,6 +25,7 @@ turbine = "1.1.0"
 kotlinx-coroutines-test = "1.8.1"
 androidx-arch-core-testing = "2.1.0"
 spotless = "6.25.0"
+browser = "1.8.0"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -59,6 +60,7 @@ kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-t
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockito-kotlin" }
 androidx-arch-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "androidx-arch-core-testing" }
+androidx-browser = { group = "androidx.browser", name = "browser", version.ref = "browser" }
 
 [plugins]
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }

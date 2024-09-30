@@ -17,6 +17,8 @@
  */
 package com.lpirro.spacehub
 
+import android.net.Uri
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -25,6 +27,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -97,7 +100,11 @@ fun SpaceHubNavHost(
             )
         }
         composable<News> {
-            NewsScreen()
+            val context = LocalContext.current
+            NewsScreen(onArticleClick = { articleUrl ->
+                val builder = CustomTabsIntent.Builder().build()
+                builder.launchUrl(context, Uri.parse(articleUrl))
+            })
         }
     }
 }

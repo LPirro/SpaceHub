@@ -73,6 +73,7 @@ dependencies {
     implementation(libs.retrofit.converter.gson)
     implementation(libs.okhttp)
     implementation(libs.okhttp.interceptor)
+    implementation(libs.coil.compose)
 
     // Hilt
     implementation(libs.hilt.navigation.compose)
