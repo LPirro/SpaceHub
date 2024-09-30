@@ -84,7 +84,7 @@ fun LaunchCard(
             val placeholderDrawable =
                 AppCompatResources.getDrawable(
                     LocalContext.current,
-                    R.drawable.launch_image_placeholder,
+                    R.drawable.image_placeholder,
                 )
             placeholderDrawable?.setTint(MaterialTheme.colorScheme.inverseOnSurface.toArgb())
 

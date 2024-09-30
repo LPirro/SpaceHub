@@ -2,6 +2,7 @@
 
 package com.lpirro.spacehub.news.presentation
 
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,6 +29,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -51,7 +53,9 @@ fun NewsScreen(viewModel: NewsViewModel = hiltViewModel(), onArticleClick: (url:
         topBar = { SpaceTopBar(text = stringResource(R.string.news_topbar_title)) },
     ) { innerPadding ->
         NewsScreen(
-            modifier = Modifier.fillMaxSize().padding(top = innerPadding.calculateTopPadding()),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = innerPadding.calculateTopPadding()),
             uiState = uiState.value,
             onRefresh = { viewModel.getNews(isRefresh = true) },
             onTryAgainClicked = viewModel::getNews,
@@ -109,8 +113,7 @@ fun ArticleList(
         LazyColumn {
             items(articles) { article ->
                 ArticleSmall(
-                    newsSite = article.newsSite,
-                    publishedAt = article.publishedAt ?: "",
+                    articleInfo = "${article.newsSite} • ${article.publishDateOffset}",
                     title = article.title,
                     articleImageUrl = article.imageUrl,
                     articleUrl = article.url,
@@ -123,13 +126,19 @@ fun ArticleList(
 
 @Composable
 private fun ArticleSmall(
-    newsSite: String,
-    publishedAt: String,
     title: String,
+    articleInfo: String,
     articleImageUrl: String,
     articleUrl: String,
     onArticleClick: (url: String) -> Unit,
 ) {
+    val placeholderDrawable =
+        AppCompatResources.getDrawable(
+            LocalContext.current,
+            com.lpirro.spacehub.core.R.drawable.image_placeholder,
+        )
+    placeholderDrawable?.setTint(MaterialTheme.colorScheme.inverseOnSurface.toArgb())
+
     Row(
         modifier = Modifier
             .clickable { onArticleClick.invoke(articleUrl) }
@@ -146,7 +155,7 @@ private fun ArticleSmall(
                 )
                 Spacer(Modifier.width(4.dp))
                 Text(
-                    text = newsSite,
+                    text = articleInfo,
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -163,6 +172,8 @@ private fun ArticleSmall(
             model =
             ImageRequest.Builder(LocalContext.current)
                 .data(articleImageUrl)
+                .placeholder(placeholderDrawable)
+                .error(placeholderDrawable)
                 .crossfade(true)
                 .build(),
             modifier = Modifier
@@ -193,8 +204,7 @@ private fun NewsScreenPreview() {
 private fun ArticleSmallPreview() {
     SpacehubTheme {
         ArticleSmall(
-            newsSite = "SpaceNews",
-            publishedAt = "2 days ago",
+            articleInfo = "SpaceNews • 2 days ago",
             title = "Roscosmos to launch uncrewed Soyuz to replace damaged spacecraft at ISS",
             articleImageUrl = "",
             articleUrl = "",
