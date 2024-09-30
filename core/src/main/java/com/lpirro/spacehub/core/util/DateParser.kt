@@ -20,9 +20,8 @@ package com.lpirro.spacehub.core.util
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 
-private const val LAUNCH_FULL_DATE_INPUT_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ"
+private const val FULL_DATE_INPUT_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ"
 private const val LAUNCH_FULL_DATE_OUTPUT_FORMAT = "dd MMM yyyy • HH:mm"
-private const val NEWS_DATE_INPUT_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.000Z"
 private const val DATE_DD_MMM_FORMAT = "dd MMM"
 private const val DATE_DD_MMM_YYYY_FORMAT = "dd MMM yyyy"
 
@@ -47,7 +46,7 @@ interface DateParser {
 
 class DateParserImpl : DateParser {
     override fun parseFullDate(dateString: String): String = try {
-        val inputFormat = DateTimeFormat.forPattern(LAUNCH_FULL_DATE_INPUT_FORMAT)
+        val inputFormat = DateTimeFormat.forPattern(FULL_DATE_INPUT_FORMAT)
         val outputFormat = DateTimeFormat.forPattern(LAUNCH_FULL_DATE_OUTPUT_FORMAT)
         val parser = inputFormat.parseDateTime(dateString)
         outputFormat.print(parser)
@@ -56,7 +55,7 @@ class DateParserImpl : DateParser {
     }
 
     override fun parseDateDayMonth(dateString: String): String = try {
-        val inputFormat = DateTimeFormat.forPattern(LAUNCH_FULL_DATE_INPUT_FORMAT)
+        val inputFormat = DateTimeFormat.forPattern(FULL_DATE_INPUT_FORMAT)
         val outputFormat = DateTimeFormat.forPattern(DATE_DD_MMM_FORMAT)
         val parser = inputFormat.parseDateTime(dateString)
         outputFormat.print(parser)
@@ -65,7 +64,7 @@ class DateParserImpl : DateParser {
     }
 
     override fun parseDateInMillis(dateString: String): Long? = try {
-        val inputFormat = DateTimeFormat.forPattern(LAUNCH_FULL_DATE_INPUT_FORMAT)
+        val inputFormat = DateTimeFormat.forPattern(FULL_DATE_INPUT_FORMAT)
         val parser = inputFormat.parseDateTime(dateString)
         parser.millis
     } catch (exception: IllegalArgumentException) {
@@ -74,7 +73,7 @@ class DateParserImpl : DateParser {
 
     override fun formatToTimeAgo(dateString: String): String? {
         try {
-            val inputFormat = DateTimeFormat.forPattern(NEWS_DATE_INPUT_FORMAT)
+            val inputFormat = DateTimeFormat.forPattern(FULL_DATE_INPUT_FORMAT)
             val dateInMillis = inputFormat.parseLocalDateTime(dateString).toDateTime().millis
             val currentDateInMillis = DateTime.now().millis
 
@@ -99,7 +98,7 @@ class DateParserImpl : DateParser {
     }
 
     override fun formatToDDMMMYYYY(dateString: String): String = try {
-        val inputFormat = DateTimeFormat.forPattern(LAUNCH_FULL_DATE_INPUT_FORMAT)
+        val inputFormat = DateTimeFormat.forPattern(FULL_DATE_INPUT_FORMAT)
         val outputFormat = DateTimeFormat.forPattern(DATE_DD_MMM_YYYY_FORMAT)
         val parser = inputFormat.parseDateTime(dateString)
         outputFormat.print(parser)
