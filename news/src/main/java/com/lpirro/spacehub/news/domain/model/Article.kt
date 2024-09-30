@@ -61,7 +61,7 @@ data class Article(
             ),
             Article(
                 id = 3,
-                featured = true,
+                featured = false,
                 publishedAt = "2024-09-28",
                 imageUrl = "https://example.com/image3.jpg",
                 newsSite = "Mobile Dev Today",
@@ -85,7 +85,7 @@ data class Article(
             ),
             Article(
                 id = 5,
-                featured = true,
+                featured = false,
                 publishedAt = "2024-09-26",
                 imageUrl = "https://example.com/image5.jpg",
                 newsSite = "Dev Weekly",

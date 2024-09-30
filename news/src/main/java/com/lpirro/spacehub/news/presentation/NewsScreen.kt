@@ -112,13 +112,23 @@ fun ArticleList(
     ) {
         LazyColumn {
             items(articles) { article ->
-                ArticleSmall(
-                    articleInfo = "${article.newsSite} • ${article.publishDateOffset}",
-                    title = article.title,
-                    articleImageUrl = article.imageUrl,
-                    articleUrl = article.url,
-                    onArticleClick = onArticleClick,
-                )
+                if (article.featured) {
+                    ArticleBig(
+                        articleInfo = "${article.newsSite} • ${article.publishDateOffset}",
+                        title = article.title,
+                        articleImageUrl = article.imageUrl,
+                        articleUrl = article.url,
+                        onArticleClick = onArticleClick,
+                    )
+                } else {
+                    ArticleSmall(
+                        articleInfo = "${article.newsSite} • ${article.publishDateOffset}",
+                        title = article.title,
+                        articleImageUrl = article.imageUrl,
+                        articleUrl = article.url,
+                        onArticleClick = onArticleClick,
+                    )
+                }
             }
         }
     }
@@ -146,20 +156,7 @@ private fun ArticleSmall(
             .padding(horizontal = 16.dp, vertical = 20.dp),
     ) {
         Column(modifier = Modifier.weight(1f)) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    modifier = Modifier.size(10.dp),
-                    painter = painterResource(com.lpirro.spacehub.core.R.drawable.newspaper_variant_outline),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                    contentDescription = null,
-                )
-                Spacer(Modifier.width(4.dp))
-                Text(
-                    text = articleInfo,
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
+            ArticleInfo(articleInfo)
             Spacer(Modifier.height(2.dp))
             Text(
                 modifier = Modifier.padding(end = 12.dp),
@@ -185,16 +182,71 @@ private fun ArticleSmall(
     }
 }
 
-@Preview(showBackground = true)
 @Composable
-private fun NewsScreenPreview() {
-    SpacehubTheme {
-        NewsScreen(
-            modifier = Modifier.fillMaxSize(),
-            uiState = NewsUiState(articles = Article.Mocks.articlesMocks),
-            onRefresh = {},
-            onArticleClick = {},
-            onTryAgainClicked = {},
+private fun ArticleBig(
+    title: String,
+    articleInfo: String,
+    articleImageUrl: String,
+    articleUrl: String,
+    onArticleClick: (url: String) -> Unit,
+) {
+    val placeholderDrawable =
+        AppCompatResources.getDrawable(
+            LocalContext.current,
+            com.lpirro.spacehub.core.R.drawable.image_placeholder,
+        )
+    placeholderDrawable?.setTint(MaterialTheme.colorScheme.inverseOnSurface.toArgb())
+
+    Column(
+        modifier = Modifier
+            .clickable { onArticleClick.invoke(articleUrl) }
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 20.dp),
+    ) {
+        AsyncImage(
+            model =
+            ImageRequest.Builder(LocalContext.current)
+                .data(articleImageUrl)
+                .placeholder(placeholderDrawable)
+                .error(placeholderDrawable)
+                .crossfade(true)
+                .build(),
+            modifier = Modifier
+                .clip(RoundedCornerShape(12.dp))
+                .height(190.dp),
+            contentScale = ContentScale.Crop,
+            contentDescription = null,
+        )
+
+        Column {
+            Spacer(Modifier.height(12.dp))
+            ArticleInfo(articleInfo)
+            Spacer(Modifier.height(2.dp))
+            Text(
+                modifier = Modifier.padding(end = 12.dp),
+                text = title,
+                style = MaterialTheme.typography.titleMedium,
+            )
+        }
+    }
+}
+
+@Composable
+fun ArticleInfo(
+    articleInfo: String,
+) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Icon(
+            modifier = Modifier.size(10.dp),
+            painter = painterResource(com.lpirro.spacehub.core.R.drawable.newspaper_variant_outline),
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            contentDescription = null,
+        )
+        Spacer(Modifier.width(4.dp))
+        Text(
+            text = articleInfo,
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
     }
 }
@@ -209,6 +261,34 @@ private fun ArticleSmallPreview() {
             articleImageUrl = "",
             articleUrl = "",
             onArticleClick = {},
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun ArticleBigPreview() {
+    SpacehubTheme {
+        ArticleBig(
+            articleInfo = "SpaceNews • 2 days ago",
+            title = "Roscosmos to launch uncrewed Soyuz to replace damaged spacecraft at ISS",
+            articleImageUrl = "",
+            articleUrl = "",
+            onArticleClick = {},
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun NewsScreenPreview() {
+    SpacehubTheme {
+        NewsScreen(
+            modifier = Modifier.fillMaxSize(),
+            uiState = NewsUiState(articles = Article.Mocks.articlesMocks),
+            onRefresh = {},
+            onArticleClick = {},
+            onTryAgainClicked = {},
         )
     }
 }
