@@ -55,10 +55,10 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.lpirro.spacehub.core.R
-import com.lpirro.spacehub.core.composables.SpaceTopBar
 import com.lpirro.spacehub.core.model.TabItem
 import com.lpirro.spacehub.core.ui.composables.ErrorScreen
 import com.lpirro.spacehub.core.ui.composables.LaunchCard
+import com.lpirro.spacehub.core.ui.composables.SpaceTopBar
 import com.lpirro.spacehub.core.ui.theme.SpacehubTheme
 import com.lpirro.spacehub.launches.domain.model.Launch
 import com.lpirro.spacehub.launches.R as R2

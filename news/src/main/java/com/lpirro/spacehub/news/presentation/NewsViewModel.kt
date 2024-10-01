@@ -20,14 +20,22 @@
 
 package com.lpirro.spacehub.news.presentation
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.lpirro.spacehub.core.exceptions.SearchCancellationException
 import com.lpirro.spacehub.news.domain.model.Article
+import com.lpirro.spacehub.news.domain.usecase.FilterNewsUseCase
 import com.lpirro.spacehub.news.domain.usecase.GetNewsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
@@ -37,9 +45,24 @@ import javax.inject.Inject
 @HiltViewModel
 class NewsViewModel @Inject constructor(
     private val getNewsUseCase: GetNewsUseCase,
+    private val filterNewsUseCase: FilterNewsUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(NewsUiState(isLoading = true))
+
+    private lateinit var articles: List<Article>
+
+    private val _searchWidgetState: MutableState<SearchWidgetState> =
+        mutableStateOf(SearchWidgetState.CLOSED)
+    val searchWidgetState: State<SearchWidgetState> = _searchWidgetState
+
+    private val _searchTextState: MutableState<String> = mutableStateOf("")
+    val searchTextState: State<String> = _searchTextState
+
+    private val _searchLoadingState: MutableState<Boolean> = mutableStateOf(false)
+    val searchLoadingState = _searchLoadingState
+
+    private var searchArticlesJob: Job? = null
 
     val uiState =
         _uiState
@@ -55,7 +78,43 @@ class NewsViewModel @Inject constructor(
         getNewsUseCase()
             .catch { _uiState.value = _uiState.value.copy(error = true) }
             .onCompletion { _uiState.value = _uiState.value.copy(isRefresh = false) }
-            .collect { _uiState.value = NewsUiState(articles = it) }
+            .collect {
+                articles = it
+                _uiState.value = NewsUiState(articles = it)
+            }
+    }
+
+    fun updateSearchWidgetState(newState: SearchWidgetState) {
+        if (newState == SearchWidgetState.CLOSED) {
+            _uiState.value = _uiState.value.copy(articles = articles)
+        }
+        _searchWidgetState.value = newState
+    }
+
+    fun updateSearchTextState(newValue: String) {
+        _searchTextState.value = newValue
+        if (newValue.length > 3) {
+            searchArticles(newValue)
+        }
+    }
+
+    private fun searchArticles(filterQuery: String) {
+        searchArticlesJob?.cancel(SearchCancellationException())
+        _searchLoadingState.value = true
+
+        searchArticlesJob = viewModelScope.launch {
+            delay(800)
+            filterNewsUseCase(filterQuery)
+                .catch {
+                    if (it !is SearchCancellationException) {
+                        _uiState.value = _uiState.value.copy(error = true)
+                    }
+                }
+                .onCompletion { _searchLoadingState.value = false }
+                .collectLatest {
+                    _uiState.value = _uiState.value.copy(articles = it)
+                }
+        }
     }
 }
 
@@ -65,3 +124,8 @@ data class NewsUiState(
     val articles: List<Article> = emptyList(),
     val error: Boolean = false,
 )
+
+enum class SearchWidgetState {
+    OPENED,
+    CLOSED,
+}

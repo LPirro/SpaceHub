@@ -34,9 +34,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.lpirro.spacehub.core.composables.SpaceHubNavBar
 import com.lpirro.spacehub.core.navigation.Launches
 import com.lpirro.spacehub.core.navigation.News
+import com.lpirro.spacehub.core.ui.composables.SpaceHubNavBar
 import com.lpirro.spacehub.core.ui.theme.SpacehubTheme
 import com.lpirro.spacehub.launches.presentation.LaunchesScreen
 import com.lpirro.spacehub.news.presentation.NewsScreen

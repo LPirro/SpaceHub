@@ -2,6 +2,7 @@
 
 package com.lpirro.spacehub.news.presentation
 
+import android.util.Log
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -12,20 +13,25 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,8 +45,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.lpirro.spacehub.core.composables.SpaceTopBar
 import com.lpirro.spacehub.core.ui.composables.ErrorScreen
+import com.lpirro.spacehub.core.ui.composables.SearchAppBar
+import com.lpirro.spacehub.core.ui.composables.SpaceTopBar
 import com.lpirro.spacehub.core.ui.theme.SpacehubTheme
 import com.lpirro.spacehub.news.R
 import com.lpirro.spacehub.news.domain.model.Article
@@ -48,9 +55,29 @@ import com.lpirro.spacehub.news.domain.model.Article
 @Composable
 fun NewsScreen(viewModel: NewsViewModel = hiltViewModel(), onArticleClick: (url: String) -> Unit) {
     val uiState = viewModel.uiState.collectAsState()
+    val searchWidgetState by viewModel.searchWidgetState
+    val searchTextState by viewModel.searchTextState
+    val searchLoadingState by viewModel.searchLoadingState
 
     Scaffold(
-        topBar = { SpaceTopBar(text = stringResource(R.string.news_topbar_title)) },
+        topBar = {
+            SpaceSearchTopBar(
+                searchWidgetState = searchWidgetState,
+                searchTextState = searchTextState,
+                onTextChange = { viewModel.updateSearchTextState(newValue = it) },
+                onCloseClicked = {
+                    viewModel.updateSearchTextState(newValue = "")
+                    viewModel.updateSearchWidgetState(newState = SearchWidgetState.CLOSED)
+                },
+                onSearchClicked = {
+                    Log.d("Search Text", it)
+                },
+                onSearchTriggered = {
+                    viewModel.updateSearchWidgetState(newState = SearchWidgetState.OPENED)
+                },
+                isLoading = searchLoadingState,
+            )
+        },
     ) { innerPadding ->
         NewsScreen(
             modifier = Modifier
@@ -248,6 +275,47 @@ fun ArticleInfo(
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
+    }
+}
+
+@Composable
+fun SpaceSearchTopBar(
+    searchWidgetState: SearchWidgetState,
+    searchTextState: String,
+    isLoading: Boolean,
+    onTextChange: (String) -> Unit,
+    onCloseClicked: () -> Unit,
+    onSearchClicked: (String) -> Unit,
+    onSearchTriggered: () -> Unit,
+) {
+    when (searchWidgetState) {
+        SearchWidgetState.CLOSED -> {
+            SpaceTopBar(
+                text = stringResource(R.string.news_topbar_title),
+                actions = {
+                    IconButton(
+                        onClick = onSearchTriggered,
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.Search,
+                            contentDescription = stringResource(R.string.search_icon),
+                            tint = MaterialTheme.colorScheme.onSurface,
+                        )
+                    }
+                },
+            )
+        }
+
+        SearchWidgetState.OPENED -> {
+            SearchAppBar(
+                modifier = Modifier.statusBarsPadding(),
+                textQuery = searchTextState,
+                onTextChange = onTextChange,
+                onCloseClicked = onCloseClicked,
+                onSearchClicked = onSearchClicked,
+                isLoading = isLoading,
+            )
+        }
     }
 }
 
