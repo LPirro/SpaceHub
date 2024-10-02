@@ -15,24 +15,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.lpirro.spacehub.launches.data.mapper
+package com.lpirro.spacehub.core.model
 
-import com.lpirro.spacehub.core.util.DateParser
-import com.lpirro.spacehub.launches.data.network.model.UpdateRemote
-import com.lpirro.spacehub.launches.domain.model.Update
-
-interface UpdateMapper {
-    fun mapToDomain(updateRemote: UpdateRemote): Update
-}
-
-class UpdateMapperImpl(private val dateParser: DateParser) : UpdateMapper {
-    override fun mapToDomain(updateRemote: UpdateRemote) =
-        Update(
-            id = updateRemote.id,
-            profileImage = updateRemote.profileImage,
-            comment = updateRemote.comment,
-            createdOn = updateRemote.createdOn,
-            createdBy = updateRemote.createdBy,
-            infoUrl = updateRemote.infoUrl,
-        )
-}
+data class PaginatedResultRemote<T>(val next: String?, val previous: String?, val results: T)

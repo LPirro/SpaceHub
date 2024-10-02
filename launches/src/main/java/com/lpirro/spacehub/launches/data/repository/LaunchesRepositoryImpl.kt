@@ -26,17 +26,17 @@ import kotlinx.coroutines.flow.flowOn
 
 class LaunchesRepositoryImpl(
     private val launchesService: LaunchesService,
-    private val mapper: LaunchMapper,
+    private val launchMapper: LaunchMapper,
 ) : LaunchesRepository {
     override fun getUpcomingLaunches() =
         flow {
-            val launches = launchesService.getUpcomingLaunches().results.map { mapper.mapToDomain(it) }
+            val launches = launchesService.getUpcomingLaunches().results.map(launchMapper::mapToDomain)
             emit(launches)
         }.flowOn(Dispatchers.IO)
 
     override fun getPastLaunches() =
         flow {
-            val launches = launchesService.getPastLaunches().results.map { mapper.mapToDomain(it) }
+            val launches = launchesService.getPastLaunches().results.map(launchMapper::mapToDomain)
             emit(launches)
         }.flowOn(Dispatchers.IO)
 }

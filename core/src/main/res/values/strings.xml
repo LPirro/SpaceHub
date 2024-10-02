@@ -54,4 +54,7 @@
     <!-- String for the final countdown message -->
     <string name="countdown_full_today">In %1$s %2$s %3$s</string>
     <string name="countdown_full_days">In %1$s %2$s %3$s</string>
+    <string name="content_description_search_icon">Search Icon</string>
+    <string name="content_description_close_icon">Close Icon</string>
+    <string name="search_generic">Search</string>
 </resources>

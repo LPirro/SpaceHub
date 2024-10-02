@@ -17,6 +17,8 @@
  */
 package com.lpirro.spacehub
 
+import android.net.Uri
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -25,16 +27,19 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.lpirro.spacehub.core.composables.SpaceHubNavBar
 import com.lpirro.spacehub.core.navigation.Launches
+import com.lpirro.spacehub.core.navigation.News
+import com.lpirro.spacehub.core.ui.composables.SpaceHubNavBar
 import com.lpirro.spacehub.core.ui.theme.SpacehubTheme
 import com.lpirro.spacehub.launches.presentation.LaunchesScreen
+import com.lpirro.spacehub.news.presentation.NewsScreen
 
 @Composable
 fun SpaceHubApp() {
@@ -56,12 +61,24 @@ fun SpaceHubApp() {
                                 launchSingleTop = true
                                 restoreState = true
                             }
+
+                        1 ->
+                            navController.navigate(News) {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
+                                }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
                     }
                 },
             )
         },
     ) { innerPadding ->
-        SpaceHubNavHost(modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding()), navController = navController)
+        SpaceHubNavHost(
+            modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding()),
+            navController = navController,
+        )
     }
 }
 
@@ -81,6 +98,13 @@ fun SpaceHubNavHost(
                     // TODO: Implement navigation to the detail screen
                 },
             )
+        }
+        composable<News> {
+            val context = LocalContext.current
+            NewsScreen(onArticleClick = { articleUrl ->
+                val builder = CustomTabsIntent.Builder().build()
+                builder.launchUrl(context, Uri.parse(articleUrl))
+            })
         }
     }
 }
