@@ -20,7 +20,7 @@ package com.lpirro.spacehub.core.util
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 
-private const val FULL_DATE_INPUT_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ"
+const val FULL_DATE_INPUT_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ"
 private const val LAUNCH_FULL_DATE_OUTPUT_FORMAT = "dd MMM yyyy • HH:mm"
 private const val DATE_DD_MMM_FORMAT = "dd MMM"
 private const val DATE_DD_MMM_YYYY_FORMAT = "dd MMM yyyy"
@@ -39,7 +39,7 @@ interface DateParser {
 
     fun parseDateInMillis(dateString: String): Long?
 
-    fun formatToTimeAgo(dateString: String): String?
+    fun formatToTimeAgo(dateString: String, currentDateInMillis: Long = DateTime.now().millis): String?
 
     fun formatToDDMMMYYYY(dateString: String): String?
 }
@@ -71,11 +71,10 @@ class DateParserImpl : DateParser {
         null
     }
 
-    override fun formatToTimeAgo(dateString: String): String? {
+    override fun formatToTimeAgo(dateString: String, currentDateInMillis: Long): String? {
         try {
             val inputFormat = DateTimeFormat.forPattern(FULL_DATE_INPUT_FORMAT)
             val dateInMillis = inputFormat.parseLocalDateTime(dateString).toDateTime().millis
-            val currentDateInMillis = DateTime.now().millis
 
             val diff = (currentDateInMillis - dateInMillis) / 1000
 
