@@ -50,7 +50,7 @@ class NewsViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(NewsUiState(isLoading = true))
 
-    private lateinit var articles: List<Article>
+    var articles: List<Article> = emptyList()
 
     private val _searchWidgetState: MutableState<SearchWidgetState> =
         mutableStateOf(SearchWidgetState.CLOSED)
@@ -74,10 +74,11 @@ class NewsViewModel @Inject constructor(
             )
 
     fun getNews(isRefresh: Boolean = false) = viewModelScope.launch {
-        _uiState.value = _uiState.value.copy(isRefresh = isRefresh)
+        if (isRefresh) {
+            _uiState.value = _uiState.value.copy(isRefresh = true, isLoading = false)
+        }
         getNewsUseCase()
-            .catch { _uiState.value = _uiState.value.copy(error = true) }
-            .onCompletion { _uiState.value = _uiState.value.copy(isRefresh = false) }
+            .catch { _uiState.value = NewsUiState(error = true) }
             .collect {
                 articles = it
                 _uiState.value = NewsUiState(articles = it)
@@ -86,33 +87,37 @@ class NewsViewModel @Inject constructor(
 
     fun updateSearchWidgetState(newState: SearchWidgetState) {
         if (newState == SearchWidgetState.CLOSED) {
-            _uiState.value = _uiState.value.copy(articles = articles)
+            _uiState.value = NewsUiState(articles = articles)
         }
-        _searchWidgetState.value = newState
-    }
 
-    fun updateSearchTextState(newValue: String) {
-        _searchTextState.value = newValue
-        if (newValue.length > 3) {
-            searchArticles(newValue)
+        // if the articles are empty we don't want to search
+        if (articles.isNotEmpty()) {
+            _searchWidgetState.value = newState
         }
     }
 
-    private fun searchArticles(filterQuery: String) {
+    fun updateSearchTextState(searchQuery: String) {
+        _searchTextState.value = searchQuery
+        if (searchQuery.length > 3) {
+            searchArticles(searchQuery)
+        }
+    }
+
+    private fun searchArticles(searchQuery: String) {
         searchArticlesJob?.cancel(SearchCancellationException())
         _searchLoadingState.value = true
 
         searchArticlesJob = viewModelScope.launch {
             delay(800)
-            filterNewsUseCase(filterQuery)
+            filterNewsUseCase(searchQuery)
                 .catch {
                     if (it !is SearchCancellationException) {
-                        _uiState.value = _uiState.value.copy(error = true)
+                        _uiState.value = NewsUiState(error = true)
                     }
                 }
                 .onCompletion { _searchLoadingState.value = false }
                 .collectLatest {
-                    _uiState.value = _uiState.value.copy(articles = it)
+                    _uiState.value = NewsUiState(articles = it)
                 }
         }
     }

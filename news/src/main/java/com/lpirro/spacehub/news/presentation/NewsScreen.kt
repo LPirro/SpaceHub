@@ -64,9 +64,9 @@ fun NewsScreen(viewModel: NewsViewModel = hiltViewModel(), onArticleClick: (url:
             SpaceSearchTopBar(
                 searchWidgetState = searchWidgetState,
                 searchTextState = searchTextState,
-                onTextChange = { viewModel.updateSearchTextState(newValue = it) },
+                onTextChange = { viewModel.updateSearchTextState(searchQuery = it) },
                 onCloseClicked = {
-                    viewModel.updateSearchTextState(newValue = "")
+                    viewModel.updateSearchTextState(searchQuery = "")
                     viewModel.updateSearchWidgetState(newState = SearchWidgetState.CLOSED)
                 },
                 onSearchClicked = {

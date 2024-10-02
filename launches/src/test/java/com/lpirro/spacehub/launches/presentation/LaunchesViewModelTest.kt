@@ -51,12 +51,12 @@ class LaunchesViewModelTest {
     private val testDispatcher = StandardTestDispatcher()
 
     @Before
-    fun setUp() {
+    fun setup() {
         Dispatchers.setMain(testDispatcher)
     }
 
     @After
-    fun tearDown() {
+    fun teardown() {
         Dispatchers.resetMain()
     }
 
