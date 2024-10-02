@@ -112,7 +112,7 @@ class NewsViewModel @Inject constructor(
             filterNewsUseCase(searchQuery)
                 .catch {
                     if (it !is SearchCancellationException) {
-                        _uiState.value = NewsUiState(error = true)
+                        _uiState.value = NewsUiState(searchError = true)
                     }
                 }
                 .onCompletion { _searchLoadingState.value = false }
@@ -128,6 +128,7 @@ data class NewsUiState(
     val isRefresh: Boolean = false,
     val articles: List<Article> = emptyList(),
     val error: Boolean = false,
+    val searchError: Boolean = false,
 )
 
 enum class SearchWidgetState {

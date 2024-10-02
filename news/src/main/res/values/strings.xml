@@ -21,4 +21,5 @@
 <resources>
     <string name="news_topbar_title">News</string>
     <string name="search_icon">Search Icon</string>
+    <string name="search_error_message">There was an error performing your search query</string>
 </resources>

@@ -3,6 +3,7 @@
 package com.lpirro.spacehub.news.presentation
 
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -121,6 +122,13 @@ fun NewsScreen(
         uiState.error -> {
             ErrorScreen(modifier = modifier, onTryAgainClicked = onTryAgainClicked)
         }
+
+        uiState.searchError ->
+            Toast.makeText(
+                LocalContext.current,
+                stringResource(R.string.search_error_message),
+                Toast.LENGTH_SHORT,
+            ).show()
     }
 }
 
