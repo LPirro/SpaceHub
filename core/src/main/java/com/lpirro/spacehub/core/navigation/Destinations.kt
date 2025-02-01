@@ -27,3 +27,6 @@ object News
 
 @Serializable
 object Saved
+
+@Serializable
+object LaunchDetail

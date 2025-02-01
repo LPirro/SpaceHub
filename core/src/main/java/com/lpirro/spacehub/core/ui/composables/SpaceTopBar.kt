@@ -21,7 +21,12 @@ package com.lpirro.spacehub.core.ui.composables
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -37,7 +42,12 @@ import com.lpirro.spacehub.core.ui.theme.SpacehubTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SpaceTopBar(text: String, actions: @Composable RowScope.() -> Unit = {}) {
+fun SpaceTopBar(
+    text: String,
+    showBackArrow: Boolean = false,
+    onBackClick: (() -> Unit)? = null,
+    actions: @Composable RowScope.() -> Unit = {}
+) {
     val ralewayFontFamily =
         FontFamily(
             Font(R.font.raleway_regular, FontWeight.Normal),
@@ -46,13 +56,21 @@ fun SpaceTopBar(text: String, actions: @Composable RowScope.() -> Unit = {}) {
 
     TopAppBar(
         navigationIcon = {
-            Image(painter = painterResource(R.drawable.spacehub), contentDescription = "")
+            if (showBackArrow && onBackClick != null) {
+                IconButton(onClick = onBackClick) {
+                    Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                }
+            } else {
+                Image(
+                    painter = painterResource(R.drawable.spacehub),
+                    contentDescription = "Logo"
+                )
+            }
         },
         title = {
             Text(
                 text = text,
-                style =
-                TextStyle(
+                style = TextStyle(
                     fontSize = 22.sp,
                     fontFamily = ralewayFontFamily,
                     fontWeight = FontWeight.Bold,
@@ -63,10 +81,19 @@ fun SpaceTopBar(text: String, actions: @Composable RowScope.() -> Unit = {}) {
     )
 }
 
+
 @Preview
 @Composable
 private fun SpaceTopBarPreview() {
     SpacehubTheme {
         SpaceTopBar(text = "SpaceHub")
+    }
+}
+
+@Preview
+@Composable
+private fun SpaceTopBarBackPreview() {
+    SpacehubTheme {
+        SpaceTopBar(text = "SpaceHub", showBackArrow = true, onBackClick = {})
     }
 }

@@ -34,12 +34,14 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.lpirro.spacehub.core.navigation.LaunchDetail
 import com.lpirro.spacehub.core.navigation.Launches
 import com.lpirro.spacehub.core.navigation.News
 import com.lpirro.spacehub.core.ui.composables.SpaceHubNavBar
 import com.lpirro.spacehub.core.ui.theme.SpacehubTheme
 import com.lpirro.spacehub.launches.presentation.LaunchesScreen
 import com.lpirro.spacehub.news.presentation.NewsScreen
+import com.spacehub.launchdetail.presentation.LaunchDetailScreen
 
 @Composable
 fun SpaceHubApp() {
@@ -95,7 +97,7 @@ fun SpaceHubNavHost(
         composable<Launches> {
             LaunchesScreen(
                 onLaunchClicked = {
-                    // TODO: Implement navigation to the detail screen
+                    navController.navigate(LaunchDetail)
                 },
             )
         }
@@ -105,6 +107,12 @@ fun SpaceHubNavHost(
                 val builder = CustomTabsIntent.Builder().build()
                 builder.launchUrl(context, Uri.parse(articleUrl))
             })
+        }
+        composable<LaunchDetail> {
+            val context = LocalContext.current
+            LaunchDetailScreen(
+                onBackPressed = { navController.popBackStack() },
+            )
         }
     }
 }
