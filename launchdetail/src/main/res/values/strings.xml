@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ /*
+  ~  * SpaceHub - Designed and Developed by LPirro (Leonardo Pirro)
+  ~  * Copyright (C) 2023 Leonardo Pirro
+  ~  *
+  ~  * This program is free software: you can redistribute it and/or modify
+  ~  * it under the terms of the GNU General Public License as published by
+  ~  * the Free Software Foundation, either version 3 of the License, or
+  ~  * (at your option) any later version.
+  ~  *
+  ~  * This program is distributed in the hope that it will be useful,
+  ~  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~  * GNU General Public License for more details.
+  ~  *
+  ~  * You should have received a copy of the GNU General Public License
+  ~  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  ~  */
+  -->
+
+<resources>
+    <string name="launch_detail_topbar_title">Launch Detail</string>
+    <string name="launch_detail_tab_overview">Overview</string>
+    <string name="launch_detail_tab_mission">Mission</string>
+    <string name="launch_detail_tab_vehicle">Vehicle</string>
+    <string name="launch_detail_add_to_calendar">Add to calendar</string>
+    <string name="launch_detail_save">Save</string>
+    <string name="launch_detail_add_to_calendar_content_description">Add to calendar</string>
+    <string name="launch_detail_save_content_description">Save</string>
+</resources>

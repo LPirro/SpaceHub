@@ -34,9 +34,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LaunchesViewModel
-@Inject
-constructor(
+class LaunchesViewModel @Inject constructor(
     private val getUpcomingLaunchesUseCase: GetUpcomingLaunchesUseCase,
     private val getPastLaunchesUseCase: GetPastLaunchesUseCase,
 ) : ViewModel() {

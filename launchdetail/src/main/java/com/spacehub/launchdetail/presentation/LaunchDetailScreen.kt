@@ -20,25 +20,92 @@
 
 package com.spacehub.launchdetail.presentation
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Tab
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.lpirro.spacehub.core.ui.composables.SpaceTopBar
 import com.spacehub.launchdetail.R
+import com.spacehub.launchdetail.presentation.overview.LaunchDetailOverview
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LaunchDetailScreen(
     onBackPressed: (() -> Unit)? = null,
 ) {
+    var selectedTabIndex by remember { mutableIntStateOf(0) }
+
+    val tabItems = listOf(
+        stringResource(R.string.launch_detail_tab_overview),
+        stringResource(R.string.launch_detail_tab_mission),
+        stringResource(R.string.launch_detail_tab_vehicle),
+    )
+
+    val pagerState = rememberPagerState { tabItems.size }
+
     Scaffold(
         topBar = {
             SpaceTopBar(
                 text = stringResource(R.string.launch_detail_topbar_title),
                 showBackArrow = true,
-                onBackClick = onBackPressed
+                onBackClick = onBackPressed,
             )
-        }
+        },
     ) { innerPadding ->
+        LaunchedEffect(selectedTabIndex) {
+            pagerState.animateScrollToPage(selectedTabIndex)
+        }
 
+        LaunchedEffect(pagerState.currentPage) {
+            selectedTabIndex = pagerState.currentPage
+        }
+        Column(modifier = Modifier.padding(top = innerPadding.calculateTopPadding())) {
+            PrimaryTabRow(selectedTabIndex = selectedTabIndex) {
+                tabItems.forEachIndexed { index, tabItem ->
+                    Tab(
+                        selected = index == selectedTabIndex,
+                        onClick = { selectedTabIndex = index },
+                        text = {
+                            Text(
+                                text = tabItem,
+                                color = if (index == selectedTabIndex) {
+                                    MaterialTheme.colorScheme.primary
+                                } else {
+                                    MaterialTheme.colorScheme.onSurfaceVariant
+                                },
+                            )
+                        },
+                    )
+                }
+            }
+            HorizontalPager(
+                state = pagerState,
+                modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
+            ) { index ->
+                when (index) {
+                    0 -> LaunchDetailOverview()
+                    1 -> Text("Mission")
+                    2 -> Text("Vehicle")
+                }
+            }
+        }
     }
 }
