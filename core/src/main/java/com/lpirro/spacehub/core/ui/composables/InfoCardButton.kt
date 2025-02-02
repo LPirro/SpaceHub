@@ -20,91 +20,56 @@
 
 package com.lpirro.spacehub.core.ui.composables
 
-import InfoItems
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import com.lpirro.spacehub.core.ui.theme.SpacehubTheme
 
 @Composable
-fun InfoCard(
-    title: String,
-    padding: Dp = 16.dp,
-    headerImageUrl: String? = null,
-    content: @Composable () -> Unit,
+fun InfoCardButton(
+    text: String,
 ) {
-    Column(
+    Row(
         modifier = Modifier
             .fillMaxWidth()
             .background(
                 color = MaterialTheme.colorScheme.surface,
                 shape = RoundedCornerShape(12.dp),
             ),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
-        headerImageUrl?.let {
-            AsyncImage(
-                model =
-                ImageRequest.Builder(LocalContext.current)
-                    .data(it)
-                    .crossfade(true)
-                    .build(),
-                modifier = Modifier
-                    .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp))
-                    .height(190.dp),
-                contentScale = ContentScale.Crop,
-                contentDescription = null,
-            )
-        }
-
         Text(
-            modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp),
-            text = title,
+            modifier = Modifier.padding(16.dp).fillMaxWidth().weight(1f),
+            text = text,
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onSurface,
         )
 
-        Column(modifier = Modifier.padding(padding)) {
-            content()
-        }
+        Icon(
+            modifier = Modifier.padding(end = 16.dp),
+            imageVector = Icons.AutoMirrored.Default.KeyboardArrowRight,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.onSurface,
+        )
     }
 }
 
 @Preview
 @Composable
-private fun InfoCardPreview() {
+private fun InfoCardButtonPreview() {
     SpacehubTheme {
-        InfoCard("Title") {
-            Text(text = "Description")
-        }
-    }
-}
-
-@Preview
-@Composable
-private fun InfoCardInfoItemsPreview() {
-    val items = listOf(
-        "Name" to "Space Launch Complex 40",
-        "Location" to "Cape Canaveral, FL, USA",
-        "Total Launches" to "162",
-    )
-    SpacehubTheme {
-        InfoCard("Title") {
-            InfoItems(details = items)
-        }
+        InfoCardButton("Text")
     }
 }

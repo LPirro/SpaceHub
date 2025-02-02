@@ -27,4 +27,11 @@
     <string name="launch_detail_save">Save</string>
     <string name="launch_detail_add_to_calendar_content_description">Add to calendar</string>
     <string name="launch_detail_save_content_description">Save</string>
+    <string name="launch_detail_launchpad">Launchpad</string>
+    <string name="launch_detail_name">Name</string>
+    <string name="launch_detail_location">Location</string>
+    <string name="launch_detail_total_launches">Total Launches</string>
+    <string name="launch_detail_watch_live">Watch Live</string>
+    <string name="launch_detail_agency">Agency</string>
+    <string name="launch_detail_trajectory">Launch Trajectory</string>
 </resources>

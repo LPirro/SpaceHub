@@ -20,19 +20,29 @@
 
 package com.lpirro.spacehub.core.ui.composables
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.*
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 
 @Composable
 fun CountdownTimer(days: Int, hours: Int, minutes: Int, seconds: Int) {
-
     var days by remember { mutableIntStateOf(days) }
     var hours by remember { mutableIntStateOf(hours) }
     var minutes by remember { mutableIntStateOf(minutes) }
@@ -78,13 +88,13 @@ fun TimeUnitBox(value: Int, label: String) {
             style = TextStyle(
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface
-            )
+                color = MaterialTheme.colorScheme.onSurface,
+            ),
         )
         Text(
             text = label,
             style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurface
+            color = MaterialTheme.colorScheme.onSurface,
         )
     }
 }
@@ -97,8 +107,8 @@ fun TimeSeparator() {
         style = TextStyle(
             fontSize = 28.sp,
             fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onSurface
-        )
+            color = MaterialTheme.colorScheme.onSurface,
+        ),
     )
 }
 
@@ -109,6 +119,6 @@ fun PreviewCountdownSection() {
         days = 10,
         hours = 13,
         minutes = 11,
-        seconds = 22
+        seconds = 22,
     )
 }

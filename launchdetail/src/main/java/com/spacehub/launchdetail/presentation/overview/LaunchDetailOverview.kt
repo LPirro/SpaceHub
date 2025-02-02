@@ -20,6 +20,7 @@
 
 package com.spacehub.launchdetail.presentation.overview
 
+import InfoItems
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -30,7 +31,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.FavoriteBorder
@@ -49,18 +52,53 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.lpirro.spacehub.core.ui.composables.CountdownTimer
+import com.lpirro.spacehub.core.ui.composables.InfoCard
+import com.lpirro.spacehub.core.ui.composables.InfoCardButton
 import com.lpirro.spacehub.core.ui.theme.SpacehubTheme
 import com.spacehub.launchdetail.R
+import com.spacehub.launchdetail.presentation.overview.MockData.agencyItems
+import com.spacehub.launchdetail.presentation.overview.MockData.lunchpadItems
+import com.spacehub.launchdetail.presentation.overview.MockData.mapUrl
 
 @Composable
 fun LaunchDetailOverview() {
     Column(
-        modifier = Modifier.background(color = MaterialTheme.colorScheme.surfaceVariant).fillMaxSize(),
+        Modifier
+            .verticalScroll(rememberScrollState())
+            .background(color = MaterialTheme.colorScheme.surfaceVariant)
+            .fillMaxSize(),
     ) {
         CountdownSection()
+        Column(Modifier.padding(16.dp)) {
+            val spacing = 16.dp
+            InfoCard(title = stringResource(R.string.launch_detail_launchpad), headerImageUrl = mapUrl) {
+                InfoItems(lunchpadItems)
+            }
+
+            Spacer(modifier = Modifier.height(spacing))
+
+            InfoCard(title = stringResource(R.string.launch_detail_watch_live), padding = 0.dp) {
+                Text(
+                    text = "TO-DO: YouTube Component",
+                    modifier = Modifier
+                        .height(200.dp)
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                )
+            }
+
+            Spacer(modifier = Modifier.height(spacing))
+
+            InfoCard(title = stringResource(R.string.launch_detail_agency)) {
+                InfoItems(agencyItems)
+            }
+
+            Spacer(modifier = Modifier.height(spacing))
+
+            InfoCardButton(text = stringResource(R.string.launch_detail_trajectory))
+        }
     }
 }
-
 
 @Composable
 private fun CountdownSection() {
@@ -69,14 +107,17 @@ private fun CountdownSection() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(color = MaterialTheme.colorScheme.surface,shape = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp))
+            .background(
+                color = MaterialTheme.colorScheme.surface,
+                shape = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp),
+            )
             .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             text = mockDate,
             style = MaterialTheme.typography.labelMedium,
-            color = MaterialTheme.colorScheme.onSurface
+            color = MaterialTheme.colorScheme.onSurface,
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -95,12 +136,12 @@ private fun ActionButtons() {
         OutlinedButton(
             onClick = { /* Add to Calendar Action */ },
             shape = RoundedCornerShape(8.dp),
-            border = outlinedButtonBorder(true)
+            border = outlinedButtonBorder(true),
         ) {
             Icon(
                 imageVector = Icons.Outlined.Add,
                 contentDescription = stringResource(R.string.launch_detail_add_to_calendar_content_description),
-                tint = MaterialTheme.colorScheme.primary
+                tint = MaterialTheme.colorScheme.primary,
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
@@ -114,12 +155,12 @@ private fun ActionButtons() {
         Button(
             onClick = { /* Save Action */ },
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0047FF)),
-            shape = RoundedCornerShape(8.dp)
+            shape = RoundedCornerShape(8.dp),
         ) {
             Icon(
                 imageVector = Icons.Outlined.FavoriteBorder,
                 contentDescription = stringResource(R.string.launch_detail_save_content_description),
-                tint = MaterialTheme.colorScheme.onPrimary
+                tint = MaterialTheme.colorScheme.onPrimary,
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(

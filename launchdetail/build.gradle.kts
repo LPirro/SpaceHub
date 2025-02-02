@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
@@ -10,6 +12,7 @@ android {
     compileSdk = 34
 
     buildFeatures {
+        buildConfig = true
         compose = true
     }
     composeOptions {
@@ -19,6 +22,11 @@ android {
     defaultConfig {
         minSdk = 24
 
+        buildConfigField(
+            "String",
+            "MAPS_API_KEY",
+            "\"${getLocalProperty("MAPS_API_KEY")}\"",
+        )
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
@@ -79,4 +87,13 @@ dependencies {
     implementation(libs.hilt.navigation.compose)
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
+}
+
+fun getLocalProperty(key: String): String {
+    val properties = Properties()
+    val localPropertiesFile = rootProject.file("local.properties")
+    if (localPropertiesFile.exists()) {
+        properties.load(localPropertiesFile.inputStream())
+    }
+    return properties.getProperty(key) ?: ""
 }

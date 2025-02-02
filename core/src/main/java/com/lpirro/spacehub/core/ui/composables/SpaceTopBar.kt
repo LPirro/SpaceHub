@@ -46,7 +46,7 @@ fun SpaceTopBar(
     text: String,
     showBackArrow: Boolean = false,
     onBackClick: (() -> Unit)? = null,
-    actions: @Composable RowScope.() -> Unit = {}
+    actions: @Composable RowScope.() -> Unit = {},
 ) {
     val ralewayFontFamily =
         FontFamily(
@@ -63,7 +63,7 @@ fun SpaceTopBar(
             } else {
                 Image(
                     painter = painterResource(R.drawable.spacehub),
-                    contentDescription = "Logo"
+                    contentDescription = "Logo",
                 )
             }
         },
@@ -80,7 +80,6 @@ fun SpaceTopBar(
         actions = actions,
     )
 }
-
 
 @Preview
 @Composable
