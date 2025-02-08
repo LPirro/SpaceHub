@@ -66,6 +66,7 @@ import com.lpirro.spacehub.core.ui.theme.SpacehubTheme
 import com.spacehub.launchdetail.R
 import com.spacehub.launchdetail.presentation.overview.LaunchDetailOverviewViewModel.Factory
 import com.spacehub.launchdetail.presentation.overview.MockData.mapUrl
+import com.spacehub.launchdetail.presentation.overview.model.AgencyUi
 import com.spacehub.launchdetail.presentation.overview.model.LaunchOverviewUi
 import com.spacehub.launchdetail.presentation.overview.model.LaunchpadUi
 
@@ -121,34 +122,31 @@ private fun LaunchDetailOverviewContent(modifier: Modifier = Modifier, uiState: 
 
             Spacer(modifier = Modifier.height(spacing))
 
-            InfoCard(title = stringResource(R.string.launch_detail_watch_live), padding = 0.dp) {
-                Text(
-                    text = "TO-DO: YouTube Component",
-                    modifier = Modifier
-                        .height(200.dp)
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                )
-            }
+            WatchLiveSection()
 
             Spacer(modifier = Modifier.height(spacing))
 
-            InfoCard(title = stringResource(R.string.launch_detail_agency)) {
-                InfoItems(
-                    listOf(
-                        stringResource(R.string.launch_detail_name) to uiState.agencySection.name,
-                        stringResource(R.string.launch_detail_country) to uiState.agencySection.countryCode,
-                        stringResource(R.string.launch_detail_administrator) to uiState.agencySection.administrator,
-                        stringResource(R.string.launch_detail_founded) to uiState.agencySection.foundingYear,
-                        stringResource(R.string.launch_detail_total_launches) to uiState.agencySection.totalLaunchCount,
-                    ),
-                )
-            }
+            AgencySection(uiState.agencySection)
 
             Spacer(modifier = Modifier.height(spacing))
 
             InfoCardButton(text = stringResource(R.string.launch_detail_trajectory))
         }
+    }
+}
+
+@Composable
+private fun AgencySection(agencyUi: AgencyUi) {
+    InfoCard(title = stringResource(R.string.launch_detail_agency)) {
+        InfoItems(
+            listOf(
+                stringResource(R.string.launch_detail_name) to agencyUi.name,
+                stringResource(R.string.launch_detail_country) to agencyUi.countryCode,
+                stringResource(R.string.launch_detail_administrator) to agencyUi.administrator,
+                stringResource(R.string.launch_detail_founded) to agencyUi.foundingYear,
+                stringResource(R.string.launch_detail_total_launches) to agencyUi.totalLaunchCount,
+            ),
+        )
     }
 }
 
@@ -179,7 +177,7 @@ private fun CountdownSection(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        ActionButtons()
+        CountdownActionButtons()
     }
 }
 
@@ -247,7 +245,20 @@ fun LaunchPadSection(launchpadSection: LaunchpadUi) {
 }
 
 @Composable
-private fun ActionButtons() {
+fun WatchLiveSection() {
+    InfoCard(title = stringResource(R.string.launch_detail_watch_live), padding = 0.dp) {
+        Text(
+            text = "TO-DO: YouTube Component",
+            modifier = Modifier
+                .height(200.dp)
+                .fillMaxWidth()
+                .padding(16.dp),
+        )
+    }
+}
+
+@Composable
+private fun CountdownActionButtons() {
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
         OutlinedButton(
             onClick = { /* Add to Calendar Action */ },

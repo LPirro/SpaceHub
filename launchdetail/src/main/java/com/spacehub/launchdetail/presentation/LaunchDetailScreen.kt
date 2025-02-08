@@ -39,7 +39,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import com.lpirro.spacehub.core.navigation.LaunchDetail
 import com.lpirro.spacehub.core.ui.composables.SpaceTopBar
+import com.lpirro.spacehub.core.ui.theme.SpacehubTheme
 import com.spacehub.launchdetail.R
 import com.spacehub.launchdetail.presentation.overview.LaunchDetailOverview
 
@@ -109,5 +112,13 @@ fun LaunchDetailScreen(
                 }
             }
         }
+    }
+}
+
+@Preview
+@Composable
+private fun LaunchDetailScreenPreview() {
+    SpacehubTheme {
+        LaunchDetailScreen(launchId = "1", title = "Launch Name", onBackPressed = {})
     }
 }
