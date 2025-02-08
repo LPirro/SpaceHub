@@ -17,7 +17,7 @@
  */
 package com.lpirro.spacehub.launches.data.mapper
 
-import com.lpirro.spacehub.launches.domain.model.MapPosition
+import com.spacehub.common.models.domain.MapPosition
 
 interface MapPositionMapper {
     fun mapToDomain(
@@ -32,7 +32,10 @@ class MapPositionMapperImpl : MapPositionMapper {
         longitude: String?,
     ): MapPosition? {
         if (latitude != null && longitude != null) {
-            return MapPosition(latitude = latitude.toDouble(), longitude = longitude.toDouble())
+            return MapPosition(
+                latitude = latitude.toDouble(),
+                longitude = longitude.toDouble()
+            )
         }
         return null
     }

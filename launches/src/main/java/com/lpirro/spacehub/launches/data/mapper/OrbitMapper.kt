@@ -17,8 +17,8 @@
  */
 package com.lpirro.spacehub.launches.data.mapper
 
-import com.lpirro.spacehub.launches.data.network.model.OrbitRemote
-import com.lpirro.spacehub.launches.domain.model.Orbit
+import com.spacehub.common.models.remote.OrbitRemote
+import com.spacehub.common.models.domain.Orbit
 
 interface OrbitMapper {
     fun mapToDomain(orbitRemote: OrbitRemote): Orbit

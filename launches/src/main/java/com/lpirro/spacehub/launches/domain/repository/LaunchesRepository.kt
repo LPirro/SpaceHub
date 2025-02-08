@@ -17,7 +17,7 @@
  */
 package com.lpirro.spacehub.launches.domain.repository
 
-import com.lpirro.spacehub.launches.domain.model.Launch
+import com.spacehub.common.models.domain.Launch
 import kotlinx.coroutines.flow.Flow
 
 interface LaunchesRepository {

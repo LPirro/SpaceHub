@@ -17,8 +17,8 @@
  */
 package com.lpirro.spacehub.launches.data.mapper
 
-import com.lpirro.spacehub.launches.data.network.model.LocationRemote
-import com.lpirro.spacehub.launches.domain.model.Location
+import com.spacehub.common.models.remote.LocationRemote
+import com.spacehub.common.models.domain.Location
 
 interface LocationMapper {
     fun mapToDomain(locationRemote: LocationRemote): Location

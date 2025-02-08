@@ -17,8 +17,8 @@
  */
 package com.lpirro.spacehub.launches.data.mapper
 
-import com.lpirro.spacehub.launches.data.network.model.AgencyRemote
-import com.lpirro.spacehub.launches.domain.model.Agency
+import com.spacehub.common.models.remote.AgencyRemote
+import com.spacehub.common.models.domain.Agency
 
 interface AgencyMapper {
     fun mapToDomain(agencyRemote: AgencyRemote): Agency

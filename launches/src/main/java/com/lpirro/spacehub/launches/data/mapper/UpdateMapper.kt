@@ -18,8 +18,8 @@
 package com.lpirro.spacehub.launches.data.mapper
 
 import com.lpirro.spacehub.core.util.DateParser
-import com.lpirro.spacehub.launches.data.network.model.UpdateRemote
-import com.lpirro.spacehub.launches.domain.model.Update
+import com.spacehub.common.models.remote.UpdateRemote
+import com.spacehub.common.models.domain.Update
 
 interface UpdateMapper {
     fun mapToDomain(updateRemote: UpdateRemote): Update

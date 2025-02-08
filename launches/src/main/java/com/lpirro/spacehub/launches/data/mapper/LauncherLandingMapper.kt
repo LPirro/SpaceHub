@@ -17,8 +17,8 @@
  */
 package com.lpirro.spacehub.launches.data.mapper
 
-import com.lpirro.spacehub.launches.data.network.model.LauncherLandingRemote
-import com.lpirro.spacehub.launches.domain.model.LauncherLanding
+import com.spacehub.common.models.remote.LauncherLandingRemote
+import com.spacehub.common.models.domain.LauncherLanding
 
 interface LauncherLandingMapper {
     fun mapToDomain(launcherLandingRemote: LauncherLandingRemote): LauncherLanding

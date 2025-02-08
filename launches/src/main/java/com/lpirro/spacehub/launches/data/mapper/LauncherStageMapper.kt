@@ -17,8 +17,8 @@
  */
 package com.lpirro.spacehub.launches.data.mapper
 
-import com.lpirro.spacehub.launches.data.network.model.LauncherStageRemote
-import com.lpirro.spacehub.launches.domain.model.LauncherStage
+import com.spacehub.common.models.remote.LauncherStageRemote
+import com.spacehub.common.models.domain.LauncherStage
 
 interface LauncherStageMapper {
     fun mapToDomain(launcherStageRemote: LauncherStageRemote): LauncherStage
@@ -29,6 +29,10 @@ class LauncherStageMapperImpl(private val launcherLandingMapper: LauncherLanding
         LauncherStage(
             type = launcherStageRemote.type,
             serialNumber = launcherStageRemote.launcher.serialNumber,
-            landing = launcherStageRemote.launcherLanding?.let { launcherLandingMapper.mapToDomain(it) },
+            landing = launcherStageRemote.launcherLanding?.let {
+                launcherLandingMapper.mapToDomain(
+                    it
+                )
+            },
         )
 }

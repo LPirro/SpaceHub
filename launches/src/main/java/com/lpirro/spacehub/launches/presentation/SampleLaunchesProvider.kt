@@ -18,18 +18,18 @@
 package com.lpirro.spacehub.launches.presentation
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import com.lpirro.spacehub.core.model.Status
-import com.lpirro.spacehub.launches.domain.model.Agency
-import com.lpirro.spacehub.launches.domain.model.Launch
-import com.lpirro.spacehub.launches.domain.model.LauncherStage
-import com.lpirro.spacehub.launches.domain.model.Location
-import com.lpirro.spacehub.launches.domain.model.MapPosition
-import com.lpirro.spacehub.launches.domain.model.Mission
-import com.lpirro.spacehub.launches.domain.model.MissionPatches
-import com.lpirro.spacehub.launches.domain.model.Orbit
-import com.lpirro.spacehub.launches.domain.model.Pad
-import com.lpirro.spacehub.launches.domain.model.Rocket
-import com.lpirro.spacehub.launches.domain.model.RocketConfiguration
+import com.spacehub.common.models.domain.Agency
+import com.spacehub.common.models.domain.Launch
+import com.spacehub.common.models.domain.LauncherStage
+import com.spacehub.common.models.domain.Location
+import com.spacehub.common.models.domain.MapPosition
+import com.spacehub.common.models.domain.Mission
+import com.spacehub.common.models.domain.MissionPatches
+import com.spacehub.common.models.domain.Orbit
+import com.spacehub.common.models.domain.Pad
+import com.spacehub.common.models.domain.Rocket
+import com.spacehub.common.models.domain.RocketConfiguration
+import com.spacehub.common.models.domain.Status
 
 class SampleLaunchesProvider : PreviewParameterProvider<List<Launch>> {
     override val values: Sequence<List<Launch>>

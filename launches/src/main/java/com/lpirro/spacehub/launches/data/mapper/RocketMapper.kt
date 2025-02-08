@@ -17,8 +17,8 @@
  */
 package com.lpirro.spacehub.launches.data.mapper
 
-import com.lpirro.spacehub.launches.data.network.model.RocketRemote
-import com.lpirro.spacehub.launches.domain.model.Rocket
+import com.spacehub.common.models.remote.RocketRemote
+import com.spacehub.common.models.domain.Rocket
 
 interface RocketMapper {
     fun mapToDomain(rocketRemote: RocketRemote): Rocket

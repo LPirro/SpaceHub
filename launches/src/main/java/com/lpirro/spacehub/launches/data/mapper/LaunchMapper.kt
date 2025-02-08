@@ -18,8 +18,8 @@
 package com.lpirro.spacehub.launches.data.mapper
 
 import com.lpirro.spacehub.core.util.DateParser
-import com.lpirro.spacehub.launches.data.network.model.LaunchRemote
-import com.lpirro.spacehub.launches.domain.model.Launch
+import com.spacehub.common.models.remote.LaunchRemote
+import com.spacehub.common.models.domain.Launch
 
 interface LaunchMapper {
     fun mapToDomain(launchRemote: LaunchRemote): Launch

@@ -17,8 +17,8 @@
  */
 package com.lpirro.spacehub.launches.data.mapper
 
-import com.lpirro.spacehub.launches.data.network.model.RocketConfigurationRemote
-import com.lpirro.spacehub.launches.domain.model.RocketConfiguration
+import com.spacehub.common.models.remote.RocketConfigurationRemote
+import com.spacehub.common.models.domain.RocketConfiguration
 
 interface RocketConfigurationMapper {
     fun mapToDomain(rocketConfigurationRemote: RocketConfigurationRemote): RocketConfiguration

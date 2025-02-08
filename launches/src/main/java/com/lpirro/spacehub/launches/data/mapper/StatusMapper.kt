@@ -17,8 +17,8 @@
  */
 package com.lpirro.spacehub.launches.data.mapper
 
-import com.lpirro.spacehub.core.model.Status
-import com.lpirro.spacehub.launches.data.network.model.StatusRemote
+import com.spacehub.common.models.remote.StatusRemote
+import com.spacehub.common.models.domain.Status
 
 interface StatusMapper {
     fun mapToDomain(statusRemote: StatusRemote): Status

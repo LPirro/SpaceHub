@@ -17,8 +17,8 @@
  */
 package com.lpirro.spacehub.launches.data.mapper
 
-import com.lpirro.spacehub.launches.data.network.model.MissionPatchesRemote
-import com.lpirro.spacehub.launches.domain.model.MissionPatches
+import com.spacehub.common.models.remote.MissionPatchesRemote
+import com.spacehub.common.models.domain.MissionPatches
 
 interface MissionPatchMapper {
     fun mapToDomain(missionPatchesRemote: MissionPatchesRemote): MissionPatches

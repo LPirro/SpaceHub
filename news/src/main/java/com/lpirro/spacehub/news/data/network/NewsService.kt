@@ -1,7 +1,7 @@
 package com.lpirro.spacehub.news.data.network
 
-import com.lpirro.spacehub.core.model.PaginatedResultRemote
 import com.lpirro.spacehub.news.data.network.model.ArticleRemote
+import com.spacehub.common.models.remote.PaginatedResultRemote
 import retrofit2.http.GET
 import retrofit2.http.Query
 

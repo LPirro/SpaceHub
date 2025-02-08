@@ -17,8 +17,8 @@
  */
 package com.lpirro.spacehub.launches.data.mapper
 
-import com.lpirro.spacehub.launches.data.network.model.PadRemote
-import com.lpirro.spacehub.launches.domain.model.Pad
+import com.spacehub.common.models.remote.PadRemote
+import com.spacehub.common.models.domain.Pad
 
 interface PadMapper {
     fun mapToDomain(padRemote: PadRemote): Pad

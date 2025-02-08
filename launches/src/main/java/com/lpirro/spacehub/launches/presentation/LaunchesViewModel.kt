@@ -19,9 +19,9 @@ package com.lpirro.spacehub.launches.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.lpirro.spacehub.launches.domain.model.Launch
 import com.lpirro.spacehub.launches.domain.usecase.GetPastLaunchesUseCase
 import com.lpirro.spacehub.launches.domain.usecase.GetUpcomingLaunchesUseCase
+import com.spacehub.common.models.domain.Launch
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

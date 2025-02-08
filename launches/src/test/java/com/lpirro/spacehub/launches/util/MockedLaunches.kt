@@ -17,27 +17,27 @@
  */
 package com.lpirro.spacehub.launches.util
 
-import com.lpirro.spacehub.core.model.Status
-import com.lpirro.spacehub.launches.domain.model.Agency
-import com.lpirro.spacehub.launches.domain.model.Launch
-import com.lpirro.spacehub.launches.domain.model.LauncherStage
-import com.lpirro.spacehub.launches.domain.model.Location
-import com.lpirro.spacehub.launches.domain.model.MapPosition
-import com.lpirro.spacehub.launches.domain.model.Mission
-import com.lpirro.spacehub.launches.domain.model.MissionPatches
-import com.lpirro.spacehub.launches.domain.model.Orbit
-import com.lpirro.spacehub.launches.domain.model.Pad
-import com.lpirro.spacehub.launches.domain.model.Rocket
-import com.lpirro.spacehub.launches.domain.model.RocketConfiguration
+import com.lpirro.models.domain.Status
+import com.lpirro.models.domain.Agency
+import com.lpirro.models.domain.Launch
+import com.lpirro.models.domain.LauncherStage
+import com.lpirro.models.domain.Location
+import com.lpirro.models.domain.MapPosition
+import com.lpirro.models.domain.Mission
+import com.lpirro.models.domain.MissionPatches
+import com.lpirro.models.domain.Orbit
+import com.lpirro.models.domain.Pad
+import com.lpirro.models.domain.Rocket
+import com.lpirro.models.domain.RocketConfiguration
 
 object MockedLaunches {
     val fakeLaunch =
-        Launch(
+        com.lpirro.models.domain.Launch(
             id = "launch-001",
             name = "Falcon 9 - Starlink 30",
             image = "https://example.com/images/starlink30.jpg",
             launchServiceProvider =
-            Agency(
+            com.lpirro.models.domain.Agency(
                 id = 1,
                 url = "https://example.com/agency/spacex",
                 name = "SpaceX",
@@ -49,27 +49,27 @@ object MockedLaunches {
             ),
             missionPatches =
             listOf(
-                MissionPatches(
+                com.lpirro.models.domain.MissionPatches(
                     id = 1,
                     name = "Mission Name",
                     imageUrl = "https://example.com/images/patch-001.png",
                 ),
             ),
             mission =
-            Mission(
+            com.lpirro.models.domain.Mission(
                 id = 123,
                 name = "Starlink 30",
                 description = "Deployment of the 30th batch of Starlink satellites to low Earth orbit.",
                 type = "type",
                 orbit =
-                Orbit(
+                com.lpirro.models.domain.Orbit(
                     id = 123,
                     name = "Low Earth Orbit",
                     abbrev = "LEO",
                 ),
             ),
             pad =
-            Pad(
+            com.lpirro.models.domain.Pad(
                 id = 39,
                 url = "https://example.com/pads/39",
                 agencyId = 1,
@@ -78,14 +78,14 @@ object MockedLaunches {
                 wikiUrl = "https://en.wikipedia.org/wiki/Launch_Complex_39A",
                 mapUrl = "https://maps.example.com/pad/39",
                 location =
-                Location(
+                com.lpirro.models.domain.Location(
                     id = 1,
                     name = "Kennedy Space Center",
                 ),
                 totalLaunchCount = 130,
                 orbitalLaunchAttemptCount = 100,
                 mapPosition =
-                MapPosition(
+                com.lpirro.models.domain.MapPosition(
                     latitude = 28.5721,
                     longitude = -80.6480,
                 ),
@@ -96,7 +96,7 @@ object MockedLaunches {
             windowEnd = "2024-09-25T15:00:00Z",
             netMillis = 1695741000000L,
             status =
-            Status.Go(
+            com.lpirro.models.domain.Status.Go(
                 name = "GO",
                 abbrev = "GO",
                 description = "Launch Scheduled",
@@ -106,10 +106,10 @@ object MockedLaunches {
             flightClubUrl = "https://flightclub.io/starlink30",
             updates = null,
             rocket =
-            Rocket(
+            com.lpirro.models.domain.Rocket(
                 id = 1,
                 configuration =
-                RocketConfiguration(
+                com.lpirro.models.domain.RocketConfiguration(
                     id = 9,
                     name = "Falcon 9",
                     manufacturer = null,
@@ -135,7 +135,7 @@ object MockedLaunches {
                 ),
                 launcherStage =
                 listOf(
-                    LauncherStage(
+                    com.lpirro.models.domain.LauncherStage(
                         type = "Booster",
                         serialNumber = null,
                         landing = null,

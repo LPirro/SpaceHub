@@ -17,10 +17,9 @@
  */
 package com.lpirro.spacehub.launches.data.network
 
-import com.lpirro.spacehub.core.model.PaginatedResultRemote
-import com.lpirro.spacehub.launches.data.network.model.LaunchRemote
+import com.spacehub.common.models.remote.LaunchRemote
+import com.spacehub.common.models.remote.PaginatedResultRemote
 import retrofit2.http.GET
-import retrofit2.http.Path
 
 interface LaunchesService {
     // TODO: Use @Query instead of hardcoding params
@@ -30,9 +29,4 @@ interface LaunchesService {
     // TODO: Use @Query instead of hardcoding params
     @GET("launch/previous?mode=detailed&limit=20")
     suspend fun getPastLaunches(): PaginatedResultRemote<List<LaunchRemote>>
-
-    @GET("launch/{id}")
-    suspend fun getLaunch(
-        @Path("id") id: String,
-    ): LaunchRemote
 }
