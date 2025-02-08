@@ -223,15 +223,12 @@ fun LaunchCountdown(
     var isInThePast by remember { mutableStateOf(false) }
 
     LaunchedEffect(targetMillis) {
-        // Get the time difference
         val currentMillis = System.currentTimeMillis()
         val remainingMillis = targetMillis - currentMillis
 
         object : CountDownTimer(remainingMillis, 1000L) {
             override fun onTick(millisUntilFinished: Long) {
-                // Calculate the time difference
                 val timeDifference = targetMillis - System.currentTimeMillis()
-
                 days = TimeUnit.MILLISECONDS.toDays(timeDifference)
                 hours = TimeUnit.MILLISECONDS.toHours(timeDifference) % 24
                 minutes = TimeUnit.MILLISECONDS.toMinutes(timeDifference) % 60
@@ -308,7 +305,7 @@ private fun LaunchCardLongTitlePreview() {
             agency = "SpaceX",
             location = "San Giovanni Rotondo, Puglia (FG), 71013, Italy",
             dateTime = "24 Lug ‘23 • 19:00",
-            netMillis = System.currentTimeMillis() + 100000L,
+            netMillis = System.currentTimeMillis() + TimeUnit.HOURS.toMillis(4),
             status = Status.Go(name = "Go", abbrev = "GO", description = "description"),
             launchImageUrl = "",
             onClick = {},

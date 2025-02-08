@@ -30,24 +30,31 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material3.AssistChip
+import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ButtonDefaults.outlinedButtonBorder
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -57,34 +64,60 @@ import com.lpirro.spacehub.core.ui.composables.InfoCard
 import com.lpirro.spacehub.core.ui.composables.InfoCardButton
 import com.lpirro.spacehub.core.ui.theme.SpacehubTheme
 import com.spacehub.launchdetail.R
-import com.spacehub.launchdetail.presentation.overview.MockData.agencyItems
-import com.spacehub.launchdetail.presentation.overview.MockData.lunchpadItems
+import com.spacehub.launchdetail.presentation.overview.LaunchDetailOverviewViewModel.Factory
 import com.spacehub.launchdetail.presentation.overview.MockData.mapUrl
+import com.spacehub.launchdetail.presentation.overview.model.LaunchOverviewUi
+import com.spacehub.launchdetail.presentation.overview.model.LaunchpadUi
 
 @Composable
-fun LaunchDetailOverview(
+internal fun LaunchDetailOverview(
     launchId: String,
     viewModel: LaunchDetailOverviewViewModel = hiltViewModel(
-        creationCallback = { factory: LaunchDetailOverviewViewModel.Factory ->
+        creationCallback = { factory: Factory ->
             factory.create(launchId = launchId)
         },
     ),
 ) {
+    val uiState by viewModel.uiState.collectAsState()
+
+    when {
+        uiState.isLoading -> {
+            CircularProgressIndicator(
+                Modifier
+                    .fillMaxSize()
+                    .wrapContentSize(),
+            )
+        }
+
+        uiState.error -> {
+            // Error State
+        }
+
+        else -> {
+            LaunchDetailOverviewContent(uiState = uiState.launchOverviewUi!!)
+        }
+    }
+}
+
+@Composable
+private fun LaunchDetailOverviewContent(modifier: Modifier = Modifier, uiState: LaunchOverviewUi) {
     Column(
         Modifier
             .verticalScroll(rememberScrollState())
             .background(color = MaterialTheme.colorScheme.surfaceVariant)
             .fillMaxSize(),
     ) {
-        CountdownSection()
+        uiState.countdownSection.targetDateMillis?.let {
+            CountdownSection(
+                launchDate = uiState.countdownSection.launchDate,
+                targetDateMillis = it,
+            )
+        }
+
         Column(Modifier.padding(16.dp)) {
             val spacing = 16.dp
-            InfoCard(
-                title = stringResource(R.string.launch_detail_launchpad),
-                headerImageUrl = mapUrl,
-            ) {
-                InfoItems(lunchpadItems)
-            }
+
+            LaunchPadSection(launchpadSection = uiState.launchpadSection)
 
             Spacer(modifier = Modifier.height(spacing))
 
@@ -101,7 +134,15 @@ fun LaunchDetailOverview(
             Spacer(modifier = Modifier.height(spacing))
 
             InfoCard(title = stringResource(R.string.launch_detail_agency)) {
-                InfoItems(agencyItems)
+                InfoItems(
+                    listOf(
+                        stringResource(R.string.launch_detail_name) to uiState.agencySection.name,
+                        stringResource(R.string.launch_detail_country) to uiState.agencySection.countryCode,
+                        stringResource(R.string.launch_detail_administrator) to uiState.agencySection.administrator,
+                        stringResource(R.string.launch_detail_founded) to uiState.agencySection.foundingYear,
+                        stringResource(R.string.launch_detail_total_launches) to uiState.agencySection.totalLaunchCount,
+                    ),
+                )
             }
 
             Spacer(modifier = Modifier.height(spacing))
@@ -112,9 +153,10 @@ fun LaunchDetailOverview(
 }
 
 @Composable
-private fun CountdownSection() {
-    val mockDate = "15 Nov 2022 • 09:30"
-
+private fun CountdownSection(
+    launchDate: String,
+    targetDateMillis: Long,
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -126,18 +168,81 @@ private fun CountdownSection() {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
-            text = mockDate,
+            text = launchDate,
             style = MaterialTheme.typography.labelMedium,
             color = MaterialTheme.colorScheme.onSurface,
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        CountdownTimer(1, 0, 0, 5)
+        CountdownTimer(targetDateMillis)
 
         Spacer(modifier = Modifier.height(12.dp))
 
         ActionButtons()
+    }
+}
+
+@Composable
+fun LaunchPadSection(launchpadSection: LaunchpadUi) {
+    InfoCard(
+        title = stringResource(R.string.launch_detail_launchpad),
+        headerImageUrl = mapUrl,
+    ) {
+        InfoItems(
+            listOf(
+                stringResource(R.string.launch_detail_name) to launchpadSection.name,
+                stringResource(R.string.launch_detail_location) to launchpadSection.location,
+                stringResource(R.string.launch_detail_total_launches) to launchpadSection.totalLaunchCount,
+            ),
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.End),
+        ) {
+            launchpadSection.mapUrl?.let {
+                AssistChip(
+                    label = { Text(stringResource(R.string.launch_detail_maps)) },
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Filled.LocationOn,
+                            contentDescription = null,
+                            modifier = Modifier.size(AssistChipDefaults.IconSize),
+                        )
+                    },
+                    onClick = { /* Open Map Action */ },
+                )
+            }
+            launchpadSection.infoUrl?.let {
+                AssistChip(
+                    label = { Text(stringResource(R.string.launch_detail_info)) },
+                    leadingIcon = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_info_variant_circle_outline),
+                            contentDescription = null,
+                            modifier = Modifier.size(AssistChipDefaults.IconSize),
+                        )
+                    },
+                    onClick = { /* Open Map Action */ },
+                )
+            }
+            launchpadSection.wikiUrl?.let {
+                AssistChip(
+                    label = { Text(stringResource(R.string.launch_detail_wikipedia)) },
+                    leadingIcon = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_wikipedia),
+                            contentDescription = null,
+                            modifier = Modifier.size(AssistChipDefaults.IconSize),
+                        )
+                    },
+                    onClick = { /* Open Map Action */ },
+                )
+            }
+        }
     }
 }
 
@@ -165,7 +270,6 @@ private fun ActionButtons() {
 
         Button(
             onClick = { /* Save Action */ },
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0047FF)),
             shape = RoundedCornerShape(8.dp),
         ) {
             Icon(

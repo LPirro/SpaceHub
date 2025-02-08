@@ -51,6 +51,30 @@
         <item quantity="other">%d Seconds</item>
     </plurals>
 
+    <!-- Plurals for days -->
+    <plurals name="days">
+        <item quantity="one">Day</item>
+        <item quantity="other">Days</item>
+    </plurals>
+
+    <!-- Plurals for hours -->
+    <plurals name="hours">
+        <item quantity="one">Hour</item>
+        <item quantity="other">Hours</item>
+    </plurals>
+
+    <!-- Plurals for minutes -->
+    <plurals name="minutes">
+        <item quantity="one">Min</item>
+        <item quantity="other">Mins</item>
+    </plurals>
+
+    <!-- Plurals for seconds -->
+    <plurals name="seconds">
+        <item quantity="one">Second</item>
+        <item quantity="other">Seconds</item>
+    </plurals>
+
     <!-- String for the final countdown message -->
     <string name="countdown_full_today">In %1$s %2$s %3$s</string>
     <string name="countdown_full_days">In %1$s %2$s %3$s</string>

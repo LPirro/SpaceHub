@@ -8,6 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.lpirro.spacehub.core.ui.theme.SpacehubTheme
@@ -37,12 +38,15 @@ private fun ItemRow(
         horizontalArrangement = horizontalArrangement,
     ) {
         Text(
+            modifier = Modifier.weight(1f),
             text = label,
             style = MaterialTheme.typography.titleSmall,
             color = MaterialTheme.colorScheme.outline,
         )
         Text(
+            modifier = Modifier.weight(2f, fill = false),
             text = value,
+            textAlign = TextAlign.Right,
             style = MaterialTheme.typography.titleSmall,
             color = MaterialTheme.colorScheme.onSurface,
         )
@@ -53,7 +57,7 @@ private fun ItemRow(
 @Composable
 fun PreviewLaunchDetails() {
     val items = listOf(
-        "Name" to "Space Launch Complex 40",
+        "Name" to "Space Launch Complex 40 Space Launch Complex 40 Space Launch",
         "Location" to "Cape Canaveral, FL, USA",
         "Total Launches" to "162",
     )

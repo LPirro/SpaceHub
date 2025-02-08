@@ -23,6 +23,8 @@ package com.spacehub.launchdetail.presentation.overview
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.spacehub.launchdetail.domain.usecase.GetLaunchUseCase
+import com.spacehub.launchdetail.presentation.overview.mapper.LaunchDetailOverviewUiMapper
+import com.spacehub.launchdetail.presentation.overview.model.LaunchOverviewUi
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -36,9 +38,10 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 @HiltViewModel(assistedFactory = LaunchDetailOverviewViewModel.Factory::class)
-class LaunchDetailOverviewViewModel @AssistedInject constructor(
+internal class LaunchDetailOverviewViewModel @AssistedInject constructor(
     @Assisted val launchId: String,
     private val getLaunchUseCase: GetLaunchUseCase,
+    private val mapper: LaunchDetailOverviewUiMapper,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(LaunchDetailUiState(isLoading = true))
@@ -54,12 +57,16 @@ class LaunchDetailOverviewViewModel @AssistedInject constructor(
         getLaunchUseCase(id)
             .catch { _uiState.value = LaunchDetailUiState(error = true) }
             .collectLatest {
-                _uiState.value = _uiState.value.copy(title = it.name)
+                _uiState.value = LaunchDetailUiState(
+                    launchOverviewUi = mapper.mapToUi(it),
+                    isLoading = false,
+                    error = false,
+                )
             }
     }
 
     data class LaunchDetailUiState(
-        val title: String? = null,
+        val launchOverviewUi: LaunchOverviewUi? = null,
         val isLoading: Boolean = false,
         val error: Boolean = false,
     )

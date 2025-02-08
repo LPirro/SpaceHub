@@ -20,6 +20,7 @@
 
 package com.lpirro.spacehub.core.ui.composables
 
+import android.os.CountDownTimer
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -29,54 +30,69 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.delay
+import com.lpirro.spacehub.core.R
+import java.util.concurrent.TimeUnit
 
 @Composable
-fun CountdownTimer(days: Int, hours: Int, minutes: Int, seconds: Int) {
-    var days by remember { mutableIntStateOf(days) }
-    var hours by remember { mutableIntStateOf(hours) }
-    var minutes by remember { mutableIntStateOf(minutes) }
-    var seconds by remember { mutableIntStateOf(seconds) }
+fun CountdownTimer(targetDateMillis: Long) {
+    var days by remember { mutableLongStateOf(0L) }
+    var hours by remember { mutableLongStateOf(0L) }
+    var minutes by remember { mutableLongStateOf(0L) }
+    var seconds by remember { mutableLongStateOf(0L) }
 
     // Countdown logic (mock behavior)
-    LaunchedEffect(Unit) {
-        while (true) {
-            delay(1000L)
-            seconds--
-            if (seconds < 0) {
-                seconds = 59
-                minutes--
+    LaunchedEffect(targetDateMillis) {
+        val currentMillis = System.currentTimeMillis()
+        val remainingMillis = targetDateMillis - currentMillis
+
+        object : CountDownTimer(remainingMillis, 1000L) {
+            override fun onTick(millisUntilFinished: Long) {
+                val timeDifference = targetDateMillis - System.currentTimeMillis()
+                days = TimeUnit.MILLISECONDS.toDays(timeDifference)
+                hours = TimeUnit.MILLISECONDS.toHours(timeDifference) % 24
+                minutes = TimeUnit.MILLISECONDS.toMinutes(timeDifference) % 60
+                seconds = TimeUnit.MILLISECONDS.toSeconds(timeDifference) % 60
             }
-            if (minutes < 0) {
-                minutes = 59
-                hours--
+
+            override fun onFinish() {
+                this.cancel()
             }
-            if (hours < 0) {
-                hours = 23
-                days--
-            }
-        }
+        }.start()
     }
+
     Row(horizontalArrangement = Arrangement.Center) {
         if (days > 0) {
-            TimeUnitBox(value = days, label = "Days")
+            TimeUnitBox(
+                value = days.toInt(),
+                label = pluralStringResource(R.plurals.days, 2),
+            )
             TimeSeparator()
         }
-        TimeUnitBox(value = hours, label = "Hours")
+        TimeUnitBox(
+            value = hours.toInt(),
+            label = pluralStringResource(R.plurals.hours, 2),
+        )
         TimeSeparator()
-        TimeUnitBox(value = minutes, label = "Mins")
+        TimeUnitBox(
+            value = minutes.toInt(),
+            label = pluralStringResource(R.plurals.minutes, 2),
+        )
         TimeSeparator()
-        TimeUnitBox(value = seconds, label = "Sec")
+        TimeUnitBox(
+            value = seconds.toInt(),
+            label = pluralStringResource(R.plurals.seconds, 2),
+        )
     }
 }
 
@@ -116,9 +132,6 @@ fun TimeSeparator() {
 @Composable
 fun PreviewCountdownSection() {
     CountdownTimer(
-        days = 10,
-        hours = 13,
-        minutes = 11,
-        seconds = 22,
+        targetDateMillis = System.currentTimeMillis() + TimeUnit.HOURS.toMillis(1),
     )
 }
