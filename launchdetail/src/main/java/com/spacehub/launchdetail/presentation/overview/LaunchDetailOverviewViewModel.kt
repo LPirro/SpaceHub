@@ -38,26 +38,26 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 @HiltViewModel(assistedFactory = LaunchDetailOverviewViewModel.Factory::class)
-internal class LaunchDetailOverviewViewModel @AssistedInject constructor(
+class LaunchDetailOverviewViewModel @AssistedInject constructor(
     @Assisted val launchId: String,
     private val getLaunchUseCase: GetLaunchUseCase,
     private val mapper: LaunchDetailOverviewUiMapper,
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(LaunchDetailUiState(isLoading = true))
+    private val _uiState = MutableStateFlow(LaunchDetailOverviewUiState(isLoading = true))
     val uiState = _uiState
         .onStart { getLaunch(launchId) }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000L),
-            initialValue = LaunchDetailUiState(isLoading = true),
+            initialValue = LaunchDetailOverviewUiState(isLoading = true),
         )
 
     private fun getLaunch(id: String) = viewModelScope.launch {
         getLaunchUseCase(id)
-            .catch { _uiState.value = LaunchDetailUiState(error = true) }
+            .catch { _uiState.value = LaunchDetailOverviewUiState(error = true) }
             .collectLatest {
-                _uiState.value = LaunchDetailUiState(
+                _uiState.value = LaunchDetailOverviewUiState(
                     launchOverviewUi = mapper.mapToUi(it),
                     isLoading = false,
                     error = false,
@@ -65,7 +65,7 @@ internal class LaunchDetailOverviewViewModel @AssistedInject constructor(
             }
     }
 
-    data class LaunchDetailUiState(
+    data class LaunchDetailOverviewUiState(
         val launchOverviewUi: LaunchOverviewUi? = null,
         val isLoading: Boolean = false,
         val error: Boolean = false,

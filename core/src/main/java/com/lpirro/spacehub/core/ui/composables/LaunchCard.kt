@@ -49,6 +49,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -111,9 +112,10 @@ fun LaunchCard(
             )
 
             Text(
-                maxLines = 2,
+                maxLines = 3,
                 text = title,
                 style = MaterialTheme.typography.titleLarge,
+                overflow = TextOverflow.Ellipsis,
                 modifier =
                 Modifier
                     .constrainAs(launchTitle) {
@@ -203,8 +205,14 @@ private fun LaunchInfoItem(
             contentDescription = null,
             tint = componentsColor,
         )
-        Spacer(modifier = Modifier.padding(start = 4.dp))
-        Text(text = text, style = MaterialTheme.typography.labelLarge, color = componentsColor)
+        Spacer(modifier = Modifier.padding(start = 6.dp))
+        Text(
+            text = text,
+            style = MaterialTheme.typography.labelSmall,
+            color = componentsColor,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+        )
     }
 }
 

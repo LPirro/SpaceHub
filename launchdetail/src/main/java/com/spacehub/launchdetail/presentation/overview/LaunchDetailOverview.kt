@@ -50,36 +50,25 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.lpirro.spacehub.core.ui.composables.CountdownTimer
 import com.lpirro.spacehub.core.ui.composables.InfoCard
 import com.lpirro.spacehub.core.ui.composables.InfoCardButton
 import com.lpirro.spacehub.core.ui.theme.SpacehubTheme
 import com.spacehub.launchdetail.R
-import com.spacehub.launchdetail.presentation.overview.LaunchDetailOverviewViewModel.Factory
+import com.spacehub.launchdetail.presentation.overview.LaunchDetailOverviewViewModel.*
 import com.spacehub.launchdetail.presentation.overview.MockData.mapUrl
 import com.spacehub.launchdetail.presentation.overview.model.AgencyUi
 import com.spacehub.launchdetail.presentation.overview.model.LaunchOverviewUi
 import com.spacehub.launchdetail.presentation.overview.model.LaunchpadUi
 
 @Composable
-internal fun LaunchDetailOverview(
-    launchId: String,
-    viewModel: LaunchDetailOverviewViewModel = hiltViewModel(
-        creationCallback = { factory: Factory ->
-            factory.create(launchId = launchId)
-        },
-    ),
-) {
-    val uiState by viewModel.uiState.collectAsState()
+internal fun LaunchDetailOverview(uiState: LaunchDetailOverviewUiState) {
 
     when {
         uiState.isLoading -> {
@@ -297,10 +286,16 @@ private fun CountdownActionButtons() {
     }
 }
 
-@Preview
+@Preview()
 @Composable
 private fun LaunchDetailOverviewPreview() {
     SpacehubTheme {
-        LaunchDetailOverview("id")
+        LaunchDetailOverview(
+            LaunchDetailOverviewUiState(
+                launchOverviewUi = MockData.launchOverviewUiMock,
+                isLoading = false,
+                error = false,
+            ),
+        )
     }
 }

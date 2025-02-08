@@ -54,6 +54,6 @@ internal class LaunchDetailOverviewUiMapperImpl : LaunchDetailOverviewUiMapper {
     )
 }
 
-internal interface LaunchDetailOverviewUiMapper {
+interface LaunchDetailOverviewUiMapper {
     fun mapToUi(launch: Launch): LaunchOverviewUi
 }

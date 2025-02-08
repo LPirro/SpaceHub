@@ -33,6 +33,7 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -40,11 +41,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.lpirro.spacehub.core.navigation.LaunchDetail
 import com.lpirro.spacehub.core.ui.composables.SpaceTopBar
 import com.lpirro.spacehub.core.ui.theme.SpacehubTheme
 import com.spacehub.launchdetail.R
 import com.spacehub.launchdetail.presentation.overview.LaunchDetailOverview
+import com.spacehub.launchdetail.presentation.overview.LaunchDetailOverviewViewModel
+import com.spacehub.launchdetail.presentation.overview.LaunchDetailOverviewViewModel.Factory
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -52,7 +56,15 @@ fun LaunchDetailScreen(
     launchId: String,
     title: String,
     onBackPressed: (() -> Unit)? = null,
+    viewModel: LaunchDetailOverviewViewModel = hiltViewModel(
+        creationCallback = { factory: Factory ->
+            factory.create(launchId = launchId)
+        },
+    ),
 ) {
+
+    val uiState by viewModel.uiState.collectAsState()
+
     var selectedTabIndex by remember { mutableIntStateOf(0) }
 
     val tabItems = listOf(
@@ -106,7 +118,7 @@ fun LaunchDetailScreen(
                     .weight(1f),
             ) { index ->
                 when (index) {
-                    0 -> LaunchDetailOverview(launchId)
+                    0 -> LaunchDetailOverview(uiState)
                     1 -> Text("Mission")
                     2 -> Text("Vehicle")
                 }
