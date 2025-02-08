@@ -18,37 +18,35 @@
  *
  */
 
-package com.lpirro.spacehub.news.di
+package com.spacehub.launchdetail.di
 
 import com.lpirro.spacehub.core.BuildConfig
-import com.lpirro.spacehub.news.data.network.NewsService
+import com.spacehub.launchdetail.data.network.LaunchDetailService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
+import retrofit2.converter.gson.GsonConverterFactory
 
 @Module
 @InstallIn(SingletonComponent::class)
-object NewsNetworkModule {
-    private fun getNewsBaseUrl() =
+object LaunchDetailNetworkModule {
+    private fun getLaunchLibraryBaseUrl() =
         buildString {
-            append(BuildConfig.SPACEFLIGHT_NEWS_BASE_URL).append("/")
-            append(BuildConfig.SPACEFLIGHT_NEWS_API_VERSION).append("/")
+            append(BuildConfig.LAUNCH_LIBRARY_BASE_URL).append("/")
+            append(BuildConfig.LAUNCH_LIBRARY_API_VERSION).append("/")
         }
 
     @Singleton
     @Provides
-    fun provideNewsService(okHttpClient: OkHttpClient): NewsService =
+    fun provideLaunchDetailService(okHttpClient: OkHttpClient): LaunchDetailService =
         Retrofit.Builder()
-            .baseUrl(getNewsBaseUrl())
+            .baseUrl(getLaunchLibraryBaseUrl())
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()
-            .create(NewsService::class.java)
-
-
+            .create(LaunchDetailService::class.java)
 }

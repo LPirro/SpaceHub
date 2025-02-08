@@ -18,37 +18,19 @@
  *
  */
 
-package com.lpirro.spacehub.news.di
+package com.spacehub.launchdetail.di
 
-import com.lpirro.spacehub.core.BuildConfig
-import com.lpirro.spacehub.news.data.network.NewsService
+import com.spacehub.launchdetail.domain.repository.LaunchDetailRepository
+import com.spacehub.launchdetail.domain.usecase.GetLaunchUseCase
+import com.spacehub.launchdetail.domain.usecase.GetLaunchUseCaseImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import okhttp3.OkHttpClient
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object NewsNetworkModule {
-    private fun getNewsBaseUrl() =
-        buildString {
-            append(BuildConfig.SPACEFLIGHT_NEWS_BASE_URL).append("/")
-            append(BuildConfig.SPACEFLIGHT_NEWS_API_VERSION).append("/")
-        }
-
-    @Singleton
+object LaunchDetailDomainModule {
     @Provides
-    fun provideNewsService(okHttpClient: OkHttpClient): NewsService =
-        Retrofit.Builder()
-            .baseUrl(getNewsBaseUrl())
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(okHttpClient)
-            .build()
-            .create(NewsService::class.java)
-
-
+    fun provideGetLaunchUseCase(repository: LaunchDetailRepository): GetLaunchUseCase = GetLaunchUseCaseImpl(repository)
 }

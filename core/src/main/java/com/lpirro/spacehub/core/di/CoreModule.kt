@@ -20,12 +20,16 @@
 
 package com.lpirro.spacehub.core.di
 
+import com.lpirro.spacehub.core.BuildConfig
 import com.lpirro.spacehub.core.util.DateParser
 import com.lpirro.spacehub.core.util.DateParserImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import java.util.concurrent.TimeUnit
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -33,4 +37,23 @@ object CoreModule {
 
     @Provides
     fun provideDateParser(): DateParser = DateParserImpl()
+
+    @Provides
+    fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor =
+        HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+
+    @Provides
+    fun provideOkHttp(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
+        val okHttpClient =
+            OkHttpClient.Builder()
+                .callTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
+
+        if (BuildConfig.DEBUG) {
+            okHttpClient.addInterceptor(loggingInterceptor)
+        }
+
+        return okHttpClient.build()
+    }
 }

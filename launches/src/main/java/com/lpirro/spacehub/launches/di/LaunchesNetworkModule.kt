@@ -24,10 +24,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -48,23 +46,4 @@ object LaunchesNetworkModule {
             .client(okHttpClient)
             .build()
             .create(LaunchesService::class.java)
-
-    @Provides
-    fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor =
-        HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-
-    @Provides
-    fun provideOkHttp(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
-        val okHttpClient =
-            OkHttpClient.Builder()
-                .callTimeout(30, TimeUnit.SECONDS)
-                .readTimeout(30, TimeUnit.SECONDS)
-                .writeTimeout(30, TimeUnit.SECONDS)
-
-        if (BuildConfig.DEBUG) {
-            okHttpClient.addInterceptor(loggingInterceptor)
-        }
-
-        return okHttpClient.build()
-    }
 }

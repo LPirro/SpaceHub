@@ -17,38 +17,23 @@
  *  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+package com.spacehub.launchdetail.di
 
-package com.lpirro.spacehub.news.di
-
-import com.lpirro.spacehub.core.BuildConfig
-import com.lpirro.spacehub.news.data.network.NewsService
+import com.spacehub.common.mapper.LaunchMapper
+import com.spacehub.launchdetail.data.network.LaunchDetailService
+import com.spacehub.launchdetail.data.repository.LaunchDetailRepositoryImpl
+import com.spacehub.launchdetail.domain.repository.LaunchDetailRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import okhttp3.OkHttpClient
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object NewsNetworkModule {
-    private fun getNewsBaseUrl() =
-        buildString {
-            append(BuildConfig.SPACEFLIGHT_NEWS_BASE_URL).append("/")
-            append(BuildConfig.SPACEFLIGHT_NEWS_API_VERSION).append("/")
-        }
-
-    @Singleton
+object LaunchDetailDataModule {
     @Provides
-    fun provideNewsService(okHttpClient: OkHttpClient): NewsService =
-        Retrofit.Builder()
-            .baseUrl(getNewsBaseUrl())
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(okHttpClient)
-            .build()
-            .create(NewsService::class.java)
-
-
+    fun provideLaunchesRepository(
+        launchDetailService: LaunchDetailService,
+        launchMapper: LaunchMapper,
+    ): LaunchDetailRepository = LaunchDetailRepositoryImpl(launchDetailService, launchMapper)
 }
