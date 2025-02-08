@@ -17,22 +17,22 @@
  *  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+package com.spacehub.common.mapper
 
-package com.spacehub.launchdetail.data.repository
+import com.spacehub.common.models.remote.MissionRemote
+import com.spacehub.common.models.domain.Mission
 
-import com.spacehub.common.mapper.LaunchMapper
-import com.spacehub.launchdetail.data.network.LaunchDetailService
-import com.spacehub.launchdetail.domain.repository.LaunchDetailRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
+interface MissionMapper {
+    fun mapToDomain(missionRemote: MissionRemote): Mission
+}
 
-class LaunchDetailRepositoryImpl(
-    private val launchDetailService: LaunchDetailService,
-    private val launchMapper: LaunchMapper,
-) : LaunchDetailRepository {
-    override fun getLaunch(id: String) = flow {
-        val launch = launchDetailService.getLaunch(id)
-        emit(launchMapper.mapToDomain(launch))
-    }.flowOn(Dispatchers.IO)
+class MissionMapperImpl(private val orbitMapper: OrbitMapper) : MissionMapper {
+    override fun mapToDomain(missionRemote: MissionRemote) =
+        Mission(
+            id = missionRemote.id,
+            name = missionRemote.name,
+            description = missionRemote.description,
+            type = missionRemote.type,
+            orbit = missionRemote.orbit?.let { orbitMapper.mapToDomain(it) },
+        )
 }

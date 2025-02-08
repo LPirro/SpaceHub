@@ -17,22 +17,24 @@
  *  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+package com.spacehub.common.mapper
 
-package com.spacehub.launchdetail.data.repository
+import com.lpirro.spacehub.core.util.DateParser
+import com.spacehub.common.models.remote.UpdateRemote
+import com.spacehub.common.models.domain.Update
 
-import com.spacehub.common.mapper.LaunchMapper
-import com.spacehub.launchdetail.data.network.LaunchDetailService
-import com.spacehub.launchdetail.domain.repository.LaunchDetailRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
+interface UpdateMapper {
+    fun mapToDomain(updateRemote: UpdateRemote): Update
+}
 
-class LaunchDetailRepositoryImpl(
-    private val launchDetailService: LaunchDetailService,
-    private val launchMapper: LaunchMapper,
-) : LaunchDetailRepository {
-    override fun getLaunch(id: String) = flow {
-        val launch = launchDetailService.getLaunch(id)
-        emit(launchMapper.mapToDomain(launch))
-    }.flowOn(Dispatchers.IO)
+class UpdateMapperImpl(private val dateParser: DateParser) : UpdateMapper {
+    override fun mapToDomain(updateRemote: UpdateRemote) =
+        Update(
+            id = updateRemote.id,
+            profileImage = updateRemote.profileImage,
+            comment = updateRemote.comment,
+            createdOn = updateRemote.createdOn,
+            createdBy = updateRemote.createdBy,
+            infoUrl = updateRemote.infoUrl,
+        )
 }

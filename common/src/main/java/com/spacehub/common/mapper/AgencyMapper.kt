@@ -17,22 +17,25 @@
  *  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+package com.spacehub.common.mapper
 
-package com.spacehub.launchdetail.data.repository
+import com.spacehub.common.models.remote.AgencyRemote
+import com.spacehub.common.models.domain.Agency
 
-import com.spacehub.common.mapper.LaunchMapper
-import com.spacehub.launchdetail.data.network.LaunchDetailService
-import com.spacehub.launchdetail.domain.repository.LaunchDetailRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
+interface AgencyMapper {
+    fun mapToDomain(agencyRemote: AgencyRemote): Agency
+}
 
-class LaunchDetailRepositoryImpl(
-    private val launchDetailService: LaunchDetailService,
-    private val launchMapper: LaunchMapper,
-) : LaunchDetailRepository {
-    override fun getLaunch(id: String) = flow {
-        val launch = launchDetailService.getLaunch(id)
-        emit(launchMapper.mapToDomain(launch))
-    }.flowOn(Dispatchers.IO)
+class AgencyMapperImpl : AgencyMapper {
+    override fun mapToDomain(agencyRemote: AgencyRemote) =
+        Agency(
+            id = agencyRemote.id,
+            url = agencyRemote.url,
+            name = agencyRemote.name,
+            countryCode = agencyRemote.countryCode,
+            administrator = agencyRemote.administrator,
+            foundingYear = agencyRemote.foundingYear,
+            totalLaunchCount = agencyRemote.totalLaunchCount?.toString(),
+            logoUrl = agencyRemote.logoUrl,
+        )
 }

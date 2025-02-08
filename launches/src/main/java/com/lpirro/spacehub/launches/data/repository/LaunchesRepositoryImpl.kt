@@ -17,9 +17,9 @@
  */
 package com.lpirro.spacehub.launches.data.repository
 
-import com.lpirro.spacehub.launches.data.mapper.LaunchMapper
 import com.lpirro.spacehub.launches.data.network.LaunchesService
 import com.lpirro.spacehub.launches.domain.repository.LaunchesRepository
+import com.spacehub.common.mapper.LaunchMapper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn

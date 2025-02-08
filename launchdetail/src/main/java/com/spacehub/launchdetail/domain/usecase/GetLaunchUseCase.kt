@@ -18,21 +18,20 @@
  *
  */
 
-package com.spacehub.launchdetail.data.repository
+package com.spacehub.launchdetail.domain.usecase
 
-import com.spacehub.common.mapper.LaunchMapper
-import com.spacehub.launchdetail.data.network.LaunchDetailService
+import com.spacehub.common.models.domain.Launch
 import com.spacehub.launchdetail.domain.repository.LaunchDetailRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.Flow
 
-class LaunchDetailRepositoryImpl(
-    private val launchDetailService: LaunchDetailService,
-    private val launchMapper: LaunchMapper,
-) : LaunchDetailRepository {
-    override fun getLaunch(id: String) = flow {
-        val launch = launchDetailService.getLaunch(id)
-        emit(launchMapper.mapToDomain(launch))
-    }.flowOn(Dispatchers.IO)
+class GetLaunchUseCaseImpl(
+    private val launchDetailRepository: LaunchDetailRepository,
+) : GetLaunchUseCase {
+    override fun invoke(id: String): Flow<Launch> {
+        return launchDetailRepository.getLaunch(id)
+    }
+}
+
+interface GetLaunchUseCase {
+    operator fun invoke(id: String): Flow<Launch>
 }

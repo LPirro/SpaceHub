@@ -64,6 +64,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(project(":common"))
 
     // Testing
     testImplementation(libs.junit)

@@ -17,22 +17,23 @@
  *  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+package com.spacehub.common.mapper
 
-package com.spacehub.launchdetail.data.repository
+import com.spacehub.common.models.remote.RocketRemote
+import com.spacehub.common.models.domain.Rocket
 
-import com.spacehub.common.mapper.LaunchMapper
-import com.spacehub.launchdetail.data.network.LaunchDetailService
-import com.spacehub.launchdetail.domain.repository.LaunchDetailRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
+interface RocketMapper {
+    fun mapToDomain(rocketRemote: RocketRemote): Rocket
+}
 
-class LaunchDetailRepositoryImpl(
-    private val launchDetailService: LaunchDetailService,
-    private val launchMapper: LaunchMapper,
-) : LaunchDetailRepository {
-    override fun getLaunch(id: String) = flow {
-        val launch = launchDetailService.getLaunch(id)
-        emit(launchMapper.mapToDomain(launch))
-    }.flowOn(Dispatchers.IO)
+class RocketMapperImpl(
+    private val rocketConfigurationMapper: RocketConfigurationMapper,
+    private val launcherStageMapper: LauncherStageMapper,
+) : RocketMapper {
+    override fun mapToDomain(rocketRemote: RocketRemote) =
+        Rocket(
+            id = rocketRemote.id,
+            configuration = rocketConfigurationMapper.mapToDomain(rocketRemote.configuration),
+            launcherStage = rocketRemote.launcherStage.map { launcherStageMapper.mapToDomain(it) },
+        )
 }

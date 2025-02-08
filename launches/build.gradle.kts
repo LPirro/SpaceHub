@@ -43,6 +43,7 @@ android {
 dependencies {
 
     implementation(project(":core"))
+    implementation(project(":common"))
     implementation(project(":common:models"))
 
     // Compose

@@ -18,10 +18,10 @@
 package com.lpirro.spacehub.launches.di
 
 import com.lpirro.spacehub.core.util.DateParser
-import com.lpirro.spacehub.launches.data.mapper.AgencyMapper
-import com.lpirro.spacehub.launches.data.mapper.AgencyMapperImpl
-import com.lpirro.spacehub.launches.data.mapper.LaunchMapper
-import com.lpirro.spacehub.launches.data.mapper.LaunchMapperImpl
+import com.spacehub.common.mapper.AgencyMapper
+import com.spacehub.common.mapper.AgencyMapperImpl
+import com.spacehub.common.mapper.LaunchMapper
+import com.spacehub.common.mapper.LaunchMapperImpl
 import com.lpirro.spacehub.launches.data.mapper.LauncherLandingMapper
 import com.lpirro.spacehub.launches.data.mapper.LauncherLandingMapperImpl
 import com.lpirro.spacehub.launches.data.mapper.LauncherStageMapper
@@ -30,22 +30,22 @@ import com.lpirro.spacehub.launches.data.mapper.LocationMapper
 import com.lpirro.spacehub.launches.data.mapper.LocationMapperImpl
 import com.lpirro.spacehub.launches.data.mapper.MapPositionMapper
 import com.lpirro.spacehub.launches.data.mapper.MapPositionMapperImpl
-import com.lpirro.spacehub.launches.data.mapper.MissionMapper
-import com.lpirro.spacehub.launches.data.mapper.MissionMapperImpl
-import com.lpirro.spacehub.launches.data.mapper.MissionPatchMapper
-import com.lpirro.spacehub.launches.data.mapper.MissionPatchesMapperImpl
+import com.spacehub.common.mapper.MissionMapper
+import com.spacehub.common.mapper.MissionMapperImpl
+import com.spacehub.common.mapper.MissionPatchMapper
+import com.spacehub.common.mapper.MissionPatchesMapperImpl
 import com.lpirro.spacehub.launches.data.mapper.OrbitMapper
 import com.lpirro.spacehub.launches.data.mapper.OrbitMapperImpl
-import com.lpirro.spacehub.launches.data.mapper.PadMapper
-import com.lpirro.spacehub.launches.data.mapper.PadMapperImpl
+import com.spacehub.common.mapper.PadMapper
+import com.spacehub.common.mapper.PadMapperImpl
 import com.lpirro.spacehub.launches.data.mapper.RocketConfigurationMapper
 import com.lpirro.spacehub.launches.data.mapper.RocketConfigurationMapperImpl
-import com.lpirro.spacehub.launches.data.mapper.RocketMapper
-import com.lpirro.spacehub.launches.data.mapper.RocketMapperImpl
-import com.lpirro.spacehub.launches.data.mapper.StatusMapper
-import com.lpirro.spacehub.launches.data.mapper.StatusMapperImpl
-import com.lpirro.spacehub.launches.data.mapper.UpdateMapper
-import com.lpirro.spacehub.launches.data.mapper.UpdateMapperImpl
+import com.spacehub.common.mapper.RocketMapper
+import com.spacehub.common.mapper.RocketMapperImpl
+import com.spacehub.common.mapper.StatusMapper
+import com.spacehub.common.mapper.StatusMapperImpl
+import com.spacehub.common.mapper.UpdateMapper
+import com.spacehub.common.mapper.UpdateMapperImpl
 import com.lpirro.spacehub.launches.data.network.LaunchesService
 import com.lpirro.spacehub.launches.data.repository.LaunchesRepositoryImpl
 import com.lpirro.spacehub.launches.domain.repository.LaunchesRepository
@@ -60,20 +60,20 @@ object LaunchesDataModule {
     @Provides
     fun provideLaunchesRepository(
         launchesService: LaunchesService,
-        launchMapper: LaunchMapper,
+        launchMapper: com.spacehub.common.mapper.LaunchMapper,
     ): LaunchesRepository = LaunchesRepositoryImpl(launchesService, launchMapper)
 
     @Provides
     fun provideLaunchMapper(
-        agencyMapper: AgencyMapper,
-        missionPatchMapper: MissionPatchMapper,
-        padMapper: PadMapper,
+        agencyMapper: com.spacehub.common.mapper.AgencyMapper,
+        missionPatchMapper: com.spacehub.common.mapper.MissionPatchMapper,
+        padMapper: com.spacehub.common.mapper.PadMapper,
         dateParser: DateParser,
-        statusMapper: StatusMapper,
-        missionMapper: MissionMapper,
-        updateMapper: UpdateMapper,
-        rocketMapper: RocketMapper,
-    ): LaunchMapper = LaunchMapperImpl(
+        statusMapper: com.spacehub.common.mapper.StatusMapper,
+        missionMapper: com.spacehub.common.mapper.MissionMapper,
+        updateMapper: com.spacehub.common.mapper.UpdateMapper,
+        rocketMapper: com.spacehub.common.mapper.RocketMapper,
+    ): com.spacehub.common.mapper.LaunchMapper = com.spacehub.common.mapper.LaunchMapperImpl(
         agencyMapper = agencyMapper,
         missionPatchMapper = missionPatchMapper,
         padMapper = padMapper,
@@ -85,10 +85,12 @@ object LaunchesDataModule {
     )
 
     @Provides
-    fun provideAgencyMapper(): AgencyMapper = AgencyMapperImpl()
+    fun provideAgencyMapper(): com.spacehub.common.mapper.AgencyMapper =
+        com.spacehub.common.mapper.AgencyMapperImpl()
 
     @Provides
-    fun provideMissionPatchMapper(): MissionPatchMapper = MissionPatchesMapperImpl()
+    fun provideMissionPatchMapper(): com.spacehub.common.mapper.MissionPatchMapper =
+        com.spacehub.common.mapper.MissionPatchesMapperImpl()
 
     @Provides
     fun provideLocationMapper(): LocationMapper = LocationMapperImpl()
@@ -97,10 +99,12 @@ object LaunchesDataModule {
     fun providePadMapper(
         locationMapper: LocationMapper,
         mapPositionMapper: MapPositionMapper,
-    ): PadMapper = PadMapperImpl(locationMapper, mapPositionMapper)
+    ): com.spacehub.common.mapper.PadMapper =
+        com.spacehub.common.mapper.PadMapperImpl(locationMapper, mapPositionMapper)
 
     @Provides
-    fun provideStatusMapper(): StatusMapper = StatusMapperImpl()
+    fun provideStatusMapper(): com.spacehub.common.mapper.StatusMapper =
+        com.spacehub.common.mapper.StatusMapperImpl()
 
     @Provides
     fun provideMapPositionMapper(): MapPositionMapper = MapPositionMapperImpl()
@@ -109,22 +113,24 @@ object LaunchesDataModule {
     fun provideOrbitMapper(): OrbitMapper = OrbitMapperImpl()
 
     @Provides
-    fun provideMissionMapper(orbitMapper: OrbitMapper): MissionMapper = MissionMapperImpl(orbitMapper)
+    fun provideMissionMapper(orbitMapper: OrbitMapper): com.spacehub.common.mapper.MissionMapper =
+        com.spacehub.common.mapper.MissionMapperImpl(orbitMapper)
 
     @Provides
-    fun provideUpdateMapper(dateParser: DateParser): UpdateMapper = UpdateMapperImpl(dateParser)
+    fun provideUpdateMapper(dateParser: DateParser): com.spacehub.common.mapper.UpdateMapper =
+        com.spacehub.common.mapper.UpdateMapperImpl(dateParser)
 
     @Provides
     fun provideRocketMapper(
         rocketConfigurationMapper: RocketConfigurationMapper,
         launcherStageMapper: LauncherStageMapper,
-    ): RocketMapper = RocketMapperImpl(
+    ): com.spacehub.common.mapper.RocketMapper = com.spacehub.common.mapper.RocketMapperImpl(
         rocketConfigurationMapper = rocketConfigurationMapper,
         launcherStageMapper = launcherStageMapper,
     )
 
     @Provides
-    fun provideRocketConfigurationMapper(agencyMapper: AgencyMapper): RocketConfigurationMapper = RocketConfigurationMapperImpl(agencyMapper = agencyMapper)
+    fun provideRocketConfigurationMapper(agencyMapper: com.spacehub.common.mapper.AgencyMapper): RocketConfigurationMapper = RocketConfigurationMapperImpl(agencyMapper = agencyMapper)
 
     @Provides
     fun provideLauncherStageMapper(launcherLandingMapper: LauncherLandingMapper): LauncherStageMapper = LauncherStageMapperImpl(launcherLandingMapper = launcherLandingMapper)
