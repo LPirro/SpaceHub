@@ -19,8 +19,8 @@
  */
 package com.spacehub.common.mapper
 
-import com.spacehub.common.models.remote.RocketRemote
 import com.spacehub.common.models.domain.Rocket
+import com.spacehub.common.models.remote.RocketRemote
 
 interface RocketMapper {
     fun mapToDomain(rocketRemote: RocketRemote): Rocket

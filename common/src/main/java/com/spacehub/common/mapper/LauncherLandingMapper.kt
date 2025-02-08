@@ -19,8 +19,8 @@
  */
 package com.spacehub.common.mapper
 
-import com.spacehub.common.models.remote.LauncherLandingRemote
 import com.spacehub.common.models.domain.LauncherLanding
+import com.spacehub.common.models.remote.LauncherLandingRemote
 
 interface LauncherLandingMapper {
     fun mapToDomain(launcherLandingRemote: LauncherLandingRemote): LauncherLanding

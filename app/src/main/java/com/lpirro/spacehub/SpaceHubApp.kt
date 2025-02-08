@@ -34,6 +34,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.lpirro.spacehub.core.navigation.LaunchDetail
 import com.lpirro.spacehub.core.navigation.Launches
 import com.lpirro.spacehub.core.navigation.News
@@ -96,8 +97,8 @@ fun SpaceHubNavHost(
     ) {
         composable<Launches> {
             LaunchesScreen(
-                onLaunchClicked = {
-                    navController.navigate(LaunchDetail)
+                onLaunchClicked = { id, name ->
+                    navController.navigate(LaunchDetail(launchId = id, title = name))
                 },
             )
         }
@@ -110,7 +111,10 @@ fun SpaceHubNavHost(
         }
         composable<LaunchDetail> {
             val context = LocalContext.current
+            val args = it.toRoute<LaunchDetail>()
             LaunchDetailScreen(
+                launchId = args.launchId,
+                title = args.title,
                 onBackPressed = { navController.popBackStack() },
             )
         }

@@ -19,8 +19,8 @@
  */
 package com.spacehub.common.mapper
 
-import com.spacehub.common.models.remote.OrbitRemote
 import com.spacehub.common.models.domain.Orbit
+import com.spacehub.common.models.remote.OrbitRemote
 
 interface OrbitMapper {
     fun mapToDomain(orbitRemote: OrbitRemote): Orbit

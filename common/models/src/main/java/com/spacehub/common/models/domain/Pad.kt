@@ -19,9 +19,6 @@
  */
 package com.spacehub.common.models.domain
 
-import com.spacehub.common.models.domain.Location
-import com.spacehub.common.models.domain.MapPosition
-
 data class Pad(
     val id: Int,
     val url: String,

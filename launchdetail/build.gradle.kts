@@ -52,6 +52,7 @@ android {
 dependencies {
     implementation(project(":core"))
     implementation(project(":common:models"))
+    implementation(project(":common"))
 
     // Compose
     implementation(libs.androidx.activity.compose)
@@ -64,7 +65,6 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(project(":common"))
 
     // Testing
     testImplementation(libs.junit)

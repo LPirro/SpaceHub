@@ -49,6 +49,4 @@ object NewsNetworkModule {
             .client(okHttpClient)
             .build()
             .create(NewsService::class.java)
-
-
 }

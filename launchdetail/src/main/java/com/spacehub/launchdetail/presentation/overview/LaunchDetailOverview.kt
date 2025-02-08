@@ -51,6 +51,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.lpirro.spacehub.core.ui.composables.CountdownTimer
 import com.lpirro.spacehub.core.ui.composables.InfoCard
 import com.lpirro.spacehub.core.ui.composables.InfoCardButton
@@ -61,7 +62,14 @@ import com.spacehub.launchdetail.presentation.overview.MockData.lunchpadItems
 import com.spacehub.launchdetail.presentation.overview.MockData.mapUrl
 
 @Composable
-fun LaunchDetailOverview() {
+fun LaunchDetailOverview(
+    launchId: String,
+    viewModel: LaunchDetailOverviewViewModel = hiltViewModel(
+        creationCallback = { factory: LaunchDetailOverviewViewModel.Factory ->
+            factory.create(launchId = launchId)
+        },
+    ),
+) {
     Column(
         Modifier
             .verticalScroll(rememberScrollState())
@@ -71,7 +79,10 @@ fun LaunchDetailOverview() {
         CountdownSection()
         Column(Modifier.padding(16.dp)) {
             val spacing = 16.dp
-            InfoCard(title = stringResource(R.string.launch_detail_launchpad), headerImageUrl = mapUrl) {
+            InfoCard(
+                title = stringResource(R.string.launch_detail_launchpad),
+                headerImageUrl = mapUrl,
+            ) {
                 InfoItems(lunchpadItems)
             }
 
@@ -175,6 +186,6 @@ private fun ActionButtons() {
 @Composable
 private fun LaunchDetailOverviewPreview() {
     SpacehubTheme {
-        LaunchDetailOverview()
+        LaunchDetailOverview("id")
     }
 }

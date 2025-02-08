@@ -19,15 +19,14 @@
  */
 package com.spacehub.common.mapper
 
-import com.spacehub.common.models.remote.RocketConfigurationRemote
 import com.spacehub.common.models.domain.RocketConfiguration
+import com.spacehub.common.models.remote.RocketConfigurationRemote
 
 interface RocketConfigurationMapper {
     fun mapToDomain(rocketConfigurationRemote: RocketConfigurationRemote): RocketConfiguration
 }
 
-class RocketConfigurationMapperImpl(private val agencyMapper: AgencyMapper) :
-    RocketConfigurationMapper {
+class RocketConfigurationMapperImpl(private val agencyMapper: AgencyMapper) : RocketConfigurationMapper {
     override fun mapToDomain(rocketConfigurationRemote: RocketConfigurationRemote) =
         RocketConfiguration(
             id = rocketConfigurationRemote.id,

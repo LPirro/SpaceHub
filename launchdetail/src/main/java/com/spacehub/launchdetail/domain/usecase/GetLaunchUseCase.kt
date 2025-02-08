@@ -27,9 +27,7 @@ import kotlinx.coroutines.flow.Flow
 class GetLaunchUseCaseImpl(
     private val launchDetailRepository: LaunchDetailRepository,
 ) : GetLaunchUseCase {
-    override fun invoke(id: String): Flow<Launch> {
-        return launchDetailRepository.getLaunch(id)
-    }
+    override fun invoke(id: String): Flow<Launch> = launchDetailRepository.getLaunch(id)
 }
 
 interface GetLaunchUseCase {

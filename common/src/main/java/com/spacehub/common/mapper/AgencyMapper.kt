@@ -19,8 +19,8 @@
  */
 package com.spacehub.common.mapper
 
-import com.spacehub.common.models.remote.AgencyRemote
 import com.spacehub.common.models.domain.Agency
+import com.spacehub.common.models.remote.AgencyRemote
 
 interface AgencyMapper {
     fun mapToDomain(agencyRemote: AgencyRemote): Agency

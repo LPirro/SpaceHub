@@ -19,8 +19,8 @@
  */
 package com.spacehub.common.mapper
 
-import com.spacehub.common.models.remote.PadRemote
 import com.spacehub.common.models.domain.Pad
+import com.spacehub.common.models.remote.PadRemote
 
 interface PadMapper {
     fun mapToDomain(padRemote: PadRemote): Pad

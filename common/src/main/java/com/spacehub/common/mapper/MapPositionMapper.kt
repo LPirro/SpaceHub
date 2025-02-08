@@ -36,7 +36,7 @@ class MapPositionMapperImpl : MapPositionMapper {
         if (latitude != null && longitude != null) {
             return MapPosition(
                 latitude = latitude.toDouble(),
-                longitude = longitude.toDouble()
+                longitude = longitude.toDouble(),
             )
         }
         return null

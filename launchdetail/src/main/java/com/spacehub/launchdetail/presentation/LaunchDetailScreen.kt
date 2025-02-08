@@ -46,6 +46,8 @@ import com.spacehub.launchdetail.presentation.overview.LaunchDetailOverview
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LaunchDetailScreen(
+    launchId: String,
+    title: String,
     onBackPressed: (() -> Unit)? = null,
 ) {
     var selectedTabIndex by remember { mutableIntStateOf(0) }
@@ -61,7 +63,7 @@ fun LaunchDetailScreen(
     Scaffold(
         topBar = {
             SpaceTopBar(
-                text = stringResource(R.string.launch_detail_topbar_title),
+                text = title,
                 showBackArrow = true,
                 onBackClick = onBackPressed,
             )
@@ -101,7 +103,7 @@ fun LaunchDetailScreen(
                     .weight(1f),
             ) { index ->
                 when (index) {
-                    0 -> LaunchDetailOverview()
+                    0 -> LaunchDetailOverview(launchId)
                     1 -> Text("Mission")
                     2 -> Text("Vehicle")
                 }

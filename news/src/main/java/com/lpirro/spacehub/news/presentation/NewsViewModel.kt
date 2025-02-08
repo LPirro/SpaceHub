@@ -49,6 +49,13 @@ class NewsViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(NewsUiState(isLoading = true))
+    val uiState = _uiState
+        .onStart { getNews() }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000L),
+            initialValue = NewsUiState(isLoading = true),
+        )
 
     var articles: List<Article> = emptyList()
 
@@ -63,15 +70,6 @@ class NewsViewModel @Inject constructor(
     val searchLoadingState = _searchLoadingState
 
     private var searchArticlesJob: Job? = null
-
-    val uiState =
-        _uiState
-            .onStart { getNews() }
-            .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(5000L),
-                initialValue = NewsUiState(isLoading = true),
-            )
 
     fun getNews(isRefresh: Boolean = false) = viewModelScope.launch {
         if (isRefresh) {

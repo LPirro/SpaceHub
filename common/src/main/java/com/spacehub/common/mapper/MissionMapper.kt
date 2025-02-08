@@ -19,8 +19,8 @@
  */
 package com.spacehub.common.mapper
 
-import com.spacehub.common.models.remote.MissionRemote
 import com.spacehub.common.models.domain.Mission
+import com.spacehub.common.models.remote.MissionRemote
 
 interface MissionMapper {
     fun mapToDomain(missionRemote: MissionRemote): Mission

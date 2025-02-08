@@ -19,8 +19,8 @@
  */
 package com.spacehub.common.mapper
 
-import com.spacehub.common.models.remote.StatusRemote
 import com.spacehub.common.models.domain.Status
+import com.spacehub.common.models.remote.StatusRemote
 
 interface StatusMapper {
     fun mapToDomain(statusRemote: StatusRemote): Status

@@ -17,7 +17,6 @@
  */
 package com.lpirro.spacehub.launches.util
 
-import com.spacehub.common.models.domain.Status
 import com.spacehub.common.models.domain.Agency
 import com.spacehub.common.models.domain.Launch
 import com.spacehub.common.models.domain.LauncherStage
@@ -29,6 +28,7 @@ import com.spacehub.common.models.domain.Orbit
 import com.spacehub.common.models.domain.Pad
 import com.spacehub.common.models.domain.Rocket
 import com.spacehub.common.models.domain.RocketConfiguration
+import com.spacehub.common.models.domain.Status
 
 object MockedLaunches {
     val fakeLaunch =

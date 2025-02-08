@@ -19,8 +19,8 @@
  */
 package com.spacehub.common.mapper
 
-import com.spacehub.common.models.remote.LocationRemote
 import com.spacehub.common.models.domain.Location
+import com.spacehub.common.models.remote.LocationRemote
 
 interface LocationMapper {
     fun mapToDomain(locationRemote: LocationRemote): Location

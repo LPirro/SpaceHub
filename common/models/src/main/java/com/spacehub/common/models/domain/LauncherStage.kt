@@ -19,8 +19,6 @@
  */
 package com.spacehub.common.models.domain
 
-import com.spacehub.common.models.domain.LauncherLanding
-
 data class LauncherStage(
     val type: String,
     val serialNumber: String?,

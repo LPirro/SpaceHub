@@ -132,5 +132,4 @@ object CommonModule {
 
     @Provides
     fun providesLauncherLandingMapper(): LauncherLandingMapper = LauncherLandingMapperImpl()
-
 }

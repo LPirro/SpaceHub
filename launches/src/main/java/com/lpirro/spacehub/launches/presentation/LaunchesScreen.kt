@@ -66,7 +66,7 @@ import com.lpirro.spacehub.launches.R as R2
 @Composable
 fun LaunchesScreen(
     viewModel: LaunchesViewModel = hiltViewModel(),
-    onLaunchClicked: () -> Unit,
+    onLaunchClicked: (id: String, name: String) -> Unit,
 ) {
     val uiStateUpcomingLaunches = viewModel.uiStateUpcomingLaunches.collectAsState()
     val uiStatePastLaunches = viewModel.uiStatePastLaunches.collectAsState()
@@ -171,7 +171,7 @@ fun LaunchesScreen(
 @Composable
 fun LaunchContent(
     state: LaunchesUiState,
-    onLaunchClicked: () -> Unit,
+    onLaunchClicked: (id: String, name: String) -> Unit,
     onTryAgainClicked: () -> Unit,
     onRefresh: () -> Unit,
     isRefreshing: Boolean,
@@ -203,7 +203,7 @@ fun LaunchContent(
 @Composable
 fun LaunchList(
     launches: List<Launch>,
-    onLaunchClicked: () -> Unit,
+    onLaunchClicked: (id: String, name: String) -> Unit,
     isRefreshing: Boolean,
     onRefresh: () -> Unit,
 ) {
@@ -224,7 +224,7 @@ fun LaunchList(
                     netMillis = launch.netMillis ?: 0,
                     status = launch.status,
                     launchImageUrl = launch.image,
-                    onClick = onLaunchClicked,
+                    onClick = { onLaunchClicked.invoke(launch.id, launch.name) },
                 )
             }
         }
@@ -239,7 +239,7 @@ fun LaunchesContentPreview(
     SpacehubTheme {
         LaunchList(
             launches = launches,
-            onLaunchClicked = {},
+            onLaunchClicked = { _, _ -> Unit },
             onRefresh = {},
             isRefreshing = false,
         )

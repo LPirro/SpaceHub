@@ -19,22 +19,21 @@
  */
 package com.spacehub.common.mapper
 
-import com.spacehub.common.models.remote.LauncherStageRemote
 import com.spacehub.common.models.domain.LauncherStage
+import com.spacehub.common.models.remote.LauncherStageRemote
 
 interface LauncherStageMapper {
     fun mapToDomain(launcherStageRemote: LauncherStageRemote): LauncherStage
 }
 
-class LauncherStageMapperImpl(private val launcherLandingMapper: LauncherLandingMapper) :
-    LauncherStageMapper {
+class LauncherStageMapperImpl(private val launcherLandingMapper: LauncherLandingMapper) : LauncherStageMapper {
     override fun mapToDomain(launcherStageRemote: LauncherStageRemote) =
         LauncherStage(
             type = launcherStageRemote.type,
             serialNumber = launcherStageRemote.launcher.serialNumber,
             landing = launcherStageRemote.launcherLanding?.let {
                 launcherLandingMapper.mapToDomain(
-                    it
+                    it,
                 )
             },
         )
