@@ -73,6 +73,9 @@ fun LaunchCard(
     launchImageUrl: String?,
     onClick: () -> Unit,
 ) {
+
+    val imageRequest = rememberImageRequest(launchImageUrl)
+
     OutlinedCard(
         modifier =
         modifier
@@ -90,13 +93,7 @@ fun LaunchCard(
             placeholderDrawable?.setTint(MaterialTheme.colorScheme.inverseOnSurface.toArgb())
 
             AsyncImage(
-                model =
-                ImageRequest.Builder(LocalContext.current)
-                    .data(launchImageUrl)
-                    .crossfade(true)
-                    .error(placeholderDrawable)
-                    .placeholder(placeholderDrawable)
-                    .build(),
+                model = imageRequest,
                 modifier =
                 Modifier
                     .constrainAs(image) {
@@ -187,6 +184,28 @@ fun LaunchCard(
                 targetMillis = netMillis,
             )
         }
+    }
+}
+
+@Composable
+private fun rememberImageRequest(data: String?): ImageRequest {
+    val context = LocalContext.current
+
+    val placeholderDrawable =
+        AppCompatResources.getDrawable(
+            LocalContext.current,
+            R.drawable.image_placeholder,
+        )
+    placeholderDrawable?.setTint(MaterialTheme.colorScheme.inverseOnSurface.toArgb())
+
+
+    return remember(data) {
+        ImageRequest.Builder(context)
+            .data(data)
+            .crossfade(true)
+            .error(placeholderDrawable)
+            .placeholder(placeholderDrawable)
+            .build()
     }
 }
 

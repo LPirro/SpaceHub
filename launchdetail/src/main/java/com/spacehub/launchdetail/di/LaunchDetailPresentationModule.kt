@@ -19,6 +19,8 @@
  */
 package com.spacehub.launchdetail.di
 
+import com.spacehub.launchdetail.presentation.overview.mapper.GoogleMapsImageUrlMapper
+import com.spacehub.launchdetail.presentation.overview.mapper.GoogleMapsImageUrlMapperImpl
 import com.spacehub.launchdetail.presentation.overview.mapper.LaunchDetailOverviewUiMapper
 import com.spacehub.launchdetail.presentation.overview.mapper.LaunchDetailOverviewUiMapperImpl
 import dagger.Module
@@ -30,6 +32,11 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 object LaunchDetailPresentationModule {
     @Provides
-    internal fun provideLaunchDetailOverviewMapper(): LaunchDetailOverviewUiMapper =
-        LaunchDetailOverviewUiMapperImpl()
+    internal fun provideLaunchDetailOverviewMapper(
+        googleMapsImageUrlMapper: GoogleMapsImageUrlMapper,
+    ): LaunchDetailOverviewUiMapper = LaunchDetailOverviewUiMapperImpl(googleMapsImageUrlMapper)
+
+    @Provides
+    internal fun provideGoogleMapsImageUrlMapper(): GoogleMapsImageUrlMapper =
+        GoogleMapsImageUrlMapperImpl()
 }

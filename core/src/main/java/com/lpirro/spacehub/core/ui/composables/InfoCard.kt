@@ -40,12 +40,14 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.lpirro.spacehub.core.ui.theme.SpacehubTheme
+import com.lpirro.spacehub.core.util.RemovePaddingTransformation
 
 @Composable
 fun InfoCard(
     title: String,
     padding: Dp = 16.dp,
     headerImageUrl: String? = null,
+    contentImageUrl: String? = null,
     content: @Composable () -> Unit,
 ) {
     Column(
@@ -79,6 +81,21 @@ fun InfoCard(
         )
 
         Column(modifier = Modifier.padding(padding)) {
+            contentImageUrl?.let {
+                AsyncImage(
+                    model =
+                    ImageRequest.Builder(LocalContext.current)
+                        .data(it)
+                        .crossfade(true)
+                        .transformations(RemovePaddingTransformation())
+                        .build(),
+                    modifier = Modifier
+                        .padding(bottom = 16.dp)
+                        .height(20.dp),
+                    contentScale = ContentScale.Fit,
+                    contentDescription = null,
+                )
+            }
             content()
         }
     }

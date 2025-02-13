@@ -27,6 +27,7 @@ androidx-arch-core-testing = "2.1.0"
 spotless = "6.25.0"
 browser = "1.8.0"
 material = "1.10.0"
+volley = "1.2.1"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -63,6 +64,7 @@ mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "
 androidx-arch-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "androidx-arch-core-testing" }
 androidx-browser = { group = "androidx.browser", name = "browser", version.ref = "browser" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+volley = { group = "com.android.volley", name = "volley", version.ref = "volley" }
 
 [plugins]
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }

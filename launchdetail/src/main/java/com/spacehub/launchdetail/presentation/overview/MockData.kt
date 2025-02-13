@@ -20,22 +20,12 @@
 
 package com.spacehub.launchdetail.presentation.overview
 
-import com.spacehub.launchdetail.BuildConfig
 import com.spacehub.launchdetail.presentation.overview.model.AgencyUi
 import com.spacehub.launchdetail.presentation.overview.model.CountdownUi
 import com.spacehub.launchdetail.presentation.overview.model.LaunchOverviewUi
 import com.spacehub.launchdetail.presentation.overview.model.LaunchpadUi
 
 object MockData {
-
-    private val latitude = 21.283333
-    private val longitude = 112.0
-    private val zoom = 7
-    private val apiKey = BuildConfig.MAPS_API_KEY
-
-    val mapUrl =
-        "https://maps.googleapis.com/maps/api/staticmap?scale=2&center=$latitude,$longitude&zoom=$zoom&size=800x800&key=$apiKey"
-
 
     val launchOverviewUiMock = LaunchOverviewUi(
         countdownSection = CountdownUi(
@@ -48,8 +38,8 @@ object MockData {
             totalLaunchCount = "124",
             infoUrl = "https://www.kennedyspacecenter.com/",
             wikiUrl = "https://en.wikipedia.org/wiki/Kennedy_Space_Center",
-            mapUrl = mapUrl,
-            mapImageHeaderUrl = mapUrl,
+            mapUrl = null,
+            mapImageHeaderUrl = null,
         ),
         watchLiveUrl = "https://www.youtube.com/watch?v=123",
         agencySection = AgencyUi(

@@ -62,7 +62,6 @@ import com.lpirro.spacehub.core.ui.composables.InfoCardButton
 import com.lpirro.spacehub.core.ui.theme.SpacehubTheme
 import com.spacehub.launchdetail.R
 import com.spacehub.launchdetail.presentation.overview.LaunchDetailOverviewViewModel.*
-import com.spacehub.launchdetail.presentation.overview.MockData.mapUrl
 import com.spacehub.launchdetail.presentation.overview.model.AgencyUi
 import com.spacehub.launchdetail.presentation.overview.model.LaunchOverviewUi
 import com.spacehub.launchdetail.presentation.overview.model.LaunchpadUi
@@ -126,7 +125,10 @@ private fun LaunchDetailOverviewContent(modifier: Modifier = Modifier, uiState: 
 
 @Composable
 private fun AgencySection(agencyUi: AgencyUi) {
-    InfoCard(title = stringResource(R.string.launch_detail_agency)) {
+    InfoCard(
+        title = stringResource(R.string.launch_detail_agency),
+        contentImageUrl = agencyUi.logoUrl,
+    ) {
         InfoItems(
             listOf(
                 stringResource(R.string.launch_detail_name) to agencyUi.name,
@@ -174,7 +176,7 @@ private fun CountdownSection(
 fun LaunchPadSection(launchpadSection: LaunchpadUi) {
     InfoCard(
         title = stringResource(R.string.launch_detail_launchpad),
-        headerImageUrl = mapUrl,
+        headerImageUrl = launchpadSection.mapImageHeaderUrl,
     ) {
         InfoItems(
             listOf(
