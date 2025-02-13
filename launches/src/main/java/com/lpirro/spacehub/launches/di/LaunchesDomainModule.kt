@@ -17,7 +17,7 @@
  */
 package com.lpirro.spacehub.launches.di
 
-import com.lpirro.spacehub.launches.domain.repository.LaunchesRepository
+import com.spacehub.common.domain.repository.LaunchesRepository
 import com.lpirro.spacehub.launches.domain.usecase.GetPastLaunchesUseCase
 import com.lpirro.spacehub.launches.domain.usecase.GetPastLaunchesUseCaseImpl
 import com.lpirro.spacehub.launches.domain.usecase.GetUpcomingLaunchesUseCase

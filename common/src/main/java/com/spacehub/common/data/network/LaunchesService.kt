@@ -17,12 +17,24 @@
  *  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+package com.spacehub.common.data.network
 
-package com.spacehub.launchdetail.domain.repository
+import com.spacehub.common.models.remote.LaunchRemote
+import com.spacehub.common.models.remote.PaginatedResultRemote
+import retrofit2.http.GET
+import retrofit2.http.Path
 
-import com.spacehub.common.models.domain.Launch
-import kotlinx.coroutines.flow.Flow
+interface LaunchesService {
+    // TODO: Use @Query instead of hardcoding params
+    @GET("launch/upcoming?mode=detailed&limit=20&hide_recent_previous=true")
+    suspend fun getUpcomingLaunches(): PaginatedResultRemote<List<LaunchRemote>>
 
-interface LaunchDetailRepository {
-    fun getLaunch(id: String): Flow<Launch>
+    // TODO: Use @Query instead of hardcoding params
+    @GET("launch/previous?mode=detailed&limit=20")
+    suspend fun getPastLaunches(): PaginatedResultRemote<List<LaunchRemote>>
+
+    @GET("launch/{id}")
+    suspend fun getLaunch(
+        @Path("id") id: String,
+    ): LaunchRemote
 }

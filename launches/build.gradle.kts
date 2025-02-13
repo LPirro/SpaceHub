@@ -70,12 +70,6 @@ dependencies {
     testImplementation(libs.mockito.kotlin)
     testImplementation(libs.androidx.arch.core.testing)
 
-    // Retrofit & Networking
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.converter.gson)
-    implementation(libs.okhttp)
-    implementation(libs.okhttp.interceptor)
-
     // Hilt
     implementation(libs.hilt.navigation.compose)
     implementation(libs.hilt.android)

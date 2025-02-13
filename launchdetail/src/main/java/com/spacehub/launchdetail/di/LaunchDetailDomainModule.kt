@@ -20,7 +20,7 @@
 
 package com.spacehub.launchdetail.di
 
-import com.spacehub.launchdetail.domain.repository.LaunchDetailRepository
+import com.spacehub.common.domain.repository.LaunchesRepository
 import com.spacehub.launchdetail.domain.usecase.GetLaunchUseCase
 import com.spacehub.launchdetail.domain.usecase.GetLaunchUseCaseImpl
 import dagger.Module
@@ -32,5 +32,5 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 object LaunchDetailDomainModule {
     @Provides
-    fun provideGetLaunchUseCase(repository: LaunchDetailRepository): GetLaunchUseCase = GetLaunchUseCaseImpl(repository)
+    fun provideGetLaunchUseCase(repository: LaunchesRepository): GetLaunchUseCase = GetLaunchUseCaseImpl(repository)
 }

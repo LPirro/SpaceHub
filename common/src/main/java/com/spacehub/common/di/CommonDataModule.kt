@@ -17,17 +17,24 @@
  *  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+package com.spacehub.common.di
 
-package com.spacehub.launchdetail.data.network
+import com.spacehub.common.data.network.LaunchesService
+import com.spacehub.common.repository.LaunchesRepositoryImpl
+import com.spacehub.common.domain.repository.LaunchesRepository
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
-import com.spacehub.common.models.remote.LaunchRemote
-import retrofit2.http.GET
-import retrofit2.http.Path
-
-interface LaunchDetailService {
-
-    @GET("launch/{id}")
-    suspend fun getLaunch(
-        @Path("id") id: String,
-    ): LaunchRemote
+@Module
+@InstallIn(SingletonComponent::class)
+object CommonDataModule {
+    @Provides
+    @Singleton
+    fun provideLaunchesRepository(
+        launchesService: LaunchesService,
+        launchMapper: com.spacehub.common.mapper.LaunchMapper,
+    ): LaunchesRepository = LaunchesRepositoryImpl(launchesService, launchMapper)
 }

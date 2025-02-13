@@ -66,7 +66,7 @@ class LaunchesViewModel @Inject constructor(
     fun getUpcomingLaunches(isRefresh: Boolean = false) =
         viewModelScope.launch {
             _isRefreshLoading.value = isRefresh
-            getUpcomingLaunchesUseCase()
+            getUpcomingLaunchesUseCase(forceRefresh = isRefresh)
                 .onStart {
                     if (!isRefresh) _uiStateUpcomingLaunches.value = LaunchesUiState.Loading(true)
                 }
@@ -78,7 +78,7 @@ class LaunchesViewModel @Inject constructor(
     fun getPastLaunches(isRefresh: Boolean = false) =
         viewModelScope.launch {
             _isRefreshLoading.value = isRefresh
-            getPastLaunchesUseCase()
+            getPastLaunchesUseCase(forceRefresh = isRefresh)
                 .onStart {
                     if (!isRefresh) _uiStatePastLaunches.value = LaunchesUiState.Loading(false)
                 }

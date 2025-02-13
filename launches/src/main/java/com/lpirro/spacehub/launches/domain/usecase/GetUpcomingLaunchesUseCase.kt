@@ -17,16 +17,17 @@
  */
 package com.lpirro.spacehub.launches.domain.usecase
 
-import com.lpirro.spacehub.launches.domain.repository.LaunchesRepository
+import com.spacehub.common.domain.repository.LaunchesRepository
 import com.spacehub.common.models.domain.Launch
 import kotlinx.coroutines.flow.Flow
 
 interface GetUpcomingLaunchesUseCase {
-    operator fun invoke(): Flow<List<Launch>>
+    operator fun invoke(forceRefresh: Boolean = false): Flow<List<Launch>>
 }
 
 class GetUpcomingLaunchesUseCaseImpl(
     private val repository: LaunchesRepository,
 ) : GetUpcomingLaunchesUseCase {
-    override fun invoke(): Flow<List<Launch>> = repository.getUpcomingLaunches()
+    override fun invoke(forceRefresh: Boolean): Flow<List<Launch>> =
+        repository.getUpcomingLaunches(forceRefresh = forceRefresh)
 }

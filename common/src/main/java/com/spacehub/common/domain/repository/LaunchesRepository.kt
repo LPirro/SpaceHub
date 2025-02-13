@@ -17,23 +17,13 @@
  *  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.spacehub.launchdetail.di
+package com.spacehub.common.domain.repository
 
-import com.spacehub.common.mapper.LaunchMapper
-import com.spacehub.launchdetail.data.network.LaunchDetailService
-import com.spacehub.launchdetail.data.repository.LaunchDetailRepositoryImpl
-import com.spacehub.launchdetail.domain.repository.LaunchDetailRepository
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import com.spacehub.common.models.domain.Launch
+import kotlinx.coroutines.flow.Flow
 
-@Module
-@InstallIn(SingletonComponent::class)
-object LaunchDetailDataModule {
-    @Provides
-    fun provideLaunchesRepository(
-        launchDetailService: LaunchDetailService,
-        launchMapper: LaunchMapper,
-    ): LaunchDetailRepository = LaunchDetailRepositoryImpl(launchDetailService, launchMapper)
+interface LaunchesRepository {
+    fun getUpcomingLaunches(forceRefresh: Boolean = false): Flow<List<Launch>>
+    fun getPastLaunches(forceRefresh: Boolean = false): Flow<List<Launch>>
+    fun getLaunch(id: String): Flow<Launch>
 }
