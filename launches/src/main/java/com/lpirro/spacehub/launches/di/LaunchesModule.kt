@@ -17,10 +17,13 @@
  */
 package com.lpirro.spacehub.launches.di
 
+import com.lpirro.spacehub.core.util.DateParser
 import com.lpirro.spacehub.launches.domain.usecase.GetPastLaunchesUseCase
 import com.lpirro.spacehub.launches.domain.usecase.GetPastLaunchesUseCaseImpl
 import com.lpirro.spacehub.launches.domain.usecase.GetUpcomingLaunchesUseCase
 import com.lpirro.spacehub.launches.domain.usecase.GetUpcomingLaunchesUseCaseImpl
+import com.lpirro.spacehub.launches.presentation.mapper.LaunchUiMapper
+import com.lpirro.spacehub.launches.presentation.mapper.LaunchUiMapperImpl
 import com.spacehub.common.domain.repository.LaunchesRepository
 import dagger.Module
 import dagger.Provides
@@ -29,10 +32,13 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-object LaunchesDomainModule {
+object LaunchesModule {
     @Provides
     fun provideGetUpcomingLaunchesUseCase(repository: LaunchesRepository): GetUpcomingLaunchesUseCase = GetUpcomingLaunchesUseCaseImpl(repository)
 
     @Provides
     fun provideGetPastLaunchesUseCase(repository: LaunchesRepository): GetPastLaunchesUseCase = GetPastLaunchesUseCaseImpl(repository)
+
+    @Provides
+    fun provideLaunchUiMapper(dateParser: DateParser): LaunchUiMapper = LaunchUiMapperImpl(dateParser)
 }

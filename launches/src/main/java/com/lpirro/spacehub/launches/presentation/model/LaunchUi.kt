@@ -17,25 +17,18 @@
  *  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.spacehub.common.models.domain
 
-data class Launch(
+package com.lpirro.spacehub.launches.presentation.model
+
+import com.spacehub.common.models.domain.Status
+
+data class LaunchUi(
     val id: String,
-    val name: String,
-    val image: String?,
-    val launchServiceProvider: Agency,
-    val missionPatches: List<MissionPatches>?,
-    val mission: Mission?,
-    val pad: Pad,
-    val net: String,
-    val windowStartDisplay: String?,
-    val windowEndDisplay: String?,
-    val windowEnd: String?,
-    val netMillis: Long?,
+    val title: String,
+    val agency: String,
+    val location: String,
+    val dateTime: String,
+    val netMillis: Long,
     val status: Status,
-    val watchLiveUrls: List<Url>?,
-    val infoUrl: String?,
-    val flightClubUrl: String?,
-    val updates: List<Update>?,
-    val rocket: Rocket,
+    val launchImageUrl: String?,
 )

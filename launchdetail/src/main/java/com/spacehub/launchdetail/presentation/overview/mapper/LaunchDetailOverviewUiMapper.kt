@@ -20,6 +20,7 @@
 
 package com.spacehub.launchdetail.presentation.overview.mapper
 
+import com.lpirro.spacehub.core.util.DateParser
 import com.spacehub.common.models.domain.Launch
 import com.spacehub.launchdetail.presentation.overview.model.AgencyUi
 import com.spacehub.launchdetail.presentation.overview.model.CountdownUi
@@ -29,10 +30,11 @@ import com.spacehub.launchdetail.presentation.overview.model.WatchLiveUi
 
 internal class LaunchDetailOverviewUiMapperImpl(
     private val googleMapsImageUrlMapper: GoogleMapsImageUrlMapper,
+    private val dateParser: DateParser,
 ) : LaunchDetailOverviewUiMapper {
     override fun mapToUi(launch: Launch): LaunchOverviewUi = LaunchOverviewUi(
         countdownSection = CountdownUi(
-            launchDate = "launchDate",
+            launchDate = dateParser.parseFullDate(launch.net),
             targetDateMillis = launch.netMillis,
         ),
         launchpadSection = LaunchpadUi(

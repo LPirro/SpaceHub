@@ -27,7 +27,7 @@ data class LaunchRemote(
     @SerializedName("mission_patches") val missionPatches: List<MissionPatchesRemote>?,
     @SerializedName("pad") val pad: PadRemote,
     @SerializedName("mission") val mission: MissionRemote?,
-    @SerializedName("net") val net: String?,
+    @SerializedName("net") val net: String,
     @SerializedName("window_start") val windowStart: String?,
     @SerializedName("window_end") val windowEnd: String?,
     @SerializedName("status") val status: StatusRemote,

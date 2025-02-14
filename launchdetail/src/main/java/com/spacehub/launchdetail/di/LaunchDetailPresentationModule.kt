@@ -19,6 +19,7 @@
  */
 package com.spacehub.launchdetail.di
 
+import com.lpirro.spacehub.core.util.DateParser
 import com.spacehub.launchdetail.presentation.overview.mapper.GoogleMapsImageUrlMapper
 import com.spacehub.launchdetail.presentation.overview.mapper.GoogleMapsImageUrlMapperImpl
 import com.spacehub.launchdetail.presentation.overview.mapper.LaunchDetailOverviewUiMapper
@@ -34,7 +35,9 @@ object LaunchDetailPresentationModule {
     @Provides
     internal fun provideLaunchDetailOverviewMapper(
         googleMapsImageUrlMapper: GoogleMapsImageUrlMapper,
-    ): LaunchDetailOverviewUiMapper = LaunchDetailOverviewUiMapperImpl(googleMapsImageUrlMapper)
+        dateParser: DateParser,
+    ): LaunchDetailOverviewUiMapper =
+        LaunchDetailOverviewUiMapperImpl(googleMapsImageUrlMapper, dateParser)
 
     @Provides
     internal fun provideGoogleMapsImageUrlMapper(): GoogleMapsImageUrlMapper =

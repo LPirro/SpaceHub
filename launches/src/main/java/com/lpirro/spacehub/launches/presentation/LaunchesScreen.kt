@@ -59,8 +59,8 @@ import com.lpirro.spacehub.core.ui.composables.ErrorScreen
 import com.lpirro.spacehub.core.ui.composables.LaunchCard
 import com.lpirro.spacehub.core.ui.composables.SpaceTopBar
 import com.lpirro.spacehub.core.ui.theme.SpacehubTheme
+import com.lpirro.spacehub.launches.presentation.model.LaunchUi
 import com.lpirro.spacehub.launches.presentation.model.TabItem
-import com.spacehub.common.models.domain.Launch
 import com.lpirro.spacehub.launches.R as R2
 
 @Composable
@@ -202,7 +202,7 @@ fun LaunchContent(
 
 @Composable
 fun LaunchList(
-    launches: List<Launch>,
+    launches: List<LaunchUi>,
     onLaunchClicked: (id: String, name: String) -> Unit,
     isRefreshing: Boolean,
     onRefresh: () -> Unit,
@@ -217,14 +217,14 @@ fun LaunchList(
         ) {
             items(launches) { launch ->
                 LaunchCard(
-                    title = launch.name,
-                    agency = launch.launchServiceProvider.name,
-                    location = launch.pad.location.name,
-                    dateTime = launch.netDisplay ?: "",
-                    netMillis = launch.netMillis ?: 0,
+                    title = launch.title,
+                    agency = launch.agency,
+                    location = launch.location,
+                    dateTime = launch.dateTime,
+                    netMillis = launch.netMillis,
                     status = launch.status,
-                    launchImageUrl = launch.image,
-                    onClick = { onLaunchClicked.invoke(launch.id, launch.name) },
+                    launchImageUrl = launch.launchImageUrl,
+                    onClick = { onLaunchClicked.invoke(launch.id, launch.title) },
                 )
             }
         }
@@ -234,7 +234,7 @@ fun LaunchList(
 @Preview(showBackground = true)
 @Composable
 fun LaunchesContentPreview(
-    @PreviewParameter(SampleLaunchesProvider::class) launches: List<Launch>,
+    @PreviewParameter(SampleLaunchesProvider::class) launches: List<LaunchUi>,
 ) {
     SpacehubTheme {
         LaunchList(

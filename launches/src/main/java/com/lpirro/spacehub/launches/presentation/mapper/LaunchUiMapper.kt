@@ -17,25 +17,26 @@
  *  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.spacehub.common.models.domain
 
-data class Launch(
-    val id: String,
-    val name: String,
-    val image: String?,
-    val launchServiceProvider: Agency,
-    val missionPatches: List<MissionPatches>?,
-    val mission: Mission?,
-    val pad: Pad,
-    val net: String,
-    val windowStartDisplay: String?,
-    val windowEndDisplay: String?,
-    val windowEnd: String?,
-    val netMillis: Long?,
-    val status: Status,
-    val watchLiveUrls: List<Url>?,
-    val infoUrl: String?,
-    val flightClubUrl: String?,
-    val updates: List<Update>?,
-    val rocket: Rocket,
-)
+package com.lpirro.spacehub.launches.presentation.mapper
+
+import com.lpirro.spacehub.core.util.DateParser
+import com.lpirro.spacehub.launches.presentation.model.LaunchUi
+import com.spacehub.common.models.domain.Launch
+
+class LaunchUiMapperImpl(private val dateParser: DateParser) : LaunchUiMapper {
+    override fun mapToUi(launch: Launch) = LaunchUi(
+        id = launch.id,
+        title = launch.name,
+        agency = launch.launchServiceProvider.name,
+        location = launch.pad.location.name,
+        dateTime = dateParser.parseFullDate(launch.net),
+        netMillis = launch.netMillis ?: 0,
+        status = launch.status,
+        launchImageUrl = launch.image,
+    )
+}
+
+interface LaunchUiMapper {
+    fun mapToUi(launch: Launch): LaunchUi
+}

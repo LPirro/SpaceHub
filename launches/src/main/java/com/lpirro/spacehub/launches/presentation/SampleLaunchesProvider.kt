@@ -18,133 +18,25 @@
 package com.lpirro.spacehub.launches.presentation
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import com.spacehub.common.models.domain.Agency
-import com.spacehub.common.models.domain.Launch
-import com.spacehub.common.models.domain.LauncherStage
-import com.spacehub.common.models.domain.Location
-import com.spacehub.common.models.domain.MapPosition
-import com.spacehub.common.models.domain.Mission
-import com.spacehub.common.models.domain.MissionPatches
-import com.spacehub.common.models.domain.Orbit
-import com.spacehub.common.models.domain.Pad
-import com.spacehub.common.models.domain.Rocket
-import com.spacehub.common.models.domain.RocketConfiguration
+import com.lpirro.spacehub.launches.presentation.model.LaunchUi
 import com.spacehub.common.models.domain.Status
 
-class SampleLaunchesProvider : PreviewParameterProvider<List<Launch>> {
-    override val values: Sequence<List<Launch>>
+class SampleLaunchesProvider : PreviewParameterProvider<List<LaunchUi>> {
+    override val values: Sequence<List<LaunchUi>>
         get() = sequenceOf(listOf(fakeLaunch, fakeLaunch, fakeLaunch))
 
-    private val fakeLaunch =
-        Launch(
-            id = "launch-001",
-            name = "Falcon 9 - Starlink 30",
-            image = "https://example.com/images/starlink30.jpg",
-            launchServiceProvider =
-            Agency(
-                id = 1,
-                url = "https://example.com/agency/spacex",
-                name = "SpaceX",
-                countryCode = "USA",
-                administrator = "Elon Musk",
-                foundingYear = "2002",
-                totalLaunchCount = null,
-                logoUrl = "https://example.com/images/spacex-logo.png",
-            ),
-            missionPatches =
-            listOf(
-                MissionPatches(
-                    id = 1,
-                    name = "Mission Name",
-                    imageUrl = "https://example.com/images/patch-001.png",
-                ),
-            ),
-            mission =
-            Mission(
-                id = 123,
-                name = "Starlink 30",
-                description = "Deployment of the 30th batch of Starlink satellites to low Earth orbit.",
-                type = "type",
-                orbit =
-                Orbit(
-                    id = 123,
-                    name = "Low Earth Orbit",
-                    abbrev = "LEO",
-                ),
-            ),
-            pad =
-            Pad(
-                id = 39,
-                url = "https://example.com/pads/39",
-                agencyId = 1,
-                name = "Launch Complex 39A",
-                infoUrl = "https://example.com/pad-info/39",
-                wikiUrl = "https://en.wikipedia.org/wiki/Launch_Complex_39A",
-                mapUrl = "https://maps.example.com/pad/39",
-                location =
-                Location(
-                    id = 1,
-                    name = "Kennedy Space Center",
-                ),
-                totalLaunchCount = 130,
-                orbitalLaunchAttemptCount = 100,
-                mapPosition =
-                MapPosition(
-                    latitude = 28.5721,
-                    longitude = -80.6480,
-                ),
-            ),
-            netDisplay = "2024-09-25T14:30:00Z",
-            windowStartDisplay = "2024-09-25T14:00:00Z",
-            windowEndDisplay = "2024-09-25T15:00:00Z",
-            windowEnd = "2024-09-25T15:00:00Z",
-            netMillis = 1695741000000L,
-            status =
-            Status.Go(
-                name = "GO",
-                abbrev = "GO",
-                description = "Launch Scheduled",
-            ),
-            watchLiveUrls = emptyList(),
-            infoUrl = "https://spacex.com/starlink30",
-            flightClubUrl = "https://flightclub.io/starlink30",
-            updates = null,
-            rocket =
-            Rocket(
-                id = 1,
-                configuration =
-                RocketConfiguration(
-                    id = 9,
-                    name = "Falcon 9",
-                    manufacturer = null,
-                    variant = "variant",
-                    height = null,
-                    diameter = null,
-                    gtoCapacity = null,
-                    leoCapacity = null,
-                    toThrust = null,
-                    apogee = null,
-                    reusable = true,
-                    successfulLaunches = null,
-                    consecutiveSuccessfulLaunches = null,
-                    failedLaunches = null,
-                    pendingLaunches = null,
-                    launchCost = null,
-                    infoUrl = null,
-                    wikiUrl = null,
-                    minStage = null,
-                    maxStage = null,
-                    description = "description",
-                    imageUrl = null,
-                ),
-                launcherStage =
-                listOf(
-                    LauncherStage(
-                        type = "Booster",
-                        serialNumber = null,
-                        landing = null,
-                    ),
-                ),
-            ),
-        )
+    private val fakeLaunch = LaunchUi(
+        id = "launch-001",
+        title = "Falcon 9 - Starlink 30",
+        agency = "SpaceX",
+        location = "Kennedy Space Center",
+        dateTime = "2024-09-25T14:30:00Z",
+        netMillis = System.currentTimeMillis(),
+        status = Status.Go(
+            name = "GO",
+            abbrev = "GO",
+            description = "Launch Scheduled",
+        ),
+        launchImageUrl = "",
+    )
 }
