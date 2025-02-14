@@ -24,6 +24,7 @@ import com.spacehub.launchdetail.presentation.overview.model.AgencyUi
 import com.spacehub.launchdetail.presentation.overview.model.CountdownUi
 import com.spacehub.launchdetail.presentation.overview.model.LaunchOverviewUi
 import com.spacehub.launchdetail.presentation.overview.model.LaunchpadUi
+import com.spacehub.launchdetail.presentation.overview.model.WatchLiveUi
 
 object MockData {
 
@@ -41,7 +42,10 @@ object MockData {
             mapUrl = null,
             mapImageHeaderUrl = null,
         ),
-        watchLiveUrl = "https://www.youtube.com/watch?v=123",
+        watchLiveSection = WatchLiveUi(
+            imageUrl = "https://upload.wikimedia.org/wikipedia/commons/9/9f/NASA_logo.svg",
+            videoUrl = "https://www.youtube.com/watch?v=123",
+        ),
         agencySection = AgencyUi(
             name = "NASA",
             countryCode = "USA",

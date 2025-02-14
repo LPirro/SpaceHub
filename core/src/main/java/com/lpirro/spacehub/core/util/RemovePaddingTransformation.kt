@@ -29,7 +29,6 @@ class RemovePaddingTransformation : Transformation {
 
     override val cacheKey: String = "RemovePaddingTransformation"
     override suspend fun transform(input: Bitmap, size: Size): Bitmap {
-
         var startX = 0
         loop@ for (x in 0 until input.width) {
             for (y in 0 until input.height) {

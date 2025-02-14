@@ -19,6 +19,7 @@ package com.spacehub.common.models.remote
 
 import com.google.gson.annotations.SerializedName
 
-data class Urls(
+data class UrlRemote(
+    @SerializedName("feature_image") val featureImageUrl: String?,
     @SerializedName("url") val url: String,
 )

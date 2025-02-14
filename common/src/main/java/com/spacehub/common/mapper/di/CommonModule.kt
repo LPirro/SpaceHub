@@ -49,6 +49,8 @@ import com.spacehub.common.mapper.StatusMapper
 import com.spacehub.common.mapper.StatusMapperImpl
 import com.spacehub.common.mapper.UpdateMapper
 import com.spacehub.common.mapper.UpdateMapperImpl
+import com.spacehub.common.mapper.UrlMapper
+import com.spacehub.common.mapper.UrlMapperImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -68,6 +70,7 @@ object CommonModule {
         missionMapper: MissionMapper,
         updateMapper: UpdateMapper,
         rocketMapper: RocketMapper,
+        urlMapper: UrlMapper,
     ): LaunchMapper = LaunchMapperImpl(
         agencyMapper = agencyMapper,
         missionPatchMapper = missionPatchMapper,
@@ -77,6 +80,7 @@ object CommonModule {
         missionMapper = missionMapper,
         updateMapper = updateMapper,
         rocketMapper = rocketMapper,
+        urlMapper = urlMapper,
     )
 
     @Provides
@@ -125,11 +129,16 @@ object CommonModule {
     )
 
     @Provides
-    fun provideRocketConfigurationMapper(agencyMapper: AgencyMapper): RocketConfigurationMapper = RocketConfigurationMapperImpl(agencyMapper = agencyMapper)
+    fun provideRocketConfigurationMapper(agencyMapper: AgencyMapper): RocketConfigurationMapper =
+        RocketConfigurationMapperImpl(agencyMapper = agencyMapper)
 
     @Provides
-    fun provideLauncherStageMapper(launcherLandingMapper: LauncherLandingMapper): LauncherStageMapper = LauncherStageMapperImpl(launcherLandingMapper = launcherLandingMapper)
+    fun provideLauncherStageMapper(launcherLandingMapper: LauncherLandingMapper): LauncherStageMapper =
+        LauncherStageMapperImpl(launcherLandingMapper = launcherLandingMapper)
 
     @Provides
     fun providesLauncherLandingMapper(): LauncherLandingMapper = LauncherLandingMapperImpl()
+
+    @Provides
+    fun provideUrlMapper(): UrlMapper = UrlMapperImpl()
 }

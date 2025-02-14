@@ -33,7 +33,7 @@ data class Launch(
     val windowEnd: String?,
     val netMillis: Long?,
     val status: Status,
-    val youtubeVideoId: String?,
+    val watchLiveUrls: List<Url>?,
     val infoUrl: String?,
     val flightClubUrl: String?,
     val updates: List<Update>?,

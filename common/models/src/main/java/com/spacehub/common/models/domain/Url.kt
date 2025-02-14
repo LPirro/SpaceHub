@@ -17,25 +17,10 @@
  *  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.spacehub.common.di
 
-import com.spacehub.common.data.network.LaunchesService
-import com.spacehub.common.domain.repository.LaunchesRepository
-import com.spacehub.common.mapper.LaunchMapper
-import com.spacehub.common.repository.LaunchesRepositoryImpl
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+package com.spacehub.common.models.domain
 
-@Module
-@InstallIn(SingletonComponent::class)
-object CommonDataModule {
-    @Provides
-    @Singleton
-    fun provideLaunchesRepository(
-        launchesService: LaunchesService,
-        launchMapper: LaunchMapper,
-    ): LaunchesRepository = LaunchesRepositoryImpl(launchesService, launchMapper)
-}
+data class Url(
+    val featuredImageUrl: String?,
+    val url: String,
+)

@@ -105,7 +105,7 @@ class SampleLaunchesProvider : PreviewParameterProvider<List<Launch>> {
                 abbrev = "GO",
                 description = "Launch Scheduled",
             ),
-            youtubeVideoId = "abcd1234",
+            watchLiveUrls = emptyList(),
             infoUrl = "https://spacex.com/starlink30",
             flightClubUrl = "https://flightclub.io/starlink30",
             updates = null,

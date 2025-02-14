@@ -73,7 +73,6 @@ fun LaunchCard(
     launchImageUrl: String?,
     onClick: () -> Unit,
 ) {
-
     val imageRequest = rememberImageRequest(launchImageUrl)
 
     OutlinedCard(
@@ -197,7 +196,6 @@ private fun rememberImageRequest(data: String?): ImageRequest {
             R.drawable.image_placeholder,
         )
     placeholderDrawable?.setTint(MaterialTheme.colorScheme.inverseOnSurface.toArgb())
-
 
     return remember(data) {
         ImageRequest.Builder(context)

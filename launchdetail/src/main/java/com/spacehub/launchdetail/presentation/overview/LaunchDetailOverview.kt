@@ -23,6 +23,7 @@ package com.spacehub.launchdetail.presentation.overview
 import InfoItems
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -34,6 +35,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -46,29 +48,37 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults.outlinedButtonBorder
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.lpirro.spacehub.core.ui.composables.CountdownTimer
 import com.lpirro.spacehub.core.ui.composables.InfoCard
 import com.lpirro.spacehub.core.ui.composables.InfoCardButton
 import com.lpirro.spacehub.core.ui.theme.SpacehubTheme
 import com.spacehub.launchdetail.R
-import com.spacehub.launchdetail.presentation.overview.LaunchDetailOverviewViewModel.*
+import com.spacehub.launchdetail.presentation.overview.LaunchDetailOverviewViewModel.LaunchDetailOverviewUiState
 import com.spacehub.launchdetail.presentation.overview.model.AgencyUi
 import com.spacehub.launchdetail.presentation.overview.model.LaunchOverviewUi
 import com.spacehub.launchdetail.presentation.overview.model.LaunchpadUi
+import com.spacehub.launchdetail.presentation.overview.model.WatchLiveUi
 
 @Composable
 internal fun LaunchDetailOverview(uiState: LaunchDetailOverviewUiState) {
-
     when {
         uiState.isLoading -> {
             CircularProgressIndicator(
@@ -110,7 +120,9 @@ private fun LaunchDetailOverviewContent(modifier: Modifier = Modifier, uiState: 
 
             Spacer(modifier = Modifier.height(spacing))
 
-            WatchLiveSection()
+            uiState.watchLiveSection?.let {
+                WatchLiveSection(it)
+            }
 
             Spacer(modifier = Modifier.height(spacing))
 
@@ -236,15 +248,40 @@ fun LaunchPadSection(launchpadSection: LaunchpadUi) {
 }
 
 @Composable
-fun WatchLiveSection() {
+fun WatchLiveSection(watchLiveUi: WatchLiveUi) {
     InfoCard(title = stringResource(R.string.launch_detail_watch_live), padding = 0.dp) {
-        Text(
-            text = "TO-DO: YouTube Component",
-            modifier = Modifier
-                .height(200.dp)
-                .fillMaxWidth()
-                .padding(16.dp),
-        )
+        Box {
+            AsyncImage(
+                model =
+                ImageRequest.Builder(LocalContext.current)
+                    .data(watchLiveUi.imageUrl)
+                    .crossfade(true)
+                    .build(),
+                modifier = Modifier
+                    .clip(RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp))
+                    .height(220.dp)
+                    .alpha(0.5f),
+                contentScale = ContentScale.Crop,
+                contentDescription = null,
+            )
+            IconButton(
+                onClick = { /* Open Video Action */ },
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .size(100.dp),
+
+            ) {
+                Icon(
+                    modifier = Modifier
+                        .size(64.dp)
+                        .shadow(elevation = 4.dp, shape = CircleShape)
+                        .background(MaterialTheme.colorScheme.surface, CircleShape),
+                    painter = painterResource(id = R.drawable.ic_play_circle),
+                    tint = MaterialTheme.colorScheme.primary,
+                    contentDescription = null,
+                )
+            }
+        }
     }
 }
 

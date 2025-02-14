@@ -25,7 +25,7 @@ import com.spacehub.common.models.domain.Launch
 import kotlinx.coroutines.flow.Flow
 
 class GetLaunchUseCaseImpl(
-    private val launchesRepository: LaunchesRepository
+    private val launchesRepository: LaunchesRepository,
 ) : GetLaunchUseCase {
     override fun invoke(id: String): Flow<Launch> = launchesRepository.getLaunch(id)
 }

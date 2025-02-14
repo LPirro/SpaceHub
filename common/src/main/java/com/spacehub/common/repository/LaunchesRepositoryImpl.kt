@@ -47,7 +47,6 @@ class LaunchesRepositoryImpl(
         emit(launches.map { launchMapper.mapToDomain(it) })
     }.flowOn(Dispatchers.IO)
 
-
     override fun getPastLaunches(forceRefresh: Boolean) = flow {
         val launches = if (!forceRefresh && cachePastLaunchesLaunches.value != null) {
             cachePastLaunchesLaunches.value!!
@@ -70,5 +69,4 @@ class LaunchesRepositoryImpl(
             emit(launchMapper.mapToDomain(launch))
         }
     }.flowOn(Dispatchers.IO)
-
 }

@@ -25,9 +25,10 @@ import com.spacehub.launchdetail.presentation.overview.model.AgencyUi
 import com.spacehub.launchdetail.presentation.overview.model.CountdownUi
 import com.spacehub.launchdetail.presentation.overview.model.LaunchOverviewUi
 import com.spacehub.launchdetail.presentation.overview.model.LaunchpadUi
+import com.spacehub.launchdetail.presentation.overview.model.WatchLiveUi
 
 internal class LaunchDetailOverviewUiMapperImpl(
-    private val googleMapsImageUrlMapper: GoogleMapsImageUrlMapper
+    private val googleMapsImageUrlMapper: GoogleMapsImageUrlMapper,
 ) : LaunchDetailOverviewUiMapper {
     override fun mapToUi(launch: Launch): LaunchOverviewUi = LaunchOverviewUi(
         countdownSection = CountdownUi(
@@ -45,7 +46,12 @@ internal class LaunchDetailOverviewUiMapperImpl(
                 googleMapsImageUrlMapper.map(it.latitude, it.longitude)
             },
         ),
-        watchLiveUrl = launch.youtubeVideoId,
+        watchLiveSection = launch.watchLiveUrls?.firstOrNull()?.let {
+            WatchLiveUi(
+                imageUrl = it.featuredImageUrl,
+                videoUrl = it.url,
+            )
+        },
         agencySection = AgencyUi(
             name = launch.launchServiceProvider.name,
             countryCode = launch.launchServiceProvider.countryCode,

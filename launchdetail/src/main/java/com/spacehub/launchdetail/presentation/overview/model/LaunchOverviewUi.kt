@@ -23,7 +23,7 @@ package com.spacehub.launchdetail.presentation.overview.model
 data class LaunchOverviewUi(
     val countdownSection: CountdownUi,
     val launchpadSection: LaunchpadUi,
-    val watchLiveUrl: String?,
+    val watchLiveSection: WatchLiveUi?,
     val agencySection: AgencyUi,
     val trajectoryUrl: String?,
 )
@@ -50,4 +50,9 @@ data class AgencyUi(
     val foundingYear: String,
     val totalLaunchCount: String,
     val logoUrl: String?,
+)
+
+data class WatchLiveUi(
+    val imageUrl: String?,
+    val videoUrl: String,
 )

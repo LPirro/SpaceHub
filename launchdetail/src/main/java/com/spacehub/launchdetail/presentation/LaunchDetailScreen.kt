@@ -42,7 +42,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.lpirro.spacehub.core.navigation.LaunchDetail
 import com.lpirro.spacehub.core.ui.composables.SpaceTopBar
 import com.lpirro.spacehub.core.ui.theme.SpacehubTheme
 import com.spacehub.launchdetail.R
@@ -62,7 +61,6 @@ fun LaunchDetailScreen(
         },
     ),
 ) {
-
     val uiState by viewModel.uiState.collectAsState()
 
     var selectedTabIndex by remember { mutableIntStateOf(0) }

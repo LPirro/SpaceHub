@@ -24,7 +24,7 @@ import com.spacehub.launchdetail.BuildConfig
 
 private const val GOOGLE_MAPS_URL = "https://maps.googleapis.com/maps/api/staticmap?"
 
-internal class GoogleMapsImageUrlMapperImpl() : GoogleMapsImageUrlMapper {
+internal class GoogleMapsImageUrlMapperImpl : GoogleMapsImageUrlMapper {
     override fun map(latitude: Double, longitude: Double): String {
         val zoom = 12
         val apiKey = BuildConfig.MAPS_API_KEY

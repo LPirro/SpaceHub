@@ -36,6 +36,7 @@ class LaunchMapperImpl(
     private val missionMapper: MissionMapper,
     private val updateMapper: UpdateMapper,
     private val rocketMapper: RocketMapper,
+    private val urlMapper: UrlMapper,
 ) : LaunchMapper {
     override fun mapToDomain(launchRemote: LaunchRemote) =
         Launch(
@@ -52,7 +53,7 @@ class LaunchMapperImpl(
             windowEnd = launchRemote.windowEnd,
             netMillis = launchRemote.net?.let { dateParser.parseDateInMillis(it) },
             status = statusMapper.mapToDomain(launchRemote.status),
-            youtubeVideoId = null,
+            watchLiveUrls = launchRemote.videoUrls.map { urlMapper.mapToDomain(it) },
             infoUrl = launchRemote.infoURLs?.firstOrNull()?.url,
             flightClubUrl = launchRemote.flightClubUrl,
             updates = launchRemote.updates?.map { updateMapper.mapToDomain(it) },

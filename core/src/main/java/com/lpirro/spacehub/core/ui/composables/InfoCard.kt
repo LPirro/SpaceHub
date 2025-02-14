@@ -74,13 +74,13 @@ fun InfoCard(
         }
 
         Text(
-            modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp),
+            modifier = Modifier.padding(16.dp).fillMaxWidth(),
             text = title,
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onSurface,
         )
 
-        Column(modifier = Modifier.padding(padding)) {
+        Column(modifier = Modifier.padding(start = padding, end = padding, bottom = padding)) {
             contentImageUrl?.let {
                 AsyncImage(
                     model =
