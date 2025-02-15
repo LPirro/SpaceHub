@@ -22,6 +22,7 @@ package com.spacehub.launchdetail.presentation.overview
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.lpirro.spacehub.core.util.flow.UiEvent
 import com.spacehub.launchdetail.domain.usecase.GetLaunchUseCase
 import com.spacehub.launchdetail.presentation.overview.mapper.LaunchDetailOverviewUiMapper
 import com.spacehub.launchdetail.presentation.overview.model.LaunchOverviewUi
@@ -29,6 +30,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
@@ -53,6 +55,9 @@ class LaunchDetailOverviewViewModel @AssistedInject constructor(
             initialValue = LaunchDetailOverviewUiState(isLoading = true),
         )
 
+    private val _events = UiEvent<LaunchDetailOverviewEvent>()
+    val events: Flow<LaunchDetailOverviewEvent> = _events
+
     private fun getLaunch(id: String) = viewModelScope.launch {
         getLaunchUseCase(id)
             .catch { _uiState.value = LaunchDetailOverviewUiState(error = true) }
@@ -65,11 +70,33 @@ class LaunchDetailOverviewViewModel @AssistedInject constructor(
             }
     }
 
+    fun openGoogleMaps(url: String) = viewModelScope.launch {
+        _events.emit(LaunchDetailOverviewEvent.OpenGoogleMaps(url))
+    }
+
+    fun openChromeCustomTab(url: String) = viewModelScope.launch {
+        _events.emit(LaunchDetailOverviewEvent.OpenChromeCustomTab(url))
+    }
+
+    fun addLaunchToCalendar(launchName: String, launchDateMillis: Long) = viewModelScope.launch {
+        _events.emit(LaunchDetailOverviewEvent.AddToCalendar(launchName, launchDateMillis))
+    }
+
     data class LaunchDetailOverviewUiState(
         val launchOverviewUi: LaunchOverviewUi? = null,
         val isLoading: Boolean = false,
         val error: Boolean = false,
     )
+
+    sealed class LaunchDetailOverviewEvent {
+        data class OpenLaunchTrajectory(val url: String) : LaunchDetailOverviewEvent()
+        data class OpenChromeCustomTab(val url: String) : LaunchDetailOverviewEvent()
+        data class OpenGoogleMaps(val url: String) : LaunchDetailOverviewEvent()
+        data class AddToCalendar(
+            val launchName: String,
+            val launchDateMillis: Long,
+        ) : LaunchDetailOverviewEvent()
+    }
 
     @AssistedFactory
     interface Factory {

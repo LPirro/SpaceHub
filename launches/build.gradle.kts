@@ -60,6 +60,8 @@ dependencies {
 
     // Testing
     testImplementation(libs.junit)
+    testImplementation(project(":common"))
+    testImplementation(project(":test-util"))
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.ui.test.junit4)

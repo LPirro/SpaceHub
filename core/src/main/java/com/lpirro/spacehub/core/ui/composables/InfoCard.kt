@@ -50,12 +50,16 @@ fun InfoCard(
     contentImageUrl: String? = null,
     content: @Composable () -> Unit,
 ) {
+    val cornerRadius = 12.dp
+    val shape = RoundedCornerShape(cornerRadius)
+
     Column(
         modifier = Modifier
+            .clip(shape)
             .fillMaxWidth()
             .background(
                 color = MaterialTheme.colorScheme.surface,
-                shape = RoundedCornerShape(12.dp),
+                shape = shape,
             ),
     ) {
         headerImageUrl?.let {
@@ -66,7 +70,7 @@ fun InfoCard(
                     .crossfade(true)
                     .build(),
                 modifier = Modifier
-                    .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp))
+                    .clip(RoundedCornerShape(topStart = cornerRadius, topEnd = cornerRadius))
                     .height(190.dp),
                 contentScale = ContentScale.Crop,
                 contentDescription = null,

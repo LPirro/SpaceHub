@@ -17,20 +17,28 @@
  *  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.spacehub.common.mapper
 
-import com.spacehub.common.models.domain.MissionPatch
-import com.spacehub.common.models.remote.MissionPatchesRemote
+package com.spacehub.testutil.mocks
 
-interface MissionPatchMapper {
-    fun mapToDomain(missionPatchesRemote: MissionPatchesRemote): MissionPatch
-}
+import com.spacehub.common.models.domain.Location
+import com.spacehub.common.models.domain.MapPosition
+import com.spacehub.common.models.domain.Pad
 
-class MissionPatchesMapperImpl : MissionPatchMapper {
-    override fun mapToDomain(missionPatchesRemote: MissionPatchesRemote) =
-        MissionPatch(
-            id = missionPatchesRemote.id,
-            name = missionPatchesRemote.name,
-            imageUrl = missionPatchesRemote.imageUrl,
-        )
+object MockPad {
+    fun create(
+        location: Location = MockLocation.create(),
+        mapPosition: MapPosition = MockMapPosition.create(),
+    ) = Pad(
+        id = 39,
+        url = "https://example.com/pads/39",
+        agencyId = 1,
+        name = "Launch Complex 39A",
+        infoUrl = "https://example.com/pad-info/39",
+        wikiUrl = "https://en.wikipedia.org/wiki/Launch_Complex_39A",
+        mapUrl = "https://maps.example.com/pad/39",
+        location = location,
+        totalLaunchCount = 130,
+        orbitalLaunchAttemptCount = 100,
+        mapPosition = mapPosition,
+    )
 }

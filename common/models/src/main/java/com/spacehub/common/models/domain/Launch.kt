@@ -24,7 +24,7 @@ data class Launch(
     val name: String,
     val image: String?,
     val launchServiceProvider: Agency,
-    val missionPatches: List<MissionPatches>?,
+    val missionPatches: List<MissionPatch>?,
     val mission: Mission?,
     val pad: Pad,
     val net: String,

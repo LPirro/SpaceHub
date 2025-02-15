@@ -20,6 +20,9 @@
 
 package com.spacehub.launchdetail.presentation
 
+import android.content.Intent
+import android.net.Uri
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -39,6 +42,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -62,6 +66,34 @@ fun LaunchDetailScreen(
     ),
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val context = LocalContext.current
+
+    LaunchedEffect(Unit) {
+        viewModel.events.collect {
+            when (it) {
+                is LaunchDetailOverviewViewModel.LaunchDetailOverviewEvent.OpenLaunchTrajectory -> {
+                    val builder = CustomTabsIntent.Builder().build()
+                    builder.launchUrl(context, Uri.parse(it.url))
+                }
+
+                is LaunchDetailOverviewViewModel.LaunchDetailOverviewEvent.OpenGoogleMaps -> {
+                    val gmmIntentUri = Uri.parse(it.url)
+                    val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                    mapIntent.setPackage("com.google.android.apps.maps")
+                    context.startActivity(mapIntent)
+                }
+
+                is LaunchDetailOverviewViewModel.LaunchDetailOverviewEvent.OpenChromeCustomTab -> {
+                    val builder = CustomTabsIntent.Builder().build()
+                    builder.launchUrl(context, Uri.parse(it.url))
+                }
+
+                is LaunchDetailOverviewViewModel.LaunchDetailOverviewEvent.AddToCalendar -> {
+                    // TODO: Add functionality
+                }
+            }
+        }
+    }
 
     var selectedTabIndex by remember { mutableIntStateOf(0) }
 
@@ -116,8 +148,17 @@ fun LaunchDetailScreen(
                     .weight(1f),
             ) { index ->
                 when (index) {
-                    0 -> LaunchDetailOverview(uiState)
+                    0 -> LaunchDetailOverview(
+                        uiState,
+                        onGoogleMapsClick = viewModel::openGoogleMaps,
+                        onWikipediaClick = viewModel::openChromeCustomTab,
+                        onInfoClick = viewModel::openChromeCustomTab,
+                        onLaunchTrajectoryClick = viewModel::openChromeCustomTab,
+                        onWatchLiveClick = viewModel::openChromeCustomTab,
+                    )
+
                     1 -> Text("Mission")
+
                     2 -> Text("Vehicle")
                 }
             }

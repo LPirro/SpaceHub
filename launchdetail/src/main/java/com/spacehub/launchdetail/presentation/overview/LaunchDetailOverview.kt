@@ -22,6 +22,7 @@ package com.spacehub.launchdetail.presentation.overview
 
 import InfoItems
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -78,7 +79,14 @@ import com.spacehub.launchdetail.presentation.overview.model.LaunchpadUi
 import com.spacehub.launchdetail.presentation.overview.model.WatchLiveUi
 
 @Composable
-internal fun LaunchDetailOverview(uiState: LaunchDetailOverviewUiState) {
+internal fun LaunchDetailOverview(
+    uiState: LaunchDetailOverviewUiState,
+    onGoogleMapsClick: (url: String) -> Unit,
+    onWikipediaClick: (url: String) -> Unit,
+    onInfoClick: (url: String) -> Unit,
+    onLaunchTrajectoryClick: (url: String) -> Unit,
+    onWatchLiveClick: (url: String) -> Unit,
+) {
     when {
         uiState.isLoading -> {
             CircularProgressIndicator(
@@ -89,17 +97,32 @@ internal fun LaunchDetailOverview(uiState: LaunchDetailOverviewUiState) {
         }
 
         uiState.error -> {
-            // Error State
+            // TODO: Add error state composable
         }
 
         else -> {
-            LaunchDetailOverviewContent(uiState = uiState.launchOverviewUi!!)
+            LaunchDetailOverviewContent(
+                uiState = uiState.launchOverviewUi!!,
+                onGoogleMapsClick = onGoogleMapsClick,
+                onWikipediaClick = onWikipediaClick,
+                onInfoClick = onInfoClick,
+                onLaunchTrajectoryClick = onLaunchTrajectoryClick,
+                onWatchLiveClick = onWatchLiveClick,
+            )
         }
     }
 }
 
 @Composable
-private fun LaunchDetailOverviewContent(modifier: Modifier = Modifier, uiState: LaunchOverviewUi) {
+private fun LaunchDetailOverviewContent(
+    modifier: Modifier = Modifier,
+    uiState: LaunchOverviewUi,
+    onGoogleMapsClick: (url: String) -> Unit,
+    onWikipediaClick: (url: String) -> Unit,
+    onInfoClick: (url: String) -> Unit,
+    onLaunchTrajectoryClick: (url: String) -> Unit,
+    onWatchLiveClick: (url: String) -> Unit,
+) {
     Column(
         Modifier
             .verticalScroll(rememberScrollState())
@@ -116,12 +139,20 @@ private fun LaunchDetailOverviewContent(modifier: Modifier = Modifier, uiState: 
         Column(Modifier.padding(16.dp)) {
             val spacing = 16.dp
 
-            LaunchPadSection(launchpadSection = uiState.launchpadSection)
+            LaunchPadSection(
+                launchpadSection = uiState.launchpadSection,
+                onGoogleMapsClick = onGoogleMapsClick,
+                onWikipediaClick = onWikipediaClick,
+                onInfoClick = onInfoClick,
+            )
 
             Spacer(modifier = Modifier.height(spacing))
 
             uiState.watchLiveSection?.let {
-                WatchLiveSection(it)
+                WatchLiveSection(
+                    watchLiveUi = it,
+                    onWatchLiveClick = onWatchLiveClick,
+                )
             }
 
             Spacer(modifier = Modifier.height(spacing))
@@ -130,7 +161,12 @@ private fun LaunchDetailOverviewContent(modifier: Modifier = Modifier, uiState: 
 
             Spacer(modifier = Modifier.height(spacing))
 
-            InfoCardButton(text = stringResource(R.string.launch_detail_trajectory))
+            uiState.trajectoryUrl?.let {
+                InfoCardButton(
+                    text = stringResource(R.string.launch_detail_trajectory),
+                    onClick = { onLaunchTrajectoryClick.invoke(it) },
+                )
+            }
         }
     }
 }
@@ -185,7 +221,12 @@ private fun CountdownSection(
 }
 
 @Composable
-fun LaunchPadSection(launchpadSection: LaunchpadUi) {
+fun LaunchPadSection(
+    launchpadSection: LaunchpadUi,
+    onGoogleMapsClick: (url: String) -> Unit,
+    onWikipediaClick: (url: String) -> Unit,
+    onInfoClick: (url: String) -> Unit,
+) {
     InfoCard(
         title = stringResource(R.string.launch_detail_launchpad),
         headerImageUrl = launchpadSection.mapImageHeaderUrl,
@@ -214,7 +255,7 @@ fun LaunchPadSection(launchpadSection: LaunchpadUi) {
                             modifier = Modifier.size(AssistChipDefaults.IconSize),
                         )
                     },
-                    onClick = { /* Open Map Action */ },
+                    onClick = { onGoogleMapsClick.invoke(launchpadSection.mapUrl) },
                 )
             }
             launchpadSection.infoUrl?.let {
@@ -227,7 +268,7 @@ fun LaunchPadSection(launchpadSection: LaunchpadUi) {
                             modifier = Modifier.size(AssistChipDefaults.IconSize),
                         )
                     },
-                    onClick = { /* Open Map Action */ },
+                    onClick = { onInfoClick.invoke(launchpadSection.infoUrl) },
                 )
             }
             launchpadSection.wikiUrl?.let {
@@ -240,7 +281,7 @@ fun LaunchPadSection(launchpadSection: LaunchpadUi) {
                             modifier = Modifier.size(AssistChipDefaults.IconSize),
                         )
                     },
-                    onClick = { /* Open Map Action */ },
+                    onClick = { onWikipediaClick.invoke(launchpadSection.wikiUrl) },
                 )
             }
         }
@@ -248,7 +289,10 @@ fun LaunchPadSection(launchpadSection: LaunchpadUi) {
 }
 
 @Composable
-fun WatchLiveSection(watchLiveUi: WatchLiveUi) {
+fun WatchLiveSection(
+    watchLiveUi: WatchLiveUi,
+    onWatchLiveClick: (url: String) -> Unit,
+) {
     InfoCard(title = stringResource(R.string.launch_detail_watch_live), padding = 0.dp) {
         Box {
             AsyncImage(
@@ -259,13 +303,14 @@ fun WatchLiveSection(watchLiveUi: WatchLiveUi) {
                     .build(),
                 modifier = Modifier
                     .clip(RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp))
+                    .clickable { onWatchLiveClick.invoke(watchLiveUi.videoUrl) }
                     .height(220.dp)
                     .alpha(0.5f),
                 contentScale = ContentScale.Crop,
                 contentDescription = null,
             )
             IconButton(
-                onClick = { /* Open Video Action */ },
+                onClick = { onWatchLiveClick.invoke(watchLiveUi.videoUrl) },
                 modifier = Modifier
                     .align(Alignment.Center)
                     .size(100.dp),
@@ -335,6 +380,11 @@ private fun LaunchDetailOverviewPreview() {
                 isLoading = false,
                 error = false,
             ),
+            onGoogleMapsClick = {},
+            onWikipediaClick = {},
+            onInfoClick = {},
+            onLaunchTrajectoryClick = {},
+            onWatchLiveClick = {},
         )
     }
 }

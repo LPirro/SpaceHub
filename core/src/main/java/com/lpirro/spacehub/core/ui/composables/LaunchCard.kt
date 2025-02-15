@@ -75,10 +75,13 @@ fun LaunchCard(
 ) {
     val imageRequest = rememberImageRequest(launchImageUrl)
 
+    val cornerSize = 12.dp
+    val shape = RoundedCornerShape(cornerSize)
+
     OutlinedCard(
-        modifier =
-        modifier
+        modifier = modifier
             .fillMaxWidth()
+            .clip(shape)
             .clickable { onClick.invoke() },
     ) {
         ConstraintLayout(Modifier.fillMaxWidth()) {
@@ -102,7 +105,7 @@ fun LaunchCard(
                         height = Dimension.fillToConstraints
                         width = Dimension.value(100.dp)
                     }
-                    .clip(RoundedCornerShape(12.dp)),
+                    .clip(shape),
                 contentScale = ContentScale.Crop,
                 contentDescription = null,
             )

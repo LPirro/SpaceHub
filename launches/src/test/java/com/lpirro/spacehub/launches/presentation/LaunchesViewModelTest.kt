@@ -21,7 +21,9 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.cash.turbine.test
 import com.lpirro.spacehub.launches.domain.usecase.GetPastLaunchesUseCase
 import com.lpirro.spacehub.launches.domain.usecase.GetUpcomingLaunchesUseCase
-import com.lpirro.spacehub.launches.util.MockedLaunches
+import com.lpirro.spacehub.launches.mocks.MockLaunchUi
+import com.lpirro.spacehub.launches.presentation.mapper.LaunchUiMapper
+import com.spacehub.testutil.mocks.MockLaunch
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
@@ -36,6 +38,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
+import org.mockito.kotlin.any
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
 
@@ -46,6 +49,8 @@ class LaunchesViewModelTest {
 
     private val getUpcomingLaunchesUseCase: GetUpcomingLaunchesUseCase = mock()
     private val getPastLaunchesUseCase: GetPastLaunchesUseCase = mock()
+    private val launchUiMapper: LaunchUiMapper = mock()
+
     private lateinit var launchesViewModel: LaunchesViewModel
 
     private val testDispatcher = StandardTestDispatcher()
@@ -63,16 +68,15 @@ class LaunchesViewModelTest {
     @Test
     fun `getUpcomingLaunches emits Success when use case returns data`() =
         runTest {
-            val launches =
-                listOf(
-                    MockedLaunches.fakeLaunch,
-                )
+            val launches = listOf(MockLaunch.create())
             whenever(getUpcomingLaunchesUseCase()).thenReturn(flowOf(launches))
+            whenever(launchUiMapper.mapToUi(any())).thenReturn(MockLaunchUi.create())
 
             launchesViewModel =
                 LaunchesViewModel(
                     getUpcomingLaunchesUseCase,
                     getPastLaunchesUseCase,
+                    launchUiMapper,
                 )
 
             launchesViewModel.uiStateUpcomingLaunches.test {
@@ -82,7 +86,7 @@ class LaunchesViewModelTest {
                 )
 
                 Assert.assertEquals(
-                    LaunchesUiState.Success(launches),
+                    LaunchesUiState.Success(listOf(MockLaunchUi.create())),
                     awaitItem(),
                 )
 
@@ -101,6 +105,7 @@ class LaunchesViewModelTest {
                 LaunchesViewModel(
                     getUpcomingLaunchesUseCase,
                     getPastLaunchesUseCase,
+                    launchUiMapper,
                 )
 
             launchesViewModel.uiStateUpcomingLaunches.test {
@@ -121,16 +126,15 @@ class LaunchesViewModelTest {
     @Test
     fun `getPastLaunches emits Success when use case returns data`() =
         runTest {
-            val launches =
-                listOf(
-                    MockedLaunches.fakeLaunch,
-                )
+            val launches = listOf(MockLaunch.create())
             whenever(getPastLaunchesUseCase()).thenReturn(flowOf(launches))
+            whenever(launchUiMapper.mapToUi(any())).thenReturn(MockLaunchUi.create())
 
             launchesViewModel =
                 LaunchesViewModel(
                     getUpcomingLaunchesUseCase,
                     getPastLaunchesUseCase,
+                    launchUiMapper,
                 )
 
             launchesViewModel.uiStatePastLaunches.test {
@@ -140,7 +144,7 @@ class LaunchesViewModelTest {
                 )
 
                 Assert.assertEquals(
-                    LaunchesUiState.Success(launches),
+                    LaunchesUiState.Success(listOf(MockLaunchUi.create())),
                     awaitItem(),
                 )
 
@@ -159,6 +163,7 @@ class LaunchesViewModelTest {
                 LaunchesViewModel(
                     getUpcomingLaunchesUseCase,
                     getPastLaunchesUseCase,
+                    launchUiMapper,
                 )
 
             launchesViewModel.uiStatePastLaunches.test {
@@ -181,7 +186,7 @@ class LaunchesViewModelTest {
         runTest {
             val launches =
                 listOf(
-                    MockedLaunches.fakeLaunch,
+                    MockLaunch.create(),
                 )
             whenever(getUpcomingLaunchesUseCase()).thenReturn(flowOf(launches))
 
@@ -189,6 +194,7 @@ class LaunchesViewModelTest {
                 LaunchesViewModel(
                     getUpcomingLaunchesUseCase,
                     getPastLaunchesUseCase,
+                    launchUiMapper,
                 )
 
             launchesViewModel.isRefreshLoading.test {

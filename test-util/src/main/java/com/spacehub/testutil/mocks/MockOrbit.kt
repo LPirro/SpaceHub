@@ -17,10 +17,15 @@
  *  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.spacehub.common.models.domain
 
-data class MissionPatches(
-    val id: Int,
-    val name: String,
-    val imageUrl: String,
-)
+package com.spacehub.testutil.mocks
+
+import com.spacehub.common.models.domain.Orbit
+
+object MockOrbit {
+    fun create() = Orbit(
+        id = 123,
+        name = "Low Earth Orbit",
+        abbrev = "LEO",
+    )
+}
