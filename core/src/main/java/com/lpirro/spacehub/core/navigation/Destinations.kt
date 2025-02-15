@@ -27,3 +27,6 @@ object News
 
 @Serializable
 object Saved
+
+@Serializable
+data class LaunchDetail(val launchId: String, val title: String)

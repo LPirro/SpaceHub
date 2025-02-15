@@ -32,8 +32,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.lpirro.spacehub.core.model.Status
 import com.lpirro.spacehub.core.ui.theme.SpacehubTheme
+import com.spacehub.common.models.domain.Status
 
 @Composable
 fun LaunchStatus(

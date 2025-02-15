@@ -55,18 +55,18 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.lpirro.spacehub.core.R
-import com.lpirro.spacehub.core.model.TabItem
 import com.lpirro.spacehub.core.ui.composables.ErrorScreen
 import com.lpirro.spacehub.core.ui.composables.LaunchCard
 import com.lpirro.spacehub.core.ui.composables.SpaceTopBar
 import com.lpirro.spacehub.core.ui.theme.SpacehubTheme
-import com.lpirro.spacehub.launches.domain.model.Launch
+import com.lpirro.spacehub.launches.presentation.model.LaunchUi
+import com.lpirro.spacehub.launches.presentation.model.TabItem
 import com.lpirro.spacehub.launches.R as R2
 
 @Composable
 fun LaunchesScreen(
     viewModel: LaunchesViewModel = hiltViewModel(),
-    onLaunchClicked: () -> Unit,
+    onLaunchClicked: (id: String, name: String) -> Unit,
 ) {
     val uiStateUpcomingLaunches = viewModel.uiStateUpcomingLaunches.collectAsState()
     val uiStatePastLaunches = viewModel.uiStatePastLaunches.collectAsState()
@@ -171,7 +171,7 @@ fun LaunchesScreen(
 @Composable
 fun LaunchContent(
     state: LaunchesUiState,
-    onLaunchClicked: () -> Unit,
+    onLaunchClicked: (id: String, name: String) -> Unit,
     onTryAgainClicked: () -> Unit,
     onRefresh: () -> Unit,
     isRefreshing: Boolean,
@@ -202,8 +202,8 @@ fun LaunchContent(
 
 @Composable
 fun LaunchList(
-    launches: List<Launch>,
-    onLaunchClicked: () -> Unit,
+    launches: List<LaunchUi>,
+    onLaunchClicked: (id: String, name: String) -> Unit,
     isRefreshing: Boolean,
     onRefresh: () -> Unit,
 ) {
@@ -217,14 +217,14 @@ fun LaunchList(
         ) {
             items(launches) { launch ->
                 LaunchCard(
-                    title = launch.name,
-                    agency = launch.launchServiceProvider.name,
-                    location = launch.pad.location.name,
-                    dateTime = launch.netDisplay ?: "",
-                    netMillis = launch.netMillis ?: 0,
+                    title = launch.title,
+                    agency = launch.agency,
+                    location = launch.location,
+                    dateTime = launch.dateTime,
+                    netMillis = launch.netMillis,
                     status = launch.status,
-                    launchImageUrl = launch.image,
-                    onClick = onLaunchClicked,
+                    launchImageUrl = launch.launchImageUrl,
+                    onClick = { onLaunchClicked.invoke(launch.id, launch.title) },
                 )
             }
         }
@@ -234,12 +234,12 @@ fun LaunchList(
 @Preview(showBackground = true)
 @Composable
 fun LaunchesContentPreview(
-    @PreviewParameter(SampleLaunchesProvider::class) launches: List<Launch>,
+    @PreviewParameter(SampleLaunchesProvider::class) launches: List<LaunchUi>,
 ) {
     SpacehubTheme {
         LaunchList(
             launches = launches,
-            onLaunchClicked = {},
+            onLaunchClicked = { _, _ -> Unit },
             onRefresh = {},
             isRefreshing = false,
         )

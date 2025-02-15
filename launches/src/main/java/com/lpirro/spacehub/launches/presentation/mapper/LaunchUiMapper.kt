@@ -1,0 +1,42 @@
+/*
+ *
+ *  * SpaceHub - Designed and Developed by LPirro (Leonardo Pirro)
+ *  * Copyright (C) 2023 Leonardo Pirro
+ *  *
+ *  * This program is free software: you can redistribute it and/or modify
+ *  * it under the terms of the GNU General Public License as published by
+ *  * the Free Software Foundation, either version 3 of the License, or
+ *  * (at your option) any later version.
+ *  *
+ *  * This program is distributed in the hope that it will be useful,
+ *  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  * GNU General Public License for more details.
+ *  *
+ *  * You should have received a copy of the GNU General Public License
+ *  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+package com.lpirro.spacehub.launches.presentation.mapper
+
+import com.lpirro.spacehub.core.util.DateParser
+import com.lpirro.spacehub.launches.presentation.model.LaunchUi
+import com.spacehub.common.models.domain.Launch
+
+class LaunchUiMapperImpl(private val dateParser: DateParser) : LaunchUiMapper {
+    override fun mapToUi(launch: Launch) = LaunchUi(
+        id = launch.id,
+        title = launch.name,
+        agency = launch.launchServiceProvider.name,
+        location = launch.pad.location.name,
+        dateTime = dateParser.parseFullDate(launch.net),
+        netMillis = launch.netMillis ?: 0,
+        status = launch.status,
+        launchImageUrl = launch.image,
+    )
+}
+
+interface LaunchUiMapper {
+    fun mapToUi(launch: Launch): LaunchUi
+}

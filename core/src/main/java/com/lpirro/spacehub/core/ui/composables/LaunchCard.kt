@@ -49,6 +49,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -56,8 +57,8 @@ import androidx.constraintlayout.compose.Dimension
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.lpirro.spacehub.core.R
-import com.lpirro.spacehub.core.model.Status
 import com.lpirro.spacehub.core.ui.theme.SpacehubTheme
+import com.spacehub.common.models.domain.Status
 import java.util.concurrent.TimeUnit
 
 @Composable
@@ -72,10 +73,15 @@ fun LaunchCard(
     launchImageUrl: String?,
     onClick: () -> Unit,
 ) {
+    val imageRequest = rememberImageRequest(launchImageUrl)
+
+    val cornerSize = 12.dp
+    val shape = RoundedCornerShape(cornerSize)
+
     OutlinedCard(
-        modifier =
-        modifier
+        modifier = modifier
             .fillMaxWidth()
+            .clip(shape)
             .clickable { onClick.invoke() },
     ) {
         ConstraintLayout(Modifier.fillMaxWidth()) {
@@ -89,13 +95,7 @@ fun LaunchCard(
             placeholderDrawable?.setTint(MaterialTheme.colorScheme.inverseOnSurface.toArgb())
 
             AsyncImage(
-                model =
-                ImageRequest.Builder(LocalContext.current)
-                    .data(launchImageUrl)
-                    .crossfade(true)
-                    .error(placeholderDrawable)
-                    .placeholder(placeholderDrawable)
-                    .build(),
+                model = imageRequest,
                 modifier =
                 Modifier
                     .constrainAs(image) {
@@ -105,15 +105,16 @@ fun LaunchCard(
                         height = Dimension.fillToConstraints
                         width = Dimension.value(100.dp)
                     }
-                    .clip(RoundedCornerShape(12.dp)),
+                    .clip(shape),
                 contentScale = ContentScale.Crop,
                 contentDescription = null,
             )
 
             Text(
-                maxLines = 2,
+                maxLines = 3,
                 text = title,
                 style = MaterialTheme.typography.titleLarge,
+                overflow = TextOverflow.Ellipsis,
                 modifier =
                 Modifier
                     .constrainAs(launchTitle) {
@@ -189,6 +190,27 @@ fun LaunchCard(
 }
 
 @Composable
+private fun rememberImageRequest(data: String?): ImageRequest {
+    val context = LocalContext.current
+
+    val placeholderDrawable =
+        AppCompatResources.getDrawable(
+            LocalContext.current,
+            R.drawable.image_placeholder,
+        )
+    placeholderDrawable?.setTint(MaterialTheme.colorScheme.inverseOnSurface.toArgb())
+
+    return remember(data) {
+        ImageRequest.Builder(context)
+            .data(data)
+            .crossfade(true)
+            .error(placeholderDrawable)
+            .placeholder(placeholderDrawable)
+            .build()
+    }
+}
+
+@Composable
 private fun LaunchInfoItem(
     modifier: Modifier = Modifier,
     text: String,
@@ -203,8 +225,14 @@ private fun LaunchInfoItem(
             contentDescription = null,
             tint = componentsColor,
         )
-        Spacer(modifier = Modifier.padding(start = 4.dp))
-        Text(text = text, style = MaterialTheme.typography.labelLarge, color = componentsColor)
+        Spacer(modifier = Modifier.padding(start = 6.dp))
+        Text(
+            text = text,
+            style = MaterialTheme.typography.labelSmall,
+            color = componentsColor,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+        )
     }
 }
 
@@ -223,15 +251,12 @@ fun LaunchCountdown(
     var isInThePast by remember { mutableStateOf(false) }
 
     LaunchedEffect(targetMillis) {
-        // Get the time difference
         val currentMillis = System.currentTimeMillis()
         val remainingMillis = targetMillis - currentMillis
 
         object : CountDownTimer(remainingMillis, 1000L) {
             override fun onTick(millisUntilFinished: Long) {
-                // Calculate the time difference
                 val timeDifference = targetMillis - System.currentTimeMillis()
-
                 days = TimeUnit.MILLISECONDS.toDays(timeDifference)
                 hours = TimeUnit.MILLISECONDS.toHours(timeDifference) % 24
                 minutes = TimeUnit.MILLISECONDS.toMinutes(timeDifference) % 60
@@ -308,7 +333,7 @@ private fun LaunchCardLongTitlePreview() {
             agency = "SpaceX",
             location = "San Giovanni Rotondo, Puglia (FG), 71013, Italy",
             dateTime = "24 Lug ‘23 • 19:00",
-            netMillis = System.currentTimeMillis() + 100000L,
+            netMillis = System.currentTimeMillis() + TimeUnit.HOURS.toMillis(4),
             status = Status.Go(name = "Go", abbrev = "GO", description = "description"),
             launchImageUrl = "",
             onClick = {},

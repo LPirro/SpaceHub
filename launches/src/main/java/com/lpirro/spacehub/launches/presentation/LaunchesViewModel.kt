@@ -19,9 +19,10 @@ package com.lpirro.spacehub.launches.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.lpirro.spacehub.launches.domain.model.Launch
 import com.lpirro.spacehub.launches.domain.usecase.GetPastLaunchesUseCase
 import com.lpirro.spacehub.launches.domain.usecase.GetUpcomingLaunchesUseCase
+import com.lpirro.spacehub.launches.presentation.mapper.LaunchUiMapper
+import com.lpirro.spacehub.launches.presentation.model.LaunchUi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -34,11 +35,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LaunchesViewModel
-@Inject
-constructor(
+class LaunchesViewModel @Inject constructor(
     private val getUpcomingLaunchesUseCase: GetUpcomingLaunchesUseCase,
     private val getPastLaunchesUseCase: GetPastLaunchesUseCase,
+    private val launchUiMapper: LaunchUiMapper,
 ) : ViewModel() {
     private val _uiStateUpcomingLaunches =
         MutableStateFlow<LaunchesUiState>(LaunchesUiState.Loading(true))
@@ -68,32 +68,38 @@ constructor(
     fun getUpcomingLaunches(isRefresh: Boolean = false) =
         viewModelScope.launch {
             _isRefreshLoading.value = isRefresh
-            getUpcomingLaunchesUseCase()
+            getUpcomingLaunchesUseCase(forceRefresh = isRefresh)
                 .onStart {
                     if (!isRefresh) _uiStateUpcomingLaunches.value = LaunchesUiState.Loading(true)
                 }
                 .catch { _uiStateUpcomingLaunches.value = LaunchesUiState.Error }
                 .onCompletion { _isRefreshLoading.value = false }
-                .collect { _uiStateUpcomingLaunches.value = LaunchesUiState.Success(it) }
+                .collect {
+                    val result = it.map { launch -> launchUiMapper.mapToUi(launch) }
+                    _uiStateUpcomingLaunches.value = LaunchesUiState.Success(result)
+                }
         }
 
     fun getPastLaunches(isRefresh: Boolean = false) =
         viewModelScope.launch {
             _isRefreshLoading.value = isRefresh
-            getPastLaunchesUseCase()
+            getPastLaunchesUseCase(forceRefresh = isRefresh)
                 .onStart {
                     if (!isRefresh) _uiStatePastLaunches.value = LaunchesUiState.Loading(false)
                 }
                 .catch { _uiStatePastLaunches.value = LaunchesUiState.Error }
                 .onCompletion { _isRefreshLoading.value = false }
-                .collect { _uiStatePastLaunches.value = LaunchesUiState.Success(it) }
+                .collect {
+                    val result = it.map { launch -> launchUiMapper.mapToUi(launch) }
+                    _uiStatePastLaunches.value = LaunchesUiState.Success(result)
+                }
         }
 }
 
 sealed class LaunchesUiState {
     data class Loading(val isLoading: Boolean) : LaunchesUiState()
 
-    data class Success(val launches: List<Launch>) : LaunchesUiState()
+    data class Success(val launches: List<LaunchUi>) : LaunchesUiState()
 
     data object Error : LaunchesUiState()
 }

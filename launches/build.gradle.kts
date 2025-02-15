@@ -43,6 +43,8 @@ android {
 dependencies {
 
     implementation(project(":core"))
+    implementation(project(":common"))
+    implementation(project(":common:models"))
 
     // Compose
     implementation(libs.androidx.activity.compose)
@@ -58,6 +60,8 @@ dependencies {
 
     // Testing
     testImplementation(libs.junit)
+    testImplementation(project(":common"))
+    testImplementation(project(":test-util"))
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.ui.test.junit4)
@@ -67,12 +71,6 @@ dependencies {
     testImplementation(libs.turbine)
     testImplementation(libs.mockito.kotlin)
     testImplementation(libs.androidx.arch.core.testing)
-
-    // Retrofit & Networking
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.converter.gson)
-    implementation(libs.okhttp)
-    implementation(libs.okhttp.interceptor)
 
     // Hilt
     implementation(libs.hilt.navigation.compose)
