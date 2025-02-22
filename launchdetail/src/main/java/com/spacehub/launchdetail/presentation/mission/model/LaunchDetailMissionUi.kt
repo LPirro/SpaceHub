@@ -17,24 +17,39 @@
  *  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.spacehub.common.models.domain
 
-data class Launch(
-    val id: String,
+package com.spacehub.launchdetail.presentation.mission.model
+
+import com.spacehub.common.models.domain.Status
+import com.spacehub.common.models.domain.Update
+
+data class LaunchDetailMissionUi(
+    val missionHeaderSection: MissionHeaderUi,
+    val descriptionSection: DescriptionSection,
+    val launchInfoSection: LaunchInfoSection,
+    val updatesSection: UpdatesSection?
+)
+
+data class MissionHeaderUi(
     val name: String,
-    val image: String?,
-    val launchServiceProvider: Agency,
-    val missionPatches: List<MissionPatch>?,
-    val mission: Mission?,
-    val pad: Pad,
-    val net: String,
-    val windowEnd: String?,
-    val windowStart: String?,
-    val netMillis: Long?,
+    val orbit: String,
+    val type: String,
+    val agencyName: String,
+    val missionPatchImageUrl: String?,
+)
+
+data class DescriptionSection(
+    val description: String,
+    val moreInfoUrl: String?
+)
+
+data class LaunchInfoSection(
     val status: Status,
-    val watchLiveUrls: List<Url>?,
-    val infoUrl: String?,
-    val flightClubUrl: String?,
-    val updates: List<Update>?,
-    val rocket: Rocket,
+    val net: String,
+    val windowStart: String,
+    val windowEnd: String,
+)
+
+data class UpdatesSection(
+    val updates: List<Update>
 )
