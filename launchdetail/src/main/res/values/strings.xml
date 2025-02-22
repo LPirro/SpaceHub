@@ -40,4 +40,9 @@
     <string name="launch_detail_maps">Maps</string>
     <string name="launch_detail_info">Info</string>
     <string name="launch_detail_wikipedia">Wikipedia</string>
+    <string name="description">Description</string>
+    <string name="launch_detail_mission_header_orbit">Orbit: %1s</string>
+    <string name="launch_detail_mission_header_type">Type: %1s</string>
+    <string name="launch_detail_mission_header_agency">Agency: %1s</string>
+    <string name="more_info">More info</string>
 </resources>

@@ -27,7 +27,7 @@ data class LaunchDetailMissionUi(
     val missionHeaderSection: MissionHeaderUi,
     val descriptionSection: DescriptionSection,
     val launchInfoSection: LaunchInfoSection,
-    val updatesSection: UpdatesSection?
+    val updatesSection: UpdatesSection?,
 )
 
 data class MissionHeaderUi(
@@ -40,7 +40,7 @@ data class MissionHeaderUi(
 
 data class DescriptionSection(
     val description: String,
-    val moreInfoUrl: String?
+    val moreInfoUrl: String?,
 )
 
 data class LaunchInfoSection(
@@ -51,5 +51,5 @@ data class LaunchInfoSection(
 )
 
 data class UpdatesSection(
-    val updates: List<Update>
+    val updates: List<Update>,
 )

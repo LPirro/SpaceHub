@@ -44,6 +44,7 @@ import com.lpirro.spacehub.core.util.RemovePaddingTransformation
 
 @Composable
 fun InfoCard(
+    modifier: Modifier = Modifier,
     title: String,
     padding: Dp = 16.dp,
     headerImageUrl: String? = null,
@@ -54,7 +55,7 @@ fun InfoCard(
     val shape = RoundedCornerShape(cornerRadius)
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .clip(shape)
             .fillMaxWidth()
             .background(
@@ -78,7 +79,9 @@ fun InfoCard(
         }
 
         Text(
-            modifier = Modifier.padding(16.dp).fillMaxWidth(),
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
             text = title,
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onSurface,
@@ -109,7 +112,7 @@ fun InfoCard(
 @Composable
 private fun InfoCardPreview() {
     SpacehubTheme {
-        InfoCard("Title") {
+        InfoCard(title = "Title", modifier = Modifier) {
             Text(text = "Description")
         }
     }
@@ -124,7 +127,7 @@ private fun InfoCardInfoItemsPreview() {
         "Total Launches" to "162",
     )
     SpacehubTheme {
-        InfoCard("Title") {
+        InfoCard(title = "Title") {
             InfoItems(details = items)
         }
     }

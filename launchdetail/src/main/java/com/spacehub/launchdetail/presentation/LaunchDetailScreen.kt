@@ -49,9 +49,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.lpirro.spacehub.core.ui.composables.SpaceTopBar
 import com.lpirro.spacehub.core.ui.theme.SpacehubTheme
 import com.spacehub.launchdetail.R
+import com.spacehub.launchdetail.presentation.mission.LaunchDetailMission
+import com.spacehub.launchdetail.presentation.mission.LaunchDetailMissionViewModel
 import com.spacehub.launchdetail.presentation.overview.LaunchDetailOverview
 import com.spacehub.launchdetail.presentation.overview.LaunchDetailOverviewViewModel
-import com.spacehub.launchdetail.presentation.overview.LaunchDetailOverviewViewModel.Factory
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -59,17 +60,24 @@ fun LaunchDetailScreen(
     launchId: String,
     title: String,
     onBackPressed: (() -> Unit)? = null,
-    viewModel: LaunchDetailOverviewViewModel = hiltViewModel(
-        creationCallback = { factory: Factory ->
+    overviewViewModel: LaunchDetailOverviewViewModel = hiltViewModel(
+        creationCallback = { factory: LaunchDetailOverviewViewModel.Factory ->
+            factory.create(launchId = launchId)
+        },
+    ),
+    missionViewModel: LaunchDetailMissionViewModel = hiltViewModel(
+        creationCallback = { factory: LaunchDetailMissionViewModel.Factory ->
             factory.create(launchId = launchId)
         },
     ),
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val launchOverviewUiState by overviewViewModel.uiState.collectAsState()
+    val launchMissionUiState by missionViewModel.uiState.collectAsState()
+
     val context = LocalContext.current
 
     LaunchedEffect(Unit) {
-        viewModel.events.collect {
+        overviewViewModel.events.collect {
             when (it) {
                 is LaunchDetailOverviewViewModel.LaunchDetailOverviewEvent.OpenLaunchTrajectory -> {
                     val builder = CustomTabsIntent.Builder().build()
@@ -149,15 +157,18 @@ fun LaunchDetailScreen(
             ) { index ->
                 when (index) {
                     0 -> LaunchDetailOverview(
-                        uiState,
-                        onGoogleMapsClick = viewModel::openGoogleMaps,
-                        onWikipediaClick = viewModel::openChromeCustomTab,
-                        onInfoClick = viewModel::openChromeCustomTab,
-                        onLaunchTrajectoryClick = viewModel::openChromeCustomTab,
-                        onWatchLiveClick = viewModel::openChromeCustomTab,
+                        uiState = launchOverviewUiState,
+                        onGoogleMapsClick = overviewViewModel::openGoogleMaps,
+                        onWikipediaClick = overviewViewModel::openChromeCustomTab,
+                        onInfoClick = overviewViewModel::openChromeCustomTab,
+                        onLaunchTrajectoryClick = overviewViewModel::openChromeCustomTab,
+                        onWatchLiveClick = overviewViewModel::openChromeCustomTab,
                     )
 
-                    1 -> Text("Mission")
+                    1 -> LaunchDetailMission(
+                        uiState = launchMissionUiState,
+                        onMoreInfoClicked = missionViewModel::onMoreInfoClicked,
+                    )
 
                     2 -> Text("Vehicle")
                 }
