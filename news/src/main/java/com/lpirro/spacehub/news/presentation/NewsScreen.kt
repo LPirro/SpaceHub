@@ -295,35 +295,33 @@ fun SpaceSearchTopBar(
     onCloseClicked: () -> Unit,
     onSearchClicked: (String) -> Unit,
     onSearchTriggered: () -> Unit,
-) {
-    when (searchWidgetState) {
-        SearchWidgetState.CLOSED -> {
-            SpaceTopBar(
-                text = stringResource(R.string.news_topbar_title),
-                actions = {
-                    IconButton(
-                        onClick = onSearchTriggered,
-                    ) {
-                        Icon(
-                            imageVector = Icons.Filled.Search,
-                            contentDescription = stringResource(R.string.search_icon),
-                            tint = MaterialTheme.colorScheme.onSurface,
-                        )
-                    }
-                },
-            )
-        }
+) = when (searchWidgetState) {
+    SearchWidgetState.CLOSED -> {
+        SpaceTopBar(
+            text = stringResource(R.string.news_topbar_title),
+            actions = {
+                IconButton(
+                    onClick = onSearchTriggered,
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Search,
+                        contentDescription = stringResource(R.string.search_icon),
+                        tint = MaterialTheme.colorScheme.onSurface,
+                    )
+                }
+            },
+        )
+    }
 
-        SearchWidgetState.OPENED -> {
-            SearchAppBar(
-                modifier = Modifier.statusBarsPadding(),
-                textQuery = searchTextState,
-                onTextChange = onTextChange,
-                onCloseClicked = onCloseClicked,
-                onSearchClicked = onSearchClicked,
-                isLoading = isLoading,
-            )
-        }
+    SearchWidgetState.OPENED -> {
+        SearchAppBar(
+            modifier = Modifier.statusBarsPadding(),
+            textQuery = searchTextState,
+            onTextChange = onTextChange,
+            onCloseClicked = onCloseClicked,
+            onSearchClicked = onSearchClicked,
+            isLoading = isLoading,
+        )
     }
 }
 
