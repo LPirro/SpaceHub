@@ -26,6 +26,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lpirro.spacehub.core.exceptions.SearchCancellationException
+import com.lpirro.spacehub.core.result.DataError
+import com.lpirro.spacehub.core.result.Result
+import com.lpirro.spacehub.core.result.toUserMessage
 import com.lpirro.spacehub.news.domain.model.Article
 import com.lpirro.spacehub.news.domain.usecase.FilterNewsUseCase
 import com.lpirro.spacehub.news.domain.usecase.GetNewsUseCase
@@ -34,7 +37,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
@@ -76,10 +78,19 @@ class NewsViewModel @Inject constructor(
             _uiState.value = _uiState.value.copy(isRefresh = true, isLoading = false)
         }
         getNewsUseCase()
-            .catch { _uiState.value = NewsUiState(error = true) }
-            .collect {
-                articles = it
-                _uiState.value = NewsUiState(articles = it)
+            .collect { result ->
+                when (result) {
+                    is Result.Success -> {
+                        articles = result.data
+                        _uiState.value = NewsUiState(articles = result.data)
+                    }
+
+                    is Result.Error -> {
+                        _uiState.value = NewsUiState(
+                            error = true,
+                        )
+                    }
+                }
             }
     }
 
@@ -108,14 +119,19 @@ class NewsViewModel @Inject constructor(
         searchArticlesJob = viewModelScope.launch {
             delay(800)
             filterNewsUseCase(searchQuery)
-                .catch {
-                    if (it !is SearchCancellationException) {
-                        _uiState.value = NewsUiState(searchError = true)
-                    }
-                }
                 .onCompletion { _searchLoadingState.value = false }
-                .collectLatest {
-                    _uiState.value = NewsUiState(articles = it)
+                .collectLatest { result ->
+                    when (result) {
+                        is Result.Success -> {
+                            _uiState.value = NewsUiState(articles = result.data)
+                        }
+
+                        is Result.Error -> {
+                            _uiState.value = NewsUiState(
+                                searchError = true,
+                            )
+                        }
+                    }
                 }
         }
     }

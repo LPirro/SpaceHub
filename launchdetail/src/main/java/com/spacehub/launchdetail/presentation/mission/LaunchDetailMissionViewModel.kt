@@ -22,6 +22,9 @@ package com.spacehub.launchdetail.presentation.mission
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.lpirro.spacehub.core.result.DataError
+import com.lpirro.spacehub.core.result.Result
+import com.lpirro.spacehub.core.result.toUserMessage
 import com.lpirro.spacehub.core.util.flow.UiEvent
 import com.spacehub.launchdetail.domain.usecase.GetLaunchUseCase
 import com.spacehub.launchdetail.presentation.mission.mapper.LaunchDetailMissionUiMapper
@@ -33,7 +36,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
@@ -60,13 +62,22 @@ class LaunchDetailMissionViewModel @AssistedInject constructor(
 
     private fun getLaunch(id: String) = viewModelScope.launch {
         getLaunchUseCase(id)
-            .catch { _uiState.value = LaunchDetailMissionUiState(error = true) }
-            .collectLatest {
-                _uiState.value = LaunchDetailMissionUiState(
-                    launchMissionUi = mapper.mapToUi(it),
-                    isLoading = false,
-                    error = false,
-                )
+            .collectLatest { result ->
+                _uiState.value = when (result) {
+                    is Result.Success -> {
+                        LaunchDetailMissionUiState(
+                            launchMissionUi = mapper.mapToUi(result.data),
+                            isLoading = false,
+                            error = false,
+                        )
+                    }
+
+                    is Result.Error -> {
+                        LaunchDetailMissionUiState(
+                            error = true,
+                        )
+                    }
+                }
             }
     }
 

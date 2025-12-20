@@ -20,10 +20,11 @@
 
 package com.lpirro.spacehub.news.domain.repository
 
+import com.lpirro.spacehub.core.result.Result
 import com.lpirro.spacehub.news.domain.model.Article
 import kotlinx.coroutines.flow.Flow
 
 interface NewsRepository {
-    fun getNews(): Flow<List<Article>>
-    fun filterNews(filterQuery: String): Flow<List<Article>>
+    fun getNews(): Flow<Result<List<Article>>>
+    fun filterNews(filterQuery: String): Flow<Result<List<Article>>>
 }

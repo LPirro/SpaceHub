@@ -20,6 +20,7 @@
 
 package com.spacehub.launchdetail.domain.usecase
 
+import com.lpirro.spacehub.core.result.Result
 import com.spacehub.common.domain.repository.LaunchesRepository
 import com.spacehub.common.models.domain.Launch
 import kotlinx.coroutines.flow.Flow
@@ -27,9 +28,9 @@ import kotlinx.coroutines.flow.Flow
 class GetLaunchUseCaseImpl(
     private val launchesRepository: LaunchesRepository,
 ) : GetLaunchUseCase {
-    override fun invoke(id: String): Flow<Launch> = launchesRepository.getLaunch(id)
+    override fun invoke(id: String): Flow<Result<Launch>> = launchesRepository.getLaunch(id)
 }
 
 interface GetLaunchUseCase {
-    operator fun invoke(id: String): Flow<Launch>
+    operator fun invoke(id: String): Flow<Result<Launch>>
 }

@@ -20,16 +20,17 @@
 
 package com.lpirro.spacehub.news.domain.usecase
 
+import com.lpirro.spacehub.core.result.Result
 import com.lpirro.spacehub.news.domain.model.Article
 import com.lpirro.spacehub.news.domain.repository.NewsRepository
 import kotlinx.coroutines.flow.Flow
 
 interface GetNewsUseCase {
-    operator fun invoke(): Flow<List<Article>>
+    operator fun invoke(): Flow<Result<List<Article>>>
 }
 
 class GetNewsUseCaseImpl(
     private val newsRepository: NewsRepository,
 ) : GetNewsUseCase {
-    override fun invoke(): Flow<List<Article>> = newsRepository.getNews()
+    override fun invoke(): Flow<Result<List<Article>>> = newsRepository.getNews()
 }

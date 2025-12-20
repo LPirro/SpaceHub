@@ -22,7 +22,6 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.lifecycle.runtime.ktx)
 
-
     testImplementation(libs.junit)
     testImplementation(project(":common"))
     testImplementation(project(":test-util"))
