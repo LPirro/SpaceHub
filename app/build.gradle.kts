@@ -5,10 +5,10 @@ plugins {
 }
 
 android {
-    namespace = "com.lpirro.spacehub"
+    namespace = "com.spacehub.app"
 
     defaultConfig {
-        applicationId = "com.lpirro.spacehub"
+        applicationId = "com.spacehub.app"
         versionCode = 1
         versionName = "1.0"
     }

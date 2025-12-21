@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.lpirro.spacehub.launches"
+    namespace = "com.spacehub.launches"
 
     buildFeatures {
         buildConfig = true
