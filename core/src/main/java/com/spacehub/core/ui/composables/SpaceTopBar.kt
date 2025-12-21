@@ -36,7 +36,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
-import com.lpirro.spacehub.core.R
+import com.spacehub.core.R
 import com.spacehub.core.ui.theme.SpacehubTheme
 
 @OptIn(ExperimentalMaterial3Api::class)

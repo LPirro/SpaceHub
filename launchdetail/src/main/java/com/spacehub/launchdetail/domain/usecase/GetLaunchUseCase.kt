@@ -20,9 +20,9 @@
 
 package com.spacehub.launchdetail.domain.usecase
 
-import com.spacehub.core.result.Result
 import com.spacehub.common.domain.repository.LaunchesRepository
 import com.spacehub.common.models.domain.Launch
+import com.spacehub.core.result.Result
 import kotlinx.coroutines.flow.Flow
 
 class GetLaunchUseCaseImpl(

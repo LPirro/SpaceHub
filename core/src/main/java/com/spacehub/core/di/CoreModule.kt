@@ -20,7 +20,7 @@
 
 package com.spacehub.core.di
 
-import com.lpirro.spacehub.core.BuildConfig
+import com.spacehub.core.BuildConfig
 import com.spacehub.core.util.DateParser
 import com.spacehub.core.util.DateParserImpl
 import dagger.Module

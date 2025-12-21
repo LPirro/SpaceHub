@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.lpirro.spacehub.news"
+    namespace = "com.spacehub.news"
 }
 
 dependencies {

@@ -20,9 +20,9 @@
 
 package com.spacehub.launches.presentation.mapper
 
+import com.spacehub.common.models.domain.Launch
 import com.spacehub.core.util.DateParser
 import com.spacehub.launches.presentation.model.LaunchUi
-import com.spacehub.common.models.domain.Launch
 
 class LaunchUiMapperImpl(private val dateParser: DateParser) : LaunchUiMapper {
     override fun mapToUi(launch: Launch) = LaunchUi(

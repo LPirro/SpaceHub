@@ -18,8 +18,8 @@
 package com.spacehub.launches.presentation
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import com.spacehub.launches.presentation.model.LaunchUi
 import com.spacehub.common.models.domain.Status
+import com.spacehub.launches.presentation.model.LaunchUi
 
 class SampleLaunchesProvider : PreviewParameterProvider<List<LaunchUi>> {
     override val values: Sequence<List<LaunchUi>>

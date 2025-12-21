@@ -54,14 +54,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.lpirro.spacehub.core.R
+import com.spacehub.core.R
 import com.spacehub.core.ui.composables.ErrorScreen
 import com.spacehub.core.ui.composables.LaunchCard
 import com.spacehub.core.ui.composables.SpaceTopBar
 import com.spacehub.core.ui.theme.SpacehubTheme
 import com.spacehub.launches.presentation.model.LaunchUi
 import com.spacehub.launches.presentation.model.TabItem
-import com.lpirro.spacehub.launches.R as R2
+import com.spacehub.launches.R as R2
 
 @Composable
 fun LaunchesScreen(

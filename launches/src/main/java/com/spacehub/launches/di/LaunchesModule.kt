@@ -17,6 +17,7 @@
  */
 package com.spacehub.launches.di
 
+import com.spacehub.common.domain.repository.LaunchesRepository
 import com.spacehub.core.util.DateParser
 import com.spacehub.launches.domain.usecase.GetPastLaunchesUseCase
 import com.spacehub.launches.domain.usecase.GetPastLaunchesUseCaseImpl
@@ -24,7 +25,6 @@ import com.spacehub.launches.domain.usecase.GetUpcomingLaunchesUseCase
 import com.spacehub.launches.domain.usecase.GetUpcomingLaunchesUseCaseImpl
 import com.spacehub.launches.presentation.mapper.LaunchUiMapper
 import com.spacehub.launches.presentation.mapper.LaunchUiMapperImpl
-import com.spacehub.common.domain.repository.LaunchesRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

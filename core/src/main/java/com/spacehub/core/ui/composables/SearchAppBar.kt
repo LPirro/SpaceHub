@@ -43,7 +43,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.lpirro.spacehub.core.R
+import com.spacehub.core.R
 
 @Composable
 fun SearchAppBar(

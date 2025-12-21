@@ -29,7 +29,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.lpirro.spacehub.core.R
+import com.spacehub.core.R
 import com.spacehub.core.ui.theme.SpacehubTheme
 
 data class BottomNavigationItem(

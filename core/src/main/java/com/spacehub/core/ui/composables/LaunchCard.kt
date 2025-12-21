@@ -58,8 +58,8 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.lpirro.spacehub.core.R
 import com.spacehub.common.models.domain.Status
+import com.spacehub.core.R
 import com.spacehub.core.ui.theme.SpacehubTheme
 import java.util.concurrent.TimeUnit
 

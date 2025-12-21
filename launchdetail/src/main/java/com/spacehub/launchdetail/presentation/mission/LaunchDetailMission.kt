@@ -51,9 +51,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.spacehub.common.models.domain.Status
 import com.spacehub.core.ui.composables.InfoCard
 import com.spacehub.core.ui.theme.SpacehubTheme
-import com.spacehub.common.models.domain.Status
 import com.spacehub.launchdetail.R
 import com.spacehub.launchdetail.presentation.mission.model.DescriptionSection
 import com.spacehub.launchdetail.presentation.mission.model.LaunchDetailMissionUi

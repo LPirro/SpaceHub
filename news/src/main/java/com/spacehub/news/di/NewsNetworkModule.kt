@@ -20,7 +20,7 @@
 
 package com.spacehub.news.di
 
-import com.lpirro.spacehub.core.BuildConfig
+import com.spacehub.core.BuildConfig
 import com.spacehub.news.data.network.NewsService
 import dagger.Module
 import dagger.Provides

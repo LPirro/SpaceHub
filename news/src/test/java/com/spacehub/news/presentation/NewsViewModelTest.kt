@@ -5,9 +5,6 @@ import app.cash.turbine.test
 import com.spacehub.news.domain.model.Article
 import com.spacehub.news.domain.usecase.FilterNewsUseCase
 import com.spacehub.news.domain.usecase.GetNewsUseCase
-import com.spacehub.news.presentation.NewsUiState
-import com.spacehub.news.presentation.NewsViewModel
-import com.spacehub.news.presentation.SearchWidgetState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
