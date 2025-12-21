@@ -15,15 +15,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.lpirro.spacehub.launches.presentation
+package com.spacehub.launches.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.spacehub.core.result.Result
-import com.lpirro.spacehub.launches.domain.usecase.GetPastLaunchesUseCase
-import com.lpirro.spacehub.launches.domain.usecase.GetUpcomingLaunchesUseCase
-import com.lpirro.spacehub.launches.presentation.mapper.LaunchUiMapper
-import com.lpirro.spacehub.launches.presentation.model.LaunchUi
+import com.spacehub.launches.domain.usecase.GetPastLaunchesUseCase
+import com.spacehub.launches.domain.usecase.GetUpcomingLaunchesUseCase
+import com.spacehub.launches.presentation.mapper.LaunchUiMapper
+import com.spacehub.launches.presentation.model.LaunchUi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

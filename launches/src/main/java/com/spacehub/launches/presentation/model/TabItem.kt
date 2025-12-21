@@ -18,20 +18,12 @@
  *
  */
 
-package com.lpirro.spacehub.launches.mocks
+package com.spacehub.launches.presentation.model
 
-import com.lpirro.spacehub.launches.presentation.model.LaunchUi
-import com.spacehub.testutil.mocks.MockStatus
+import androidx.compose.ui.graphics.vector.ImageVector
 
-object MockLaunchUi {
-    fun create() = LaunchUi(
-        id = "launch-001",
-        title = "Falcon 9 - Starlink 30",
-        agency = "SpaceX",
-        location = "Cape Canaveral",
-        dateTime = "2023-01-01T00:00:00Z",
-        netMillis = 1672531200000,
-        status = MockStatus.create(),
-        launchImageUrl = "https://example.com/images/starlink30.jpg",
-    )
-}
+data class TabItem(
+    val title: String,
+    val unselectedIcon: ImageVector,
+    val selectedIcon: ImageVector,
+)

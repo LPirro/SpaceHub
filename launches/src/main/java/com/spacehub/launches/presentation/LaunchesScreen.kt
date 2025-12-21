@@ -17,7 +17,7 @@
  */
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package com.lpirro.spacehub.launches.presentation
+package com.spacehub.launches.presentation
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -59,8 +59,8 @@ import com.spacehub.core.ui.composables.ErrorScreen
 import com.spacehub.core.ui.composables.LaunchCard
 import com.spacehub.core.ui.composables.SpaceTopBar
 import com.spacehub.core.ui.theme.SpacehubTheme
-import com.lpirro.spacehub.launches.presentation.model.LaunchUi
-import com.lpirro.spacehub.launches.presentation.model.TabItem
+import com.spacehub.launches.presentation.model.LaunchUi
+import com.spacehub.launches.presentation.model.TabItem
 import com.lpirro.spacehub.launches.R as R2
 
 @Composable
@@ -76,12 +76,12 @@ fun LaunchesScreen(
     val tabItems =
         listOf(
             TabItem(
-                title = stringResource(com.lpirro.spacehub.launches.R.string.upcoming),
+                title = stringResource(R2.string.upcoming),
                 unselectedIcon = ImageVector.vectorResource(id = R.drawable.rocket_outline),
                 selectedIcon = ImageVector.vectorResource(id = R.drawable.rocket),
             ),
             TabItem(
-                title = stringResource(com.lpirro.spacehub.launches.R.string.past),
+                title = stringResource(R2.string.past),
                 unselectedIcon = ImageVector.vectorResource(id = R.drawable.calendar_clock_outline),
                 selectedIcon = ImageVector.vectorResource(id = R.drawable.calendar_clock),
             ),

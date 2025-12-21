@@ -18,25 +18,20 @@
  *
  */
 
-package com.lpirro.spacehub.launches.presentation.mapper
+package com.spacehub.launches.mocks
 
-import com.spacehub.core.util.DateParser
-import com.lpirro.spacehub.launches.presentation.model.LaunchUi
-import com.spacehub.common.models.domain.Launch
+import com.spacehub.launches.presentation.model.LaunchUi
+import com.spacehub.testutil.mocks.MockStatus
 
-class LaunchUiMapperImpl(private val dateParser: DateParser) : LaunchUiMapper {
-    override fun mapToUi(launch: Launch) = LaunchUi(
-        id = launch.id,
-        title = launch.name,
-        agency = launch.launchServiceProvider.name,
-        location = launch.pad.location.name,
-        dateTime = dateParser.parseFullDate(launch.net),
-        netMillis = launch.netMillis ?: 0,
-        status = launch.status,
-        launchImageUrl = launch.image,
+object MockLaunchUi {
+    fun create() = LaunchUi(
+        id = "launch-001",
+        title = "Falcon 9 - Starlink 30",
+        agency = "SpaceX",
+        location = "Cape Canaveral",
+        dateTime = "2023-01-01T00:00:00Z",
+        netMillis = 1672531200000,
+        status = MockStatus.create(),
+        launchImageUrl = "https://example.com/images/starlink30.jpg",
     )
-}
-
-interface LaunchUiMapper {
-    fun mapToUi(launch: Launch): LaunchUi
 }

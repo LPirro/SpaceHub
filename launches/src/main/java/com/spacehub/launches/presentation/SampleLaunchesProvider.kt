@@ -15,10 +15,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.lpirro.spacehub.launches.presentation
+package com.spacehub.launches.presentation
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import com.lpirro.spacehub.launches.presentation.model.LaunchUi
+import com.spacehub.launches.presentation.model.LaunchUi
 import com.spacehub.common.models.domain.Status
 
 class SampleLaunchesProvider : PreviewParameterProvider<List<LaunchUi>> {

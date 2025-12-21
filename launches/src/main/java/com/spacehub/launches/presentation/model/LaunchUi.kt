@@ -18,12 +18,17 @@
  *
  */
 
-package com.lpirro.spacehub.launches.presentation.model
+package com.spacehub.launches.presentation.model
 
-import androidx.compose.ui.graphics.vector.ImageVector
+import com.spacehub.common.models.domain.Status
 
-data class TabItem(
+data class LaunchUi(
+    val id: String,
     val title: String,
-    val unselectedIcon: ImageVector,
-    val selectedIcon: ImageVector,
+    val agency: String,
+    val location: String,
+    val dateTime: String,
+    val netMillis: Long,
+    val status: Status,
+    val launchImageUrl: String?,
 )

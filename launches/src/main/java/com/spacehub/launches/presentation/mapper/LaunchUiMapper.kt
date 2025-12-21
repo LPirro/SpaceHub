@@ -18,17 +18,25 @@
  *
  */
 
-package com.lpirro.spacehub.launches.presentation.model
+package com.spacehub.launches.presentation.mapper
 
-import com.spacehub.common.models.domain.Status
+import com.spacehub.core.util.DateParser
+import com.spacehub.launches.presentation.model.LaunchUi
+import com.spacehub.common.models.domain.Launch
 
-data class LaunchUi(
-    val id: String,
-    val title: String,
-    val agency: String,
-    val location: String,
-    val dateTime: String,
-    val netMillis: Long,
-    val status: Status,
-    val launchImageUrl: String?,
-)
+class LaunchUiMapperImpl(private val dateParser: DateParser) : LaunchUiMapper {
+    override fun mapToUi(launch: Launch) = LaunchUi(
+        id = launch.id,
+        title = launch.name,
+        agency = launch.launchServiceProvider.name,
+        location = launch.pad.location.name,
+        dateTime = dateParser.parseFullDate(launch.net),
+        netMillis = launch.netMillis ?: 0,
+        status = launch.status,
+        launchImageUrl = launch.image,
+    )
+}
+
+interface LaunchUiMapper {
+    fun mapToUi(launch: Launch): LaunchUi
+}

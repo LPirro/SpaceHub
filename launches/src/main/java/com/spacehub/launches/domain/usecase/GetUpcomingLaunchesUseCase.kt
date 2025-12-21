@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.lpirro.spacehub.launches.domain.usecase
+package com.spacehub.launches.domain.usecase
 
 import com.spacehub.core.result.Result
 import com.spacehub.common.domain.repository.LaunchesRepository

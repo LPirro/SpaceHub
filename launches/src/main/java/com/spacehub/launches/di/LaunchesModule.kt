@@ -15,15 +15,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.lpirro.spacehub.launches.di
+package com.spacehub.launches.di
 
 import com.spacehub.core.util.DateParser
-import com.lpirro.spacehub.launches.domain.usecase.GetPastLaunchesUseCase
-import com.lpirro.spacehub.launches.domain.usecase.GetPastLaunchesUseCaseImpl
-import com.lpirro.spacehub.launches.domain.usecase.GetUpcomingLaunchesUseCase
-import com.lpirro.spacehub.launches.domain.usecase.GetUpcomingLaunchesUseCaseImpl
-import com.lpirro.spacehub.launches.presentation.mapper.LaunchUiMapper
-import com.lpirro.spacehub.launches.presentation.mapper.LaunchUiMapperImpl
+import com.spacehub.launches.domain.usecase.GetPastLaunchesUseCase
+import com.spacehub.launches.domain.usecase.GetPastLaunchesUseCaseImpl
+import com.spacehub.launches.domain.usecase.GetUpcomingLaunchesUseCase
+import com.spacehub.launches.domain.usecase.GetUpcomingLaunchesUseCaseImpl
+import com.spacehub.launches.presentation.mapper.LaunchUiMapper
+import com.spacehub.launches.presentation.mapper.LaunchUiMapperImpl
 import com.spacehub.common.domain.repository.LaunchesRepository
 import dagger.Module
 import dagger.Provides
@@ -34,11 +34,14 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 object LaunchesModule {
     @Provides
-    fun provideGetUpcomingLaunchesUseCase(repository: LaunchesRepository): GetUpcomingLaunchesUseCase = GetUpcomingLaunchesUseCaseImpl(repository)
+    fun provideGetUpcomingLaunchesUseCase(repository: LaunchesRepository): GetUpcomingLaunchesUseCase =
+        GetUpcomingLaunchesUseCaseImpl(repository)
 
     @Provides
-    fun provideGetPastLaunchesUseCase(repository: LaunchesRepository): GetPastLaunchesUseCase = GetPastLaunchesUseCaseImpl(repository)
+    fun provideGetPastLaunchesUseCase(repository: LaunchesRepository): GetPastLaunchesUseCase =
+        GetPastLaunchesUseCaseImpl(repository)
 
     @Provides
-    fun provideLaunchUiMapper(dateParser: DateParser): LaunchUiMapper = LaunchUiMapperImpl(dateParser)
+    fun provideLaunchUiMapper(dateParser: DateParser): LaunchUiMapper =
+        LaunchUiMapperImpl(dateParser)
 }
