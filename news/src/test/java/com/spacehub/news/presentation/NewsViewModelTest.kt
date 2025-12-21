@@ -2,12 +2,13 @@ package com.spacehub.news.presentation
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.cash.turbine.test
+import com.spacehub.core.result.DataError
+import com.spacehub.core.result.Result
 import com.spacehub.news.domain.model.Article
 import com.spacehub.news.domain.usecase.FilterNewsUseCase
 import com.spacehub.news.domain.usecase.GetNewsUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
@@ -52,7 +53,7 @@ class NewsViewModelTest {
     fun `getNews emits articles when use case returns data`() = runTest {
         val articles = Article.Mocks.articlesMocks
 
-        whenever(getNewsUseCase()).thenReturn(flowOf(articles))
+        whenever(getNewsUseCase()).thenReturn(flowOf(Result.Success(articles)))
 
         newsViewModel = NewsViewModel(getNewsUseCase, filterNewsUseCase)
 
@@ -74,7 +75,7 @@ class NewsViewModelTest {
     @Test
     fun `getNews emits error true when use case returns an error`() = runTest {
         whenever(getNewsUseCase()).thenReturn(
-            flow { throw Exception("Network Error") },
+            flowOf(Result.Error(DataError.Network(message = "Network Error"))),
         )
 
         newsViewModel = NewsViewModel(getNewsUseCase, filterNewsUseCase)
@@ -113,8 +114,8 @@ class NewsViewModelTest {
         )
 
         val filterQuery = "SpaceX"
-        whenever(getNewsUseCase()).thenReturn(flowOf(articles))
-        whenever(filterNewsUseCase(filterQuery)).thenReturn(flowOf(searchResult))
+        whenever(getNewsUseCase()).thenReturn(flowOf(Result.Success(articles)))
+        whenever(filterNewsUseCase(filterQuery)).thenReturn(flowOf(Result.Success(searchResult)))
 
         newsViewModel = NewsViewModel(getNewsUseCase, filterNewsUseCase)
         newsViewModel.updateSearchTextState(filterQuery)
@@ -166,7 +167,7 @@ class NewsViewModelTest {
     @Test
     fun `when SearchWidgetState is CLOSED and updateSearchWidgetState gets called then the original article list will be emitted`() = runTest {
         val articles = Article.Mocks.articlesMocks
-        whenever(getNewsUseCase()).thenReturn(flowOf(articles))
+        whenever(getNewsUseCase()).thenReturn(flowOf(Result.Success(articles)))
 
         newsViewModel = NewsViewModel(getNewsUseCase, filterNewsUseCase)
         newsViewModel.articles = articles
@@ -183,6 +184,9 @@ class NewsViewModelTest {
     @Test
     fun `filterNewsUseCase does NOT get called when the search query is less than 4 characters`() =
         runTest {
+            val articles = Article.Mocks.articlesMocks
+            whenever(getNewsUseCase()).thenReturn(flowOf(Result.Success(articles)))
+
             newsViewModel = NewsViewModel(getNewsUseCase, filterNewsUseCase)
             val searchQuery = "spa"
             newsViewModel.updateSearchTextState(searchQuery)
@@ -192,6 +196,10 @@ class NewsViewModelTest {
     @Test
     fun `filterNewsUseCase gets called when the search query is less more than 3 characters`() =
         runTest {
+            val articles = Article.Mocks.articlesMocks
+            whenever(getNewsUseCase()).thenReturn(flowOf(Result.Success(articles)))
+            whenever(filterNewsUseCase(any())).thenReturn(flowOf(Result.Success(emptyList())))
+
             newsViewModel = NewsViewModel(getNewsUseCase, filterNewsUseCase)
             val searchQuery = "spac"
             newsViewModel.updateSearchTextState(searchQuery)

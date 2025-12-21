@@ -19,6 +19,8 @@ package com.spacehub.launches.presentation
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.cash.turbine.test
+import com.spacehub.core.result.DataError
+import com.spacehub.core.result.Result
 import com.spacehub.launches.domain.usecase.GetPastLaunchesUseCase
 import com.spacehub.launches.domain.usecase.GetUpcomingLaunchesUseCase
 import com.spacehub.launches.mocks.MockLaunchUi
@@ -26,7 +28,6 @@ import com.spacehub.launches.presentation.mapper.LaunchUiMapper
 import com.spacehub.testutil.mocks.MockLaunch
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -69,7 +70,7 @@ class LaunchesViewModelTest {
     fun `getUpcomingLaunches emits Success when use case returns data`() =
         runTest {
             val launches = listOf(MockLaunch.create())
-            whenever(getUpcomingLaunchesUseCase()).thenReturn(flowOf(launches))
+            whenever(getUpcomingLaunchesUseCase()).thenReturn(flowOf(Result.Success(launches)))
             whenever(launchUiMapper.mapToUi(any())).thenReturn(MockLaunchUi.create())
 
             launchesViewModel =
@@ -98,7 +99,7 @@ class LaunchesViewModelTest {
     fun `getUpcomingLaunches emits Error when use case throws exception`() =
         runTest {
             whenever(getUpcomingLaunchesUseCase()).thenReturn(
-                flow { throw Exception("Network Error") },
+                flowOf(Result.Error(DataError.Network(message = "Network Error"))),
             )
 
             launchesViewModel =
@@ -127,7 +128,7 @@ class LaunchesViewModelTest {
     fun `getPastLaunches emits Success when use case returns data`() =
         runTest {
             val launches = listOf(MockLaunch.create())
-            whenever(getPastLaunchesUseCase()).thenReturn(flowOf(launches))
+            whenever(getPastLaunchesUseCase()).thenReturn(flowOf(Result.Success(launches)))
             whenever(launchUiMapper.mapToUi(any())).thenReturn(MockLaunchUi.create())
 
             launchesViewModel =
@@ -156,7 +157,7 @@ class LaunchesViewModelTest {
     fun `getPastLaunches emits Error when use case throws exception`() =
         runTest {
             whenever(getPastLaunchesUseCase()).thenReturn(
-                flow { throw Exception("Network Error") },
+                flowOf(Result.Error(DataError.Network(message = "Network Error"))),
             )
 
             launchesViewModel =
@@ -188,7 +189,8 @@ class LaunchesViewModelTest {
                 listOf(
                     MockLaunch.create(),
                 )
-            whenever(getUpcomingLaunchesUseCase()).thenReturn(flowOf(launches))
+            whenever(getUpcomingLaunchesUseCase(any())).thenReturn(flowOf(Result.Success(launches)))
+            whenever(getPastLaunchesUseCase()).thenReturn(flowOf(Result.Success(launches)))
 
             launchesViewModel =
                 LaunchesViewModel(
