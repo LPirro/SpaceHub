@@ -19,7 +19,7 @@
  */
 package com.spacehub.common.domain.repository
 
-import com.lpirro.spacehub.core.result.Result
+import com.spacehub.core.result.Result
 import com.spacehub.common.models.domain.Launch
 import kotlinx.coroutines.flow.Flow
 

@@ -18,30 +18,42 @@
  *
  */
 
-package com.lpirro.spacehub.news.di
+package com.spacehub.core.di
 
+import com.lpirro.spacehub.core.BuildConfig
 import com.spacehub.core.util.DateParser
-import com.lpirro.spacehub.news.data.mapper.ArticleMapper
-import com.lpirro.spacehub.news.data.mapper.ArticleMapperImpl
-import com.lpirro.spacehub.news.data.network.NewsService
-import com.lpirro.spacehub.news.data.repository.NewsRepositoryImpl
-import com.lpirro.spacehub.news.domain.repository.NewsRepository
+import com.spacehub.core.util.DateParserImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import java.util.concurrent.TimeUnit
 
 @Module
 @InstallIn(SingletonComponent::class)
-object NewsDataModule {
+object CoreModule {
 
     @Provides
-    fun provideNewsRepository(
-        newsService: NewsService,
-        articleMapper: ArticleMapper,
-    ): NewsRepository = NewsRepositoryImpl(newsService = newsService, articleMapper = articleMapper)
+    fun provideDateParser(): DateParser = DateParserImpl()
 
     @Provides
-    fun providesArticleMapper(dateParser: DateParser): ArticleMapper =
-        ArticleMapperImpl(dateParser = dateParser)
+    fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor =
+        HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+
+    @Provides
+    fun provideOkHttp(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
+        val okHttpClient =
+            OkHttpClient.Builder()
+                .callTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
+
+        if (BuildConfig.DEBUG) {
+            okHttpClient.addInterceptor(loggingInterceptor)
+        }
+
+        return okHttpClient.build()
+    }
 }

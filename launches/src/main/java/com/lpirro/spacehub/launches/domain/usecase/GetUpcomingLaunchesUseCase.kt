@@ -17,7 +17,7 @@
  */
 package com.lpirro.spacehub.launches.domain.usecase
 
-import com.lpirro.spacehub.core.result.Result
+import com.spacehub.core.result.Result
 import com.spacehub.common.domain.repository.LaunchesRepository
 import com.spacehub.common.models.domain.Launch
 import kotlinx.coroutines.flow.Flow

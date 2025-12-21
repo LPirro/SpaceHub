@@ -20,7 +20,7 @@
 
 package com.lpirro.spacehub.news.domain.repository
 
-import com.lpirro.spacehub.core.result.Result
+import com.spacehub.core.result.Result
 import com.lpirro.spacehub.news.domain.model.Article
 import kotlinx.coroutines.flow.Flow
 

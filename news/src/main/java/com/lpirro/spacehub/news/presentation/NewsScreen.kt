@@ -46,10 +46,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.lpirro.spacehub.core.ui.composables.ErrorScreen
-import com.lpirro.spacehub.core.ui.composables.SearchAppBar
-import com.lpirro.spacehub.core.ui.composables.SpaceTopBar
-import com.lpirro.spacehub.core.ui.theme.SpacehubTheme
+import com.spacehub.core.ui.composables.ErrorScreen
+import com.spacehub.core.ui.composables.SearchAppBar
+import com.spacehub.core.ui.composables.SpaceTopBar
+import com.spacehub.core.ui.theme.SpacehubTheme
 import com.lpirro.spacehub.news.R
 import com.lpirro.spacehub.news.domain.model.Article
 

@@ -18,19 +18,8 @@
  *
  */
 
-package com.lpirro.spacehub.news.domain.usecase
+package com.spacehub.core.exceptions
 
-import com.spacehub.core.result.Result
-import com.lpirro.spacehub.news.domain.model.Article
-import com.lpirro.spacehub.news.domain.repository.NewsRepository
-import kotlinx.coroutines.flow.Flow
+import java.util.concurrent.CancellationException
 
-interface GetNewsUseCase {
-    operator fun invoke(): Flow<Result<List<Article>>>
-}
-
-class GetNewsUseCaseImpl(
-    private val newsRepository: NewsRepository,
-) : GetNewsUseCase {
-    override fun invoke(): Flow<Result<List<Article>>> = newsRepository.getNews()
-}
+class SearchCancellationException : CancellationException()

@@ -67,10 +67,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.lpirro.spacehub.core.ui.composables.CountdownTimer
-import com.lpirro.spacehub.core.ui.composables.InfoCard
-import com.lpirro.spacehub.core.ui.composables.InfoCardButton
-import com.lpirro.spacehub.core.ui.theme.SpacehubTheme
+import com.spacehub.core.ui.composables.CountdownTimer
+import com.spacehub.core.ui.composables.InfoCard
+import com.spacehub.core.ui.composables.InfoCardButton
+import com.spacehub.core.ui.theme.SpacehubTheme
 import com.spacehub.launchdetail.R
 import com.spacehub.launchdetail.presentation.overview.LaunchDetailOverviewViewModel.LaunchDetailOverviewUiState
 import com.spacehub.launchdetail.presentation.overview.model.AgencyUi

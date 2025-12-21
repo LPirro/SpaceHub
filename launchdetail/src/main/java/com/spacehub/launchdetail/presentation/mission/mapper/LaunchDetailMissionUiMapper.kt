@@ -20,7 +20,7 @@
 
 package com.spacehub.launchdetail.presentation.mission.mapper
 
-import com.lpirro.spacehub.core.util.DateParser
+import com.spacehub.core.util.DateParser
 import com.spacehub.common.models.domain.Launch
 import com.spacehub.launchdetail.presentation.mission.model.DescriptionSection
 import com.spacehub.launchdetail.presentation.mission.model.LaunchDetailMissionUi

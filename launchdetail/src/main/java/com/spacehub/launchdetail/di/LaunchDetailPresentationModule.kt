@@ -19,7 +19,7 @@
  */
 package com.spacehub.launchdetail.di
 
-import com.lpirro.spacehub.core.util.DateParser
+import com.spacehub.core.util.DateParser
 import com.spacehub.launchdetail.presentation.mission.mapper.LaunchDetailMissionUiMapper
 import com.spacehub.launchdetail.presentation.mission.mapper.LaunchDetailMissionUiMapperImpl
 import com.spacehub.launchdetail.presentation.overview.mapper.GoogleMapsImageUrlMapper

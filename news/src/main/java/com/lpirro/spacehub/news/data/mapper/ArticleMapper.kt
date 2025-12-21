@@ -20,7 +20,7 @@
 
 package com.lpirro.spacehub.news.data.mapper
 
-import com.lpirro.spacehub.core.util.DateParser
+import com.spacehub.core.util.DateParser
 import com.lpirro.spacehub.news.data.network.model.ArticleRemote
 import com.lpirro.spacehub.news.domain.model.Article
 import com.lpirro.spacehub.news.domain.model.RelatedLaunch

@@ -21,8 +21,8 @@
 package com.lpirro.spacehub.news.data.repository
 
 import com.google.gson.JsonParseException
-import com.lpirro.spacehub.core.result.DataError
-import com.lpirro.spacehub.core.result.Result
+import com.spacehub.core.result.DataError
+import com.spacehub.core.result.Result
 import com.lpirro.spacehub.news.data.mapper.ArticleMapper
 import com.lpirro.spacehub.news.data.network.NewsService
 import com.lpirro.spacehub.news.domain.model.Article

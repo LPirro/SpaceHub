@@ -17,20 +17,18 @@
  *  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+package com.spacehub.core.navigation
 
-package com.lpirro.spacehub.news.domain.usecase
+import kotlinx.serialization.Serializable
 
-import com.spacehub.core.result.Result
-import com.lpirro.spacehub.news.domain.model.Article
-import com.lpirro.spacehub.news.domain.repository.NewsRepository
-import kotlinx.coroutines.flow.Flow
+@Serializable
+object Launches
 
-interface GetNewsUseCase {
-    operator fun invoke(): Flow<Result<List<Article>>>
-}
+@Serializable
+object News
 
-class GetNewsUseCaseImpl(
-    private val newsRepository: NewsRepository,
-) : GetNewsUseCase {
-    override fun invoke(): Flow<Result<List<Article>>> = newsRepository.getNews()
-}
+@Serializable
+object Saved
+
+@Serializable
+data class LaunchDetail(val launchId: String, val title: String)
