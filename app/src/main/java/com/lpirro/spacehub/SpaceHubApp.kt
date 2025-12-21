@@ -41,7 +41,7 @@ import com.spacehub.core.navigation.News
 import com.spacehub.core.ui.composables.SpaceHubNavBar
 import com.spacehub.core.ui.theme.SpacehubTheme
 import com.spacehub.launches.presentation.LaunchesScreen
-import com.lpirro.spacehub.news.presentation.NewsScreen
+import com.spacehub.news.presentation.NewsScreen
 import com.spacehub.launchdetail.presentation.LaunchDetailScreen
 
 @Composable
