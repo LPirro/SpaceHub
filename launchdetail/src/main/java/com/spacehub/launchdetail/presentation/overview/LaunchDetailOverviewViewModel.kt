@@ -22,9 +22,7 @@ package com.spacehub.launchdetail.presentation.overview
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.lpirro.spacehub.core.result.DataError
 import com.lpirro.spacehub.core.result.Result
-import com.lpirro.spacehub.core.result.toUserMessage
 import com.lpirro.spacehub.core.util.flow.UiEvent
 import com.spacehub.launchdetail.domain.usecase.GetLaunchUseCase
 import com.spacehub.launchdetail.presentation.overview.mapper.LaunchDetailOverviewUiMapper

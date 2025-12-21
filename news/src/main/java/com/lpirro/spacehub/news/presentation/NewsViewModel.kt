@@ -26,9 +26,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lpirro.spacehub.core.exceptions.SearchCancellationException
-import com.lpirro.spacehub.core.result.DataError
 import com.lpirro.spacehub.core.result.Result
-import com.lpirro.spacehub.core.result.toUserMessage
 import com.lpirro.spacehub.news.domain.model.Article
 import com.lpirro.spacehub.news.domain.usecase.FilterNewsUseCase
 import com.lpirro.spacehub.news.domain.usecase.GetNewsUseCase
