@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.lpirro.models"
+    namespace = "com.spacehub.common.models"
 }
 
 dependencies {
