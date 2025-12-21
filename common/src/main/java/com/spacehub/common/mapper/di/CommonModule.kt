@@ -20,7 +20,6 @@
 
 package com.spacehub.common.mapper.di
 
-import com.lpirro.spacehub.core.util.DateParser
 import com.spacehub.common.mapper.AgencyMapper
 import com.spacehub.common.mapper.AgencyMapperImpl
 import com.spacehub.common.mapper.LaunchMapper
@@ -51,6 +50,7 @@ import com.spacehub.common.mapper.UpdateMapper
 import com.spacehub.common.mapper.UpdateMapperImpl
 import com.spacehub.common.mapper.UrlMapper
 import com.spacehub.common.mapper.UrlMapperImpl
+import com.spacehub.core.util.DateParser
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

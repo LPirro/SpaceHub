@@ -19,9 +19,9 @@
  */
 package com.spacehub.common.mapper
 
-import com.lpirro.spacehub.core.util.DateParser
 import com.spacehub.common.models.domain.Update
 import com.spacehub.common.models.remote.UpdateRemote
+import com.spacehub.core.util.DateParser
 
 interface UpdateMapper {
     fun mapToDomain(updateRemote: UpdateRemote): Update

@@ -67,10 +67,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.lpirro.spacehub.core.ui.composables.CountdownTimer
-import com.lpirro.spacehub.core.ui.composables.InfoCard
-import com.lpirro.spacehub.core.ui.composables.InfoCardButton
-import com.lpirro.spacehub.core.ui.theme.SpacehubTheme
+import com.spacehub.core.ui.composables.CountdownTimer
+import com.spacehub.core.ui.composables.InfoCard
+import com.spacehub.core.ui.composables.InfoCardButton
+import com.spacehub.core.ui.theme.SpacehubTheme
 import com.spacehub.launchdetail.R
 import com.spacehub.launchdetail.presentation.overview.LaunchDetailOverviewViewModel.LaunchDetailOverviewUiState
 import com.spacehub.launchdetail.presentation.overview.model.AgencyUi
@@ -102,7 +102,7 @@ internal fun LaunchDetailOverview(
 
         else -> {
             LaunchDetailOverviewContent(
-                uiState = uiState.launchOverviewUi!!,
+                launchDetailOverviewUi = uiState.launchOverviewUi!!,
                 onGoogleMapsClick = onGoogleMapsClick,
                 onWikipediaClick = onWikipediaClick,
                 onInfoClick = onInfoClick,
@@ -116,7 +116,7 @@ internal fun LaunchDetailOverview(
 @Composable
 private fun LaunchDetailOverviewContent(
     modifier: Modifier = Modifier,
-    uiState: LaunchOverviewUi,
+    launchDetailOverviewUi: LaunchOverviewUi,
     onGoogleMapsClick: (url: String) -> Unit,
     onWikipediaClick: (url: String) -> Unit,
     onInfoClick: (url: String) -> Unit,
@@ -129,44 +129,35 @@ private fun LaunchDetailOverviewContent(
             .background(color = MaterialTheme.colorScheme.surfaceVariant)
             .fillMaxSize(),
     ) {
-        uiState.countdownSection.targetDateMillis?.let {
+        launchDetailOverviewUi.countdownSection.targetDateMillis?.let {
             CountdownSection(
-                launchDate = uiState.countdownSection.launchDate,
+                launchDate = launchDetailOverviewUi.countdownSection.launchDate,
                 targetDateMillis = it,
             )
         }
 
-        Column(Modifier.padding(16.dp)) {
-            val spacing = 16.dp
+        LaunchPadSection(
+            launchpadSection = launchDetailOverviewUi.launchpadSection,
+            onGoogleMapsClick = onGoogleMapsClick,
+            onWikipediaClick = onWikipediaClick,
+            onInfoClick = onInfoClick,
+        )
 
-            LaunchPadSection(
-                launchpadSection = uiState.launchpadSection,
-                onGoogleMapsClick = onGoogleMapsClick,
-                onWikipediaClick = onWikipediaClick,
-                onInfoClick = onInfoClick,
+        launchDetailOverviewUi.watchLiveSection?.let {
+            WatchLiveSection(
+                watchLiveUi = it,
+                onWatchLiveClick = onWatchLiveClick,
             )
+        }
 
-            Spacer(modifier = Modifier.height(spacing))
+        AgencySection(launchDetailOverviewUi.agencySection)
 
-            uiState.watchLiveSection?.let {
-                WatchLiveSection(
-                    watchLiveUi = it,
-                    onWatchLiveClick = onWatchLiveClick,
-                )
-            }
-
-            Spacer(modifier = Modifier.height(spacing))
-
-            AgencySection(uiState.agencySection)
-
-            Spacer(modifier = Modifier.height(spacing))
-
-            uiState.trajectoryUrl?.let {
-                InfoCardButton(
-                    text = stringResource(R.string.launch_detail_trajectory),
-                    onClick = { onLaunchTrajectoryClick.invoke(it) },
-                )
-            }
+        launchDetailOverviewUi.trajectoryUrl?.let {
+            InfoCardButton(
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                text = stringResource(R.string.launch_detail_trajectory),
+                onClick = { onLaunchTrajectoryClick.invoke(it) },
+            )
         }
     }
 }
@@ -174,6 +165,7 @@ private fun LaunchDetailOverviewContent(
 @Composable
 private fun AgencySection(agencyUi: AgencyUi) {
     InfoCard(
+        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
         title = stringResource(R.string.launch_detail_agency),
         contentImageUrl = agencyUi.logoUrl,
     ) {
@@ -207,7 +199,7 @@ private fun CountdownSection(
         Text(
             text = launchDate,
             style = MaterialTheme.typography.labelMedium,
-            color = MaterialTheme.colorScheme.onSurface,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -228,11 +220,12 @@ fun LaunchPadSection(
     onInfoClick: (url: String) -> Unit,
 ) {
     InfoCard(
+        modifier = Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp, bottom = 8.dp),
         title = stringResource(R.string.launch_detail_launchpad),
         headerImageUrl = launchpadSection.mapImageHeaderUrl,
     ) {
         InfoItems(
-            listOf(
+            details = listOf(
                 stringResource(R.string.launch_detail_name) to launchpadSection.name,
                 stringResource(R.string.launch_detail_location) to launchpadSection.location,
                 stringResource(R.string.launch_detail_total_launches) to launchpadSection.totalLaunchCount,
@@ -293,7 +286,11 @@ fun WatchLiveSection(
     watchLiveUi: WatchLiveUi,
     onWatchLiveClick: (url: String) -> Unit,
 ) {
-    InfoCard(title = stringResource(R.string.launch_detail_watch_live), padding = 0.dp) {
+    InfoCard(
+        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+        title = stringResource(R.string.launch_detail_watch_live),
+        padding = 0.dp,
+    ) {
         Box {
             AsyncImage(
                 model =

@@ -20,10 +20,11 @@
 package com.spacehub.common.domain.repository
 
 import com.spacehub.common.models.domain.Launch
+import com.spacehub.core.result.Result
 import kotlinx.coroutines.flow.Flow
 
 interface LaunchesRepository {
-    fun getUpcomingLaunches(forceRefresh: Boolean = false): Flow<List<Launch>>
-    fun getPastLaunches(forceRefresh: Boolean = false): Flow<List<Launch>>
-    fun getLaunch(id: String): Flow<Launch>
+    fun getUpcomingLaunches(forceRefresh: Boolean = false): Flow<Result<List<Launch>>>
+    fun getPastLaunches(forceRefresh: Boolean = false): Flow<Result<List<Launch>>>
+    fun getLaunch(id: String): Flow<Result<Launch>>
 }

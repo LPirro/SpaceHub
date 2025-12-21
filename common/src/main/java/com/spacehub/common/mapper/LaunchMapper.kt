@@ -19,9 +19,9 @@
  */
 package com.spacehub.common.mapper
 
-import com.lpirro.spacehub.core.util.DateParser
 import com.spacehub.common.models.domain.Launch
 import com.spacehub.common.models.remote.LaunchRemote
+import com.spacehub.core.util.DateParser
 
 interface LaunchMapper {
     fun mapToDomain(launchRemote: LaunchRemote): Launch
@@ -47,8 +47,7 @@ class LaunchMapperImpl(
             missionPatches = launchRemote.missionPatches?.map { missionPatchMapper.mapToDomain(it) },
             pad = padMapper.mapToDomain(launchRemote.pad),
             mission = launchRemote.mission?.let { missionMapper.mapToDomain(it) },
-            windowStartDisplay = launchRemote.windowStart?.let { dateParser.parseFullDate(it) },
-            windowEndDisplay = launchRemote.windowEnd?.let { dateParser.parseFullDate(it) },
+            windowStart = launchRemote.windowStart,
             windowEnd = launchRemote.windowEnd,
             net = launchRemote.net,
             netMillis = launchRemote.net?.let { dateParser.parseDateInMillis(it) },
