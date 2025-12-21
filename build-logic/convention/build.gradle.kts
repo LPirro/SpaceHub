@@ -4,7 +4,7 @@ plugins {
     `kotlin-dsl`
 }
 
-group = "com.lpirro.spacehub.buildlogic"
+group = "com.spacehub.buildlogic"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
