@@ -1,4 +1,4 @@
-package com.lpirro.spacehub.core.util
+package com.spacehub.core.util
 
 import org.joda.time.format.DateTimeFormat
 import org.junit.Assert.assertEquals
