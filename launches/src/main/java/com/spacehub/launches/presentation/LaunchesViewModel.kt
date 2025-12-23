@@ -25,11 +25,11 @@ import com.spacehub.launches.domain.usecase.GetUpcomingLaunchesUseCase
 import com.spacehub.launches.presentation.mapper.LaunchUiMapper
 import com.spacehub.launches.presentation.model.LaunchUi
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.onCompletion
-import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -40,82 +40,74 @@ class LaunchesViewModel @Inject constructor(
     private val getPastLaunchesUseCase: GetPastLaunchesUseCase,
     private val launchUiMapper: LaunchUiMapper,
 ) : ViewModel() {
-    private val _uiStateUpcomingLaunches =
-        MutableStateFlow<LaunchesUiState>(LaunchesUiState.Loading(true))
-    val uiStateUpcomingLaunches =
-        _uiStateUpcomingLaunches
-            .onStart { getUpcomingLaunches() }
-            .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(5000L),
-                initialValue = LaunchesUiState.Loading(true),
-            )
-
-    private val _uiStatePastLaunches =
-        MutableStateFlow<LaunchesUiState>(LaunchesUiState.Loading(true))
-    val uiStatePastLaunches =
-        _uiStatePastLaunches
-            .onStart { getPastLaunches() }
-            .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(5000L),
-                initialValue = LaunchesUiState.Loading(true),
-            )
+    private val _uiState = MutableStateFlow<LaunchesUiState>(LaunchesUiState.Loading(true))
+    val uiState = _uiState
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000L),
+            initialValue = LaunchesUiState.Loading(true),
+        )
 
     private val _isRefreshLoading = MutableStateFlow(false)
     val isRefreshLoading = _isRefreshLoading.asStateFlow()
 
-    fun getUpcomingLaunches(isRefresh: Boolean = false) =
-        viewModelScope.launch {
-            if (!isRefresh) {
-                _uiStateUpcomingLaunches.value = LaunchesUiState.Loading(true)
-            }
-            _isRefreshLoading.value = isRefresh
+    init {
+        getLaunches()
+    }
 
-            getUpcomingLaunchesUseCase(forceRefresh = isRefresh)
-                .onCompletion { _isRefreshLoading.value = false }
-                .collect { result ->
-                    _uiStateUpcomingLaunches.value = when (result) {
-                        is Result.Success -> {
-                            val launches = result.data.map { launch -> launchUiMapper.mapToUi(launch) }
-                            LaunchesUiState.Success(launches)
-                        }
-
-                        is Result.Error -> {
-                            LaunchesUiState.Error
-                        }
-                    }
-                }
+    fun getLaunches(isRefresh: Boolean = false) = viewModelScope.launch {
+        if (!isRefresh) {
+            _uiState.value = LaunchesUiState.Loading(true)
         }
+        _isRefreshLoading.value = isRefresh
 
-    fun getPastLaunches(isRefresh: Boolean = false) =
-        viewModelScope.launch {
-            if (!isRefresh) {
-                _uiStatePastLaunches.value = LaunchesUiState.Loading(false)
+        try {
+            // Load both upcoming and past launches in parallel
+            val upcomingDeferred = async {
+                getUpcomingLaunchesUseCase(forceRefresh = isRefresh).first()
             }
-            _isRefreshLoading.value = isRefresh
+            val pastDeferred = async {
+                getPastLaunchesUseCase(forceRefresh = isRefresh).first()
+            }
 
-            getPastLaunchesUseCase(forceRefresh = isRefresh)
-                .onCompletion { _isRefreshLoading.value = false }
-                .collect { result ->
-                    _uiStatePastLaunches.value = when (result) {
-                        is Result.Success -> {
-                            val launches = result.data.map { launch -> launchUiMapper.mapToUi(launch) }
-                            LaunchesUiState.Success(launches)
-                        }
+            val upcomingResult = upcomingDeferred.await()
+            val pastResult = pastDeferred.await()
 
-                        is Result.Error -> {
-                            LaunchesUiState.Error
-                        }
+            // Only emit Success if both are successful
+            _uiState.value = when {
+                upcomingResult is Result.Success && pastResult is Result.Success -> {
+                    val upcomingLaunches = upcomingResult.data.map { launch ->
+                        launchUiMapper.mapToUi(launch)
                     }
+                    val pastLaunches = pastResult.data.map { launch ->
+                        launchUiMapper.mapToUi(launch)
+                    }
+                    LaunchesUiState.Success(
+                        upcomingLaunches = upcomingLaunches,
+                        pastLaunches = pastLaunches
+                    )
                 }
+                else -> LaunchesUiState.Error
+            }
+        } catch (_: Exception) {
+            _uiState.value = LaunchesUiState.Error
+        } finally {
+            _isRefreshLoading.value = false
         }
+    }
+
+    fun refresh() {
+        getLaunches(isRefresh = true)
+    }
 }
 
 sealed class LaunchesUiState {
     data class Loading(val isLoading: Boolean) : LaunchesUiState()
 
-    data class Success(val launches: List<LaunchUi>) : LaunchesUiState()
+    data class Success(
+        val upcomingLaunches: List<LaunchUi>,
+        val pastLaunches: List<LaunchUi>,
+    ) : LaunchesUiState()
 
     data object Error : LaunchesUiState()
 }

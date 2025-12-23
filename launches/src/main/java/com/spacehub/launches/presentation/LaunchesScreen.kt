@@ -22,188 +22,102 @@ package com.spacehub.launches.presentation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.spacehub.core.R
 import com.spacehub.core.ui.composables.ErrorScreen
 import com.spacehub.core.ui.composables.LaunchCard
 import com.spacehub.core.ui.composables.SpaceTopBar
 import com.spacehub.core.ui.theme.SpacehubTheme
 import com.spacehub.launches.presentation.model.LaunchUi
-import com.spacehub.launches.presentation.model.TabItem
-import com.spacehub.launches.R as R2
+import com.spacehub.launches.R
 
 @Composable
 fun LaunchesScreen(
     viewModel: LaunchesViewModel = hiltViewModel(),
     onLaunchClicked: (id: String, name: String) -> Unit,
 ) {
-    val uiStateUpcomingLaunches = viewModel.uiStateUpcomingLaunches.collectAsState()
-    val uiStatePastLaunches = viewModel.uiStatePastLaunches.collectAsState()
-    val isRefreshLoading = viewModel.isRefreshLoading.collectAsState()
-    var selectedTabIndex by remember { mutableIntStateOf(0) }
+    val uiState by viewModel.uiState.collectAsState()
+    val isRefreshLoading by viewModel.isRefreshLoading.collectAsState()
 
-    val tabItems =
-        listOf(
-            TabItem(
-                title = stringResource(R2.string.upcoming),
-                unselectedIcon = ImageVector.vectorResource(id = R.drawable.rocket_outline),
-                selectedIcon = ImageVector.vectorResource(id = R.drawable.rocket),
-            ),
-            TabItem(
-                title = stringResource(R2.string.past),
-                unselectedIcon = ImageVector.vectorResource(id = R.drawable.calendar_clock_outline),
-                selectedIcon = ImageVector.vectorResource(id = R.drawable.calendar_clock),
-            ),
-        )
-
-    val pagerState = rememberPagerState { tabItems.size }
-
-    Scaffold(
-        topBar = { SpaceTopBar(text = stringResource(R2.string.launches_topbar_title)) },
-    ) { innerPadding ->
-
-        LaunchedEffect(selectedTabIndex) {
-            pagerState.animateScrollToPage(selectedTabIndex)
-        }
-
-        LaunchedEffect(pagerState.currentPage) {
-            selectedTabIndex = pagerState.currentPage
-        }
-        Column(modifier = Modifier.padding(top = innerPadding.calculateTopPadding())) {
-            PrimaryTabRow(selectedTabIndex = selectedTabIndex) {
-                tabItems.forEachIndexed { index, tabItem ->
-                    Tab(
-                        selected = index == selectedTabIndex,
-                        onClick = { selectedTabIndex = index },
-                        text = {
-                            Text(
-                                text = tabItem.title,
-                                color =
-                                if (index == selectedTabIndex) {
-                                    MaterialTheme.colorScheme.primary
-                                } else {
-                                    MaterialTheme.colorScheme.onSurfaceVariant
-                                },
-                            )
-                        },
-                        icon = {
-                            Icon(
-                                imageVector =
-                                if (index == selectedTabIndex) {
-                                    tabItem.selectedIcon
-                                } else {
-                                    tabItem.unselectedIcon
-                                },
-                                tint =
-                                if (index == selectedTabIndex) {
-                                    MaterialTheme.colorScheme.primary
-                                } else {
-                                    MaterialTheme.colorScheme.onSurfaceVariant
-                                },
-                                contentDescription = tabItem.title,
-                            )
-                        },
-                    )
-                }
-            }
-            HorizontalPager(
-                state = pagerState,
-                modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .weight(1f),
-            ) { index ->
-                when (index) {
-                    0 ->
-                        LaunchContent(
-                            state = uiStateUpcomingLaunches.value,
-                            onLaunchClicked = onLaunchClicked,
-                            onTryAgainClicked = viewModel::getUpcomingLaunches,
-                            onRefresh = { viewModel.getUpcomingLaunches(true) },
-                            isRefreshing = isRefreshLoading.value,
-                        )
-
-                    1 ->
-                        LaunchContent(
-                            state = uiStatePastLaunches.value,
-                            onLaunchClicked = onLaunchClicked,
-                            onTryAgainClicked = viewModel::getPastLaunches,
-                            onRefresh = { viewModel.getPastLaunches(true) },
-                            isRefreshing = isRefreshLoading.value,
-                        )
-                }
-            }
-        }
-    }
+    LaunchesScreenContent(
+        state = uiState,
+        onLaunchClicked = onLaunchClicked,
+        onTryAgainClicked = viewModel::getLaunches,
+        onRefresh = viewModel::refresh,
+        isRefreshing = isRefreshLoading,
+    )
 }
 
 @Composable
-fun LaunchContent(
+fun LaunchesScreenContent(
     state: LaunchesUiState,
     onLaunchClicked: (id: String, name: String) -> Unit,
     onTryAgainClicked: () -> Unit,
     onRefresh: () -> Unit,
     isRefreshing: Boolean,
 ) {
-    when (state) {
-        LaunchesUiState.Error -> {
-            ErrorScreen(onTryAgainClicked = onTryAgainClicked)
-        }
+    Scaffold(
+        topBar = { SpaceTopBar(text = stringResource(R.string.launches_topbar_title)) },
+    ) { innerPadding ->
+        Column(modifier = Modifier.padding(top = innerPadding.calculateTopPadding())) {
+            when (state) {
+                LaunchesUiState.Error -> {
+                    ErrorScreen(onTryAgainClicked = onTryAgainClicked)
+                }
 
-        is LaunchesUiState.Loading -> {
-            CircularProgressIndicator(
-                Modifier
-                    .fillMaxSize()
-                    .wrapContentSize(),
-            )
-        }
+                is LaunchesUiState.Loading -> {
+                    CircularProgressIndicator(
+                        Modifier
+                            .fillMaxSize()
+                            .wrapContentSize(),
+                    )
+                }
 
-        is LaunchesUiState.Success -> {
-            LaunchList(
-                launches = state.launches,
-                onLaunchClicked = onLaunchClicked,
-                onRefresh = onRefresh,
-                isRefreshing = isRefreshing,
-            )
+                is LaunchesUiState.Success -> {
+                    LaunchScreenSuccess(
+                        upcomingLaunches = state.upcomingLaunches,
+                        pastLaunches = state.pastLaunches,
+                        onLaunchClicked = onLaunchClicked,
+                        onRefresh = onRefresh,
+                        isRefreshing = isRefreshing,
+                        onUpcomingLaunchesViewAllClick = {},
+                        onPastLaunchesViewAllClick = {},
+                    )
+                }
+            }
         }
     }
 }
 
 @Composable
-fun LaunchList(
-    launches: List<LaunchUi>,
+fun LaunchScreenSuccess(
+    upcomingLaunches: List<LaunchUi>,
+    pastLaunches: List<LaunchUi>,
     onLaunchClicked: (id: String, name: String) -> Unit,
+    onUpcomingLaunchesViewAllClick: () -> Unit,
+    onPastLaunchesViewAllClick: () -> Unit,
     isRefreshing: Boolean,
     onRefresh: () -> Unit,
 ) {
@@ -213,9 +127,34 @@ fun LaunchList(
     ) {
         LazyColumn(
             contentPadding = PaddingValues(vertical = 16.dp, horizontal = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            items(launches) { launch ->
+            item {
+                Header(
+                    title = stringResource(R.string.upcoming_launches),
+                    onViewAllClick = onUpcomingLaunchesViewAllClick,
+                )
+            }
+
+            items(upcomingLaunches.take(5)) { launch ->
+                LaunchCard(
+                    title = launch.title,
+                    agency = launch.agency,
+                    dateTime = launch.dateTime,
+                    status = launch.status,
+                    launchImageUrl = launch.launchImageUrl,
+                    onClick = { onLaunchClicked.invoke(launch.id, launch.title) },
+                )
+            }
+
+            item {
+                Header(
+                    title = stringResource(R.string.past_launches),
+                    onViewAllClick = onPastLaunchesViewAllClick,
+                )
+            }
+
+            items(pastLaunches.take(5)) { launch ->
                 LaunchCard(
                     title = launch.title,
                     agency = launch.agency,
@@ -229,15 +168,42 @@ fun LaunchList(
     }
 }
 
+@Composable
+fun Header(
+    title: String,
+    onViewAllClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(
+            text = title,
+            style = MaterialTheme.typography.titleLarge,
+            color = MaterialTheme.colorScheme.onBackground,
+        )
+
+        TextButton(
+            onClick = onViewAllClick,
+        ) {
+            Text(text = stringResource(R.string.view_all))
+        }
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
-fun LaunchesContentPreview(
-    @PreviewParameter(SampleLaunchesProvider::class) launches: List<LaunchUi>,
+fun LaunchesScreenContentPreview(
+    @PreviewParameter(LaunchesScreenPreviewProvider::class) state: LaunchesUiState,
 ) {
     SpacehubTheme {
-        LaunchList(
-            launches = launches,
-            onLaunchClicked = { _, _ -> Unit },
+        LaunchesScreenContent(
+            state = state,
+            onLaunchClicked = { _, _ -> },
+            onTryAgainClicked = {},
             onRefresh = {},
             isRefreshing = false,
         )

@@ -22,4 +22,7 @@
     <string name="upcoming">Upcoming</string>
     <string name="past">Past</string>
     <string name="launches_topbar_title">Launches</string>
+    <string name="upcoming_launches">Upcoming</string>
+    <string name="past_launches">Past</string>
+    <string name="view_all">View All</string>
 </resources>
