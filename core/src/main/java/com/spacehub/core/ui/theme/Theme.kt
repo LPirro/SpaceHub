@@ -36,18 +36,28 @@ import androidx.compose.ui.platform.LocalContext
 @Immutable
 data class ExtendedColors(
     val success: Color,
-    val onSuccess: Color,
+    val successContainer: Color,
+    val onSuccessContainer: Color,
     val warning: Color,
-    val onWarning: Color,
+    val warningContainer: Color,
+    val onWarningContainer: Color,
+    val danger: Color,
+    val dangerContainer: Color,
+    val onDangerContainer: Color,
 )
 
 val LocalExtendedColors =
     staticCompositionLocalOf {
         ExtendedColors(
-            success = successContainerLight,
-            onSuccess = onSuccessContainerLight,
-            warning = warningContainerLight,
-            onWarning = onWarningContainerLight,
+            success = success,
+            successContainer = successContainerLight,
+            onSuccessContainer = onSuccessContainerLight,
+            warning = warning,
+            warningContainer = warningContainerLight,
+            onWarningContainer = onWarningContainerLight,
+            danger = danger,
+            dangerContainer = dangerContainerLight,
+            onDangerContainer = onDangerContainerLight,
         )
     }
 
@@ -131,18 +141,28 @@ private val darkScheme =
 
 val extendedDark =
     ExtendedColors(
-        success = successContainerDark,
-        onSuccess = onSuccessContainerDark,
-        warning = warningContainerDark,
-        onWarning = onWarningContainerDark,
+        success = success,
+        successContainer = successContainerDark,
+        onSuccessContainer = onSuccessContainerDark,
+        warning = warning,
+        warningContainer = warningContainerDark,
+        onWarningContainer = onWarningContainerDark,
+        danger = danger,
+        dangerContainer = dangerContainerDark,
+        onDangerContainer = onDangerContainerDark
     )
 
 val extendedLight =
     ExtendedColors(
-        success = successContainerLight,
-        onSuccess = onSuccessContainerLight,
-        warning = warningContainerLight,
-        onWarning = onWarningContainerLight,
+        success = success,
+        successContainer = successContainerLight,
+        onSuccessContainer = onSuccessContainerLight,
+        warning = warning,
+        warningContainer = warningContainerLight,
+        onWarningContainer = onWarningContainerLight,
+        danger = danger,
+        dangerContainer = dangerContainerLight,
+        onDangerContainer = onDangerContainerLight
     )
 
 @Composable

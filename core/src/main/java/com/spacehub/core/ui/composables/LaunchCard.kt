@@ -19,28 +19,22 @@
  */
 package com.spacehub.core.ui.composables
 
-import android.os.CountDownTimer
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.LocationOn
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedCard
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableLongStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -48,145 +42,89 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.pluralStringResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.spacehub.common.models.domain.Status
 import com.spacehub.core.R
 import com.spacehub.core.ui.theme.SpacehubTheme
-import java.util.concurrent.TimeUnit
 
 @Composable
 fun LaunchCard(
     modifier: Modifier = Modifier,
     title: String,
     agency: String,
-    location: String,
     dateTime: String,
-    netMillis: Long,
     status: Status,
     launchImageUrl: String?,
     onClick: () -> Unit,
 ) {
     val imageRequest = rememberImageRequest(launchImageUrl)
 
-    val cornerSize = 12.dp
-    val shape = RoundedCornerShape(cornerSize)
-
-    OutlinedCard(
+    Surface(
         modifier = modifier
             .fillMaxWidth()
-            .clip(shape)
             .clickable { onClick.invoke() },
+        shape = RoundedCornerShape(16.dp),
+        color = MaterialTheme.colorScheme.surfaceContainerHigh,
     ) {
-        ConstraintLayout(Modifier.fillMaxWidth()) {
-            val (image, launchTitle, infoAgency, infoLocation, infoDate, launchStatus, launchCountdown) = createRefs()
-
-            val placeholderDrawable =
-                AppCompatResources.getDrawable(
-                    LocalContext.current,
-                    R.drawable.image_placeholder,
-                )
-            placeholderDrawable?.setTint(MaterialTheme.colorScheme.inverseOnSurface.toArgb())
-
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(12.dp),
+            verticalAlignment = Alignment.Top
+        ) {
+            // Launch Image
             AsyncImage(
                 model = imageRequest,
-                modifier =
-                Modifier
-                    .constrainAs(image) {
-                        top.linkTo(parent.top)
-                        bottom.linkTo(parent.bottom)
-                        start.linkTo(parent.start)
-                        height = Dimension.fillToConstraints
-                        width = Dimension.value(100.dp)
-                    }
-                    .clip(shape),
+                modifier = Modifier
+                    .size(width = 79.dp, height = 80.dp)
+                    .clip(RoundedCornerShape(4.dp)),
                 contentScale = ContentScale.Crop,
                 contentDescription = null,
             )
 
-            Text(
-                maxLines = 3,
-                text = title,
-                style = MaterialTheme.typography.titleLarge,
-                overflow = TextOverflow.Ellipsis,
-                modifier =
-                Modifier
-                    .constrainAs(launchTitle) {
-                        end.linkTo(parent.end, margin = 12.dp)
-                        start.linkTo(image.end, margin = 12.dp)
-                        top.linkTo(parent.top, margin = 12.dp)
-                        width = Dimension.fillToConstraints
-                        height = Dimension.wrapContent
-                    },
-            )
-            LaunchInfoItem(
-                text = agency,
-                icon = ImageVector.vectorResource(id = R.drawable.domain),
-                modifier =
-                Modifier.constrainAs(infoAgency) {
-                    start.linkTo(launchTitle.start)
-                    end.linkTo(launchTitle.end)
-                    top.linkTo(launchTitle.bottom, margin = 12.dp)
-                    width = Dimension.fillToConstraints
-                    height = Dimension.wrapContent
-                },
-            )
-            LaunchInfoItem(
-                modifier =
-                Modifier
-                    .constrainAs(infoLocation) {
-                        top.linkTo(infoAgency.bottom, margin = 4.dp)
-                        start.linkTo(launchTitle.start)
-                        end.linkTo(launchTitle.end)
-                        width = Dimension.fillToConstraints
-                        height = Dimension.wrapContent
-                    },
-                text = location,
-                icon = Icons.Outlined.LocationOn,
-            )
-            LaunchInfoItem(
-                modifier =
-                Modifier.constrainAs(infoDate) {
-                    top.linkTo(infoLocation.bottom, margin = 4.dp)
-                    start.linkTo(launchTitle.start)
-                    end.linkTo(launchTitle.end)
-                    width = Dimension.fillToConstraints
-                    height = Dimension.wrapContent
-                },
-                text = dateTime,
-                icon = ImageVector.vectorResource(id = R.drawable.calendar_blank_outline),
-            )
+            Spacer(modifier = Modifier.width(12.dp))
 
-            LaunchStatus(
-                modifier =
-                Modifier.constrainAs(launchStatus) {
-                    start.linkTo(launchTitle.start)
-                    top.linkTo(infoDate.bottom, margin = 16.dp)
-                    bottom.linkTo(parent.bottom, margin = 12.dp)
-                    height = Dimension.wrapContent
-                    width = Dimension.wrapContent
-                },
-                status = status,
-            )
+            // Content Column
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(top = 2.dp)
+            ) {
+                // Title
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
 
-            LaunchCountdown(
-                modifier =
-                Modifier.constrainAs(launchCountdown) {
-                    end.linkTo(launchTitle.end)
-                    top.linkTo(launchStatus.top)
-                    bottom.linkTo(launchStatus.bottom)
-                    height = Dimension.wrapContent
-                },
-                targetMillis = netMillis,
-            )
+                Spacer(modifier = Modifier.height(4.dp))
+
+                // Agency
+                LaunchInfoRow(
+                    icon = ImageVector.vectorResource(id = R.drawable.domain),
+                    text = agency,
+                )
+
+                Spacer(modifier = Modifier.height(6.dp))
+
+                // Date and Time
+                LaunchInfoRow(
+                    icon = ImageVector.vectorResource(id = R.drawable.calendar_blank_outline),
+                    text = dateTime,
+                )
+            }
+
+            Spacer(modifier = Modifier.width(8.dp))
+
+            // Status Badge
+            LaunchStatus(status = status)
         }
     }
 }
@@ -194,15 +132,18 @@ fun LaunchCard(
 @Composable
 private fun rememberImageRequest(data: String?): ImageRequest {
     val context = LocalContext.current
+    val tintColor = MaterialTheme.colorScheme.inverseOnSurface.toArgb()
 
-    val placeholderDrawable =
+    val placeholderDrawable = remember(tintColor) {
         AppCompatResources.getDrawable(
-            LocalContext.current,
+            context,
             R.drawable.image_placeholder,
-        )
-    placeholderDrawable?.setTint(MaterialTheme.colorScheme.inverseOnSurface.toArgb())
+        )?.apply {
+            setTint(tintColor)
+        }
+    }
 
-    return remember(data) {
+    return remember(data, placeholderDrawable) {
         ImageRequest.Builder(context)
             .data(data)
             .crossfade(true)
@@ -213,100 +154,30 @@ private fun rememberImageRequest(data: String?): ImageRequest {
 }
 
 @Composable
-private fun LaunchInfoItem(
+private fun LaunchInfoRow(
     modifier: Modifier = Modifier,
-    text: String,
     icon: ImageVector,
+    text: String,
 ) {
-    val componentsColor = MaterialTheme.colorScheme.onSurfaceVariant
-
-    Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically) {
-        Icon(
-            modifier = Modifier.size(16.dp),
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        androidx.compose.material3.Icon(
             imageVector = icon,
             contentDescription = null,
-            tint = componentsColor,
+            modifier = Modifier.size(18.dp),
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
         )
-        Spacer(modifier = Modifier.padding(start = 6.dp))
+        Spacer(modifier = Modifier.width(4.dp))
         Text(
             text = text,
-            style = MaterialTheme.typography.labelSmall,
-            color = componentsColor,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
         )
     }
-}
-
-@Composable
-fun LaunchCountdown(
-    modifier: Modifier,
-    targetMillis: Long,
-) {
-    // States to hold time values
-    var countdownText by remember { mutableStateOf("") }
-    var days by remember { mutableLongStateOf(0L) }
-    var hours by remember { mutableLongStateOf(0L) }
-    var minutes by remember { mutableLongStateOf(0L) }
-    var seconds by remember { mutableLongStateOf(0L) }
-    var isToday by remember { mutableStateOf(false) }
-    var isInThePast by remember { mutableStateOf(false) }
-
-    LaunchedEffect(targetMillis) {
-        val currentMillis = System.currentTimeMillis()
-        val remainingMillis = targetMillis - currentMillis
-
-        object : CountDownTimer(remainingMillis, 1000L) {
-            override fun onTick(millisUntilFinished: Long) {
-                val timeDifference = targetMillis - System.currentTimeMillis()
-                days = TimeUnit.MILLISECONDS.toDays(timeDifference)
-                hours = TimeUnit.MILLISECONDS.toHours(timeDifference) % 24
-                minutes = TimeUnit.MILLISECONDS.toMinutes(timeDifference) % 60
-                seconds = TimeUnit.MILLISECONDS.toSeconds(timeDifference) % 60
-                isToday = days == 0L
-            }
-
-            override fun onFinish() {
-                this.cancel()
-                isInThePast = true
-            }
-        }.start()
-    }
-
-    when {
-        isInThePast -> {
-            countdownText = ""
-        }
-
-        isToday -> {
-            val hoursText =
-                pluralStringResource(R.plurals.countdown_hours, hours.toInt(), hours.toInt())
-            val minutesText =
-                pluralStringResource(R.plurals.countdown_minutes, minutes.toInt(), minutes.toInt())
-            val secondsText =
-                pluralStringResource(R.plurals.countdown_seconds, seconds.toInt(), seconds.toInt())
-            countdownText =
-                stringResource(R.string.countdown_full_today, hoursText, minutesText, secondsText)
-        }
-
-        else -> {
-            val daysText =
-                pluralStringResource(R.plurals.countdown_days, days.toInt(), days.toInt())
-            val hoursText =
-                pluralStringResource(R.plurals.countdown_hours, hours.toInt(), hours.toInt())
-            val minutesText =
-                pluralStringResource(R.plurals.countdown_minutes, minutes.toInt(), minutes.toInt())
-            countdownText =
-                stringResource(R.string.countdown_full_days, daysText, hoursText, minutesText)
-        }
-    }
-
-    Text(
-        modifier = modifier,
-        text = countdownText,
-        style = MaterialTheme.typography.labelSmall,
-        color = MaterialTheme.colorScheme.primary,
-    )
 }
 
 @Preview
@@ -314,11 +185,9 @@ fun LaunchCountdown(
 private fun LaunchCardPreview() {
     SpacehubTheme {
         LaunchCard(
-            title = "Falcon 9 Block",
+            title = "Starship Flight 4",
             agency = "SpaceX",
-            location = "Cape Canaveral, FL, USA",
-            dateTime = "24 Lug ‘23 • 19:00",
-            netMillis = System.currentTimeMillis() + 100000L,
+            dateTime = "1 Nov 2025 • 4:30 pm",
             status = Status.Go(name = "Go", abbrev = "GO", description = "description"),
             launchImageUrl = "",
             onClick = {},
@@ -333,9 +202,7 @@ private fun LaunchCardLongTitlePreview() {
         LaunchCard(
             title = "SpaceX Starship TestFlight number 2",
             agency = "SpaceX",
-            location = "San Giovanni Rotondo, Puglia (FG), 71013, Italy",
-            dateTime = "24 Lug ‘23 • 19:00",
-            netMillis = System.currentTimeMillis() + TimeUnit.HOURS.toMillis(4),
+            dateTime = "24 Lug '23 • 19:00",
             status = Status.Go(name = "Go", abbrev = "GO", description = "description"),
             launchImageUrl = "",
             onClick = {},

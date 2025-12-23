@@ -23,6 +23,7 @@ import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -47,38 +48,44 @@ fun LaunchStatus(
 
     when (status) {
         is Status.Failure -> {
-            textColor = MaterialTheme.colorScheme.onErrorContainer
-            backgroundColor = MaterialTheme.colorScheme.errorContainer
+            textColor = SpacehubTheme.colors.danger
+            backgroundColor = Color(0xFF4B191A)
         }
 
         is Status.Go, is Status.Success -> {
-            textColor = SpacehubTheme.colors.onSuccess
-            backgroundColor = SpacehubTheme.colors.success
+            textColor = SpacehubTheme.colors.success
+            backgroundColor = Color(0xFF194B20)
         }
 
-        is Status.TBC, is Status.TBD -> {
-            textColor = SpacehubTheme.colors.onWarning
-            backgroundColor = SpacehubTheme.colors.warning
+        is Status.TBC  -> {
+            textColor = SpacehubTheme.colors.warning
+            backgroundColor = Color(0xFF4B2E19)
         }
 
-        is Status.InFlight, is Status.Unknown -> {
-            // do nothing as default color are already applied
+        is Status.InFlight -> {
+            textColor = MaterialTheme.colorScheme.onPrimaryContainer
+            backgroundColor = MaterialTheme.colorScheme.primaryContainer
+        }
+
+        is Status.TBD, is Status.Unknown -> {
+            textColor = MaterialTheme.colorScheme.onSurfaceVariant
+            backgroundColor = MaterialTheme.colorScheme.surfaceVariant
         }
     }
 
     Box(
         modifier =
         modifier
-            .defaultMinSize(minWidth = 30.dp)
             .clip(RoundedCornerShape(4.dp))
+            .height(20.dp)
             .background(backgroundColor),
         contentAlignment = Alignment.Center,
     ) {
         Text(
-            modifier = Modifier.padding(horizontal = 6.dp, vertical = 1.dp),
+            modifier = Modifier.padding(horizontal = 6.dp),
             text = status.abbrev,
             color = textColor,
-            style = MaterialTheme.typography.bodyMedium,
+            style = MaterialTheme.typography.labelMedium,
         )
     }
 }

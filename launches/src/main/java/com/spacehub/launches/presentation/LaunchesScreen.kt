@@ -219,9 +219,7 @@ fun LaunchList(
                 LaunchCard(
                     title = launch.title,
                     agency = launch.agency,
-                    location = launch.location,
                     dateTime = launch.dateTime,
-                    netMillis = launch.netMillis,
                     status = launch.status,
                     launchImageUrl = launch.launchImageUrl,
                     onClick = { onLaunchClicked.invoke(launch.id, launch.title) },
