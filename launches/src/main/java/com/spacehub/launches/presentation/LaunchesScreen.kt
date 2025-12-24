@@ -23,8 +23,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
@@ -42,6 +44,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -50,8 +53,8 @@ import com.spacehub.core.ui.composables.ErrorScreen
 import com.spacehub.core.ui.composables.LaunchCard
 import com.spacehub.core.ui.composables.SpaceTopBar
 import com.spacehub.core.ui.theme.SpacehubTheme
-import com.spacehub.launches.presentation.model.LaunchUi
 import com.spacehub.launches.R
+import com.spacehub.launches.presentation.model.LaunchUi
 
 @Composable
 fun LaunchesScreen(
@@ -127,7 +130,6 @@ fun LaunchScreenSuccess(
     ) {
         LazyColumn(
             contentPadding = PaddingValues(vertical = 16.dp, horizontal = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             item {
                 Header(
@@ -145,6 +147,7 @@ fun LaunchScreenSuccess(
                     launchImageUrl = launch.launchImageUrl,
                     onClick = { onLaunchClicked.invoke(launch.id, launch.title) },
                 )
+                Spacer(Modifier.height(12.dp))
             }
 
             item {
@@ -163,6 +166,7 @@ fun LaunchScreenSuccess(
                     launchImageUrl = launch.launchImageUrl,
                     onClick = { onLaunchClicked.invoke(launch.id, launch.title) },
                 )
+                Spacer(Modifier.height(12.dp))
             }
         }
     }
@@ -176,12 +180,14 @@ fun Header(
 ) {
     Row(
         modifier = modifier
+            .padding(vertical = 6.dp)
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
             text = title,
+            fontWeight = FontWeight.Bold,
             style = MaterialTheme.typography.titleLarge,
             color = MaterialTheme.colorScheme.onBackground,
         )

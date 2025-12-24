@@ -77,7 +77,7 @@ fun LaunchCard(
                 .padding(12.dp),
             verticalAlignment = Alignment.Top
         ) {
-            // Launch Image
+
             AsyncImage(
                 model = imageRequest,
                 modifier = Modifier
@@ -89,13 +89,12 @@ fun LaunchCard(
 
             Spacer(modifier = Modifier.width(12.dp))
 
-            // Content Column
             Column(
                 modifier = Modifier
                     .weight(1f)
                     .padding(top = 2.dp)
             ) {
-                // Title
+
                 Text(
                     text = title,
                     style = MaterialTheme.typography.titleMedium,
@@ -106,7 +105,6 @@ fun LaunchCard(
 
                 Spacer(modifier = Modifier.height(4.dp))
 
-                // Agency
                 LaunchInfoRow(
                     icon = ImageVector.vectorResource(id = R.drawable.domain),
                     text = agency,
@@ -114,7 +112,6 @@ fun LaunchCard(
 
                 Spacer(modifier = Modifier.height(6.dp))
 
-                // Date and Time
                 LaunchInfoRow(
                     icon = ImageVector.vectorResource(id = R.drawable.calendar_blank_outline),
                     text = dateTime,
@@ -123,7 +120,6 @@ fun LaunchCard(
 
             Spacer(modifier = Modifier.width(8.dp))
 
-            // Status Badge
             LaunchStatus(status = status)
         }
     }

@@ -22,20 +22,30 @@ package com.spacehub.core.ui.composables
 import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.spacehub.common.models.domain.Status
+import com.spacehub.core.R
 import com.spacehub.core.ui.theme.SpacehubTheme
 
 @Composable
@@ -43,46 +53,72 @@ fun LaunchStatus(
     modifier: Modifier = Modifier,
     status: Status,
 ) {
-    var backgroundColor: Color = MaterialTheme.colorScheme.primary
-    var textColor: Color = MaterialTheme.colorScheme.onPrimary
+    var backgroundColor: Color
+    var textColor: Color
+    var icon: Painter
 
     when (status) {
         is Status.Failure -> {
             textColor = SpacehubTheme.colors.danger
             backgroundColor = Color(0xFF4B191A)
+            icon = painterResource(id = R.drawable.cancel)
         }
 
-        is Status.Go, is Status.Success -> {
+        is Status.Go -> {
             textColor = SpacehubTheme.colors.success
             backgroundColor = Color(0xFF194B20)
+            icon = painterResource(id = R.drawable.checkbox_multiple_marked_circle_outline)
         }
 
         is Status.TBC  -> {
             textColor = SpacehubTheme.colors.warning
             backgroundColor = Color(0xFF4B2E19)
+            icon = painterResource(id = R.drawable.alert_circle_check_outline)
         }
 
         is Status.InFlight -> {
             textColor = MaterialTheme.colorScheme.onPrimaryContainer
             backgroundColor = MaterialTheme.colorScheme.primaryContainer
+            icon = painterResource(id = R.drawable.rocket_launch_outline)
         }
 
-        is Status.TBD, is Status.Unknown -> {
+        is Status.TBD -> {
             textColor = MaterialTheme.colorScheme.onSurfaceVariant
             backgroundColor = MaterialTheme.colorScheme.surfaceVariant
+            icon = painterResource(id = R.drawable.help_circle_outline)
+        }
+
+        is Status.Success -> {
+            textColor = SpacehubTheme.colors.success
+            backgroundColor = Color(0xFF194B20)
+            icon = painterResource(id = R.drawable.rocket_outline)
+        }
+        is Status.Unknown -> {
+            textColor = MaterialTheme.colorScheme.onSurfaceVariant
+            backgroundColor = MaterialTheme.colorScheme.surfaceVariant
+            icon = painterResource(id = R.drawable.cancel)
         }
     }
 
-    Box(
+    Row (
         modifier =
         modifier
             .clip(RoundedCornerShape(4.dp))
             .height(20.dp)
             .background(backgroundColor),
-        contentAlignment = Alignment.Center,
+        verticalAlignment = Alignment.CenterVertically
     ) {
+        Icon(
+            modifier = Modifier
+                .padding(start = 6.dp)
+                .size(12.dp),
+            painter = icon,
+            tint = textColor,
+            contentDescription = null,
+        )
+        Spacer(modifier = Modifier.width(4.dp))
         Text(
-            modifier = Modifier.padding(horizontal = 6.dp),
+            modifier = Modifier.padding(end = 6.dp),
             text = status.abbrev,
             color = textColor,
             style = MaterialTheme.typography.labelMedium,
@@ -112,7 +148,7 @@ private fun LaunchStatusFailurePreview() {
 private fun LaunchStatusGoPreview() {
     SpacehubTheme {
         LaunchStatus(
-            status = Status.Go(name = "Go", abbrev = "GO", description = "description"),
+            status = Status.Go(name = "Go", abbrev = "Go", description = "description"),
         )
     }
 }
