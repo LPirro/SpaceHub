@@ -42,10 +42,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.spacehub.core.ui.LightAndDarkPreviews
 import com.spacehub.core.ui.composables.ErrorScreen
 import com.spacehub.core.ui.composables.LaunchCard
 import com.spacehub.core.ui.composables.SpaceTopBar
@@ -194,7 +194,7 @@ fun Header(
     }
 }
 
-@Preview(showBackground = true)
+@LightAndDarkPreviews
 @Composable
 fun LaunchesScreenContentPreview(
     @PreviewParameter(LaunchesScreenPreviewProvider::class) state: LaunchesUiState,
