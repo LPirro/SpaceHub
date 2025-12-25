@@ -19,6 +19,8 @@
 
 package com.spacehub.launches.presentation
 
+import androidx.compose.foundation.gestures.snapping.SnapLayoutInfoProvider
+import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -30,7 +32,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -51,10 +57,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.spacehub.core.ui.LightAndDarkPreviews
 import com.spacehub.core.ui.composables.ErrorScreen
 import com.spacehub.core.ui.composables.LaunchCard
+import com.spacehub.core.ui.composables.NextLaunchCard
 import com.spacehub.core.ui.composables.SpaceTopBar
 import com.spacehub.core.ui.theme.SpacehubTheme
 import com.spacehub.launches.R
 import com.spacehub.launches.presentation.model.LaunchUi
+import java.util.concurrent.TimeUnit
 
 @Composable
 fun LaunchesScreen(
@@ -124,6 +132,8 @@ fun LaunchScreenSuccess(
     isRefreshing: Boolean,
     onRefresh: () -> Unit,
 ) {
+    val pagerState = rememberPagerState(pageCount = { upcomingLaunches.take(4).size })
+
     PullToRefreshBox(
         isRefreshing = isRefreshing,
         onRefresh = onRefresh,
@@ -131,6 +141,27 @@ fun LaunchScreenSuccess(
         LazyColumn(
             contentPadding = PaddingValues(vertical = 16.dp, horizontal = 16.dp),
         ) {
+            item {
+                HorizontalPager(
+                    state = pagerState,
+                    pageSpacing = 16.dp,
+                ) { page ->
+                    NextLaunchCard(
+                        title = upcomingLaunches[page].title,
+                        provider = upcomingLaunches[page].agency,
+                        location = upcomingLaunches[page].location,
+                        launchImageUrl = upcomingLaunches[page].launchImageUrl,
+                        targetDateMillis = upcomingLaunches[page].netMillis,
+                        onClick = {
+                            onLaunchClicked.invoke(
+                                upcomingLaunches[page].id,
+                                upcomingLaunches[page].title,
+                            )
+                        }
+                    )
+                }
+            }
+
             item {
                 Header(
                     title = stringResource(R.string.upcoming_launches),
