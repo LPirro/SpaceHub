@@ -28,6 +28,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -45,6 +46,7 @@ fun SpaceTopBar(
     text: String,
     showBackArrow: Boolean = false,
     onBackClick: (() -> Unit)? = null,
+    scrollBehavior: TopAppBarScrollBehavior? = null,
     actions: @Composable RowScope.() -> Unit = {},
 ) {
     val ralewayFontFamily =
@@ -76,10 +78,12 @@ fun SpaceTopBar(
                 ),
             )
         },
+        scrollBehavior = scrollBehavior,
         actions = actions,
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 private fun SpaceTopBarPreview() {
@@ -88,6 +92,7 @@ private fun SpaceTopBarPreview() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 private fun SpaceTopBarBackPreview() {

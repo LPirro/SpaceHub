@@ -50,7 +50,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -203,7 +202,7 @@ private fun CountdownCard(
     }
 
     Row(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
             .height(61.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -211,7 +210,7 @@ private fun CountdownCard(
     ) {
         Row (
             modifier = Modifier.background(
-                color = MaterialTheme.colorScheme.background.copy(alpha = 0.16f),
+                color = MaterialTheme.colorScheme.background.copy(alpha = 0.5f),
                 shape = RoundedCornerShape(16.dp),
             )
                 .border(

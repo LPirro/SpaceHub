@@ -19,8 +19,6 @@
 
 package com.spacehub.launches.presentation
 
-import androidx.compose.foundation.gestures.snapping.SnapLayoutInfoProvider
-import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -31,10 +29,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.CircularProgressIndicator
@@ -43,17 +39,19 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.spacehub.core.ui.LightAndDarkPreviews
 import com.spacehub.core.ui.composables.ErrorScreen
 import com.spacehub.core.ui.composables.LaunchCard
@@ -62,7 +60,6 @@ import com.spacehub.core.ui.composables.SpaceTopBar
 import com.spacehub.core.ui.theme.SpacehubTheme
 import com.spacehub.launches.R
 import com.spacehub.launches.presentation.model.LaunchUi
-import java.util.concurrent.TimeUnit
 
 @Composable
 fun LaunchesScreen(
@@ -89,8 +86,16 @@ fun LaunchesScreenContent(
     onRefresh: () -> Unit,
     isRefreshing: Boolean,
 ) {
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+
     Scaffold(
-        topBar = { SpaceTopBar(text = stringResource(R.string.launches_topbar_title)) },
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            SpaceTopBar(
+                text = stringResource(R.string.launches_topbar_title),
+                scrollBehavior = scrollBehavior,
+            )
+        },
     ) { innerPadding ->
         Column(modifier = Modifier.padding(top = innerPadding.calculateTopPadding())) {
             when (state) {
@@ -138,39 +143,40 @@ fun LaunchScreenSuccess(
         isRefreshing = isRefreshing,
         onRefresh = onRefresh,
     ) {
-        LazyColumn(
-            contentPadding = PaddingValues(vertical = 16.dp, horizontal = 16.dp),
+        Column(
+            modifier = Modifier
+                .verticalScroll(rememberScrollState())
+                .padding(vertical = 16.dp),
         ) {
-            item {
-                HorizontalPager(
-                    state = pagerState,
-                    pageSpacing = 16.dp,
-                ) { page ->
-                    NextLaunchCard(
-                        title = upcomingLaunches[page].title,
-                        provider = upcomingLaunches[page].agency,
-                        location = upcomingLaunches[page].location,
-                        launchImageUrl = upcomingLaunches[page].launchImageUrl,
-                        targetDateMillis = upcomingLaunches[page].netMillis,
-                        onClick = {
-                            onLaunchClicked.invoke(
-                                upcomingLaunches[page].id,
-                                upcomingLaunches[page].title,
-                            )
-                        }
-                    )
-                }
-            }
-
-            item {
-                Header(
-                    title = stringResource(R.string.upcoming_launches),
-                    onViewAllClick = onUpcomingLaunchesViewAllClick,
+            HorizontalPager(
+                state = pagerState,
+                pageSpacing = 8.dp,
+                contentPadding = PaddingValues(horizontal = 16.dp),
+            ) { page ->
+                NextLaunchCard(
+                    title = upcomingLaunches[page].title,
+                    provider = upcomingLaunches[page].agency,
+                    location = upcomingLaunches[page].location,
+                    launchImageUrl = upcomingLaunches[page].launchImageUrl,
+                    targetDateMillis = upcomingLaunches[page].netMillis,
+                    onClick = {
+                        onLaunchClicked.invoke(
+                            upcomingLaunches[page].id,
+                            upcomingLaunches[page].title,
+                        )
+                    },
                 )
             }
 
-            items(upcomingLaunches.take(5)) { launch ->
+            Header(
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp),
+                title = stringResource(R.string.upcoming_launches),
+                onViewAllClick = onUpcomingLaunchesViewAllClick,
+            )
+
+            upcomingLaunches.take(5).forEach { launch ->
                 LaunchCard(
+                    modifier = Modifier.padding(horizontal = 16.dp),
                     title = launch.title,
                     agency = launch.agency,
                     dateTime = launch.dateTime,
@@ -181,15 +187,15 @@ fun LaunchScreenSuccess(
                 Spacer(Modifier.height(12.dp))
             }
 
-            item {
-                Header(
-                    title = stringResource(R.string.past_launches),
-                    onViewAllClick = onPastLaunchesViewAllClick,
-                )
-            }
+            Header(
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp),
+                title = stringResource(R.string.past_launches),
+                onViewAllClick = onPastLaunchesViewAllClick,
+            )
 
-            items(pastLaunches.take(5)) { launch ->
+            pastLaunches.take(5).forEach { launch ->
                 LaunchCard(
+                    modifier = Modifier.padding(horizontal = 16.dp),
                     title = launch.title,
                     agency = launch.agency,
                     dateTime = launch.dateTime,
