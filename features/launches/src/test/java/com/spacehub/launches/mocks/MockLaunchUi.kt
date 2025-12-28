@@ -20,11 +20,11 @@
 
 package com.spacehub.launches.mocks
 
-import com.spacehub.launches.presentation.model.LaunchUi
+import com.spacehub.launches.presentation.model.LaunchUiModel
 import com.spacehub.testutil.mocks.MockStatus
 
 object MockLaunchUi {
-    fun create() = LaunchUi(
+    fun create() = LaunchUiModel(
         id = "launch-001",
         title = "Falcon 9 - Starlink 30",
         agency = "SpaceX",

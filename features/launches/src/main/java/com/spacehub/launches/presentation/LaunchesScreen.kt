@@ -59,7 +59,7 @@ import com.spacehub.core.ui.composables.NextLaunchCard
 import com.spacehub.core.ui.composables.SpaceTopBar
 import com.spacehub.core.ui.theme.SpacehubTheme
 import com.spacehub.launches.R
-import com.spacehub.launches.presentation.model.LaunchUi
+import com.spacehub.launches.presentation.model.LaunchUiModel
 
 @Composable
 fun LaunchesScreen(
@@ -129,8 +129,8 @@ fun LaunchesScreenContent(
 
 @Composable
 fun LaunchScreenSuccess(
-    upcomingLaunches: List<LaunchUi>,
-    pastLaunches: List<LaunchUi>,
+    upcomingLaunches: List<LaunchUiModel>,
+    pastLaunches: List<LaunchUiModel>,
     onLaunchClicked: (id: String, name: String) -> Unit,
     onUpcomingLaunchesViewAllClick: () -> Unit,
     onPastLaunchesViewAllClick: () -> Unit,

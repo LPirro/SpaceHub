@@ -19,7 +19,7 @@ package com.spacehub.launches.presentation
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.spacehub.common.models.domain.Status
-import com.spacehub.launches.presentation.model.LaunchUi
+import com.spacehub.launches.presentation.model.LaunchUiModel
 
 class LaunchesScreenPreviewProvider : PreviewParameterProvider<LaunchesUiState> {
     override val values: Sequence<LaunchesUiState>
@@ -40,7 +40,7 @@ class LaunchesScreenPreviewProvider : PreviewParameterProvider<LaunchesUiState> 
             LaunchesUiState.Error
         )
 
-    private val fakeUpcomingLaunch = LaunchUi(
+    private val fakeUpcomingLaunch = LaunchUiModel(
         id = "launch-001",
         title = "Falcon 9 - Starlink 30",
         agency = "SpaceX",
@@ -55,7 +55,7 @@ class LaunchesScreenPreviewProvider : PreviewParameterProvider<LaunchesUiState> 
         launchImageUrl = "",
     )
 
-    private val fakePastLaunch = LaunchUi(
+    private val fakePastLaunch = LaunchUiModel(
         id = "launch-002",
         title = "Starship Flight 4",
         agency = "SpaceX",

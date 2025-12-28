@@ -23,7 +23,7 @@ import com.spacehub.core.result.Result
 import com.spacehub.launches.domain.usecase.GetPastLaunchesUseCase
 import com.spacehub.launches.domain.usecase.GetUpcomingLaunchesUseCase
 import com.spacehub.launches.presentation.mapper.LaunchUiMapper
-import com.spacehub.launches.presentation.model.LaunchUi
+import com.spacehub.launches.presentation.model.LaunchUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -105,8 +105,8 @@ sealed class LaunchesUiState {
     data class Loading(val isLoading: Boolean) : LaunchesUiState()
 
     data class Success(
-        val upcomingLaunches: List<LaunchUi>,
-        val pastLaunches: List<LaunchUi>,
+        val upcomingLaunches: List<LaunchUiModel>,
+        val pastLaunches: List<LaunchUiModel>,
     ) : LaunchesUiState()
 
     data object Error : LaunchesUiState()

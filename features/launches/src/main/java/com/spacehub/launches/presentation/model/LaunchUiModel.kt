@@ -22,7 +22,7 @@ package com.spacehub.launches.presentation.model
 
 import com.spacehub.common.models.domain.Status
 
-data class LaunchUi(
+data class LaunchUiModel(
     val id: String,
     val title: String,
     val agency: String,
