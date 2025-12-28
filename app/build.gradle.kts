@@ -15,9 +15,9 @@ android {
 }
 
 dependencies {
-    implementation(project(":launches"))
-    implementation(project(":launchdetail"))
-    implementation(project(":news"))
+    implementation(project(":features:launches"))
+    implementation(project(":features:launchdetail"))
+    implementation(project(":features:news"))
     implementation(project(":core"))
 
     implementation(libs.navigation.compose)
