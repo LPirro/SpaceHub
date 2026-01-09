@@ -15,20 +15,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.spacehub.launches.domain.usecase
+package com.spacehub.common.models.domain
 
-import com.spacehub.common.domain.repository.LaunchesRepository
-import com.spacehub.common.domain.repository.PagedLaunches
-import com.spacehub.core.result.Result
-import kotlinx.coroutines.flow.Flow
+import kotlinx.serialization.Serializable
 
-interface GetPastLaunchesUseCase {
-    operator fun invoke(forceRefresh: Boolean = false): Flow<Result<PagedLaunches>>
-}
-
-class GetPastLaunchesUseCaseImpl(
-    private val repository: LaunchesRepository,
-) : GetPastLaunchesUseCase {
-    override fun invoke(forceRefresh: Boolean): Flow<Result<PagedLaunches>> =
-        repository.getPastLaunches(forceRefresh = forceRefresh)
+@Serializable
+enum class LaunchType {
+    UPCOMING,
+    PAST
 }

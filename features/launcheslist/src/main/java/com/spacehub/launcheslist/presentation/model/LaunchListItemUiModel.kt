@@ -17,22 +17,16 @@
  *  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.spacehub.core.navigation
 
-import com.spacehub.common.models.domain.LaunchType
-import kotlinx.serialization.Serializable
+package com.spacehub.launcheslist.presentation.model
 
-@Serializable
-object Launches
+import com.spacehub.common.models.domain.Status
 
-@Serializable
-object News
-
-@Serializable
-object Saved
-
-@Serializable
-data class LaunchDetail(val launchId: String, val title: String)
-
-@Serializable
-data class LaunchesList(val launchType: LaunchType)
+data class LaunchListItemUiModel(
+    val id: String,
+    val title: String,
+    val agency: String,
+    val dateTime: String,
+    val status: Status,
+    val launchImageUrl: String?,
+)

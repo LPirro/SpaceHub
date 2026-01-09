@@ -76,10 +76,10 @@ class LaunchesViewModel @Inject constructor(
             // Only emit Success if both are successful
             _uiState.value = when {
                 upcomingResult is Result.Success && pastResult is Result.Success -> {
-                    val upcomingLaunches = upcomingResult.data.map { launch ->
+                    val upcomingLaunches = upcomingResult.data.launches.map { launch ->
                         launchUiMapper.mapToUi(launch)
                     }
-                    val pastLaunches = pastResult.data.map { launch ->
+                    val pastLaunches = pastResult.data.launches.map { launch ->
                         launchUiMapper.mapToUi(launch)
                     }
                     LaunchesUiState.Success(

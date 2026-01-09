@@ -17,22 +17,25 @@
  *  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.spacehub.core.navigation
+package com.spacehub.launcheslist.presentation.mapper
 
-import com.spacehub.common.models.domain.LaunchType
-import kotlinx.serialization.Serializable
+import com.spacehub.common.models.domain.Launch
+import com.spacehub.core.util.DateParser
+import com.spacehub.launcheslist.presentation.model.LaunchListItemUiModel
 
-@Serializable
-object Launches
+interface LaunchListUiMapper {
+    fun mapToUi(launch: Launch): LaunchListItemUiModel
+}
 
-@Serializable
-object News
-
-@Serializable
-object Saved
-
-@Serializable
-data class LaunchDetail(val launchId: String, val title: String)
-
-@Serializable
-data class LaunchesList(val launchType: LaunchType)
+class LaunchListUiMapperImpl(
+    private val dateParser: DateParser,
+) : LaunchListUiMapper {
+    override fun mapToUi(launch: Launch) = LaunchListItemUiModel(
+        id = launch.id,
+        title = launch.name,
+        agency = launch.launchServiceProvider.name,
+        dateTime = dateParser.parseFullDate(launch.net),
+        status = launch.status,
+        launchImageUrl = launch.image,
+    )
+}

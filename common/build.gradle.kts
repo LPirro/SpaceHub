@@ -16,6 +16,7 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.okhttp.interceptor)
     implementation(libs.hilt.navigation.compose)
+    implementation(libs.androidx.paging.runtime)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

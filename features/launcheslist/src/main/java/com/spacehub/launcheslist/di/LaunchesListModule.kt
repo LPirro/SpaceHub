@@ -1,0 +1,44 @@
+/*
+ * SpaceHub - Designed and Developed by LPirro (Leonardo Pirro)
+ * Copyright (C) 2023 Leonardo Pirro
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+package com.spacehub.launcheslist.di
+
+import com.spacehub.common.domain.repository.LaunchesRepository
+import com.spacehub.core.util.DateParser
+import com.spacehub.launcheslist.domain.usecase.GetLaunchesListUseCase
+import com.spacehub.launcheslist.domain.usecase.GetLaunchesListUseCaseImpl
+import com.spacehub.launcheslist.presentation.mapper.LaunchListUiMapper
+import com.spacehub.launcheslist.presentation.mapper.LaunchListUiMapperImpl
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+
+@Module
+@InstallIn(SingletonComponent::class)
+object LaunchesListModule {
+    @Provides
+    fun provideLaunchListUiMapper(dateParser: DateParser): LaunchListUiMapper =
+        LaunchListUiMapperImpl(dateParser)
+
+    @Provides
+    fun provideGetLaunchesListUseCase(
+        launchesRepository: LaunchesRepository,
+    ): GetLaunchesListUseCase = GetLaunchesListUseCaseImpl(
+        launchesRepository = launchesRepository,
+    )
+}

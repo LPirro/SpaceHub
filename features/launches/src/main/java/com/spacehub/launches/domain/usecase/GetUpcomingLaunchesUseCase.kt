@@ -18,17 +18,17 @@
 package com.spacehub.launches.domain.usecase
 
 import com.spacehub.common.domain.repository.LaunchesRepository
-import com.spacehub.common.models.domain.Launch
+import com.spacehub.common.domain.repository.PagedLaunches
 import com.spacehub.core.result.Result
 import kotlinx.coroutines.flow.Flow
 
 interface GetUpcomingLaunchesUseCase {
-    operator fun invoke(forceRefresh: Boolean = false): Flow<Result<List<Launch>>>
+    operator fun invoke(forceRefresh: Boolean = false): Flow<Result<PagedLaunches>>
 }
 
 class GetUpcomingLaunchesUseCaseImpl(
     private val repository: LaunchesRepository,
 ) : GetUpcomingLaunchesUseCase {
-    override fun invoke(forceRefresh: Boolean): Flow<Result<List<Launch>>> =
+    override fun invoke(forceRefresh: Boolean): Flow<Result<PagedLaunches>> =
         repository.getUpcomingLaunches(forceRefresh = forceRefresh)
 }

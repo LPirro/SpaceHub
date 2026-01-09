@@ -65,6 +65,8 @@ import com.spacehub.launches.presentation.model.LaunchUiModel
 fun LaunchesScreen(
     viewModel: LaunchesViewModel = hiltViewModel(),
     onLaunchClicked: (id: String, name: String) -> Unit,
+    onUpcomingLaunchesViewAllClick: () -> Unit,
+    onPastLaunchesViewAllClick: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val isRefreshLoading by viewModel.isRefreshLoading.collectAsState()
@@ -75,6 +77,8 @@ fun LaunchesScreen(
         onTryAgainClicked = viewModel::getLaunches,
         onRefresh = viewModel::refresh,
         isRefreshing = isRefreshLoading,
+        onUpcomingLaunchesViewAllClick = onUpcomingLaunchesViewAllClick,
+        onPastLaunchesViewAllClick = onPastLaunchesViewAllClick,
     )
 }
 
@@ -84,6 +88,8 @@ fun LaunchesScreenContent(
     onLaunchClicked: (id: String, name: String) -> Unit,
     onTryAgainClicked: () -> Unit,
     onRefresh: () -> Unit,
+    onUpcomingLaunchesViewAllClick: () -> Unit,
+    onPastLaunchesViewAllClick: () -> Unit,
     isRefreshing: Boolean,
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
@@ -118,8 +124,8 @@ fun LaunchesScreenContent(
                         onLaunchClicked = onLaunchClicked,
                         onRefresh = onRefresh,
                         isRefreshing = isRefreshing,
-                        onUpcomingLaunchesViewAllClick = {},
-                        onPastLaunchesViewAllClick = {},
+                        onUpcomingLaunchesViewAllClick = onUpcomingLaunchesViewAllClick,
+                        onPastLaunchesViewAllClick = onPastLaunchesViewAllClick,
                     )
                 }
             }
@@ -249,6 +255,8 @@ fun LaunchesScreenContentPreview(
             onTryAgainClicked = {},
             onRefresh = {},
             isRefreshing = false,
+            onUpcomingLaunchesViewAllClick = {},
+            onPastLaunchesViewAllClick = {},
         )
     }
 }

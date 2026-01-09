@@ -19,6 +19,7 @@ package com.spacehub.launches.presentation
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.cash.turbine.test
+import com.spacehub.common.domain.repository.PagedLaunches
 import com.spacehub.core.result.DataError
 import com.spacehub.core.result.Result
 import com.spacehub.launches.domain.usecase.GetPastLaunchesUseCase
@@ -79,9 +80,9 @@ class LaunchesViewModelTest {
             val mockLaunchUi = MockLaunchUi.create()
 
             whenever(getUpcomingLaunchesUseCase(forceRefresh = false))
-                .thenReturn(flowOf(Result.Success(upcomingLaunches)))
+                .thenReturn(flowOf(Result.Success(PagedLaunches(upcomingLaunches, hasNextPage = false))))
             whenever(getPastLaunchesUseCase(forceRefresh = false))
-                .thenReturn(flowOf(Result.Success(pastLaunches)))
+                .thenReturn(flowOf(Result.Success(PagedLaunches(pastLaunches, hasNextPage = false))))
             whenever(launchUiMapper.mapToUi(any())).thenReturn(mockLaunchUi)
 
             viewModel = LaunchesViewModel(
@@ -115,7 +116,7 @@ class LaunchesViewModelTest {
             whenever(getUpcomingLaunchesUseCase(forceRefresh = false))
                 .thenReturn(flowOf(Result.Error(DataError.Network(message = "Network Error"))))
             whenever(getPastLaunchesUseCase(forceRefresh = false))
-                .thenReturn(flowOf(Result.Success(pastLaunches)))
+                .thenReturn(flowOf(Result.Success(PagedLaunches(pastLaunches, hasNextPage = false))))
 
             viewModel = LaunchesViewModel(
                 getUpcomingLaunchesUseCase,
@@ -146,7 +147,7 @@ class LaunchesViewModelTest {
             val upcomingLaunches = listOf(MockLaunch.create())
 
             whenever(getUpcomingLaunchesUseCase(forceRefresh = false))
-                .thenReturn(flowOf(Result.Success(upcomingLaunches)))
+                .thenReturn(flowOf(Result.Success(PagedLaunches(upcomingLaunches, hasNextPage = false))))
             whenever(getPastLaunchesUseCase(forceRefresh = false))
                 .thenReturn(flowOf(Result.Error(DataError.Network(message = "Network Error"))))
 
@@ -213,14 +214,14 @@ class LaunchesViewModelTest {
             val mockLaunchUiRefreshed = MockLaunchUi.create().copy(id = "launch-002")
 
             whenever(getUpcomingLaunchesUseCase(forceRefresh = false))
-                .thenReturn(flowOf(Result.Success(launches)))
+                .thenReturn(flowOf(Result.Success(PagedLaunches(launches, hasNextPage = false))))
             whenever(getPastLaunchesUseCase(forceRefresh = false))
-                .thenReturn(flowOf(Result.Success(launches)))
+                .thenReturn(flowOf(Result.Success(PagedLaunches(launches, hasNextPage = false))))
 
             whenever(getUpcomingLaunchesUseCase(forceRefresh = true))
-                .thenReturn(flowOf(Result.Success(refreshedLaunches)))
+                .thenReturn(flowOf(Result.Success(PagedLaunches(refreshedLaunches, hasNextPage = false))))
             whenever(getPastLaunchesUseCase(forceRefresh = true))
-                .thenReturn(flowOf(Result.Success(refreshedLaunches)))
+                .thenReturn(flowOf(Result.Success(PagedLaunches(refreshedLaunches, hasNextPage = false))))
 
             whenever(launchUiMapper.mapToUi(launches[0])).thenReturn(mockLaunchUi)
             whenever(launchUiMapper.mapToUi(refreshedLaunches[0])).thenReturn(mockLaunchUiRefreshed)
@@ -262,9 +263,9 @@ class LaunchesViewModelTest {
             val mockLaunchUi = MockLaunchUi.create()
 
             whenever(getUpcomingLaunchesUseCase(any()))
-                .thenReturn(flowOf(Result.Success(launches)))
+                .thenReturn(flowOf(Result.Success(PagedLaunches(launches, hasNextPage = false))))
             whenever(getPastLaunchesUseCase(any()))
-                .thenReturn(flowOf(Result.Success(launches)))
+                .thenReturn(flowOf(Result.Success(PagedLaunches(launches, hasNextPage = false))))
             whenever(launchUiMapper.mapToUi(any())).thenReturn(mockLaunchUi)
 
             viewModel = LaunchesViewModel(
@@ -307,9 +308,9 @@ class LaunchesViewModelTest {
             val mockLaunchUi = MockLaunchUi.create()
 
             whenever(getUpcomingLaunchesUseCase(any()))
-                .thenReturn(flowOf(Result.Success(launches)))
+                .thenReturn(flowOf(Result.Success(PagedLaunches(launches, hasNextPage = false))))
             whenever(getPastLaunchesUseCase(any()))
-                .thenReturn(flowOf(Result.Success(launches)))
+                .thenReturn(flowOf(Result.Success(PagedLaunches(launches, hasNextPage = false))))
             whenever(launchUiMapper.mapToUi(any())).thenReturn(mockLaunchUi)
 
             viewModel = LaunchesViewModel(
@@ -342,9 +343,9 @@ class LaunchesViewModelTest {
             val mockLaunchUi = MockLaunchUi.create()
 
             whenever(getUpcomingLaunchesUseCase(any()))
-                .thenReturn(flowOf(Result.Success(launches)))
+                .thenReturn(flowOf(Result.Success(PagedLaunches(launches, hasNextPage = false))))
             whenever(getPastLaunchesUseCase(any()))
-                .thenReturn(flowOf(Result.Success(launches)))
+                .thenReturn(flowOf(Result.Success(PagedLaunches(launches, hasNextPage = false))))
             whenever(launchUiMapper.mapToUi(any())).thenReturn(mockLaunchUi)
 
             viewModel = LaunchesViewModel(
@@ -369,15 +370,15 @@ class LaunchesViewModelTest {
             val mockLaunchUi = MockLaunchUi.create()
 
             whenever(getUpcomingLaunchesUseCase(forceRefresh = false))
-                .thenReturn(flowOf(Result.Success(launches)))
+                .thenReturn(flowOf(Result.Success(PagedLaunches(launches, hasNextPage = false))))
             whenever(getPastLaunchesUseCase(forceRefresh = false))
-                .thenReturn(flowOf(Result.Success(launches)))
+                .thenReturn(flowOf(Result.Success(PagedLaunches(launches, hasNextPage = false))))
             whenever(launchUiMapper.mapToUi(any())).thenReturn(mockLaunchUi)
 
             whenever(getUpcomingLaunchesUseCase(forceRefresh = true))
                 .thenReturn(flowOf(Result.Error(DataError.Network(message = "Network Error"))))
             whenever(getPastLaunchesUseCase(forceRefresh = true))
-                .thenReturn(flowOf(Result.Success(launches)))
+                .thenReturn(flowOf(Result.Success(PagedLaunches(launches, hasNextPage = false))))
 
             viewModel = LaunchesViewModel(
                 getUpcomingLaunchesUseCase,
@@ -409,9 +410,9 @@ class LaunchesViewModelTest {
             val mockLaunchUi = MockLaunchUi.create()
 
             whenever(getUpcomingLaunchesUseCase(any()))
-                .thenReturn(flowOf(Result.Success(launches)))
+                .thenReturn(flowOf(Result.Success(PagedLaunches(launches, hasNextPage = false))))
             whenever(getPastLaunchesUseCase(any()))
-                .thenReturn(flowOf(Result.Success(launches)))
+                .thenReturn(flowOf(Result.Success(PagedLaunches(launches, hasNextPage = false))))
             whenever(launchUiMapper.mapToUi(any())).thenReturn(mockLaunchUi)
 
             viewModel = LaunchesViewModel(

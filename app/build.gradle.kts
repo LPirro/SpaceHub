@@ -16,9 +16,11 @@ android {
 
 dependencies {
     implementation(project(":features:launches"))
+    implementation(project(":features:launcheslist"))
     implementation(project(":features:launchdetail"))
     implementation(project(":features:news"))
     implementation(project(":core"))
+    implementation(project(":common:models"))
 
     implementation(libs.navigation.compose)
     implementation(libs.androidx.core.ktx)
