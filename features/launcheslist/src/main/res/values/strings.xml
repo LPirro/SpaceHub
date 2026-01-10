@@ -2,4 +2,8 @@
 <resources>
     <string name="upcoming_launches_title">Upcoming Launches</string>
     <string name="past_launches_title">Past Launches</string>
+    <string name="filter_agency">Agency</string>
+    <string name="filter_location">Location</string>
+    <string name="filter_clear_selection">Clear selection</string>
+    <string name="filter_confirm">Confirm</string>
 </resources>

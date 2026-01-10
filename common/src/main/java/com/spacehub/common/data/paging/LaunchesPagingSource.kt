@@ -28,6 +28,8 @@ import kotlinx.coroutines.flow.first
 class LaunchesPagingSource(
     private val launchesRepository: LaunchesRepository,
     private val launchType: LaunchType,
+    private val agencyFilter: List<String> = emptyList(),
+    private val locationFilter: List<String> = emptyList(),
 ) : PagingSource<Int, Launch>() {
 
     override fun getRefreshKey(state: PagingState<Int, Launch>): Int? {
@@ -47,11 +49,15 @@ class LaunchesPagingSource(
                     forceRefresh = page > 0,
                     limit = params.loadSize,
                     offset = offset,
+                    agencyFilter = agencyFilter,
+                    locationFilter = locationFilter,
                 ).first()
                 LaunchType.PAST -> launchesRepository.getPastLaunches(
                     forceRefresh = page > 0,
                     limit = params.loadSize,
                     offset = offset,
+                    agencyFilter = agencyFilter,
+                    locationFilter = locationFilter,
                 ).first()
             }
 

@@ -28,12 +28,16 @@ interface LaunchesRepository {
         forceRefresh: Boolean = false,
         limit: Int = 20,
         offset: Int = 0,
+        agencyFilter: List<String> = emptyList(),
+        locationFilter: List<String> = emptyList(),
     ): Flow<Result<PagedLaunches>>
 
     fun getPastLaunches(
         forceRefresh: Boolean = false,
         limit: Int = 20,
         offset: Int = 0,
+        agencyFilter: List<String> = emptyList(),
+        locationFilter: List<String> = emptyList(),
     ): Flow<Result<PagedLaunches>>
 
     fun getLaunch(id: String): Flow<Result<Launch>>

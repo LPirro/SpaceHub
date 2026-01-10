@@ -31,6 +31,7 @@ interface LaunchesService {
         @Query("mode") mode: String = "detailed",
         @Query("limit") limit: Int = 20,
         @Query("offset") offset: Int = 0,
+        @Query("lsp__ids") agencyIds: String? = null,
         @Query("hide_recent_previous") hideRecentPrevious: Boolean = true,
     ): PaginatedResultRemote<List<LaunchRemote>>
 
@@ -39,6 +40,7 @@ interface LaunchesService {
         @Query("mode") mode: String = "detailed",
         @Query("limit") limit: Int = 20,
         @Query("offset") offset: Int = 0,
+        @Query("lsp__ids") agencyIds: String? = null,
     ): PaginatedResultRemote<List<LaunchRemote>>
 
     @GET("launch/{id}")

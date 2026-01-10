@@ -19,6 +19,8 @@ package com.spacehub.launcheslist.di
 
 import com.spacehub.common.domain.repository.LaunchesRepository
 import com.spacehub.core.util.DateParser
+import com.spacehub.launcheslist.domain.usecase.GetLaunchFiltersUseCase
+import com.spacehub.launcheslist.domain.usecase.GetLaunchFiltersUseCaseImpl
 import com.spacehub.launcheslist.domain.usecase.GetLaunchesListUseCase
 import com.spacehub.launcheslist.domain.usecase.GetLaunchesListUseCaseImpl
 import com.spacehub.launcheslist.presentation.mapper.LaunchListUiMapper
@@ -41,4 +43,7 @@ object LaunchesListModule {
     ): GetLaunchesListUseCase = GetLaunchesListUseCaseImpl(
         launchesRepository = launchesRepository,
     )
+
+    @Provides
+    fun provideGetLaunchFiltersUseCase(): GetLaunchFiltersUseCase = GetLaunchFiltersUseCaseImpl()
 }

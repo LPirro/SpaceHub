@@ -19,9 +19,14 @@
 
 package com.spacehub.launcheslist.presentation
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,9 +36,15 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
+import kotlinx.coroutines.launch
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -47,8 +58,10 @@ import androidx.paging.compose.itemKey
 import com.spacehub.common.models.domain.LaunchType
 import com.spacehub.core.ui.composables.ErrorScreen
 import com.spacehub.core.ui.composables.LaunchCard
+import com.spacehub.core.ui.composables.SpaceFilterChip
 import com.spacehub.core.ui.composables.SpaceTopBar
 import com.spacehub.launcheslist.R
+import com.spacehub.launcheslist.domain.model.LaunchFilter
 import com.spacehub.launcheslist.presentation.model.LaunchListItemUiModel
 
 @Composable
@@ -62,10 +75,17 @@ fun LaunchesListScreen(
     onBackClick: () -> Unit,
 ) {
     val launches = viewModel.launches.collectAsLazyPagingItems()
+    val uiState by viewModel.uiState.collectAsState()
 
     LaunchesListScreenContent(
         launchType = launchType,
         launches = launches,
+        uiState = uiState,
+        onAgencyFilterClick = viewModel::onAgencyFilterClick,
+        onLocationFilterClick = viewModel::onLocationFilterClick,
+        onBottomSheetDismiss = viewModel::onBottomSheetDismiss,
+        onAgencyFiltersConfirmed = viewModel::onAgencyFiltersConfirmed,
+        onLocationFiltersConfirmed = viewModel::onLocationFiltersConfirmed,
         onLaunchClicked = onLaunchClicked,
         onBackClick = onBackClick,
     )
@@ -75,15 +95,36 @@ fun LaunchesListScreen(
 fun LaunchesListScreenContent(
     launchType: LaunchType,
     launches: LazyPagingItems<LaunchListItemUiModel>,
+    uiState: LaunchesListUiState,
+    onAgencyFilterClick: () -> Unit,
+    onLocationFilterClick: () -> Unit,
+    onBottomSheetDismiss: () -> Unit,
+    onAgencyFiltersConfirmed: (Set<LaunchFilter.Agency>) -> Unit,
+    onLocationFiltersConfirmed: (Set<LaunchFilter.Location>) -> Unit,
     onLaunchClicked: (id: String, name: String) -> Unit,
     onBackClick: () -> Unit,
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val bottomSheetState = rememberModalBottomSheetState()
+    val scope = rememberCoroutineScope()
 
     val title = when (launchType) {
         LaunchType.UPCOMING -> stringResource(R.string.upcoming_launches_title)
         LaunchType.PAST -> stringResource(R.string.past_launches_title)
     }
+
+    val topAppBarColors = TopAppBarDefaults.topAppBarColors()
+    val isScrolled = scrollBehavior.state.overlappedFraction > 0.01f
+    val targetColor = if (isScrolled) {
+        topAppBarColors.scrolledContainerColor
+    } else {
+        topAppBarColors.containerColor
+    }
+    val appBarContainerColor by animateColorAsState(
+        targetValue = targetColor,
+        animationSpec = spring(stiffness = Spring.StiffnessMedium),
+        label = "appBarContainerColor",
+    )
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -96,11 +137,30 @@ fun LaunchesListScreenContent(
             )
         },
     ) { innerPadding ->
-        Box(
+        Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(top = innerPadding.calculateTopPadding()),
         ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(appBarContainerColor)
+                    .padding(start = 16.dp, end = 16.dp, bottom = 8.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                SpaceFilterChip(
+                    label = stringResource(R.string.filter_agency),
+                    selected = uiState.selectedAgencies.isNotEmpty(),
+                    onClick = onAgencyFilterClick,
+                )
+                SpaceFilterChip(
+                    label = stringResource(R.string.filter_location),
+                    selected = uiState.selectedLocations.isNotEmpty(),
+                    onClick = onLocationFilterClick,
+                )
+            }
+
             when (launches.loadState.refresh) {
                 is LoadState.Loading -> {
                     CircularProgressIndicator(
@@ -117,7 +177,6 @@ fun LaunchesListScreenContent(
                 is LoadState.NotLoading -> {
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
-                        contentPadding = PaddingValues(16.dp),
                         verticalArrangement = Arrangement.spacedBy(12.dp),
                     ) {
                         items(
@@ -127,6 +186,11 @@ fun LaunchesListScreenContent(
                             val launch = launches[index]
                             if (launch != null) {
                                 LaunchCard(
+                                    modifier = Modifier.padding(
+                                        start = 16.dp,
+                                        end = 16.dp,
+                                        top = if (index == 0) 10.dp else 0.dp,
+                                    ),
                                     title = launch.title,
                                     agency = launch.agency,
                                     dateTime = launch.dateTime,
@@ -169,6 +233,46 @@ fun LaunchesListScreenContent(
                     }
                 }
             }
+        }
+    }
+
+    // Agency Bottom Sheet
+    if (uiState.activeBottomSheet is ActiveBottomSheet.Agency) {
+        ModalBottomSheet(
+            onDismissRequest = onBottomSheetDismiss,
+            sheetState = bottomSheetState,
+        ) {
+            MultiSelectFilterBottomSheetContent(
+                title = stringResource(R.string.filter_agency),
+                options = uiState.agencyFilters,
+                initialSelection = uiState.selectedAgencies,
+                onConfirm = { agencies ->
+                    scope.launch {
+                        bottomSheetState.hide()
+                        onAgencyFiltersConfirmed(agencies)
+                    }
+                },
+            )
+        }
+    }
+
+    // Location Bottom Sheet
+    if (uiState.activeBottomSheet is ActiveBottomSheet.Location) {
+        ModalBottomSheet(
+            onDismissRequest = onBottomSheetDismiss,
+            sheetState = bottomSheetState,
+        ) {
+            MultiSelectFilterBottomSheetContent(
+                title = stringResource(R.string.filter_location),
+                options = uiState.locationFilters,
+                initialSelection = uiState.selectedLocations,
+                onConfirm = { locations ->
+                    scope.launch {
+                        bottomSheetState.hide()
+                        onLocationFiltersConfirmed(locations)
+                    }
+                },
+            )
         }
     }
 }

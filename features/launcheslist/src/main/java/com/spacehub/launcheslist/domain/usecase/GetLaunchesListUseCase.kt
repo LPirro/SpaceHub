@@ -27,14 +27,22 @@ import com.spacehub.common.models.domain.LaunchType
 import kotlinx.coroutines.flow.Flow
 
 interface GetLaunchesListUseCase {
-    operator fun invoke(launchType: LaunchType): Flow<PagingData<Launch>>
+    operator fun invoke(
+        launchType: LaunchType,
+        agencyFilter: List<String> = emptyList(),
+        locationFilter: List<String> = emptyList(),
+    ): Flow<PagingData<Launch>>
 }
 
 class GetLaunchesListUseCaseImpl(
     private val launchesRepository: LaunchesRepository,
 ) : GetLaunchesListUseCase {
 
-    override fun invoke(launchType: LaunchType): Flow<PagingData<Launch>> {
+    override fun invoke(
+        launchType: LaunchType,
+        agencyFilter: List<String>,
+        locationFilter: List<String>,
+    ): Flow<PagingData<Launch>> {
         return Pager(
             config = PagingConfig(
                 pageSize = PAGE_SIZE,
@@ -45,6 +53,8 @@ class GetLaunchesListUseCaseImpl(
                 LaunchesPagingSource(
                     launchesRepository = launchesRepository,
                     launchType = launchType,
+                    agencyFilter = agencyFilter,
+                    locationFilter = locationFilter,
                 )
             },
         ).flow
