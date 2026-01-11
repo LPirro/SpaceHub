@@ -44,25 +44,30 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
-import kotlinx.coroutines.launch
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.paging.LoadState
+import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import com.spacehub.common.models.domain.LaunchType
+import com.spacehub.core.ui.LightAndDarkPreviews
 import com.spacehub.core.ui.composables.ErrorScreen
 import com.spacehub.core.ui.composables.LaunchCard
 import com.spacehub.core.ui.composables.SpaceFilterChip
 import com.spacehub.core.ui.composables.SpaceTopBar
 import com.spacehub.launcheslist.R
 import com.spacehub.launcheslist.domain.model.LaunchFilter
+import com.spacehub.core.ui.theme.SpacehubTheme
 import com.spacehub.launcheslist.presentation.model.LaunchListItemUiModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 
 @Composable
 fun LaunchesListScreen(
@@ -274,5 +279,26 @@ fun LaunchesListScreenContent(
                 },
             )
         }
+    }
+}
+
+@LightAndDarkPreviews
+@Composable
+fun LaunchesListScreenPreview(
+    @PreviewParameter(LaunchListPreviewProvider::class) pagingData: MutableStateFlow<PagingData<LaunchListItemUiModel>>,
+) {
+    SpacehubTheme {
+        LaunchesListScreenContent(
+            launchType = LaunchType.UPCOMING,
+            launches = pagingData.collectAsLazyPagingItems(),
+            uiState = LaunchesListUiState(),
+            onAgencyFilterClick = {},
+            onLocationFilterClick = {},
+            onBottomSheetDismiss = {},
+            onAgencyFiltersConfirmed = {},
+            onLocationFiltersConfirmed = {},
+            onLaunchClicked = { _, _ -> },
+            onBackClick = {},
+        )
     }
 }
