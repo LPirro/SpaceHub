@@ -184,43 +184,38 @@ fun LaunchesListScreenContent(
         }
     }
 
-    // Agency Bottom Sheet
-    if (uiState.activeBottomSheet is ActiveBottomSheet.Agency) {
+    if (uiState.activeBottomSheet != ActiveBottomSheet.None) {
         ModalBottomSheet(
             onDismissRequest = onBottomSheetDismiss,
             sheetState = bottomSheetState,
         ) {
-            MultiSelectFilterBottomSheetContent(
-                title = stringResource(R.string.filter_agency),
-                options = uiState.agencyFilters,
-                initialSelection = uiState.selectedAgencies,
-                onConfirm = { agencies ->
-                    scope.launch {
-                        bottomSheetState.hide()
-                        onAgencyFiltersConfirmed(agencies)
-                    }
-                },
-            )
-        }
-    }
+            when (uiState.activeBottomSheet) {
+                is ActiveBottomSheet.Agency -> MultiSelectFilterBottomSheetContent(
+                    title = stringResource(R.string.filter_agency),
+                    options = uiState.agencyFilters,
+                    initialSelection = uiState.selectedAgencies,
+                    onConfirm = { agencies ->
+                        scope.launch {
+                            bottomSheetState.hide()
+                            onAgencyFiltersConfirmed(agencies)
+                        }
+                    },
+                )
 
-    // Location Bottom Sheet
-    if (uiState.activeBottomSheet is ActiveBottomSheet.Location) {
-        ModalBottomSheet(
-            onDismissRequest = onBottomSheetDismiss,
-            sheetState = bottomSheetState,
-        ) {
-            MultiSelectFilterBottomSheetContent(
-                title = stringResource(R.string.filter_location),
-                options = uiState.locationFilters,
-                initialSelection = uiState.selectedLocations,
-                onConfirm = { locations ->
-                    scope.launch {
-                        bottomSheetState.hide()
-                        onLocationFiltersConfirmed(locations)
-                    }
-                },
-            )
+                is ActiveBottomSheet.Location -> MultiSelectFilterBottomSheetContent(
+                    title = stringResource(R.string.filter_location),
+                    options = uiState.locationFilters,
+                    initialSelection = uiState.selectedLocations,
+                    onConfirm = { locations ->
+                        scope.launch {
+                            bottomSheetState.hide()
+                            onLocationFiltersConfirmed(locations)
+                        }
+                    },
+                )
+
+                ActiveBottomSheet.None -> Unit
+            }
         }
     }
 }
