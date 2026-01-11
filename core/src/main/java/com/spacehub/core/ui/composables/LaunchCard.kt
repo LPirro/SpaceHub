@@ -30,6 +30,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -46,10 +47,13 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.spacehub.common.models.domain.Status
 import com.spacehub.core.R
+import com.spacehub.core.ui.theme.AppFonts
+import com.spacehub.core.ui.theme.SpaceMonoStyle
 import com.spacehub.core.ui.theme.SpacehubTheme
 
 @Composable
@@ -160,7 +164,7 @@ private fun LaunchInfoRow(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        androidx.compose.material3.Icon(
+        Icon(
             imageVector = icon,
             contentDescription = null,
             modifier = Modifier.size(18.dp),
@@ -169,7 +173,7 @@ private fun LaunchInfoRow(
         Spacer(modifier = Modifier.width(4.dp))
         Text(
             text = text,
-            style = MaterialTheme.typography.bodyMedium,
+            style = SpaceMonoStyle.Regular.copy(fontSize = 14.sp),
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,

@@ -49,12 +49,6 @@ fun SpaceTopBar(
     scrollBehavior: TopAppBarScrollBehavior? = null,
     actions: @Composable RowScope.() -> Unit = {},
 ) {
-    val ralewayFontFamily =
-        FontFamily(
-            Font(R.font.raleway_regular, FontWeight.Normal),
-            Font(R.font.raleway_bold, FontWeight.Bold),
-        )
-
     TopAppBar(
         navigationIcon = {
             if (showBackArrow && onBackClick != null) {
@@ -73,7 +67,6 @@ fun SpaceTopBar(
                 text = text,
                 style = TextStyle(
                     fontSize = 22.sp,
-                    fontFamily = ralewayFontFamily,
                     fontWeight = FontWeight.Bold,
                 ),
             )

@@ -20,36 +20,113 @@
 package com.spacehub.core.ui.theme
 
 import androidx.compose.material3.Typography
+import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.spacehub.core.R
+import com.spacehub.core.ui.theme.AppFonts.spaceGroteskRegular
+import com.spacehub.core.ui.theme.AppFonts.spaceGroteskMedium
 
-// Set of Material typography styles to start with
-val Typography =
-    Typography(
-        bodyLarge =
-        TextStyle(
-            fontFamily = FontFamily.Default,
-            fontWeight = FontWeight.Normal,
-            fontSize = 16.sp,
-            lineHeight = 24.sp,
-            letterSpacing = 0.5.sp,
-        ),
-    /* Other default text styles to override
-    titleLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 22.sp,
-        lineHeight = 28.sp,
-        letterSpacing = 0.sp
+val TYPOGRAPHY = Typography()
+
+val Typography = Typography(
+    displayLarge = TYPOGRAPHY.displayLarge.copy(
+        fontFamily = spaceGroteskRegular,
+        fontFeatureSettings = "ss02, dlig"
     ),
-    labelSmall = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Medium,
-        fontSize = 11.sp,
-        lineHeight = 16.sp,
-        letterSpacing = 0.5.sp
+    displayMedium = TYPOGRAPHY.displayMedium.copy(
+        fontFamily = spaceGroteskRegular,
+        fontFeatureSettings = "ss02, dlig"
+    ),
+    displaySmall = TYPOGRAPHY.displaySmall.copy(
+        fontFamily = spaceGroteskRegular,
+        fontFeatureSettings = "ss02, dlig"
+    ),
+    headlineLarge = TYPOGRAPHY.headlineLarge.copy(
+        fontFamily = spaceGroteskRegular,
+        fontFeatureSettings = "ss02, dlig"
+    ),
+    headlineMedium = TYPOGRAPHY.headlineMedium.copy(
+        fontFamily = spaceGroteskRegular,
+        fontFeatureSettings = "ss02, dlig"
+    ),
+    headlineSmall = TYPOGRAPHY.headlineSmall.copy(
+        fontFamily = spaceGroteskRegular,
+        fontFeatureSettings = "ss02, dlig"
+    ),
+    titleLarge = TYPOGRAPHY.titleLarge.copy(
+        fontFamily = spaceGroteskRegular,
+        fontFeatureSettings = "ss02, dlig"
+    ),
+    titleMedium = TYPOGRAPHY.titleMedium.copy(
+        fontFamily = spaceGroteskMedium,
+        fontFeatureSettings = "ss02, dlig"
+    ),
+    titleSmall = TYPOGRAPHY.titleSmall.copy(
+        fontFamily = spaceGroteskMedium,
+        fontFeatureSettings = "ss02, dlig"
+    ),
+    bodyLarge = TYPOGRAPHY.bodyLarge.copy(
+        fontFamily = spaceGroteskRegular,
+        fontFeatureSettings = "ss02, dlig"
+    ),
+    bodyMedium = TYPOGRAPHY.bodyMedium.copy(
+        fontFamily = spaceGroteskRegular,
+        fontFeatureSettings = "ss02, dlig"
+    ),
+    bodySmall = TYPOGRAPHY.bodySmall.copy(
+        fontFamily = spaceGroteskRegular,
+        fontFeatureSettings = "ss02, dlig"
+    ),
+    labelLarge = TYPOGRAPHY.labelLarge.copy(
+        fontFamily = spaceGroteskMedium,
+        fontFeatureSettings = "ss02, dlig"
+    ),
+    labelMedium = TYPOGRAPHY.labelMedium.copy(
+        fontFamily = spaceGroteskMedium,
+        fontFeatureSettings = "ss02, dlig"
+    ),
+
+    labelSmall = TYPOGRAPHY.labelSmall.copy(
+        fontFamily = spaceGroteskMedium,
+        fontFeatureSettings = "ss02, dlig"
+    ),
+)
+
+@OptIn(ExperimentalTextApi::class)
+object AppFonts {
+    // Primary font - Space Grotesk
+    val spaceGroteskBold = FontFamily(Font(R.font.space_grotesk_bold))
+    val spaceGrotesLight = FontFamily(Font(R.font.space_grotesk_light))
+    val spaceGroteskMedium = FontFamily(Font(R.font.space_grotesk_medium))
+    val spaceGroteskRegular = FontFamily(Font(R.font.space_grotesk_regular))
+    val spaceGroteskSemibold = FontFamily(Font(R.font.space_grotesk_semibold))
+
+    // Secondary font - Space Mono (for minor areas)
+    val spaceMonoRegular = FontFamily(Font(R.font.space_mono_regular))
+    val spaceMonoBold = FontFamily(Font(R.font.space_mono_bold))
+    val spaceMonoItalic = FontFamily(Font(R.font.space_mono_italic))
+    val spaceMonoBoldItalic = FontFamily(Font(R.font.space_mono_bold_italic))
+}
+
+// Space Mono TextStyles with letter spacing
+object SpaceMonoStyle {
+    val Regular = TextStyle(
+        fontFamily = AppFonts.spaceMonoRegular,
+        letterSpacing = 0.25.sp
     )
-     */
+    val Bold = TextStyle(
+        fontFamily = AppFonts.spaceMonoBold,
+        letterSpacing = 0.25.sp
     )
+    val Italic = TextStyle(
+        fontFamily = AppFonts.spaceMonoItalic,
+        letterSpacing = 0.25.sp
+    )
+    val BoldItalic = TextStyle(
+        fontFamily = AppFonts.spaceMonoBoldItalic,
+        letterSpacing = 0.25.sp
+    )
+}
