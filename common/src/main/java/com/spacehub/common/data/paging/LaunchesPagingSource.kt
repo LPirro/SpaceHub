@@ -22,7 +22,7 @@ import androidx.paging.PagingState
 import com.spacehub.common.domain.repository.LaunchesRepository
 import com.spacehub.common.models.domain.Launch
 import com.spacehub.common.models.domain.LaunchType
-import com.spacehub.core.result.Result
+import com.spacehub.core.common.result.Result
 import kotlinx.coroutines.flow.first
 
 class LaunchesPagingSource(

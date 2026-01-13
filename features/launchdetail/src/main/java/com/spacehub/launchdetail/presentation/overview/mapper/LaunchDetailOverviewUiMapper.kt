@@ -21,7 +21,7 @@
 package com.spacehub.launchdetail.presentation.overview.mapper
 
 import com.spacehub.common.models.domain.Launch
-import com.spacehub.core.util.DateParser
+import com.spacehub.core.common.util.DateParser
 import com.spacehub.launchdetail.presentation.overview.model.AgencyUi
 import com.spacehub.launchdetail.presentation.overview.model.CountdownUi
 import com.spacehub.launchdetail.presentation.overview.model.LaunchOverviewUi

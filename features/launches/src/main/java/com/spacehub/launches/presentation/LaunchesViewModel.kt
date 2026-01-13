@@ -19,7 +19,7 @@ package com.spacehub.launches.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.spacehub.core.result.Result
+import com.spacehub.core.common.result.Result
 import com.spacehub.launches.domain.usecase.GetPastLaunchesUseCase
 import com.spacehub.launches.domain.usecase.GetUpcomingLaunchesUseCase
 import com.spacehub.launches.presentation.mapper.LaunchUiMapper

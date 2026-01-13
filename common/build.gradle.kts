@@ -9,7 +9,8 @@ android {
 
 dependencies {
     implementation(project(":common:models"))
-    implementation(project(":core"))
+    implementation(project(":core:common"))
+    implementation(project(":core:network"))
 
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)

@@ -20,7 +20,7 @@
 
 package com.spacehub.launchdetail.presentation.overview
 
-import InfoItems
+import com.spacehub.core.design.composables.InfoItems
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -67,10 +67,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.spacehub.core.ui.composables.CountdownTimer
-import com.spacehub.core.ui.composables.InfoCard
-import com.spacehub.core.ui.composables.InfoCardButton
-import com.spacehub.core.ui.theme.SpacehubTheme
+import com.spacehub.core.design.composables.CountdownTimer
+import com.spacehub.core.design.composables.InfoCard
+import com.spacehub.core.design.composables.InfoCardButton
+import com.spacehub.core.design.theme.SpacehubTheme
 import com.spacehub.launchdetail.R
 import com.spacehub.launchdetail.presentation.overview.LaunchDetailOverviewViewModel.LaunchDetailOverviewUiState
 import com.spacehub.launchdetail.presentation.overview.model.AgencyUi

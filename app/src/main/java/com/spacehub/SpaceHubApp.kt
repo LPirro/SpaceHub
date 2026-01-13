@@ -40,8 +40,8 @@ import com.spacehub.core.navigation.LaunchDetail
 import com.spacehub.core.navigation.Launches
 import com.spacehub.core.navigation.LaunchesList
 import com.spacehub.core.navigation.News
-import com.spacehub.core.ui.composables.SpaceHubNavBar
-import com.spacehub.core.ui.theme.SpacehubTheme
+import com.spacehub.core.design.composables.SpaceHubNavBar
+import com.spacehub.core.design.theme.SpacehubTheme
 import com.spacehub.launchdetail.presentation.LaunchDetailScreen
 import com.spacehub.launches.presentation.LaunchesScreen
 import com.spacehub.launcheslist.presentation.LaunchesListScreen

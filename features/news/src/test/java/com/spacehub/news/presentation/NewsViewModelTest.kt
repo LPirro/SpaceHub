@@ -2,8 +2,8 @@ package com.spacehub.news.presentation
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.cash.turbine.test
-import com.spacehub.core.result.DataError
-import com.spacehub.core.result.Result
+import com.spacehub.core.common.result.DataError
+import com.spacehub.core.common.result.Result
 import com.spacehub.news.domain.model.Article
 import com.spacehub.news.domain.usecase.FilterNewsUseCase
 import com.spacehub.news.domain.usecase.GetNewsUseCase

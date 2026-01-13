@@ -25,8 +25,8 @@ import com.spacehub.common.domain.repository.LaunchesRepository
 import com.spacehub.common.domain.repository.PagedLaunches
 import com.spacehub.common.mapper.LaunchMapper
 import com.spacehub.common.models.remote.LaunchRemote
-import com.spacehub.core.result.DataError
-import com.spacehub.core.result.Result
+import com.spacehub.core.common.result.DataError
+import com.spacehub.core.common.result.Result
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow

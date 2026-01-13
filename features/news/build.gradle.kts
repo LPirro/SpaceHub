@@ -9,7 +9,9 @@ android {
 }
 
 dependencies {
-    implementation(project(":core"))
+    implementation(project(":core:design"))
+    implementation(project(":core:common"))
+    implementation(project(":core:network"))
     implementation(project(":common:models"))
 
     implementation(libs.hilt.navigation.compose)

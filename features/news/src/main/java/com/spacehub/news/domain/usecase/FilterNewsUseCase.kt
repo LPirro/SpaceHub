@@ -20,7 +20,7 @@
 
 package com.spacehub.news.domain.usecase
 
-import com.spacehub.core.result.Result
+import com.spacehub.core.common.result.Result
 import com.spacehub.news.domain.model.Article
 import com.spacehub.news.domain.repository.NewsRepository
 import kotlinx.coroutines.flow.Flow

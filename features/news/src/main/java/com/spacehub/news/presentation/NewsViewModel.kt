@@ -25,8 +25,8 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.spacehub.core.exceptions.SearchCancellationException
-import com.spacehub.core.result.Result
+import com.spacehub.core.common.exceptions.SearchCancellationException
+import com.spacehub.core.common.result.Result
 import com.spacehub.news.domain.model.Article
 import com.spacehub.news.domain.usecase.FilterNewsUseCase
 import com.spacehub.news.domain.usecase.GetNewsUseCase

@@ -13,7 +13,8 @@ android {
 }
 
 dependencies {
-    implementation(project(":core"))
+    implementation(project(":core:design"))
+    implementation(project(":core:common"))
     implementation(project(":common"))
     implementation(project(":common:models"))
 

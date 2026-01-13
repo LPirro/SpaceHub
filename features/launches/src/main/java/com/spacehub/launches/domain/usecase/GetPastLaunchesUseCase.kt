@@ -19,7 +19,7 @@ package com.spacehub.launches.domain.usecase
 
 import com.spacehub.common.domain.repository.LaunchesRepository
 import com.spacehub.common.domain.repository.PagedLaunches
-import com.spacehub.core.result.Result
+import com.spacehub.core.common.result.Result
 import kotlinx.coroutines.flow.Flow
 
 interface GetPastLaunchesUseCase {

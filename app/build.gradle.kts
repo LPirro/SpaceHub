@@ -19,7 +19,8 @@ dependencies {
     implementation(project(":features:launcheslist"))
     implementation(project(":features:launchdetail"))
     implementation(project(":features:news"))
-    implementation(project(":core"))
+    implementation(project(":core:design"))
+    implementation(project(":core:navigation"))
     implementation(project(":common:models"))
 
     implementation(libs.navigation.compose)

@@ -21,7 +21,7 @@
 package com.spacehub.launches.presentation.mapper
 
 import com.spacehub.common.models.domain.Launch
-import com.spacehub.core.util.DateParser
+import com.spacehub.core.common.util.DateParser
 import com.spacehub.launches.presentation.model.LaunchUiModel
 
 class LaunchUiMapperImpl(private val dateParser: DateParser) : LaunchUiMapper {

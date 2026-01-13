@@ -52,12 +52,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import com.spacehub.core.ui.LightAndDarkPreviews
-import com.spacehub.core.ui.composables.ErrorScreen
-import com.spacehub.core.ui.composables.LaunchCard
-import com.spacehub.core.ui.composables.NextLaunchCard
-import com.spacehub.core.ui.composables.SpaceTopBar
-import com.spacehub.core.ui.theme.SpacehubTheme
+import com.spacehub.core.design.LightAndDarkPreviews
+import com.spacehub.core.design.composables.ErrorScreen
+import com.spacehub.core.design.composables.LaunchCard
+import com.spacehub.core.design.composables.NextLaunchCard
+import com.spacehub.core.design.composables.SpaceTopBar
+import com.spacehub.core.design.theme.SpacehubTheme
 import com.spacehub.launches.R
 import com.spacehub.launches.presentation.model.LaunchUiModel
 

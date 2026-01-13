@@ -47,7 +47,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.spacehub.core.ui.theme.SpacehubTheme
+import com.spacehub.core.design.theme.SpacehubTheme
 import com.spacehub.launcheslist.R
 import com.spacehub.launcheslist.domain.model.LaunchFilter
 

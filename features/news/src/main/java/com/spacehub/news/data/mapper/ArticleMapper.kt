@@ -20,7 +20,7 @@
 
 package com.spacehub.news.data.mapper
 
-import com.spacehub.core.util.DateParser
+import com.spacehub.core.common.util.DateParser
 import com.spacehub.news.data.network.model.ArticleRemote
 import com.spacehub.news.domain.model.Article
 import com.spacehub.news.domain.model.RelatedLaunch

@@ -46,10 +46,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.spacehub.core.ui.composables.ErrorScreen
-import com.spacehub.core.ui.composables.SearchAppBar
-import com.spacehub.core.ui.composables.SpaceTopBar
-import com.spacehub.core.ui.theme.SpacehubTheme
+import com.spacehub.core.design.composables.ErrorScreen
+import com.spacehub.core.design.composables.SearchAppBar
+import com.spacehub.core.design.composables.SpaceTopBar
+import com.spacehub.core.design.theme.SpacehubTheme
 import com.spacehub.news.R
 import com.spacehub.news.domain.model.Article
 
@@ -180,7 +180,7 @@ private fun ArticleSmall(
     val placeholderDrawable =
         AppCompatResources.getDrawable(
             LocalContext.current,
-            com.spacehub.core.R.drawable.image_placeholder,
+            com.spacehub.core.design.R.drawable.image_placeholder,
         )
     placeholderDrawable?.setTint(MaterialTheme.colorScheme.inverseOnSurface.toArgb())
 
@@ -228,7 +228,7 @@ private fun ArticleBig(
     val placeholderDrawable =
         AppCompatResources.getDrawable(
             LocalContext.current,
-            com.spacehub.core.R.drawable.image_placeholder,
+            com.spacehub.core.design.R.drawable.image_placeholder,
         )
     placeholderDrawable?.setTint(MaterialTheme.colorScheme.inverseOnSurface.toArgb())
 
@@ -273,7 +273,7 @@ fun ArticleInfo(
     Row(verticalAlignment = Alignment.CenterVertically) {
         Icon(
             modifier = Modifier.size(10.dp),
-            painter = painterResource(com.spacehub.core.R.drawable.newspaper_variant_outline),
+            painter = painterResource(com.spacehub.core.design.R.drawable.newspaper_variant_outline),
             tint = MaterialTheme.colorScheme.onSurfaceVariant,
             contentDescription = null,
         )

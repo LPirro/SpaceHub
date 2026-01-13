@@ -46,8 +46,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.spacehub.core.ui.composables.SpaceTopBar
-import com.spacehub.core.ui.theme.SpacehubTheme
+import com.spacehub.core.design.composables.SpaceTopBar
+import com.spacehub.core.design.theme.SpacehubTheme
 import com.spacehub.launchdetail.R
 import com.spacehub.launchdetail.presentation.mission.LaunchDetailMission
 import com.spacehub.launchdetail.presentation.mission.LaunchDetailMissionViewModel

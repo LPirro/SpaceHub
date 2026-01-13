@@ -20,8 +20,8 @@ package com.spacehub.launches.presentation
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.cash.turbine.test
 import com.spacehub.common.domain.repository.PagedLaunches
-import com.spacehub.core.result.DataError
-import com.spacehub.core.result.Result
+import com.spacehub.core.common.result.DataError
+import com.spacehub.core.common.result.Result
 import com.spacehub.launches.domain.usecase.GetPastLaunchesUseCase
 import com.spacehub.launches.domain.usecase.GetUpcomingLaunchesUseCase
 import com.spacehub.launches.mocks.MockLaunchUi

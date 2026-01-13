@@ -18,7 +18,7 @@
 package com.spacehub.launches.di
 
 import com.spacehub.common.domain.repository.LaunchesRepository
-import com.spacehub.core.util.DateParser
+import com.spacehub.core.common.util.DateParser
 import com.spacehub.launches.domain.usecase.GetPastLaunchesUseCase
 import com.spacehub.launches.domain.usecase.GetPastLaunchesUseCaseImpl
 import com.spacehub.launches.domain.usecase.GetUpcomingLaunchesUseCase
