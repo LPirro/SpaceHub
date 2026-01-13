@@ -31,6 +31,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -98,6 +100,10 @@ fun SpaceHubNavHost(
         modifier = modifier,
         navController = navController,
         startDestination = Launches,
+        enterTransition = { slideInHorizontally { it } },
+        exitTransition = { slideOutHorizontally { -it } },
+        popEnterTransition = { slideInHorizontally { -it } },
+        popExitTransition = { slideOutHorizontally { it } },
     ) {
         composable<Launches> {
             LaunchesScreen(
