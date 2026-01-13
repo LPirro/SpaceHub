@@ -36,6 +36,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -57,7 +58,6 @@ import com.spacehub.core.design.composables.SpaceFilterChip
 import com.spacehub.core.design.composables.SpaceTopBar
 import com.spacehub.core.design.theme.SpacehubTheme
 import com.spacehub.launcheslist.R
-import com.spacehub.launcheslist.domain.model.LaunchFilter
 import com.spacehub.launcheslist.presentation.model.LaunchListItemUiModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -75,17 +75,24 @@ fun LaunchesListScreen(
     val launches = viewModel.launches.collectAsLazyPagingItems()
     val uiState by viewModel.uiState.collectAsState()
 
+    LaunchedEffect(Unit) {
+        viewModel.effect.collect { effect ->
+            when (effect) {
+                is LaunchesListScreenEffect.NavigateToLaunchDetail -> {
+                    onLaunchClicked(effect.id, effect.name)
+                }
+                is LaunchesListScreenEffect.NavigateBack -> {
+                    onBackClick()
+                }
+            }
+        }
+    }
+
     LaunchesListScreenContent(
         launchType = launchType,
         launches = launches,
         uiState = uiState,
-        onAgencyFilterClick = viewModel::onAgencyFilterClick,
-        onLocationFilterClick = viewModel::onLocationFilterClick,
-        onBottomSheetDismiss = viewModel::onBottomSheetDismiss,
-        onAgencyFiltersConfirmed = viewModel::onAgencyFiltersConfirmed,
-        onLocationFiltersConfirmed = viewModel::onLocationFiltersConfirmed,
-        onLaunchClicked = onLaunchClicked,
-        onBackClick = onBackClick,
+        onEvent = viewModel::onEvent,
     )
 }
 
@@ -94,13 +101,7 @@ fun LaunchesListScreenContent(
     launchType: LaunchType,
     launches: LazyPagingItems<LaunchListItemUiModel>,
     uiState: LaunchesListUiState,
-    onAgencyFilterClick: () -> Unit,
-    onLocationFilterClick: () -> Unit,
-    onBottomSheetDismiss: () -> Unit,
-    onAgencyFiltersConfirmed: (Set<LaunchFilter.Agency>) -> Unit,
-    onLocationFiltersConfirmed: (Set<LaunchFilter.Location>) -> Unit,
-    onLaunchClicked: (id: String, name: String) -> Unit,
-    onBackClick: () -> Unit,
+    onEvent: (LaunchesListScreenEvent) -> Unit,
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val bottomSheetState = rememberModalBottomSheetState()
@@ -131,7 +132,7 @@ fun LaunchesListScreenContent(
                 text = title,
                 scrollBehavior = scrollBehavior,
                 showBackArrow = true,
-                onBackClick = onBackClick,
+                onBackClick = { onEvent(LaunchesListScreenEvent.BackClick) },
             )
         },
     ) { innerPadding ->
@@ -150,12 +151,12 @@ fun LaunchesListScreenContent(
                 SpaceFilterChip(
                     label = stringResource(R.string.filter_agency),
                     selected = uiState.selectedAgencies.isNotEmpty(),
-                    onClick = onAgencyFilterClick,
+                    onClick = { onEvent(LaunchesListScreenEvent.AgencyFilterClick) },
                 )
                 SpaceFilterChip(
                     label = stringResource(R.string.filter_location),
                     selected = uiState.selectedLocations.isNotEmpty(),
-                    onClick = onLocationFilterClick,
+                    onClick = { onEvent(LaunchesListScreenEvent.LocationFilterClick) },
                 )
             }
 
@@ -177,7 +178,7 @@ fun LaunchesListScreenContent(
                         dateTime = launch.dateTime,
                         status = launch.status,
                         launchImageUrl = launch.launchImageUrl,
-                        onClick = { onLaunchClicked(launch.id, launch.title) },
+                        onClick = { onEvent(LaunchesListScreenEvent.LaunchClick(launch.id, launch.title)) },
                     )
                 },
             )
@@ -186,7 +187,7 @@ fun LaunchesListScreenContent(
 
     if (uiState.activeBottomSheet != ActiveBottomSheet.None) {
         ModalBottomSheet(
-            onDismissRequest = onBottomSheetDismiss,
+            onDismissRequest = { onEvent(LaunchesListScreenEvent.BottomSheetDismiss) },
             sheetState = bottomSheetState,
         ) {
             when (uiState.activeBottomSheet) {
@@ -197,7 +198,7 @@ fun LaunchesListScreenContent(
                     onConfirm = { agencies ->
                         scope.launch {
                             bottomSheetState.hide()
-                            onAgencyFiltersConfirmed(agencies)
+                            onEvent(LaunchesListScreenEvent.AgencyFiltersConfirmed(agencies))
                         }
                     },
                 )
@@ -209,7 +210,7 @@ fun LaunchesListScreenContent(
                     onConfirm = { locations ->
                         scope.launch {
                             bottomSheetState.hide()
-                            onLocationFiltersConfirmed(locations)
+                            onEvent(LaunchesListScreenEvent.LocationFiltersConfirmed(locations))
                         }
                     },
                 )
@@ -230,13 +231,7 @@ fun LaunchesListScreenPreview(
             launchType = LaunchType.UPCOMING,
             launches = pagingData.collectAsLazyPagingItems(),
             uiState = LaunchesListUiState(),
-            onAgencyFilterClick = {},
-            onLocationFilterClick = {},
-            onBottomSheetDismiss = {},
-            onAgencyFiltersConfirmed = {},
-            onLocationFiltersConfirmed = {},
-            onLaunchClicked = { _, _ -> },
-            onBackClick = {},
+            onEvent = {},
         )
     }
 }
