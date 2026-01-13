@@ -26,10 +26,14 @@ import com.spacehub.launches.presentation.mapper.LaunchUiMapper
 import com.spacehub.launches.presentation.model.LaunchUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -40,8 +44,9 @@ class LaunchesViewModel @Inject constructor(
     private val getPastLaunchesUseCase: GetPastLaunchesUseCase,
     private val launchUiMapper: LaunchUiMapper,
 ) : ViewModel() {
+
     private val _uiState = MutableStateFlow<LaunchesUiState>(LaunchesUiState.Loading(true))
-    val uiState = _uiState
+    val uiState: StateFlow<LaunchesUiState> = _uiState
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000L),
@@ -49,20 +54,52 @@ class LaunchesViewModel @Inject constructor(
         )
 
     private val _isRefreshLoading = MutableStateFlow(false)
-    val isRefreshLoading = _isRefreshLoading.asStateFlow()
+    val isRefreshLoading: StateFlow<Boolean> = _isRefreshLoading.asStateFlow()
+
+    private val _effect = Channel<LaunchesScreenEffect>()
+    val effect: Flow<LaunchesScreenEffect> = _effect.receiveAsFlow()
 
     init {
         getLaunches()
     }
 
-    fun getLaunches(isRefresh: Boolean = false) = viewModelScope.launch {
+    fun onEvent(event: LaunchesScreenEvent) {
+        when (event) {
+            is LaunchesScreenEvent.LaunchClick -> {
+                viewModelScope.launch {
+                    _effect.send(LaunchesScreenEffect.NavigateToLaunchDetail(event.id, event.name))
+                }
+            }
+
+            is LaunchesScreenEvent.TryAgain -> {
+                getLaunches()
+            }
+
+            is LaunchesScreenEvent.Refresh -> {
+                getLaunches(isRefresh = true)
+            }
+
+            is LaunchesScreenEvent.UpcomingLaunchesViewAllClick -> {
+                viewModelScope.launch {
+                    _effect.send(LaunchesScreenEffect.NavigateToUpcomingLaunchesList)
+                }
+            }
+
+            is LaunchesScreenEvent.PastLaunchesViewAllClick -> {
+                viewModelScope.launch {
+                    _effect.send(LaunchesScreenEffect.NavigateToPastLaunchesList)
+                }
+            }
+        }
+    }
+
+    private fun getLaunches(isRefresh: Boolean = false) = viewModelScope.launch {
         if (!isRefresh) {
             _uiState.value = LaunchesUiState.Loading(true)
         }
         _isRefreshLoading.value = isRefresh
 
         try {
-            // Load both upcoming and past launches in parallel
             val upcomingDeferred = async {
                 getUpcomingLaunchesUseCase(forceRefresh = isRefresh).first()
             }
@@ -73,7 +110,6 @@ class LaunchesViewModel @Inject constructor(
             val upcomingResult = upcomingDeferred.await()
             val pastResult = pastDeferred.await()
 
-            // Only emit Success if both are successful
             _uiState.value = when {
                 upcomingResult is Result.Success && pastResult is Result.Success -> {
                     val upcomingLaunches = upcomingResult.data.launches.map { launch ->
@@ -94,10 +130,6 @@ class LaunchesViewModel @Inject constructor(
         } finally {
             _isRefreshLoading.value = false
         }
-    }
-
-    fun refresh() {
-        getLaunches(isRefresh = true)
     }
 }
 

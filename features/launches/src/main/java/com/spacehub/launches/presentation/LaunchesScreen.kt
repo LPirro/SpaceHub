@@ -29,10 +29,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -42,6 +42,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -71,26 +72,34 @@ fun LaunchesScreen(
     val uiState by viewModel.uiState.collectAsState()
     val isRefreshLoading by viewModel.isRefreshLoading.collectAsState()
 
+    LaunchedEffect(Unit) {
+        viewModel.effect.collect { effect ->
+            when (effect) {
+                is LaunchesScreenEffect.NavigateToLaunchDetail -> {
+                    onLaunchClicked(effect.id, effect.name)
+                }
+                is LaunchesScreenEffect.NavigateToUpcomingLaunchesList -> {
+                    onUpcomingLaunchesViewAllClick()
+                }
+                is LaunchesScreenEffect.NavigateToPastLaunchesList -> {
+                    onPastLaunchesViewAllClick()
+                }
+            }
+        }
+    }
+
     LaunchesScreenContent(
         state = uiState,
-        onLaunchClicked = onLaunchClicked,
-        onTryAgainClicked = viewModel::getLaunches,
-        onRefresh = viewModel::refresh,
         isRefreshing = isRefreshLoading,
-        onUpcomingLaunchesViewAllClick = onUpcomingLaunchesViewAllClick,
-        onPastLaunchesViewAllClick = onPastLaunchesViewAllClick,
+        onEvent = viewModel::onEvent,
     )
 }
 
 @Composable
 fun LaunchesScreenContent(
     state: LaunchesUiState,
-    onLaunchClicked: (id: String, name: String) -> Unit,
-    onTryAgainClicked: () -> Unit,
-    onRefresh: () -> Unit,
-    onUpcomingLaunchesViewAllClick: () -> Unit,
-    onPastLaunchesViewAllClick: () -> Unit,
     isRefreshing: Boolean,
+    onEvent: (LaunchesScreenEvent) -> Unit,
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
@@ -106,7 +115,7 @@ fun LaunchesScreenContent(
         Column(modifier = Modifier.padding(top = innerPadding.calculateTopPadding())) {
             when (state) {
                 LaunchesUiState.Error -> {
-                    ErrorScreen(onTryAgainClicked = onTryAgainClicked)
+                    ErrorScreen(onTryAgainClicked = { onEvent(LaunchesScreenEvent.TryAgain) })
                 }
 
                 is LaunchesUiState.Loading -> {
@@ -121,11 +130,8 @@ fun LaunchesScreenContent(
                     LaunchScreenSuccess(
                         upcomingLaunches = state.upcomingLaunches,
                         pastLaunches = state.pastLaunches,
-                        onLaunchClicked = onLaunchClicked,
-                        onRefresh = onRefresh,
                         isRefreshing = isRefreshing,
-                        onUpcomingLaunchesViewAllClick = onUpcomingLaunchesViewAllClick,
-                        onPastLaunchesViewAllClick = onPastLaunchesViewAllClick,
+                        onEvent = onEvent,
                     )
                 }
             }
@@ -137,17 +143,14 @@ fun LaunchesScreenContent(
 fun LaunchScreenSuccess(
     upcomingLaunches: List<LaunchUiModel>,
     pastLaunches: List<LaunchUiModel>,
-    onLaunchClicked: (id: String, name: String) -> Unit,
-    onUpcomingLaunchesViewAllClick: () -> Unit,
-    onPastLaunchesViewAllClick: () -> Unit,
     isRefreshing: Boolean,
-    onRefresh: () -> Unit,
+    onEvent: (LaunchesScreenEvent) -> Unit,
 ) {
     val pagerState = rememberPagerState(pageCount = { upcomingLaunches.take(4).size })
 
     PullToRefreshBox(
         isRefreshing = isRefreshing,
-        onRefresh = onRefresh,
+        onRefresh = { onEvent(LaunchesScreenEvent.Refresh) },
     ) {
         Column(
             modifier = Modifier
@@ -166,9 +169,11 @@ fun LaunchScreenSuccess(
                     launchImageUrl = upcomingLaunches[page].launchImageUrl,
                     targetDateMillis = upcomingLaunches[page].netMillis,
                     onClick = {
-                        onLaunchClicked.invoke(
-                            upcomingLaunches[page].id,
-                            upcomingLaunches[page].title,
+                        onEvent(
+                            LaunchesScreenEvent.LaunchClick(
+                                id = upcomingLaunches[page].id,
+                                name = upcomingLaunches[page].title,
+                            )
                         )
                     },
                 )
@@ -177,7 +182,7 @@ fun LaunchScreenSuccess(
             Header(
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp),
                 title = stringResource(R.string.upcoming_launches),
-                onViewAllClick = onUpcomingLaunchesViewAllClick,
+                onViewAllClick = { onEvent(LaunchesScreenEvent.UpcomingLaunchesViewAllClick) },
             )
 
             upcomingLaunches.take(5).forEach { launch ->
@@ -188,7 +193,7 @@ fun LaunchScreenSuccess(
                     dateTime = launch.dateTime,
                     status = launch.status,
                     launchImageUrl = launch.launchImageUrl,
-                    onClick = { onLaunchClicked.invoke(launch.id, launch.title) },
+                    onClick = { onEvent(LaunchesScreenEvent.LaunchClick(launch.id, launch.title)) },
                 )
                 Spacer(Modifier.height(12.dp))
             }
@@ -196,7 +201,7 @@ fun LaunchScreenSuccess(
             Header(
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp),
                 title = stringResource(R.string.past_launches),
-                onViewAllClick = onPastLaunchesViewAllClick,
+                onViewAllClick = { onEvent(LaunchesScreenEvent.PastLaunchesViewAllClick) },
             )
 
             pastLaunches.take(5).forEach { launch ->
@@ -207,7 +212,7 @@ fun LaunchScreenSuccess(
                     dateTime = launch.dateTime,
                     status = launch.status,
                     launchImageUrl = launch.launchImageUrl,
-                    onClick = { onLaunchClicked.invoke(launch.id, launch.title) },
+                    onClick = { onEvent(LaunchesScreenEvent.LaunchClick(launch.id, launch.title)) },
                 )
                 Spacer(Modifier.height(12.dp))
             }
@@ -251,12 +256,8 @@ fun LaunchesScreenContentPreview(
     SpacehubTheme {
         LaunchesScreenContent(
             state = state,
-            onLaunchClicked = { _, _ -> },
-            onTryAgainClicked = {},
-            onRefresh = {},
             isRefreshing = false,
-            onUpcomingLaunchesViewAllClick = {},
-            onPastLaunchesViewAllClick = {},
+            onEvent = {},
         )
     }
 }

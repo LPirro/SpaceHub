@@ -44,13 +44,13 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
 import org.mockito.kotlin.any
-import org.mockito.kotlin.eq
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class LaunchesViewModelTest {
+
     @get:Rule
     val instantTaskExecutorRule: TestRule = InstantTaskExecutorRule()
 
@@ -72,358 +72,343 @@ class LaunchesViewModelTest {
         Dispatchers.resetMain()
     }
 
-    @Test
-    fun `init loads launches and emits Success when both use cases return data`() =
-        runTest {
-            val upcomingLaunches = listOf(MockLaunch.create(), MockLaunch.create())
-            val pastLaunches = listOf(MockLaunch.create())
-            val mockLaunchUi = MockLaunchUi.create()
-
-            whenever(getUpcomingLaunchesUseCase(forceRefresh = false))
-                .thenReturn(flowOf(Result.Success(PagedLaunches(upcomingLaunches, hasNextPage = false))))
-            whenever(getPastLaunchesUseCase(forceRefresh = false))
-                .thenReturn(flowOf(Result.Success(PagedLaunches(pastLaunches, hasNextPage = false))))
-            whenever(launchUiMapper.mapToUi(any())).thenReturn(mockLaunchUi)
-
-            viewModel = LaunchesViewModel(
-                getUpcomingLaunchesUseCase,
-                getPastLaunchesUseCase,
-                launchUiMapper,
-            )
-
-            viewModel.uiState.test {
-                assertEquals(
-                    LaunchesUiState.Loading(true),
-                    awaitItem(),
-                )
-
-                advanceUntilIdle()
-
-                val successState = awaitItem()
-                assertTrue(successState is LaunchesUiState.Success)
-                assertEquals(2, (successState as LaunchesUiState.Success).upcomingLaunches.size)
-                assertEquals(1, successState.pastLaunches.size)
-
-                cancelAndIgnoreRemainingEvents()
-            }
-        }
+    // region Initial Load Tests
 
     @Test
-    fun `init emits Error when upcoming launches use case fails`() =
-        runTest {
-            val pastLaunches = listOf(MockLaunch.create())
+    fun `init emits Loading then Success when both use cases succeed`() = runTest {
+        val upcomingLaunches = listOf(MockLaunch.create(), MockLaunch.create())
+        val pastLaunches = listOf(MockLaunch.create())
+        val mockLaunchUi = MockLaunchUi.create()
 
-            whenever(getUpcomingLaunchesUseCase(forceRefresh = false))
-                .thenReturn(flowOf(Result.Error(DataError.Network(message = "Network Error"))))
-            whenever(getPastLaunchesUseCase(forceRefresh = false))
-                .thenReturn(flowOf(Result.Success(PagedLaunches(pastLaunches, hasNextPage = false))))
+        whenever(getUpcomingLaunchesUseCase(forceRefresh = false))
+            .thenReturn(flowOf(Result.Success(PagedLaunches(upcomingLaunches, hasNextPage = false))))
+        whenever(getPastLaunchesUseCase(forceRefresh = false))
+            .thenReturn(flowOf(Result.Success(PagedLaunches(pastLaunches, hasNextPage = false))))
+        whenever(launchUiMapper.mapToUi(any())).thenReturn(mockLaunchUi)
 
-            viewModel = LaunchesViewModel(
-                getUpcomingLaunchesUseCase,
-                getPastLaunchesUseCase,
-                launchUiMapper,
-            )
+        viewModel = createViewModel()
 
-            viewModel.uiState.test {
-                assertEquals(
-                    LaunchesUiState.Loading(true),
-                    awaitItem(),
-                )
-
-                advanceUntilIdle()
-
-                assertEquals(
-                    LaunchesUiState.Error,
-                    awaitItem(),
-                )
-
-                cancelAndIgnoreRemainingEvents()
-            }
-        }
-
-    @Test
-    fun `init emits Error when past launches use case fails`() =
-        runTest {
-            val upcomingLaunches = listOf(MockLaunch.create())
-
-            whenever(getUpcomingLaunchesUseCase(forceRefresh = false))
-                .thenReturn(flowOf(Result.Success(PagedLaunches(upcomingLaunches, hasNextPage = false))))
-            whenever(getPastLaunchesUseCase(forceRefresh = false))
-                .thenReturn(flowOf(Result.Error(DataError.Network(message = "Network Error"))))
-
-            viewModel = LaunchesViewModel(
-                getUpcomingLaunchesUseCase,
-                getPastLaunchesUseCase,
-                launchUiMapper,
-            )
-
-            viewModel.uiState.test {
-                assertEquals(
-                    LaunchesUiState.Loading(true),
-                    awaitItem(),
-                )
-
-                advanceUntilIdle()
-
-                assertEquals(
-                    LaunchesUiState.Error,
-                    awaitItem(),
-                )
-
-                cancelAndIgnoreRemainingEvents()
-            }
-        }
-
-    @Test
-    fun `init emits Error when both use cases fail`() =
-        runTest {
-            whenever(getUpcomingLaunchesUseCase(forceRefresh = false))
-                .thenReturn(flowOf(Result.Error(DataError.Network(message = "Network Error"))))
-            whenever(getPastLaunchesUseCase(forceRefresh = false))
-                .thenReturn(flowOf(Result.Error(DataError.Network(message = "Network Error"))))
-
-            viewModel = LaunchesViewModel(
-                getUpcomingLaunchesUseCase,
-                getPastLaunchesUseCase,
-                launchUiMapper,
-            )
-
-            viewModel.uiState.test {
-                assertEquals(
-                    LaunchesUiState.Loading(true),
-                    awaitItem(),
-                )
-
-                advanceUntilIdle()
-
-                assertEquals(
-                    LaunchesUiState.Error,
-                    awaitItem(),
-                )
-
-                cancelAndIgnoreRemainingEvents()
-            }
-        }
-
-    @Test
-    fun `getLaunches with isRefresh true does not emit Loading state`() =
-        runTest {
-            val launches = listOf(MockLaunch.create())
-            val refreshedLaunches = listOf(MockLaunch.create(), MockLaunch.create())
-            val mockLaunchUi = MockLaunchUi.create()
-            val mockLaunchUiRefreshed = MockLaunchUi.create().copy(id = "launch-002")
-
-            whenever(getUpcomingLaunchesUseCase(forceRefresh = false))
-                .thenReturn(flowOf(Result.Success(PagedLaunches(launches, hasNextPage = false))))
-            whenever(getPastLaunchesUseCase(forceRefresh = false))
-                .thenReturn(flowOf(Result.Success(PagedLaunches(launches, hasNextPage = false))))
-
-            whenever(getUpcomingLaunchesUseCase(forceRefresh = true))
-                .thenReturn(flowOf(Result.Success(PagedLaunches(refreshedLaunches, hasNextPage = false))))
-            whenever(getPastLaunchesUseCase(forceRefresh = true))
-                .thenReturn(flowOf(Result.Success(PagedLaunches(refreshedLaunches, hasNextPage = false))))
-
-            whenever(launchUiMapper.mapToUi(launches[0])).thenReturn(mockLaunchUi)
-            whenever(launchUiMapper.mapToUi(refreshedLaunches[0])).thenReturn(mockLaunchUiRefreshed)
-            whenever(launchUiMapper.mapToUi(refreshedLaunches[1])).thenReturn(mockLaunchUiRefreshed)
-
-            viewModel = LaunchesViewModel(
-                getUpcomingLaunchesUseCase,
-                getPastLaunchesUseCase,
-                launchUiMapper,
-            )
-
-            viewModel.uiState.test {
-                assertEquals(
-                    LaunchesUiState.Loading(true),
-                    awaitItem(),
-                )
-
-                advanceUntilIdle()
-
-                val initialState = awaitItem()
-                assertTrue(initialState is LaunchesUiState.Success)
-                assertEquals(1, (initialState as LaunchesUiState.Success).upcomingLaunches.size)
-
-                viewModel.getLaunches(isRefresh = true)
-                advanceUntilIdle()
-
-                val nextState = awaitItem()
-                assertTrue(nextState is LaunchesUiState.Success)
-                assertEquals(2, (nextState as LaunchesUiState.Success).upcomingLaunches.size)
-
-                cancelAndIgnoreRemainingEvents()
-            }
-        }
-
-    @Test
-    fun `getLaunches with isRefresh false emits Loading state`() =
-        runTest {
-            val launches = listOf(MockLaunch.create())
-            val mockLaunchUi = MockLaunchUi.create()
-
-            whenever(getUpcomingLaunchesUseCase(any()))
-                .thenReturn(flowOf(Result.Success(PagedLaunches(launches, hasNextPage = false))))
-            whenever(getPastLaunchesUseCase(any()))
-                .thenReturn(flowOf(Result.Success(PagedLaunches(launches, hasNextPage = false))))
-            whenever(launchUiMapper.mapToUi(any())).thenReturn(mockLaunchUi)
-
-            viewModel = LaunchesViewModel(
-                getUpcomingLaunchesUseCase,
-                getPastLaunchesUseCase,
-                launchUiMapper,
-            )
-
-            viewModel.uiState.test {
-                assertEquals(
-                    LaunchesUiState.Loading(true),
-                    awaitItem(),
-                )
-
-                advanceUntilIdle()
-
-                val initialState = awaitItem()
-                assertTrue(initialState is LaunchesUiState.Success)
-
-                viewModel.getLaunches(isRefresh = false)
-                testDispatcher.scheduler.runCurrent()
-
-                assertEquals(
-                    LaunchesUiState.Loading(true),
-                    awaitItem(),
-                )
-
-                advanceUntilIdle()
-
-                assertTrue(awaitItem() is LaunchesUiState.Success)
-
-                cancelAndIgnoreRemainingEvents()
-            }
-        }
-
-    @Test
-    fun `isRefreshLoading is true during refresh and false after completion`() =
-        runTest {
-            val launches = listOf(MockLaunch.create())
-            val mockLaunchUi = MockLaunchUi.create()
-
-            whenever(getUpcomingLaunchesUseCase(any()))
-                .thenReturn(flowOf(Result.Success(PagedLaunches(launches, hasNextPage = false))))
-            whenever(getPastLaunchesUseCase(any()))
-                .thenReturn(flowOf(Result.Success(PagedLaunches(launches, hasNextPage = false))))
-            whenever(launchUiMapper.mapToUi(any())).thenReturn(mockLaunchUi)
-
-            viewModel = LaunchesViewModel(
-                getUpcomingLaunchesUseCase,
-                getPastLaunchesUseCase,
-                launchUiMapper,
-            )
+        viewModel.uiState.test {
+            assertEquals(LaunchesUiState.Loading(true), awaitItem())
 
             advanceUntilIdle()
 
-            viewModel.isRefreshLoading.test {
-                assertFalse(awaitItem())
+            val successState = awaitItem()
+            assertTrue(successState is LaunchesUiState.Success)
+            assertEquals(2, (successState as LaunchesUiState.Success).upcomingLaunches.size)
+            assertEquals(1, successState.pastLaunches.size)
 
-                viewModel.getLaunches(isRefresh = true)
-
-                assertTrue(awaitItem())
-
-                advanceUntilIdle()
-
-                assertFalse(awaitItem())
-
-                cancelAndIgnoreRemainingEvents()
-            }
+            cancelAndIgnoreRemainingEvents()
         }
+    }
 
     @Test
-    fun `refresh calls getLaunches with isRefresh true`() =
-        runTest {
-            val launches = listOf(MockLaunch.create())
-            val mockLaunchUi = MockLaunchUi.create()
+    fun `init emits Error when upcoming launches use case fails`() = runTest {
+        val pastLaunches = listOf(MockLaunch.create())
 
-            whenever(getUpcomingLaunchesUseCase(any()))
-                .thenReturn(flowOf(Result.Success(PagedLaunches(launches, hasNextPage = false))))
-            whenever(getPastLaunchesUseCase(any()))
-                .thenReturn(flowOf(Result.Success(PagedLaunches(launches, hasNextPage = false))))
-            whenever(launchUiMapper.mapToUi(any())).thenReturn(mockLaunchUi)
+        whenever(getUpcomingLaunchesUseCase(forceRefresh = false))
+            .thenReturn(flowOf(Result.Error(DataError.Network(message = "Network Error"))))
+        whenever(getPastLaunchesUseCase(forceRefresh = false))
+            .thenReturn(flowOf(Result.Success(PagedLaunches(pastLaunches, hasNextPage = false))))
 
-            viewModel = LaunchesViewModel(
-                getUpcomingLaunchesUseCase,
-                getPastLaunchesUseCase,
-                launchUiMapper,
-            )
+        viewModel = createViewModel()
+
+        viewModel.uiState.test {
+            assertEquals(LaunchesUiState.Loading(true), awaitItem())
 
             advanceUntilIdle()
 
-            viewModel.refresh()
-            advanceUntilIdle()
+            assertEquals(LaunchesUiState.Error, awaitItem())
 
-            verify(getUpcomingLaunchesUseCase).invoke(forceRefresh = eq(true))
-            verify(getPastLaunchesUseCase).invoke(forceRefresh = eq(true))
+            cancelAndIgnoreRemainingEvents()
         }
+    }
 
     @Test
-    fun `isRefreshLoading is false when refresh completes with error`() =
-        runTest {
-            val launches = listOf(MockLaunch.create())
-            val mockLaunchUi = MockLaunchUi.create()
+    fun `init emits Error when past launches use case fails`() = runTest {
+        val upcomingLaunches = listOf(MockLaunch.create())
 
-            whenever(getUpcomingLaunchesUseCase(forceRefresh = false))
-                .thenReturn(flowOf(Result.Success(PagedLaunches(launches, hasNextPage = false))))
-            whenever(getPastLaunchesUseCase(forceRefresh = false))
-                .thenReturn(flowOf(Result.Success(PagedLaunches(launches, hasNextPage = false))))
-            whenever(launchUiMapper.mapToUi(any())).thenReturn(mockLaunchUi)
+        whenever(getUpcomingLaunchesUseCase(forceRefresh = false))
+            .thenReturn(flowOf(Result.Success(PagedLaunches(upcomingLaunches, hasNextPage = false))))
+        whenever(getPastLaunchesUseCase(forceRefresh = false))
+            .thenReturn(flowOf(Result.Error(DataError.Network(message = "Network Error"))))
 
-            whenever(getUpcomingLaunchesUseCase(forceRefresh = true))
-                .thenReturn(flowOf(Result.Error(DataError.Network(message = "Network Error"))))
-            whenever(getPastLaunchesUseCase(forceRefresh = true))
-                .thenReturn(flowOf(Result.Success(PagedLaunches(launches, hasNextPage = false))))
+        viewModel = createViewModel()
 
-            viewModel = LaunchesViewModel(
-                getUpcomingLaunchesUseCase,
-                getPastLaunchesUseCase,
-                launchUiMapper,
-            )
+        viewModel.uiState.test {
+            assertEquals(LaunchesUiState.Loading(true), awaitItem())
 
             advanceUntilIdle()
 
-            viewModel.isRefreshLoading.test {
-                assertFalse(awaitItem())
+            assertEquals(LaunchesUiState.Error, awaitItem())
 
-                viewModel.refresh()
-
-                assertTrue(awaitItem())
-
-                advanceUntilIdle()
-
-                assertFalse(awaitItem())
-
-                cancelAndIgnoreRemainingEvents()
-            }
+            cancelAndIgnoreRemainingEvents()
         }
+    }
 
     @Test
-    fun `getLaunches calls use cases with correct forceRefresh parameter`() =
-        runTest {
-            val launches = listOf(MockLaunch.create())
-            val mockLaunchUi = MockLaunchUi.create()
+    fun `init emits Error when both use cases fail`() = runTest {
+        whenever(getUpcomingLaunchesUseCase(forceRefresh = false))
+            .thenReturn(flowOf(Result.Error(DataError.Network(message = "Network Error"))))
+        whenever(getPastLaunchesUseCase(forceRefresh = false))
+            .thenReturn(flowOf(Result.Error(DataError.Network(message = "Network Error"))))
 
-            whenever(getUpcomingLaunchesUseCase(any()))
-                .thenReturn(flowOf(Result.Success(PagedLaunches(launches, hasNextPage = false))))
-            whenever(getPastLaunchesUseCase(any()))
-                .thenReturn(flowOf(Result.Success(PagedLaunches(launches, hasNextPage = false))))
-            whenever(launchUiMapper.mapToUi(any())).thenReturn(mockLaunchUi)
+        viewModel = createViewModel()
 
-            viewModel = LaunchesViewModel(
-                getUpcomingLaunchesUseCase,
-                getPastLaunchesUseCase,
-                launchUiMapper,
-            )
+        viewModel.uiState.test {
+            assertEquals(LaunchesUiState.Loading(true), awaitItem())
 
             advanceUntilIdle()
 
-            verify(getUpcomingLaunchesUseCase).invoke(forceRefresh = eq(false))
-            verify(getPastLaunchesUseCase).invoke(forceRefresh = eq(false))
+            assertEquals(LaunchesUiState.Error, awaitItem())
+
+            cancelAndIgnoreRemainingEvents()
         }
+    }
+
+    // endregion
+
+    // region TryAgain Event Tests
+
+    @Test
+    fun `TryAgain event reloads data after error`() = runTest {
+        val launches = listOf(MockLaunch.create())
+        val mockLaunchUi = MockLaunchUi.create()
+
+        // First call returns error
+        whenever(getUpcomingLaunchesUseCase(forceRefresh = false))
+            .thenReturn(flowOf(Result.Error(DataError.Network(message = "Network Error"))))
+            .thenReturn(flowOf(Result.Success(PagedLaunches(launches, hasNextPage = false))))
+        whenever(getPastLaunchesUseCase(forceRefresh = false))
+            .thenReturn(flowOf(Result.Error(DataError.Network(message = "Network Error"))))
+            .thenReturn(flowOf(Result.Success(PagedLaunches(launches, hasNextPage = false))))
+        whenever(launchUiMapper.mapToUi(any())).thenReturn(mockLaunchUi)
+
+        viewModel = createViewModel()
+
+        viewModel.uiState.test {
+            assertEquals(LaunchesUiState.Loading(true), awaitItem())
+
+            advanceUntilIdle()
+
+            assertEquals(LaunchesUiState.Error, awaitItem())
+
+            viewModel.onEvent(LaunchesScreenEvent.TryAgain)
+            testDispatcher.scheduler.runCurrent()
+
+            assertEquals(LaunchesUiState.Loading(true), awaitItem())
+
+            advanceUntilIdle()
+
+            assertTrue(awaitItem() is LaunchesUiState.Success)
+
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    // endregion
+
+    // region Refresh Event Tests
+
+    @Test
+    fun `Refresh event does not emit Loading state`() = runTest {
+        val launches = listOf(MockLaunch.create())
+        val refreshedLaunches = listOf(MockLaunch.create(), MockLaunch.create())
+        val mockLaunchUi = MockLaunchUi.create()
+        val mockLaunchUiRefreshed = MockLaunchUi.create().copy(id = "launch-002")
+
+        whenever(getUpcomingLaunchesUseCase(forceRefresh = false))
+            .thenReturn(flowOf(Result.Success(PagedLaunches(launches, hasNextPage = false))))
+        whenever(getPastLaunchesUseCase(forceRefresh = false))
+            .thenReturn(flowOf(Result.Success(PagedLaunches(launches, hasNextPage = false))))
+        whenever(getUpcomingLaunchesUseCase(forceRefresh = true))
+            .thenReturn(flowOf(Result.Success(PagedLaunches(refreshedLaunches, hasNextPage = false))))
+        whenever(getPastLaunchesUseCase(forceRefresh = true))
+            .thenReturn(flowOf(Result.Success(PagedLaunches(refreshedLaunches, hasNextPage = false))))
+        whenever(launchUiMapper.mapToUi(launches[0])).thenReturn(mockLaunchUi)
+        whenever(launchUiMapper.mapToUi(refreshedLaunches[0])).thenReturn(mockLaunchUiRefreshed)
+        whenever(launchUiMapper.mapToUi(refreshedLaunches[1])).thenReturn(mockLaunchUiRefreshed)
+
+        viewModel = createViewModel()
+
+        viewModel.uiState.test {
+            assertEquals(LaunchesUiState.Loading(true), awaitItem())
+
+            advanceUntilIdle()
+
+            val initialState = awaitItem()
+            assertTrue(initialState is LaunchesUiState.Success)
+            assertEquals(1, (initialState as LaunchesUiState.Success).upcomingLaunches.size)
+
+            viewModel.onEvent(LaunchesScreenEvent.Refresh)
+            advanceUntilIdle()
+
+            val refreshedState = awaitItem()
+            assertTrue(refreshedState is LaunchesUiState.Success)
+            assertEquals(2, (refreshedState as LaunchesUiState.Success).upcomingLaunches.size)
+
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun `Refresh event sets isRefreshLoading to true then false`() = runTest {
+        val launches = listOf(MockLaunch.create())
+        val mockLaunchUi = MockLaunchUi.create()
+
+        whenever(getUpcomingLaunchesUseCase(any()))
+            .thenReturn(flowOf(Result.Success(PagedLaunches(launches, hasNextPage = false))))
+        whenever(getPastLaunchesUseCase(any()))
+            .thenReturn(flowOf(Result.Success(PagedLaunches(launches, hasNextPage = false))))
+        whenever(launchUiMapper.mapToUi(any())).thenReturn(mockLaunchUi)
+
+        viewModel = createViewModel()
+        advanceUntilIdle()
+
+        viewModel.isRefreshLoading.test {
+            assertFalse(awaitItem())
+
+            viewModel.onEvent(LaunchesScreenEvent.Refresh)
+
+            assertTrue(awaitItem())
+
+            advanceUntilIdle()
+
+            assertFalse(awaitItem())
+
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun `Refresh event calls use cases with forceRefresh true`() = runTest {
+        val launches = listOf(MockLaunch.create())
+        val mockLaunchUi = MockLaunchUi.create()
+
+        whenever(getUpcomingLaunchesUseCase(any()))
+            .thenReturn(flowOf(Result.Success(PagedLaunches(launches, hasNextPage = false))))
+        whenever(getPastLaunchesUseCase(any()))
+            .thenReturn(flowOf(Result.Success(PagedLaunches(launches, hasNextPage = false))))
+        whenever(launchUiMapper.mapToUi(any())).thenReturn(mockLaunchUi)
+
+        viewModel = createViewModel()
+        advanceUntilIdle()
+
+        viewModel.onEvent(LaunchesScreenEvent.Refresh)
+        advanceUntilIdle()
+
+        verify(getUpcomingLaunchesUseCase).invoke(forceRefresh = true)
+        verify(getPastLaunchesUseCase).invoke(forceRefresh = true)
+    }
+
+    @Test
+    fun `isRefreshLoading is false when refresh fails`() = runTest {
+        val launches = listOf(MockLaunch.create())
+        val mockLaunchUi = MockLaunchUi.create()
+
+        whenever(getUpcomingLaunchesUseCase(forceRefresh = false))
+            .thenReturn(flowOf(Result.Success(PagedLaunches(launches, hasNextPage = false))))
+        whenever(getPastLaunchesUseCase(forceRefresh = false))
+            .thenReturn(flowOf(Result.Success(PagedLaunches(launches, hasNextPage = false))))
+        whenever(launchUiMapper.mapToUi(any())).thenReturn(mockLaunchUi)
+
+        whenever(getUpcomingLaunchesUseCase(forceRefresh = true))
+            .thenReturn(flowOf(Result.Error(DataError.Network(message = "Network Error"))))
+        whenever(getPastLaunchesUseCase(forceRefresh = true))
+            .thenReturn(flowOf(Result.Success(PagedLaunches(launches, hasNextPage = false))))
+
+        viewModel = createViewModel()
+        advanceUntilIdle()
+
+        viewModel.isRefreshLoading.test {
+            assertFalse(awaitItem())
+
+            viewModel.onEvent(LaunchesScreenEvent.Refresh)
+
+            assertTrue(awaitItem())
+
+            advanceUntilIdle()
+
+            assertFalse(awaitItem())
+
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    // endregion
+
+    // region Navigation Effect Tests
+
+    @Test
+    fun `LaunchClick event emits NavigateToLaunchDetail effect`() = runTest {
+        setupSuccessfulMocks()
+        viewModel = createViewModel()
+        advanceUntilIdle()
+
+        viewModel.effect.test {
+            viewModel.onEvent(LaunchesScreenEvent.LaunchClick(id = "launch-123", name = "Falcon 9"))
+
+            val effect = awaitItem()
+            assertTrue(effect is LaunchesScreenEffect.NavigateToLaunchDetail)
+            assertEquals("launch-123", (effect as LaunchesScreenEffect.NavigateToLaunchDetail).id)
+            assertEquals("Falcon 9", effect.name)
+
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun `UpcomingLaunchesViewAllClick event emits NavigateToUpcomingLaunchesList effect`() = runTest {
+        setupSuccessfulMocks()
+        viewModel = createViewModel()
+        advanceUntilIdle()
+
+        viewModel.effect.test {
+            viewModel.onEvent(LaunchesScreenEvent.UpcomingLaunchesViewAllClick)
+
+            val effect = awaitItem()
+            assertTrue(effect is LaunchesScreenEffect.NavigateToUpcomingLaunchesList)
+
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun `PastLaunchesViewAllClick event emits NavigateToPastLaunchesList effect`() = runTest {
+        setupSuccessfulMocks()
+        viewModel = createViewModel()
+        advanceUntilIdle()
+
+        viewModel.effect.test {
+            viewModel.onEvent(LaunchesScreenEvent.PastLaunchesViewAllClick)
+
+            val effect = awaitItem()
+            assertTrue(effect is LaunchesScreenEffect.NavigateToPastLaunchesList)
+
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    // endregion
+
+    // region Helper Functions
+
+    private fun createViewModel() = LaunchesViewModel(
+        getUpcomingLaunchesUseCase = getUpcomingLaunchesUseCase,
+        getPastLaunchesUseCase = getPastLaunchesUseCase,
+        launchUiMapper = launchUiMapper,
+    )
+
+    private fun setupSuccessfulMocks() {
+        val launches = listOf(MockLaunch.create())
+        val mockLaunchUi = MockLaunchUi.create()
+
+        whenever(getUpcomingLaunchesUseCase(any()))
+            .thenReturn(flowOf(Result.Success(PagedLaunches(launches, hasNextPage = false))))
+        whenever(getPastLaunchesUseCase(any()))
+            .thenReturn(flowOf(Result.Success(PagedLaunches(launches, hasNextPage = false))))
+        whenever(launchUiMapper.mapToUi(any())).thenReturn(mockLaunchUi)
+    }
+
+    // endregion
 }
