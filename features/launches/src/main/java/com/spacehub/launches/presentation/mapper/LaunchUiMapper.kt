@@ -29,7 +29,7 @@ class LaunchUiMapperImpl(private val dateParser: DateParser) : LaunchUiMapper {
         id = launch.id,
         title = launch.name,
         agency = launch.launchServiceProvider.name,
-        location = launch.pad.location.name,
+        location = launch.pad.location?.name ?: "N/A",
         dateTime = dateParser.parseFullDate(launch.net),
         netMillis = launch.netMillis ?: 0,
         status = launch.status,

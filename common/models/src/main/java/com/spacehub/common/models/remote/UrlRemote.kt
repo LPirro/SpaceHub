@@ -22,4 +22,9 @@ import com.google.gson.annotations.SerializedName
 data class UrlRemote(
     @SerializedName("feature_image") val featureImageUrl: String?,
     @SerializedName("url") val url: String,
+    @SerializedName("type") val type: VideoTypeRemote?,
+    @SerializedName("publisher") val publisher: String?,
+    @SerializedName("title") val title: String?,
+    @SerializedName("description") val description: String?,
+    @SerializedName("live") val live: Boolean,
 )

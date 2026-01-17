@@ -17,28 +17,12 @@
  *  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.spacehub.common.mapper
+package com.spacehub.common.models.domain
 
-import com.spacehub.common.models.domain.MapPosition
-
-interface MapPositionMapper {
-    fun mapToDomain(
-        latitude: Double?,
-        longitude: Double?,
-    ): MapPosition?
-}
-
-class MapPositionMapperImpl : MapPositionMapper {
-    override fun mapToDomain(
-        latitude: Double?,
-        longitude: Double?,
-    ): MapPosition? {
-        if (latitude != null && longitude != null) {
-            return MapPosition(
-                latitude = latitude,
-                longitude = longitude,
-            )
-        }
-        return null
-    }
-}
+data class CountryCode(
+    val id: Int,
+    val name: String,
+    val alpha2Code: String,
+    val alpha3Code: String,
+    val nationalityName: String,
+)

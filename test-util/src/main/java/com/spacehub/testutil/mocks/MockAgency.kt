@@ -18,16 +18,26 @@
 package com.spacehub.testutil.mocks
 
 import com.spacehub.common.models.domain.Agency
+import com.spacehub.common.models.domain.CountryCode
 
 object MockAgency {
     fun create() = Agency(
         id = 1,
         url = "https://example.com/agency/spacex",
         name = "SpaceX",
-        countryCode = "USA",
+        countries = listOf(
+            CountryCode(
+                id = 2,
+                name = "United States of America",
+                alpha2Code = "US",
+                alpha3Code = "USA",
+                nationalityName = "American",
+            ),
+        ),
         administrator = "Elon Musk",
         foundingYear = "2002",
         totalLaunchCount = "412",
         logoUrl = "https://example.com/images/spacex-logo.png",
+        socialLogoUrl = "https://example.com/images/spacex-social-logo.png",
     )
 }

@@ -19,4 +19,4 @@
  */
 package com.spacehub.common.models.domain
 
-data class LauncherLanding(val type: String, val locationName: String)
+data class LauncherLanding(val type: String?, val locationName: String?)

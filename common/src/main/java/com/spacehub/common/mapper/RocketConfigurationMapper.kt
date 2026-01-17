@@ -44,12 +44,12 @@ class RocketConfigurationMapperImpl(private val agencyMapper: AgencyMapper) : Ro
             consecutiveSuccessfulLaunches = rocketConfigurationRemote.consecutiveSuccessfulLaunches,
             failedLaunches = rocketConfigurationRemote.failedLaunches,
             pendingLaunches = rocketConfigurationRemote.pendingLaunches,
-            launchCost = rocketConfigurationRemote.launchCost,
+            launchCost = rocketConfigurationRemote.launchCost?.toString(),
             infoUrl = rocketConfigurationRemote.infoUrl,
             wikiUrl = rocketConfigurationRemote.wikiUrl,
             minStage = rocketConfigurationRemote.minStage,
             maxStage = rocketConfigurationRemote.maxStage,
             description = rocketConfigurationRemote.description,
-            imageUrl = rocketConfigurationRemote.imageUrl,
+            imageUrl = rocketConfigurationRemote.image?.imageUrl,
         )
 }

@@ -19,26 +19,20 @@
  */
 package com.spacehub.common.mapper
 
-import com.spacehub.common.models.domain.MapPosition
+import com.spacehub.common.models.domain.CountryCode
+import com.spacehub.common.models.remote.CountryRemote
 
-interface MapPositionMapper {
-    fun mapToDomain(
-        latitude: Double?,
-        longitude: Double?,
-    ): MapPosition?
+interface CountryCodeMapper {
+    fun mapToDomain(countryRemote: CountryRemote): CountryCode
 }
 
-class MapPositionMapperImpl : MapPositionMapper {
-    override fun mapToDomain(
-        latitude: Double?,
-        longitude: Double?,
-    ): MapPosition? {
-        if (latitude != null && longitude != null) {
-            return MapPosition(
-                latitude = latitude,
-                longitude = longitude,
-            )
-        }
-        return null
-    }
+class CountryCodeMapperImpl : CountryCodeMapper {
+    override fun mapToDomain(countryRemote: CountryRemote) =
+        CountryCode(
+            id = countryRemote.id,
+            name = countryRemote.name,
+            alpha2Code = countryRemote.alpha2Code,
+            alpha3Code = countryRemote.alpha3Code,
+            nationalityName = countryRemote.nationalityName,
+        )
 }

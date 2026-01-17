@@ -26,7 +26,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface LaunchesService {
-    @GET("launch/upcoming")
+    @GET("launches/upcoming")
     suspend fun getUpcomingLaunches(
         @Query("mode") mode: String = "detailed",
         @Query("limit") limit: Int = 20,
@@ -35,7 +35,7 @@ interface LaunchesService {
         @Query("hide_recent_previous") hideRecentPrevious: Boolean = true,
     ): PaginatedResultRemote<List<LaunchRemote>>
 
-    @GET("launch/previous")
+    @GET("launches/previous")
     suspend fun getPastLaunches(
         @Query("mode") mode: String = "detailed",
         @Query("limit") limit: Int = 20,
@@ -43,7 +43,7 @@ interface LaunchesService {
         @Query("lsp__ids") agencyIds: String? = null,
     ): PaginatedResultRemote<List<LaunchRemote>>
 
-    @GET("launch/{id}")
+    @GET("launches/{id}")
     suspend fun getLaunch(
         @Path("id") id: String,
     ): LaunchRemote

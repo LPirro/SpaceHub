@@ -23,9 +23,10 @@ data class Agency(
     val id: Int,
     val url: String,
     val name: String,
-    val countryCode: String,
+    val countries: List<CountryCode>,
     val administrator: String?,
     val foundingYear: String?,
     val totalLaunchCount: String?,
     val logoUrl: String?,
+    val socialLogoUrl: String?,
 )

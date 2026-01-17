@@ -27,9 +27,9 @@ data class PadRemote(
     @SerializedName("info_url") val infoUrl: String?,
     @SerializedName("wiki_url") val wikiUrl: String?,
     @SerializedName("map_url") val mapUrl: String?,
-    @SerializedName("location") val location: LocationRemote,
+    @SerializedName("location") val location: LocationRemote?,
     @SerializedName("total_launch_count") val totalLaunchCount: Int?,
     @SerializedName("orbital_launch_attempt_count") val orbitalLaunchAttemptCount: Int?,
-    @SerializedName("latitude") val latitude: String?,
-    @SerializedName("longitude") val longitude: String?,
+    @SerializedName("latitude") val latitude: Double?,
+    @SerializedName("longitude") val longitude: Double?,
 )
