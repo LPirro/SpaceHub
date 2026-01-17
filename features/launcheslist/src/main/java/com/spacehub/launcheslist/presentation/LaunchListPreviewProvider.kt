@@ -51,7 +51,7 @@ class LaunchListPreviewProvider : PreviewParameterProvider<MutableStateFlow<Pagi
                     prepend = LoadState.NotLoading(endOfPaginationReached = true),
                     append = LoadState.NotLoading(endOfPaginationReached = false),
                 ),
-            )
-        )
+            ),
+        ),
     )
 }

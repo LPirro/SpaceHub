@@ -206,9 +206,9 @@ private fun CountdownCard(
             .fillMaxWidth()
             .height(61.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center
+        horizontalArrangement = Arrangement.Center,
     ) {
-        Row (
+        Row(
             modifier = Modifier.background(
                 color = MaterialTheme.colorScheme.background.copy(alpha = 0.5f),
                 shape = RoundedCornerShape(16.dp),
@@ -217,7 +217,7 @@ private fun CountdownCard(
                     width = 1.dp,
                     color = MaterialTheme.colorScheme.outline,
                     shape = RoundedCornerShape(16.dp),
-                )
+                ),
         ) {
             CountdownTMinusLabel()
             VerticalDivider(color = MaterialTheme.colorScheme.outline)
@@ -233,9 +233,7 @@ private fun CountdownCard(
 }
 
 @Composable
-private fun CountdownTMinusLabel(
-
-) {
+private fun CountdownTMinusLabel() {
     Box(
         modifier = Modifier
             .height(61.dp)

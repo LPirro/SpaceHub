@@ -42,23 +42,21 @@ class GetLaunchesListUseCaseImpl(
         launchType: LaunchType,
         agencyFilter: List<String>,
         locationFilter: List<String>,
-    ): Flow<PagingData<Launch>> {
-        return Pager(
-            config = PagingConfig(
-                pageSize = PAGE_SIZE,
-                initialLoadSize = PAGE_SIZE,
-                enablePlaceholders = false,
-            ),
-            pagingSourceFactory = {
-                LaunchesPagingSource(
-                    launchesRepository = launchesRepository,
-                    launchType = launchType,
-                    agencyFilter = agencyFilter,
-                    locationFilter = locationFilter,
-                )
-            },
-        ).flow
-    }
+    ): Flow<PagingData<Launch>> = Pager(
+        config = PagingConfig(
+            pageSize = PAGE_SIZE,
+            initialLoadSize = PAGE_SIZE,
+            enablePlaceholders = false,
+        ),
+        pagingSourceFactory = {
+            LaunchesPagingSource(
+                launchesRepository = launchesRepository,
+                launchType = launchType,
+                agencyFilter = agencyFilter,
+                locationFilter = locationFilter,
+            )
+        },
+    ).flow
 
     companion object {
         private const val PAGE_SIZE = 20

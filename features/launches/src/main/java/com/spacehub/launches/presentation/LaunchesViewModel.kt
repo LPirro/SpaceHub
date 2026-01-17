@@ -120,9 +120,10 @@ class LaunchesViewModel @Inject constructor(
                     }
                     LaunchesUiState.Success(
                         upcomingLaunches = upcomingLaunches,
-                        pastLaunches = pastLaunches
+                        pastLaunches = pastLaunches,
                     )
                 }
+
                 else -> LaunchesUiState.Error
             }
         } catch (_: Exception) {

@@ -35,9 +35,9 @@ class LaunchesScreenPreviewProvider : PreviewParameterProvider<LaunchesUiState> 
                     fakePastLaunch.copy(id = "4", title = "Starship Flight 4"),
                     fakePastLaunch.copy(id = "5", title = "Crew Dragon - Crew 8"),
                     fakePastLaunch.copy(id = "6", title = "New Glenn - NG-1"),
-                )
+                ),
             ),
-            LaunchesUiState.Error
+            LaunchesUiState.Error,
         )
 
     private val fakeUpcomingLaunch = LaunchUiModel(

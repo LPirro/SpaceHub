@@ -81,6 +81,7 @@ fun LaunchesListScreen(
                 is LaunchesListScreenEffect.NavigateToLaunchDetail -> {
                     onLaunchClicked(effect.id, effect.name)
                 }
+
                 is LaunchesListScreenEffect.NavigateBack -> {
                     onBackClick()
                 }

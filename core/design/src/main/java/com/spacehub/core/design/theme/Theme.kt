@@ -149,7 +149,7 @@ val extendedDark =
         onWarningContainer = onWarningContainerDark,
         danger = danger,
         dangerContainer = dangerContainerDark,
-        onDangerContainer = onDangerContainerDark
+        onDangerContainer = onDangerContainerDark,
     )
 
 val extendedLight =
@@ -162,7 +162,7 @@ val extendedLight =
         onWarningContainer = onWarningContainerLight,
         danger = danger,
         dangerContainer = dangerContainerLight,
-        onDangerContainer = onDangerContainerLight
+        onDangerContainer = onDangerContainerLight,
     )
 
 @Composable

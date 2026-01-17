@@ -26,72 +26,72 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.sp
 import com.spacehub.core.design.R
-import com.spacehub.core.design.theme.AppFonts.spaceGroteskRegular
 import com.spacehub.core.design.theme.AppFonts.spaceGroteskMedium
+import com.spacehub.core.design.theme.AppFonts.spaceGroteskRegular
 
 val TYPOGRAPHY = Typography()
 
 val Typography = Typography(
     displayLarge = TYPOGRAPHY.displayLarge.copy(
         fontFamily = spaceGroteskRegular,
-        fontFeatureSettings = "ss02, dlig"
+        fontFeatureSettings = "ss02, dlig",
     ),
     displayMedium = TYPOGRAPHY.displayMedium.copy(
         fontFamily = spaceGroteskRegular,
-        fontFeatureSettings = "ss02, dlig"
+        fontFeatureSettings = "ss02, dlig",
     ),
     displaySmall = TYPOGRAPHY.displaySmall.copy(
         fontFamily = spaceGroteskRegular,
-        fontFeatureSettings = "ss02, dlig"
+        fontFeatureSettings = "ss02, dlig",
     ),
     headlineLarge = TYPOGRAPHY.headlineLarge.copy(
         fontFamily = spaceGroteskRegular,
-        fontFeatureSettings = "ss02, dlig"
+        fontFeatureSettings = "ss02, dlig",
     ),
     headlineMedium = TYPOGRAPHY.headlineMedium.copy(
         fontFamily = spaceGroteskRegular,
-        fontFeatureSettings = "ss02, dlig"
+        fontFeatureSettings = "ss02, dlig",
     ),
     headlineSmall = TYPOGRAPHY.headlineSmall.copy(
         fontFamily = spaceGroteskRegular,
-        fontFeatureSettings = "ss02, dlig"
+        fontFeatureSettings = "ss02, dlig",
     ),
     titleLarge = TYPOGRAPHY.titleLarge.copy(
         fontFamily = spaceGroteskRegular,
-        fontFeatureSettings = "ss02, dlig"
+        fontFeatureSettings = "ss02, dlig",
     ),
     titleMedium = TYPOGRAPHY.titleMedium.copy(
         fontFamily = spaceGroteskMedium,
-        fontFeatureSettings = "ss02, dlig"
+        fontFeatureSettings = "ss02, dlig",
     ),
     titleSmall = TYPOGRAPHY.titleSmall.copy(
         fontFamily = spaceGroteskMedium,
-        fontFeatureSettings = "ss02, dlig"
+        fontFeatureSettings = "ss02, dlig",
     ),
     bodyLarge = TYPOGRAPHY.bodyLarge.copy(
         fontFamily = spaceGroteskRegular,
-        fontFeatureSettings = "ss02, dlig"
+        fontFeatureSettings = "ss02, dlig",
     ),
     bodyMedium = TYPOGRAPHY.bodyMedium.copy(
         fontFamily = spaceGroteskRegular,
-        fontFeatureSettings = "ss02, dlig"
+        fontFeatureSettings = "ss02, dlig",
     ),
     bodySmall = TYPOGRAPHY.bodySmall.copy(
         fontFamily = spaceGroteskRegular,
-        fontFeatureSettings = "ss02, dlig"
+        fontFeatureSettings = "ss02, dlig",
     ),
     labelLarge = TYPOGRAPHY.labelLarge.copy(
         fontFamily = spaceGroteskMedium,
-        fontFeatureSettings = "ss02, dlig"
+        fontFeatureSettings = "ss02, dlig",
     ),
     labelMedium = TYPOGRAPHY.labelMedium.copy(
         fontFamily = spaceGroteskMedium,
-        fontFeatureSettings = "ss02, dlig"
+        fontFeatureSettings = "ss02, dlig",
     ),
 
     labelSmall = TYPOGRAPHY.labelSmall.copy(
         fontFamily = spaceGroteskMedium,
-        fontFeatureSettings = "ss02, dlig"
+        fontFeatureSettings = "ss02, dlig",
     ),
 )
 
@@ -115,18 +115,18 @@ object AppFonts {
 object SpaceMonoStyle {
     val Regular = TextStyle(
         fontFamily = AppFonts.spaceMonoRegular,
-        letterSpacing = 0.25.sp
+        letterSpacing = 0.25.sp,
     )
     val Bold = TextStyle(
         fontFamily = AppFonts.spaceMonoBold,
-        letterSpacing = 0.25.sp
+        letterSpacing = 0.25.sp,
     )
     val Italic = TextStyle(
         fontFamily = AppFonts.spaceMonoItalic,
-        letterSpacing = 0.25.sp
+        letterSpacing = 0.25.sp,
     )
     val BoldItalic = TextStyle(
         fontFamily = AppFonts.spaceMonoBoldItalic,
-        letterSpacing = 0.25.sp
+        letterSpacing = 0.25.sp,
     )
 }

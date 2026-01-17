@@ -78,9 +78,11 @@ fun LaunchesScreen(
                 is LaunchesScreenEffect.NavigateToLaunchDetail -> {
                     onLaunchClicked(effect.id, effect.name)
                 }
+
                 is LaunchesScreenEffect.NavigateToUpcomingLaunchesList -> {
                     onUpcomingLaunchesViewAllClick()
                 }
+
                 is LaunchesScreenEffect.NavigateToPastLaunchesList -> {
                     onPastLaunchesViewAllClick()
                 }
@@ -173,7 +175,7 @@ fun LaunchScreenSuccess(
                             LaunchesScreenEvent.LaunchClick(
                                 id = upcomingLaunches[page].id,
                                 name = upcomingLaunches[page].title,
-                            )
+                            ),
                         )
                     },
                 )

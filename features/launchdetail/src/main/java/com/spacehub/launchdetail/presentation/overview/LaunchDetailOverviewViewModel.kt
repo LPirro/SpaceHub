@@ -22,8 +22,8 @@ package com.spacehub.launchdetail.presentation.overview
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.spacehub.core.common.result.Result
 import com.spacehub.core.common.flow.UiEvent
+import com.spacehub.core.common.result.Result
 import com.spacehub.launchdetail.domain.usecase.GetLaunchUseCase
 import com.spacehub.launchdetail.presentation.overview.mapper.LaunchDetailOverviewUiMapper
 import com.spacehub.launchdetail.presentation.overview.model.LaunchOverviewUi

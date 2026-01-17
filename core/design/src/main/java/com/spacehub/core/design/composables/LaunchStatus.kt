@@ -66,7 +66,7 @@ fun LaunchStatus(
             icon = painterResource(id = R.drawable.checkbox_multiple_marked_circle_outline)
         }
 
-        is Status.TBC  -> {
+        is Status.TBC -> {
             textColor = SpacehubTheme.colors.warning
             backgroundColor = Color(0xFF4B2E19)
             icon = painterResource(id = R.drawable.alert_circle_check_outline)
@@ -89,6 +89,7 @@ fun LaunchStatus(
             backgroundColor = Color(0xFF194B20)
             icon = painterResource(id = R.drawable.rocket_outline)
         }
+
         is Status.Unknown -> {
             textColor = MaterialTheme.colorScheme.onSurfaceVariant
             backgroundColor = MaterialTheme.colorScheme.surfaceVariant
@@ -96,13 +97,13 @@ fun LaunchStatus(
         }
     }
 
-    Row (
+    Row(
         modifier =
         modifier
             .clip(RoundedCornerShape(4.dp))
             .height(20.dp)
             .background(backgroundColor),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(
             modifier = Modifier

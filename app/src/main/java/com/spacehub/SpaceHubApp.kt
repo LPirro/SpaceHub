@@ -17,8 +17,9 @@
  */
 package com.spacehub
 
-import android.net.Uri
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -29,26 +30,24 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.net.toUri
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.spacehub.common.models.domain.LaunchType
+import com.spacehub.core.design.composables.SpaceHubNavBar
+import com.spacehub.core.design.theme.SpacehubTheme
 import com.spacehub.core.navigation.LaunchDetail
 import com.spacehub.core.navigation.Launches
 import com.spacehub.core.navigation.LaunchesList
 import com.spacehub.core.navigation.News
-import com.spacehub.core.design.composables.SpaceHubNavBar
-import com.spacehub.core.design.theme.SpacehubTheme
 import com.spacehub.launchdetail.presentation.LaunchDetailScreen
 import com.spacehub.launches.presentation.LaunchesScreen
 import com.spacehub.launcheslist.presentation.LaunchesListScreen
 import com.spacehub.news.presentation.NewsScreen
-import androidx.core.net.toUri
 
 @Composable
 fun SpaceHubApp() {

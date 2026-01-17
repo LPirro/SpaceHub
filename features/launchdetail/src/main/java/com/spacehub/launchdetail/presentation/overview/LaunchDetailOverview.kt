@@ -20,7 +20,6 @@
 
 package com.spacehub.launchdetail.presentation.overview
 
-import com.spacehub.core.design.composables.InfoItems
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -70,6 +69,7 @@ import coil.request.ImageRequest
 import com.spacehub.core.design.composables.CountdownTimer
 import com.spacehub.core.design.composables.InfoCard
 import com.spacehub.core.design.composables.InfoCardButton
+import com.spacehub.core.design.composables.InfoItems
 import com.spacehub.core.design.theme.SpacehubTheme
 import com.spacehub.launchdetail.R
 import com.spacehub.launchdetail.presentation.overview.LaunchDetailOverviewViewModel.LaunchDetailOverviewUiState

@@ -58,7 +58,7 @@ class LaunchesListViewModel @AssistedInject constructor(
         LaunchesListUiState(
             agencyFilters = filters.agencies,
             locationFilters = filters.locations,
-        )
+        ),
     )
     val uiState: StateFlow<LaunchesListUiState> = _uiState.asStateFlow()
 

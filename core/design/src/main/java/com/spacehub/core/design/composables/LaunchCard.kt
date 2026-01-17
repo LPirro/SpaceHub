@@ -79,9 +79,8 @@ fun LaunchCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(12.dp),
-            verticalAlignment = Alignment.Top
+            verticalAlignment = Alignment.Top,
         ) {
-
             AsyncImage(
                 model = imageRequest,
                 modifier = Modifier
@@ -96,9 +95,8 @@ fun LaunchCard(
             Column(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(top = 2.dp)
+                    .padding(top = 2.dp),
             ) {
-
                 Text(
                     text = title,
                     style = MaterialTheme.typography.titleMedium,
@@ -161,7 +159,7 @@ private fun LaunchInfoRow(
 ) {
     Row(
         modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(
             imageVector = icon,

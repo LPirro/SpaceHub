@@ -32,11 +32,9 @@ class LaunchesPagingSource(
     private val locationFilter: List<String> = emptyList(),
 ) : PagingSource<Int, Launch>() {
 
-    override fun getRefreshKey(state: PagingState<Int, Launch>): Int? {
-        return state.anchorPosition?.let { anchorPosition ->
-            state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
-                ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
-        }
+    override fun getRefreshKey(state: PagingState<Int, Launch>): Int? = state.anchorPosition?.let { anchorPosition ->
+        state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
+            ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Launch> {
@@ -52,6 +50,7 @@ class LaunchesPagingSource(
                     agencyFilter = agencyFilter,
                     locationFilter = locationFilter,
                 ).first()
+
                 LaunchType.PAST -> launchesRepository.getPastLaunches(
                     forceRefresh = page > 0,
                     limit = params.loadSize,
@@ -67,6 +66,7 @@ class LaunchesPagingSource(
                     prevKey = if (page == 0) null else page - 1,
                     nextKey = if (result.data.hasNextPage) page + 1 else null,
                 )
+
                 is Result.Error -> LoadResult.Error(Exception("Failed to load launches"))
             }
         } catch (e: Exception) {

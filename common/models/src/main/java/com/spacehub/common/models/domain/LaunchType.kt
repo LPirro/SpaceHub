@@ -22,5 +22,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 enum class LaunchType {
     UPCOMING,
-    PAST
+    PAST,
 }
