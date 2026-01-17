@@ -50,7 +50,7 @@ import com.spacehub.common.mapper.UpdateMapper
 import com.spacehub.common.mapper.UpdateMapperImpl
 import com.spacehub.common.mapper.UrlMapper
 import com.spacehub.common.mapper.UrlMapperImpl
-import com.spacehub.core.util.DateParser
+import com.spacehub.core.common.util.DateParser
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

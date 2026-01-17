@@ -20,11 +20,30 @@
 package com.spacehub.common.domain.repository
 
 import com.spacehub.common.models.domain.Launch
-import com.spacehub.core.result.Result
+import com.spacehub.core.common.result.Result
 import kotlinx.coroutines.flow.Flow
 
 interface LaunchesRepository {
-    fun getUpcomingLaunches(forceRefresh: Boolean = false): Flow<Result<List<Launch>>>
-    fun getPastLaunches(forceRefresh: Boolean = false): Flow<Result<List<Launch>>>
+    fun getUpcomingLaunches(
+        forceRefresh: Boolean = false,
+        limit: Int = 20,
+        offset: Int = 0,
+        agencyFilter: List<String> = emptyList(),
+        locationFilter: List<String> = emptyList(),
+    ): Flow<Result<PagedLaunches>>
+
+    fun getPastLaunches(
+        forceRefresh: Boolean = false,
+        limit: Int = 20,
+        offset: Int = 0,
+        agencyFilter: List<String> = emptyList(),
+        locationFilter: List<String> = emptyList(),
+    ): Flow<Result<PagedLaunches>>
+
     fun getLaunch(id: String): Flow<Result<Launch>>
 }
+
+data class PagedLaunches(
+    val launches: List<Launch>,
+    val hasNextPage: Boolean,
+)

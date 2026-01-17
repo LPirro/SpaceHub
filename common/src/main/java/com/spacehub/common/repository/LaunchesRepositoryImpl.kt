@@ -22,11 +22,13 @@ package com.spacehub.common.repository
 import com.google.gson.JsonParseException
 import com.spacehub.common.data.network.LaunchesService
 import com.spacehub.common.domain.repository.LaunchesRepository
+import com.spacehub.common.domain.repository.PagedLaunches
 import com.spacehub.common.mapper.LaunchMapper
 import com.spacehub.common.models.remote.LaunchRemote
-import com.spacehub.core.result.DataError
-import com.spacehub.core.result.Result
+import com.spacehub.core.common.result.DataError
+import com.spacehub.core.common.result.Result
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -41,62 +43,84 @@ class LaunchesRepositoryImpl(
     private val cacheUpcomingLaunches = MutableStateFlow<List<LaunchRemote>?>(null)
     private val cachePastLaunchesLaunches = MutableStateFlow<List<LaunchRemote>?>(null)
 
-    override fun getUpcomingLaunches(forceRefresh: Boolean) = flow {
-        try {
-            val launches = if (!forceRefresh && cacheUpcomingLaunches.value != null) {
-                cacheUpcomingLaunches.value!!
-            } else {
-                launchesService.getUpcomingLaunches().results.also {
-                    cacheUpcomingLaunches.value = it
-                }
-            }
-            emit(Result.Success(launches.map { launchMapper.mapToDomain(it) }))
-        } catch (e: IOException) {
-            emit(Result.Error(DataError.NoInternet))
-        } catch (e: HttpException) {
-            emit(Result.Error(handleHttpException(e)))
-        } catch (e: JsonParseException) {
-            emit(Result.Error(DataError.Parse(e.message ?: "Parsing failed")))
-        } catch (e: Exception) {
-            emit(Result.Error(DataError.Unknown))
+    override fun getUpcomingLaunches(
+        forceRefresh: Boolean,
+        limit: Int,
+        offset: Int,
+        agencyFilter: List<String>,
+        locationFilter: List<String>,
+    ) = safeApiCall {
+        // Skip cache if filters are applied
+        val hasFilters = agencyFilter.isNotEmpty() || locationFilter.isNotEmpty()
+        if (!forceRefresh && offset == 0 && !hasFilters && cacheUpcomingLaunches.value != null) {
+            val cached = cacheUpcomingLaunches.value!!
+            return@safeApiCall PagedLaunches(
+                launches = cached.map { launchMapper.mapToDomain(it) },
+                hasNextPage = cached.size >= limit,
+            )
         }
-    }.flowOn(Dispatchers.IO)
 
-    override fun getPastLaunches(forceRefresh: Boolean) = flow {
-        try {
-            val launches = if (!forceRefresh && cachePastLaunchesLaunches.value != null) {
-                cachePastLaunchesLaunches.value!!
-            } else {
-                launchesService.getPastLaunches().results.also {
-                    cachePastLaunchesLaunches.value = it
-                }
-            }
-            emit(Result.Success(launches.map { launchMapper.mapToDomain(it) }))
-        } catch (e: IOException) {
-            emit(Result.Error(DataError.NoInternet))
-        } catch (e: HttpException) {
-            emit(Result.Error(handleHttpException(e)))
-        } catch (e: JsonParseException) {
-            emit(Result.Error(DataError.Parse(e.message ?: "Parsing failed")))
-        } catch (e: Exception) {
-            emit(Result.Error(DataError.Unknown))
+        val response = launchesService.getUpcomingLaunches(
+            limit = limit,
+            offset = offset,
+            agencyIds = agencyFilter.takeIf { it.isNotEmpty() }?.joinToString(","),
+        ).also {
+            if (offset == 0 && !hasFilters) cacheUpcomingLaunches.value = it.results
         }
-    }.flowOn(Dispatchers.IO)
+        PagedLaunches(
+            launches = response.results.map { launchMapper.mapToDomain(it) },
+            hasNextPage = response.next != null,
+        )
+    }
 
-    override fun getLaunch(id: String) = flow {
+    override fun getPastLaunches(
+        forceRefresh: Boolean,
+        limit: Int,
+        offset: Int,
+        agencyFilter: List<String>,
+        locationFilter: List<String>,
+    ) = safeApiCall {
+        // Skip cache if filters are applied
+        val hasFilters = agencyFilter.isNotEmpty() || locationFilter.isNotEmpty()
+        if (!forceRefresh && offset == 0 && !hasFilters && cachePastLaunchesLaunches.value != null) {
+            val cached = cachePastLaunchesLaunches.value!!
+            return@safeApiCall PagedLaunches(
+                launches = cached.map { launchMapper.mapToDomain(it) },
+                hasNextPage = cached.size >= limit,
+            )
+        }
+
+        val response = launchesService.getPastLaunches(
+            limit = limit,
+            offset = offset,
+            agencyIds = agencyFilter.takeIf { it.isNotEmpty() }?.joinToString(","),
+        ).also {
+            if (offset == 0 && !hasFilters) cachePastLaunchesLaunches.value = it.results
+        }
+        PagedLaunches(
+            launches = response.results.map { launchMapper.mapToDomain(it) },
+            hasNextPage = response.next != null,
+        )
+    }
+
+    override fun getLaunch(id: String) = safeApiCall {
+        val cachedLaunch = cacheUpcomingLaunches.value?.find { it.id == id }
+            ?: cachePastLaunchesLaunches.value?.find { it.id == id }
+
+        val launch = cachedLaunch ?: launchesService.getLaunch(id)
+        launchMapper.mapToDomain(launch)
+    }
+
+    private fun <T> safeApiCall(apiCall: suspend () -> T): Flow<Result<T>> = flow {
         try {
-            val cachedLaunch = cacheUpcomingLaunches.value?.find { it.id == id }
-                ?: cachePastLaunchesLaunches.value?.find { it.id == id }
-
-            val launch = cachedLaunch ?: launchesService.getLaunch(id)
-            emit(Result.Success(launchMapper.mapToDomain(launch)))
-        } catch (e: IOException) {
+            emit(Result.Success(apiCall()))
+        } catch (_: IOException) {
             emit(Result.Error(DataError.NoInternet))
         } catch (e: HttpException) {
             emit(Result.Error(handleHttpException(e)))
         } catch (e: JsonParseException) {
             emit(Result.Error(DataError.Parse(e.message ?: "Parsing failed")))
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             emit(Result.Error(DataError.Unknown))
         }
     }.flowOn(Dispatchers.IO)

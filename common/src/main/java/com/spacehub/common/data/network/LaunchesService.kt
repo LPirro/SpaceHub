@@ -23,15 +23,25 @@ import com.spacehub.common.models.remote.LaunchRemote
 import com.spacehub.common.models.remote.PaginatedResultRemote
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface LaunchesService {
-    // TODO: Use @Query instead of hardcoding params
-    @GET("launch/upcoming?mode=detailed&limit=20&hide_recent_previous=true")
-    suspend fun getUpcomingLaunches(): PaginatedResultRemote<List<LaunchRemote>>
+    @GET("launch/upcoming")
+    suspend fun getUpcomingLaunches(
+        @Query("mode") mode: String = "detailed",
+        @Query("limit") limit: Int = 20,
+        @Query("offset") offset: Int = 0,
+        @Query("lsp__ids") agencyIds: String? = null,
+        @Query("hide_recent_previous") hideRecentPrevious: Boolean = true,
+    ): PaginatedResultRemote<List<LaunchRemote>>
 
-    // TODO: Use @Query instead of hardcoding params
-    @GET("launch/previous?mode=detailed&limit=20")
-    suspend fun getPastLaunches(): PaginatedResultRemote<List<LaunchRemote>>
+    @GET("launch/previous")
+    suspend fun getPastLaunches(
+        @Query("mode") mode: String = "detailed",
+        @Query("limit") limit: Int = 20,
+        @Query("offset") offset: Int = 0,
+        @Query("lsp__ids") agencyIds: String? = null,
+    ): PaginatedResultRemote<List<LaunchRemote>>
 
     @GET("launch/{id}")
     suspend fun getLaunch(

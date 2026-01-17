@@ -20,7 +20,7 @@
 package com.spacehub.common.di
 
 import com.spacehub.common.data.network.LaunchesService
-import com.spacehub.core.BuildConfig
+import com.spacehub.core.network.BuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -26,6 +26,7 @@ kotlinx-coroutines-test = "1.10.2"
 androidx-arch-core-testing = "2.2.0"
 spotless = "8.1.0"
 browser = "1.9.0"
+paging = "3.3.6"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -63,6 +64,8 @@ androidx-arch-core-testing = { module = "androidx.arch.core:core-testing", versi
 androidx-browser = { group = "androidx.browser", name = "browser", version.ref = "browser" }
 androidx-material-icons-core = { group = "androidx.compose.material", name = "material-icons-core" }
 androidx-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
+androidx-paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging" }
+androidx-paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging" }
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlin-composeCompilerGradlePlugin = { group = "org.jetbrains.kotlin", name = "compose-compiler-gradle-plugin", version.ref = "kotlin" }

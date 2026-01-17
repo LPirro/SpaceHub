@@ -22,10 +22,16 @@ dependencyResolutionManagement {
 
 rootProject.name = "Spacehub"
 include(":app")
-include(":launches")
-include(":core")
-include(":news")
-include(":launchdetail")
+include(":features:launches")
+include(":features:news")
+include(":features:launchdetail")
+include(":features:launcheslist")
 include(":common")
 include(":common:models")
 include(":test-util")
+
+// Core submodules
+include(":core:design")
+include(":core:common")
+include(":core:network")
+include(":core:navigation")
