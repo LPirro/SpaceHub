@@ -39,7 +39,7 @@ internal class LaunchDetailOverviewUiMapperImpl(
         ),
         launchpadSection = LaunchpadUi(
             name = launch.pad.name,
-            location = launch.pad.location.name,
+            location = launch.pad.location?.name ?: "N/A",
             totalLaunchCount = launch.pad.totalLaunchCount.toString(),
             infoUrl = launch.pad.infoUrl,
             wikiUrl = launch.pad.wikiUrl,
@@ -48,7 +48,7 @@ internal class LaunchDetailOverviewUiMapperImpl(
                 googleMapsImageUrlMapper.map(it.latitude, it.longitude)
             },
         ),
-        watchLiveSection = launch.watchLiveUrls?.firstOrNull()?.let {
+        watchLiveSection = launch.watchLiveUrls.firstOrNull()?.let {
             WatchLiveUi(
                 imageUrl = it.featuredImageUrl,
                 videoUrl = it.url,
@@ -56,7 +56,7 @@ internal class LaunchDetailOverviewUiMapperImpl(
         },
         agencySection = AgencyUi(
             name = launch.launchServiceProvider.name,
-            countryCode = launch.launchServiceProvider.countryCode,
+            countryCode = launch.launchServiceProvider.countries.first().alpha3Code,
             administrator = launch.launchServiceProvider.administrator ?: "N/A",
             foundingYear = launch.launchServiceProvider.foundingYear ?: "N/A",
             totalLaunchCount = launch.launchServiceProvider.totalLaunchCount ?: "N/A",

@@ -22,6 +22,8 @@ package com.spacehub.common.mapper.di
 
 import com.spacehub.common.mapper.AgencyMapper
 import com.spacehub.common.mapper.AgencyMapperImpl
+import com.spacehub.common.mapper.CountryCodeMapper
+import com.spacehub.common.mapper.CountryCodeMapperImpl
 import com.spacehub.common.mapper.LaunchMapper
 import com.spacehub.common.mapper.LaunchMapperImpl
 import com.spacehub.common.mapper.LauncherLandingMapper
@@ -84,8 +86,12 @@ object CommonModule {
     )
 
     @Provides
-    fun provideAgencyMapper(): AgencyMapper =
-        AgencyMapperImpl()
+    fun provideCountryCodeMapper(): CountryCodeMapper =
+        CountryCodeMapperImpl()
+
+    @Provides
+    fun provideAgencyMapper(countryCodeMapper: CountryCodeMapper): AgencyMapper =
+        AgencyMapperImpl(countryCodeMapper = countryCodeMapper)
 
     @Provides
     fun provideMissionPatchMapper(): MissionPatchMapper =

@@ -26,16 +26,19 @@ interface AgencyMapper {
     fun mapToDomain(agencyRemote: AgencyRemote): Agency
 }
 
-class AgencyMapperImpl : AgencyMapper {
+class AgencyMapperImpl(
+    private val countryCodeMapper: CountryCodeMapper,
+) : AgencyMapper {
     override fun mapToDomain(agencyRemote: AgencyRemote) =
         Agency(
             id = agencyRemote.id,
             url = agencyRemote.url,
             name = agencyRemote.name,
-            countryCode = agencyRemote.countryCode,
+            countries = agencyRemote.country.map { countryCodeMapper.mapToDomain(it) },
             administrator = agencyRemote.administrator,
-            foundingYear = agencyRemote.foundingYear,
+            foundingYear = agencyRemote.foundingYear?.toString(),
             totalLaunchCount = agencyRemote.totalLaunchCount?.toString(),
-            logoUrl = agencyRemote.logoUrl,
+            logoUrl = agencyRemote.logo?.imageUrl,
+            socialLogoUrl = agencyRemote.socialLogo?.imageUrl,
         )
 }

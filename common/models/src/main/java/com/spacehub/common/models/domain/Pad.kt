@@ -27,7 +27,7 @@ data class Pad(
     val infoUrl: String?,
     val wikiUrl: String?,
     val mapUrl: String?,
-    val location: Location,
+    val location: Location?,
     val totalLaunchCount: Int?,
     val orbitalLaunchAttemptCount: Int?,
     val mapPosition: MapPosition?,

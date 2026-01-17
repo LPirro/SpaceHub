@@ -23,4 +23,7 @@ data class LauncherStageRemote(
     @SerializedName("type") val type: String,
     @SerializedName("launcher") val launcher: LauncherRemote,
     @SerializedName("landing") val launcherLanding: LauncherLandingRemote?,
+    @SerializedName("reused") val reused: Boolean?,
+    @SerializedName("launcher_flight_number") val launcherFlightNumber: Int?,
+    @SerializedName("turn_around_time") val turnAroundTime: String,
 )

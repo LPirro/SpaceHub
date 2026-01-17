@@ -19,7 +19,11 @@ package com.spacehub.common.models.remote
 
 import com.google.gson.annotations.SerializedName
 
-data class LauncherLandingRemote(
-    @SerializedName("landing_location") val landingLocation: LandingLocationRemote,
-    @SerializedName("type") val type: LauncherTypeRemote,
+data class ImageRemote(
+    @SerializedName("id") val id: Int?,
+    @SerializedName("name") val name: String?,
+    @SerializedName("image_url") val imageUrl: String?,
+    @SerializedName("thumbnail_url") val thumbnailUrl: String?,
+    @SerializedName("credit") val credit: String?,
+    @SerializedName("single_use") val singleUse: Boolean?,
 )

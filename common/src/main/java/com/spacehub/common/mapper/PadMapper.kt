@@ -39,7 +39,7 @@ class PadMapperImpl(
             infoUrl = padRemote.infoUrl,
             wikiUrl = padRemote.wikiUrl,
             mapUrl = padRemote.mapUrl,
-            location = locationMapper.mapToDomain(padRemote.location),
+            location = padRemote.location?.let { locationMapper.mapToDomain(it) },
             totalLaunchCount = padRemote.totalLaunchCount,
             orbitalLaunchAttemptCount = padRemote.orbitalLaunchAttemptCount,
             mapPosition = mapPositionMapper.mapToDomain(padRemote.latitude, padRemote.longitude),
